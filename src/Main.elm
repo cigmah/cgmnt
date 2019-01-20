@@ -1,6 +1,7 @@
 module Main exposing (Model, Msg(..), Route(..), bodyAbout, bodyContact, bodyHome, bodyNotFound, bodyPuzzleHunt, fromUrl, init, main, routeParser, subscriptions, update, view, viewAbout, viewContact, viewHome, viewLink, viewNotFound, viewPuzzleHunt)
 
 import Browser
+import Browser.Hash as Hash
 import Browser.Navigation as Nav
 import Content exposing (content)
 import Html exposing (..)
@@ -76,7 +77,7 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( { model | componentStates = { componentStates | navbarMenuActive = not componentStates.navbarMenuActive } }, Nav.pushUrl model.key (Url.toString url) )
+                    ( { model | componentStates = { componentStates | navbarMenuActive = False } }, Nav.pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, Nav.load href )
@@ -172,11 +173,11 @@ navBar model =
             [ div [ class "navbar-start" ]
                 [ a [ class "navbar-item", href "/" ]
                     [ text "Home" ]
-                , a [ class "navbar-item", href "/about" ]
+                , a [ class "navbar-item", href "/#/about" ]
                     [ text "About" ]
-                , a [ class "navbar-item", href "/PuzzleHunt" ]
+                , a [ class "navbar-item", href "/#/PuzzleHunt" ]
                     [ text "Puzzle Hunt 2019" ]
-                , a [ class "navbar-item", href "/contact" ]
+                , a [ class "navbar-item", href "/#/contact" ]
                     [ text "Contact" ]
                 ]
             ]
@@ -253,7 +254,7 @@ viewLink path =
 
 main : Program () Model Msg
 main =
-    Browser.application
+    Hash.application
         { view = view
         , init = init
         , update = update

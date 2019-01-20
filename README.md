@@ -4,9 +4,16 @@ This is the frontend code for the CIGMAH Website.
 
 This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
 
+If you would like to contribute, clone this project and change to the `develop` branch.
+
+``` sh
+git clone https://github.com/cigmah/cigmah.github.io.git cigmah.github.io
+git checkout develop
+```
+
 # GitHub Pages Deployment
 
-Development takes place on the `develop` branch.
+All development takes place on the `develop` branch.
 
 To deploy, first merge and build the app in the `master` branch:
 
@@ -27,4 +34,11 @@ Then, to deploy to GitHub pages:
 
 ``` sh
 git subtree push --prefix build origin master
+```
+
+After you are done, make sure you go back to the `develop` branch to make
+changes.
+
+``` sh
+git checkout develop
 ```
