@@ -2,9 +2,11 @@ module Main exposing (Model, Msg(..), Route(..), bodyAbout, bodyContact, bodyHom
 
 import Browser
 import Browser.Navigation as Nav
+import Content exposing (content)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Markdown
 import Maybe
 import Url
 import Url.Parser as Parser exposing ((</>), Parser, map, oneOf, s, string, top)
@@ -66,11 +68,15 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        componentStates =
+            model.componentStates
+    in
     case msg of
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
+                    ( { model | componentStates = { componentStates | navbarMenuActive = not componentStates.navbarMenuActive } }, Nav.pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, Nav.load href )
@@ -79,16 +85,7 @@ update msg model =
             ( { model | route = fromUrl url }, Cmd.none )
 
         ToggleBurgerMenu ->
-            let
-                componentStates =
-                    model.componentStates
-            in
-            case componentStates.navbarMenuActive of
-                True ->
-                    ( { model | componentStates = { componentStates | navbarMenuActive = False } }, Cmd.none )
-
-                False ->
-                    ( { model | componentStates = { componentStates | navbarMenuActive = True } }, Cmd.none )
+            ( { model | componentStates = { componentStates | navbarMenuActive = not componentStates.navbarMenuActive } }, Cmd.none )
 
 
 
@@ -195,6 +192,10 @@ bodyHome model =
                     [ text "CIGMAH" ]
                 , h2 [ class "subtitle" ]
                     [ text "Coding Interest Group in Medicine And Healthcare" ]
+                , div [ class "content" ] <|
+                    Markdown.toHtml
+                        Nothing
+                        content.homeIntroText
                 ]
             ]
         ]
@@ -202,19 +203,43 @@ bodyHome model =
 
 
 bodyAbout model =
-    [ div [] [] ]
+    [ navBar model
+    , section [ class "hero is-primary is-fullheight-with-navbar" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ h1 [ class "title" ] [ text "About CIGMAH" ]
+                , div [ class "box" ]
+                    [ h2 [ class "subtitle has-text-primary" ] [ text "Why should doctors be interested in coding?" ]
+                    , p [] [ text content.aboutText.whyLearn ]
+                    ]
+                , div [ class "box" ]
+                    [ h2 [ class "subtitle has-text-primary" ] [ text "Shouldn't doctors be concentrating on learning medicine?" ]
+                    , p [] [ text content.aboutText.butConcentrate ]
+                    ]
+                , div [ class "box" ]
+                    [ h2 [ class "subtitle has-text-primary" ] [ text "What can coding do for doctors?" ]
+                    , p [] <| Markdown.toHtml Nothing content.aboutText.whatCanDo
+                    ]
+                , div [ class "box" ]
+                    [ h2 [ class "subtitle has-text-primary" ] [ text "What does CIGMAH do?" ]
+                    , p [] [ text content.aboutText.whatCIGMAH ]
+                    ]
+                ]
+            ]
+        ]
+    ]
 
 
 bodyPuzzleHunt model =
-    [ div [] [] ]
+    [ navBar model, div [] [ text "IN PROGRESS" ] ]
 
 
 bodyContact model =
-    [ div [] [] ]
+    [ navBar model, div [] [ text "IN PROGRESS" ] ]
 
 
 bodyNotFound model =
-    [ div [] [] ]
+    [ navBar model, div [] [ text "IN PROGRESS" ] ]
 
 
 viewLink : String -> Html Msg
