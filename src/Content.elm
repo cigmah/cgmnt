@@ -93,7 +93,9 @@ networking opportunities.
     , thisSite =
         """
 
-This website is written in [Elm](https://elm-lang.org) and styled with [Bulma](https://bulma.io).
+This website is written in [Elm](https://elm-lang.org) and styled with
+[Bulma](https://bulma.io). The code is open source, and you can find it
+[here](https://github.com/cigmah/cigmah.github.io)
 
 """
     }
