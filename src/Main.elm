@@ -193,10 +193,12 @@ bodyHome model =
                     [ text "CIGMAH" ]
                 , h2 [ class "subtitle" ]
                     [ text "Coding Interest Group in Medicine And Healthcare" ]
-                , div [ class "content" ] <|
-                    Markdown.toHtml
-                        Nothing
-                        content.homeIntroText
+                , div [ class "message" ]
+                    [ div [ class "message-body content" ] <|
+                        Markdown.toHtml
+                            Nothing
+                            content.homeIntroText
+                    ]
                 , div [ class "message is-info" ]
                     [ div [ class "message-header" ]
                         [ text "News [2019-01-21]"
