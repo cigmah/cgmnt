@@ -197,34 +197,48 @@ bodyHome model =
                     Markdown.toHtml
                         Nothing
                         content.homeIntroText
+                , div [ class "message is-danger" ]
+                    [ div [ class "message-header" ]
+                        [ text "News [2019-01-21]"
+                        , span [ class "icon is-danger" ] [ i [ class "fas fa-exclamation-triangle" ] [] ]
+                        ]
+                    , div [ class "message-body content" ] <|
+                        Markdown.toHtml Nothing content.homeNotification
+                    ]
                 ]
             ]
         ]
     ]
 
 
+aboutBox title textMarkdown =
+    article [ class "message is-primary" ]
+        [ div [ class "message-header" ]
+            [ h2 [] [ text title ] ]
+        , div
+            [ class "message-body" ]
+            [ div [ class "content" ] <| Markdown.toHtml Nothing textMarkdown ]
+        ]
+
+
 bodyAbout model =
     [ navBar model
-    , section [ class "hero is-primary is-fullheight-with-navbar" ]
+    , section [ class "hero is-primary" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "title" ] [ text "About CIGMAH" ]
-                , div [ class "box" ]
-                    [ h2 [ class "subtitle has-text-primary" ] [ text "Why should doctors be interested in coding?" ]
-                    , div [ class "content" ] [ text content.aboutText.whyLearn ]
-                    ]
-                , div [ class "box" ]
-                    [ h2 [ class "subtitle has-text-primary" ] [ text "Shouldn't doctors be concentrating on learning medicine?" ]
-                    , div [ class "content" ] [ text content.aboutText.butConcentrate ]
-                    ]
-                , div [ class "box" ]
-                    [ h2 [ class "subtitle has-text-primary" ] [ text "What can coding do for doctors?" ]
-                    , div [ class "content" ] <| Markdown.toHtml Nothing content.aboutText.whatCanDo
-                    ]
-                , div [ class "box" ]
-                    [ h2 [ class "subtitle has-text-primary" ] [ text "What does CIGMAH do?" ]
-                    , div [ class "content" ] [ text content.aboutText.whatCIGMAH ]
-                    ]
+                , h2 [ class "subtitle" ] [ text "Frequently Asked Questions" ]
+                ]
+            ]
+        ]
+    , section [ class "hero" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ aboutBox "Why should doctors be interested in coding?" content.aboutText.whyLearn
+                , aboutBox "Shouldn't doctors be concentrating on learning medicine?" content.aboutText.butConcentrate
+                , aboutBox "What can coding do for doctors?" content.aboutText.whatCanDo
+                , aboutBox "What does CIGMAH do?" content.aboutText.whatCIGMAH
+                , aboutBox "What is thie website made from?" content.aboutText.thisSite
                 ]
             ]
         ]
@@ -232,15 +246,88 @@ bodyAbout model =
 
 
 bodyPuzzleHunt model =
-    [ navBar model, div [] [ text "IN PROGRESS" ] ]
+    [ navBar model
+    , section [ class "hero is-dark" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ h1 [ class "title" ]
+                    [ text "CIGMAH Puzzle Hunt 2019" ]
+                , h2 [ class "subtitle" ]
+                    [ text "Coming Soon" ]
+                ]
+            ]
+        ]
+    , section [ class "hero" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ div []
+                    [ div [ class "content" ] <| Markdown.toHtml Nothing content.puzzleHuntIntroText ]
+                ]
+            ]
+        ]
+    , section [ class "hero" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "message container is-danger" ]
+                [ div [ class "message-header" ]
+                    [ h2 [] [ text "Never coded before?" ] ]
+                , div [ class "message-body" ] [ div [ class "content" ] <| Markdown.toHtml Nothing content.neverCodedText ]
+                ]
+            ]
+        ]
+    ]
 
 
 bodyContact model =
-    [ navBar model, div [] [ text "IN PROGRESS" ] ]
+    [ navBar model
+    , section [ class "hero is-primary" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ h1 [ class "title" ]
+                    [ text "Contact Us" ]
+                , h2 [ class "subtitle" ]
+                    [ text "Questions, Issues, Suggestions etc." ]
+                ]
+            ]
+        ]
+    , section [ class "hero" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "message container is-info" ]
+                [ div [ class "message-header" ]
+                    [ h2 [] [ text "Contact Email" ] ]
+                , div [ class "message-body" ]
+                    [ div [ class "content" ]
+                        [ text "Drop us a line at ", a [ href "cigmah.contact@gmail.com" ] [ text "cigmah.contact@gmail.com" ], text "." ]
+                    , div [ class "content" ] [ text "We'd love to hear from you!" ]
+                    ]
+                ]
+            , div [ class "message container is-danger" ]
+                [ div [ class "message-header" ]
+                    [ h2 [] [ text "Help Wanted!" ] ]
+                , div [ class "message-body" ]
+                    [ div [ class "content" ] <| Markdown.toHtml Nothing content.helpWanted
+                    ]
+                ]
+            ]
+        ]
+    ]
 
 
 bodyNotFound model =
-    [ navBar model, div [] [ text "IN PROGRESS" ] ]
+    [ navBar model
+    , section [ class "hero is-dark is-fullheight-with-navbar" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ h1 [ class "title" ]
+                    [ text "This page doesn't exist." ]
+                , h2 [ class "subtitle" ]
+                    [ text "We're sorry. Go "
+                    , a [ href "/", class "has-text-link" ] [ text "home" ]
+                    , text "?"
+                    ]
+                ]
+            ]
+        ]
+    ]
 
 
 viewLink : String -> Html Msg
