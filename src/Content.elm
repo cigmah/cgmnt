@@ -170,7 +170,6 @@ currently maintained by a group of passionate volunteers. If you'd like to
 volunteer as tribute, we're looking for:
 
 - Puzzle writers (considerable experience in either Python or Julia, or any great ideas)
-- Website maintainers (experienced in Haskell or Elm)
 - Puzzle testers (no experience needed)
 
 And of course, we're also looking for members and participants! Stay tuned for
