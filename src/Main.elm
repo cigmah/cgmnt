@@ -164,7 +164,7 @@ navBar model =
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
             [ a [ class "navbar-item", href "/" ]
-                [ text "CIGMAH" ]
+                [ img [ src "./icon.svg", height 28 ] [], text "CIGMAH" ]
             , div
                 [ class "navbar-burger", onClick ToggleBurgerMenu ]
                 [ span [] [], span [] [], span [] [], span [] [] ]

@@ -34,6 +34,8 @@ whatever is most useful for **you**.
 [Fill out the survey here - we'd really appreciate your
 responses!](https://goo.gl/forms/0aFli8Y58ej37VcE2)
 
+[We also have a Facebook group!](https://www.facebook.com/groups/cigmah/)
+
 """
 
 
