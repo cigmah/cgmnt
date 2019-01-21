@@ -164,7 +164,7 @@ navBar model =
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
             [ a [ class "navbar-item", href "/" ]
-                [ img [ src "./icon.svg", height 28 ] [], text "CIGMAH" ]
+                [ img [ src "./icon.png", height 28 ] [], text "CIGMAH" ]
             , div
                 [ class "navbar-burger", onClick ToggleBurgerMenu ]
                 [ span [] [], span [] [], span [] [], span [] [] ]
@@ -214,7 +214,7 @@ bodyHome model =
 aboutBox title textMarkdown =
     article [ class "message is-primary" ]
         [ div [ class "message-header" ]
-            [ h2 [] [ text title ] ]
+            [ h2 [ class "has-text-weight-bold" ] [ text title ] ]
         , div
             [ class "message-body" ]
             [ div [ class "content" ] <| Markdown.toHtml Nothing textMarkdown ]
@@ -238,7 +238,7 @@ bodyAbout model =
                 , aboutBox "Shouldn't doctors be concentrating on learning medicine?" content.aboutText.butConcentrate
                 , aboutBox "What can coding do for doctors?" content.aboutText.whatCanDo
                 , aboutBox "What does CIGMAH do?" content.aboutText.whatCIGMAH
-                , aboutBox "What is thie website made from?" content.aboutText.thisSite
+                , aboutBox "What is this website made from?" content.aboutText.thisSite
                 ]
             ]
         ]

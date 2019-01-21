@@ -43,14 +43,12 @@ aboutText =
     { whyLearn =
         """
 
-Healthcare is rapidly changing. The idea that 'robots will replace doctors' is
-often scoffed at within the medical community, but the prospect is drawing
-incrementally closer to fruition. The stage we are at depends on who you ask,
-but it's no longer a crazy idea. Doctors are in a privileged position of being
-able to evaluate the clinical value of technology, but can often fall short at
-recognising both the technical power and limitations of modern tools. We hope
-doctors in the future will not be left behind in a society of technical progress
-and will be able to contribute meaningfully in a ballooning domain.
+Healthcare is rapidly changing. Doctors are in a privileged position of being
+able to evaluate the clinical value of technology, but may lack the skills
+needed in recognising both the technical power and limitations of modern tools.
+Having an understanding of how the tools we use work is an important step to
+using them skilfully. As tools evolve and become more pervasive, it's inevitable
+that we will need to adopt new skillsets to not be left behind.
 
 """
     , butConcentrate =
@@ -59,13 +57,12 @@ and will be able to contribute meaningfully in a ballooning domain.
 We don't believe there's any harm in extra knowledge. There is a lot of content
 in medical school, but we believe medical students will find coding a breath of
 fresh air. Learning to code can offer new perspectives in learning *how* to
-think, rather than *what* to think, and as such, we don't believe it to be an
-overloaded endeavour. Instead of memory-intensive learning, coding is often an
-exercise in logical thinking. Checking documentation is easy and encouraged.
-Programs are (mostly) verifiable constructs. There's no more putting your faith
-in information simply because someone higher-ranked told you so - information is
-free, open and often much closer to theory than the empiricisms of
-evidence-based medicine.
+think, rather than *what* to think, and can leave an impact on how you approach
+problem solving regardless of whether you remember the specific details. Instead
+of memory-intensive learning, coding is often an exercise in logical thinking.
+Checking documentation is easy and encouraged. Programs are (mostly) verifiable
+constructs. There's no more putting your faith in information simply because
+someone higher-ranked told you so - information is free, open and derivable.
 
 """
     , whatCanDo =
@@ -79,8 +76,12 @@ Inter-disciplinary interaction occurs in fields such as:
 - Healthcare pattern recognition tools driven by artificial intelligence
 - Clinician or patient-facing web and mobile applications for streamlined healthcare
 - Interactive and visual educational materials
-- Medical imaging and bioprosthetic software
+- Medical imaging and biomedical engineering software
 - Automation of administrative tasks
+
+Whether or not you end up applying coding in these domains, we still believe
+that coding develops skills in problem-solving, systems thinking and rigorous
+verification - all very handy skills for any clinical doctor.
 
 """
     , whatCIGMAH =
@@ -112,7 +113,7 @@ Want to learn but don't know where to start? We've been there too.
 We're hoping to run a puzzle hunt from the beginning of March to the end of
 September.
 
-At the begining of each month, a puzzle set will be released themed around a
+At the beginning of each month, a puzzle set will be released themed around a
 medical specialty and a topic within programming. We aim to choose topics especially
 relevant to medicine to get the most value out of these puzzles. Most puzzles will
 be aimed at beginners and will usually require some (short) coding to solve.
@@ -168,7 +169,7 @@ We're looking for volunteers! We are believers in
 currently maintained by a group of passionate volunteers. If you'd like to
 volunteer as tribute, we're looking for:
 
-- Puzzle writers (considerable experience in either Python or Julia, or algorithm experience)
+- Puzzle writers (considerable experience in either Python or Julia, or any great ideas)
 - Website maintainers (experienced in Haskell or Elm)
 - Puzzle testers (no experience needed)
 
