@@ -27,11 +27,12 @@ how modern technology can help improve healthcare education and delivery.
 homeNotification =
     """
 
-Expressions of interest are opening soon! We're interested in hearing your
-perspectives on coding in medicine. We've just started, so we're very
-open to shaping ourselves to be whatever is most useful for **you**.
+We have a survey! We're interested in hearing your perspectives on coding in
+medicine. We've just started, so we're very open to shaping ourselves to be
+whatever is most useful for **you**.
 
-Stay tuned for the link!
+[Fill out the survey here - we'd really appreciate your
+responses!](https://goo.gl/forms/0aFli8Y58ej37VcE2)
 
 """
 
@@ -95,7 +96,7 @@ networking opportunities.
 
 This website is written in [Elm](https://elm-lang.org) and styled with
 [Bulma](https://bulma.io). The code is open source, and you can find it
-[here](https://github.com/cigmah/cigmah.github.io)
+[here](https://github.com/cigmah/cigmah.github.io).
 
 """
     }
@@ -160,9 +161,10 @@ the template and go.
 helpWanted =
     """
 
-We're looking for volunteers! We are free as in beer and currently maintained by
-a group of passionate volunteers. If you'd like to volunteer as tribute, we're
-looking for:
+We're looking for volunteers! We are believers in
+[FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) and are
+currently maintained by a group of passionate volunteers. If you'd like to
+volunteer as tribute, we're looking for:
 
 - Puzzle writers (considerable experience in either Python or Julia, or algorithm experience)
 - Website maintainers (experienced in Haskell or Elm)

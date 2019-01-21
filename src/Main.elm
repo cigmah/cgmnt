@@ -296,7 +296,7 @@ bodyContact model =
                     [ h2 [] [ text "Contact Email" ] ]
                 , div [ class "message-body" ]
                     [ div [ class "content" ]
-                        [ text "Drop us a line at ", a [ href "cigmah.contact@gmail.com" ] [ text "cigmah.contact@gmail.com" ], text "." ]
+                        [ text "Drop us a line at ", a [ href "mailto:cigmah.contact@gmail.com" ] [ text "cigmah.contact@gmail.com" ], text "." ]
                     , div [ class "content" ] [ text "We'd love to hear from you!" ]
                     ]
                 ]
