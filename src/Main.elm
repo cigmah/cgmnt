@@ -197,10 +197,10 @@ bodyHome model =
                     Markdown.toHtml
                         Nothing
                         content.homeIntroText
-                , div [ class "message is-danger" ]
+                , div [ class "message is-info" ]
                     [ div [ class "message-header" ]
                         [ text "News [2019-01-21]"
-                        , span [ class "icon is-danger" ] [ i [ class "fas fa-exclamation-triangle" ] [] ]
+                        , span [ class "icon" ] [ i [ class "fas fa-info-circle" ] [] ]
                         ]
                     , div [ class "message-body content" ] <|
                         Markdown.toHtml Nothing content.homeNotification
