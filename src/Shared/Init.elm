@@ -11,11 +11,9 @@ init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
     ( { key = key
       , route = fromUrl url
-      , componentStates =
-            { navbarMenuActive = False
-            , registerModalActive = False
-            , loginModalActive = False
-            }
+      , navbarMenuActive = False
+      , registerInformation = Nothing
+      , loginInformation = Nothing
       }
     , Cmd.none
     )

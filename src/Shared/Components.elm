@@ -9,7 +9,7 @@ import Shared.Update exposing (Msg(..))
 navBar model =
     let
         navbarMenuClass =
-            case model.componentStates.navbarMenuActive of
+            case model.navbarMenuActive of
                 True ->
                     "navbar-menu is-active"
 

@@ -17,10 +17,10 @@ viewPuzzleHuntInfo model =
 
 bodyPuzzleHuntInfo model =
     [ navBar model
+    , registerModal model
+    , loginModal model
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
-        [ registerModal model
-        , loginModal model
-        , div [ class "hero-body" ]
+        [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "title" ]
                     [ text "CIGMAH Puzzle Hunt 2019" ]
@@ -58,11 +58,11 @@ bodyPuzzleHuntInfo model =
 registerModal model =
     let
         modalClass =
-            case model.componentStates.registerModalActive of
-                True ->
+            case model.registerInformation of
+                Just _ ->
                     "modal is-active"
 
-                False ->
+                Nothing ->
                     "modal"
     in
     div [ class modalClass ]
@@ -73,24 +73,69 @@ registerModal model =
 
 
 registerForm model =
+    let
+        registerParams =
+            case model.registerInformation of
+                Just info ->
+                    info
+
+                Nothing ->
+                    { username = "", email = "", firstName = "", lastName = "" }
+    in
     div [ class "card" ]
         [ div [ class "card-header has-background-danger" ] [ span [ class "card-header-title has-text-white" ] [ text "User Registration" ] ]
         , div [ class "card-content" ]
             [ div [ class "field" ]
                 [ label [ class "label" ] [ text "Username" ]
-                , div [ class "control" ] [ input [ class "input", type_ "text", placeholder "smithy" ] [] ]
+                , div [ class "control" ]
+                    [ input
+                        [ class "input"
+                        , type_ "text"
+                        , placeholder "e.g. bms_intern"
+                        , value registerParams.username
+                        , onInput OnChangeRegisterUsername
+                        ]
+                        []
+                    ]
                 ]
             , div [ class "field" ]
                 [ label [ class "label" ] [ text "Email" ]
-                , div [ class "control" ] [ input [ class "input", type_ "text", placeholder "john.smith@email.com" ] [] ]
+                , div [ class "control" ]
+                    [ input
+                        [ class "input"
+                        , type_ "text"
+                        , placeholder "e.g. roy.basch@bestmedicalschool.com"
+                        , value registerParams.email
+                        , onInput OnChangeRegisterEmail
+                        ]
+                        []
+                    ]
                 ]
             , div [ class "field" ]
                 [ label [ class "label" ] [ text "First Name" ]
-                , div [ class "control" ] [ input [ class "input", type_ "text", placeholder "John" ] [] ]
+                , div [ class "control" ]
+                    [ input
+                        [ class "input"
+                        , type_ "text"
+                        , placeholder "e.g. Roy"
+                        , value registerParams.firstName
+                        , onInput OnChangeRegisterFirstName
+                        ]
+                        []
+                    ]
                 ]
             , div [ class "field" ]
                 [ label [ class "label" ] [ text "Last Name" ]
-                , div [ class "control" ] [ input [ class "input", type_ "text", placeholder "Smith" ] [] ]
+                , div [ class "control" ]
+                    [ input
+                        [ class "input"
+                        , type_ "text"
+                        , placeholder "e.g. Basch"
+                        , value registerParams.lastName
+                        , onInput OnChangeRegisterLastName
+                        ]
+                        []
+                    ]
                 ]
             ]
         , footer [ class "card-footer" ]
@@ -103,11 +148,11 @@ registerForm model =
 loginModal model =
     let
         modalClass =
-            case model.componentStates.loginModalActive of
-                True ->
+            case model.loginInformation of
+                Just _ ->
                     "modal is-active"
 
-                False ->
+                Nothing ->
                     "modal"
     in
     div [ class modalClass ]
@@ -118,6 +163,15 @@ loginModal model =
 
 
 loginForm model =
+    let
+        loginParams =
+            case model.loginInformation of
+                Just info ->
+                    info
+
+                Nothing ->
+                    { email = "", token = "" }
+    in
     div [ class "card" ]
         [ div [ class "card-header has-background-info" ] [ span [ class "card-header-title has-text-white" ] [ text "User Login" ] ]
         , div [ class "card-content" ]
@@ -125,7 +179,15 @@ loginForm model =
                 [ label [ class "label" ] [ text "Email" ]
                 , div [ class "field has-addons" ]
                     [ div [ class "control is-expanded" ]
-                        [ input [ class "input", type_ "text", placeholder "john.smith@email.com" ] [] ]
+                        [ input
+                            [ class "input"
+                            , type_ "text"
+                            , placeholder "e.g. roy.basch@bestmedicalschool.com"
+                            , value loginParams.email
+                            , onInput OnChangeLoginEmail
+                            ]
+                            []
+                        ]
                     , div [ class "control" ]
                         [ button [ class "button is-info is-outlined" ] [ text "Send Token" ]
                         ]
@@ -133,7 +195,16 @@ loginForm model =
                 ]
             , div [ class "field" ]
                 [ label [ class "label" ] [ text "Token" ]
-                , div [ class "control" ] [ input [ class "input", type_ "text", placeholder "000000" ] [] ]
+                , div [ class "control" ]
+                    [ input
+                        [ class "input"
+                        , type_ "text"
+                        , placeholder "e.g. 000000"
+                        , value loginParams.token
+                        , onInput OnChangeLoginToken
+                        ]
+                        []
+                    ]
                 ]
             ]
         , footer [ class "card-footer" ]
