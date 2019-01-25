@@ -1,10 +1,10 @@
-module PuzzleHuntInfo.Components exposing (viewPuzzleHuntInfo)
+module PuzzleHunt.Components exposing (viewPuzzleHuntInfo)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
-import PuzzleHuntInfo.Content as Content
+import PuzzleHunt.Content as Content
 import Shared.Components exposing (navBar)
 
 
@@ -16,13 +16,17 @@ viewPuzzleHuntInfo model =
 
 bodyPuzzleHuntInfo model =
     [ navBar model
-    , section [ class "hero is-dark" ]
+    , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "title" ]
                     [ text "CIGMAH Puzzle Hunt 2019" ]
                 , h2 [ class "subtitle" ]
-                    [ text "Coming Soon" ]
+                    [ text "Testing Phase" ]
+                , div [ class "buttons has-addons" ]
+                    [ span [ class "button is-large is-dark is-inverted is-outlined" ] [ text "Register" ]
+                    , span [ class "button is-large is-dark is-inverted is-outlined" ] [ text "Login" ]
+                    ]
                 ]
             ]
         ]

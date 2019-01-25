@@ -30,7 +30,7 @@ navBar model =
                     [ text "Home" ]
                 , a [ class "navbar-item", href "/#/about" ]
                     [ text "About" ]
-                , a [ class "navbar-item", href "/#/puzzle-hunt-info" ]
+                , a [ class "navbar-item", href "/#/puzzle-hunt" ]
                     [ text "Puzzle Hunt 2019" ]
                 , a [ class "navbar-item", href "/#/contact" ]
                     [ text "Contact" ]

@@ -8,7 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import NotFound.Components
-import PuzzleHuntInfo.Components
+import PuzzleHunt.Components
 import Shared.Router exposing (Route(..))
 import Shared.Types exposing (Model)
 import Shared.Update exposing (Msg)
@@ -23,8 +23,8 @@ view model =
         About ->
             About.Components.viewAbout model
 
-        PuzzleHuntInfo ->
-            PuzzleHuntInfo.Components.viewPuzzleHuntInfo model
+        PuzzleHunt ->
+            PuzzleHunt.Components.viewPuzzleHuntInfo model
 
         Contact ->
             Contact.Components.viewContact model

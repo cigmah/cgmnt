@@ -8,7 +8,7 @@ import Url.Parser exposing ((</>), Parser, map, oneOf, parse, s, string, top)
 type Route
     = Home
     | About
-    | PuzzleHuntInfo
+    | PuzzleHunt
     | Contact
     | NotFound
 
@@ -18,7 +18,7 @@ routeParser =
     oneOf
         [ map Home top
         , map About (s "about")
-        , map PuzzleHuntInfo (s "puzzle-hunt-info")
+        , map PuzzleHunt (s "puzzle-hunt")
         , map Contact (s "contact")
         ]
 
