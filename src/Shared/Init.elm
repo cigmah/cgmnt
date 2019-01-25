@@ -9,4 +9,13 @@ import Url exposing (Url)
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    ( { key = key, route = fromUrl url, componentStates = { navbarMenuActive = False } }, Cmd.none )
+    ( { key = key
+      , route = fromUrl url
+      , componentStates =
+            { navbarMenuActive = False
+            , registerModalActive = False
+            , loginModalActive = False
+            }
+      }
+    , Cmd.none
+    )

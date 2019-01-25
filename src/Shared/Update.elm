@@ -11,6 +11,8 @@ type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url
     | ToggleBurgerMenu
+    | ToggleRegisterModal
+    | ToggleLoginModal
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -33,3 +35,9 @@ update msg model =
 
         ToggleBurgerMenu ->
             ( { model | componentStates = { componentStates | navbarMenuActive = not componentStates.navbarMenuActive } }, Cmd.none )
+
+        ToggleRegisterModal ->
+            ( { model | componentStates = { componentStates | registerModalActive = not componentStates.registerModalActive } }, Cmd.none )
+
+        ToggleLoginModal ->
+            ( { model | componentStates = { componentStates | loginModalActive = not componentStates.loginModalActive } }, Cmd.none )

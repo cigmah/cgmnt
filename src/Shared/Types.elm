@@ -10,4 +10,7 @@ type alias Model =
 
 
 type alias ComponentStates =
-    { navbarMenuActive : Bool }
+    { navbarMenuActive : Bool
+    , registerModalActive : Bool
+    , loginModalActive : Bool
+    }
