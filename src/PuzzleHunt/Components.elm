@@ -6,7 +6,7 @@ import Html.Events exposing (..)
 import Markdown
 import PuzzleHunt.Content as Content
 import Shared.Components exposing (navBar)
-import Shared.Update exposing (Msg(..))
+import Shared.Types exposing (LoginEvent(..), Msg(..), RegisterEvent(..))
 
 
 viewPuzzleHuntInfo model =
@@ -27,9 +27,9 @@ bodyPuzzleHuntInfo model =
                 , h2 [ class "subtitle" ]
                     [ text "Testing Phase" ]
                 , div [ class "buttons has-addons" ]
-                    [ span [ class "button is-large is-dark is-inverted is-outlined", onClick ToggleRegisterModal ]
+                    [ span [ class "button is-large is-dark is-inverted is-outlined", onClick <| RegisterMsg ToggleRegisterModal ]
                         [ text "Register" ]
-                    , span [ class "button is-large is-dark is-inverted is-outlined", onClick ToggleLoginModal ]
+                    , span [ class "button is-large is-dark is-inverted is-outlined", onClick <| LoginMsg ToggleLoginModal ]
                         [ text "Login" ]
                     ]
                 ]
@@ -66,9 +66,9 @@ registerModal model =
                     "modal"
     in
     div [ class modalClass ]
-        [ div [ class "modal-background", onClick ToggleRegisterModal ] []
+        [ div [ class "modal-background", onClick <| RegisterMsg ToggleRegisterModal ] []
         , div [ class "modal-content" ] [ registerForm model ]
-        , button [ class "modal-close is-large", onClick ToggleRegisterModal ] []
+        , button [ class "modal-close is-large", onClick <| RegisterMsg ToggleRegisterModal ] []
         ]
 
 
@@ -93,7 +93,7 @@ registerForm model =
                         , type_ "text"
                         , placeholder "e.g. bms_intern"
                         , value registerParams.username
-                        , onInput OnChangeRegisterUsername
+                        , onInput <| RegisterMsg << OnChangeRegisterUsername
                         ]
                         []
                     ]
@@ -106,7 +106,7 @@ registerForm model =
                         , type_ "text"
                         , placeholder "e.g. roy.basch@bestmedicalschool.com"
                         , value registerParams.email
-                        , onInput OnChangeRegisterEmail
+                        , onInput <| RegisterMsg << OnChangeRegisterEmail
                         ]
                         []
                     ]
@@ -119,7 +119,7 @@ registerForm model =
                         , type_ "text"
                         , placeholder "e.g. Roy"
                         , value registerParams.firstName
-                        , onInput OnChangeRegisterFirstName
+                        , onInput <| RegisterMsg << OnChangeRegisterFirstName
                         ]
                         []
                     ]
@@ -132,7 +132,7 @@ registerForm model =
                         , type_ "text"
                         , placeholder "e.g. Basch"
                         , value registerParams.lastName
-                        , onInput OnChangeRegisterLastName
+                        , onInput <| RegisterMsg << OnChangeRegisterLastName
                         ]
                         []
                     ]
@@ -156,9 +156,9 @@ loginModal model =
                     "modal"
     in
     div [ class modalClass ]
-        [ div [ class "modal-background", onClick ToggleLoginModal ] []
+        [ div [ class "modal-background", onClick <| LoginMsg ToggleLoginModal ] []
         , div [ class "modal-content" ] [ loginForm model ]
-        , button [ class "modal-close is-large", onClick ToggleLoginModal ] []
+        , button [ class "modal-close is-large", onClick <| LoginMsg ToggleLoginModal ] []
         ]
 
 
@@ -184,7 +184,7 @@ loginForm model =
                             , type_ "text"
                             , placeholder "e.g. roy.basch@bestmedicalschool.com"
                             , value loginParams.email
-                            , onInput OnChangeLoginEmail
+                            , onInput <| LoginMsg << OnChangeLoginEmail
                             ]
                             []
                         ]
@@ -201,7 +201,7 @@ loginForm model =
                         , type_ "text"
                         , placeholder "e.g. 000000"
                         , value loginParams.token
-                        , onInput OnChangeLoginToken
+                        , onInput <| LoginMsg << OnChangeLoginToken
                         ]
                         []
                     ]

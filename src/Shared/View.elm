@@ -10,8 +10,7 @@ import Html.Events exposing (..)
 import NotFound.Components
 import PuzzleHunt.Components
 import Shared.Router exposing (Route(..))
-import Shared.Types exposing (Model)
-import Shared.Update exposing (Msg)
+import Shared.Types exposing (Model, Msg)
 
 
 view : Model -> Browser.Document Msg

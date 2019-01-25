@@ -1,7 +1,6 @@
 module Shared.Subscriptions exposing (subscriptions)
 
-import Shared.Types exposing (Model)
-import Shared.Update exposing (Msg)
+import Shared.Types exposing (Model, Msg)
 
 
 subscriptions : Model -> Sub Msg

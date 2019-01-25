@@ -3,7 +3,7 @@ module Shared.Components exposing (navBar)
 import Html exposing (a, div, img, nav, span, text)
 import Html.Attributes exposing (class, height, href, src)
 import Html.Events exposing (onClick)
-import Shared.Update exposing (Msg(..))
+import Shared.Types exposing (Msg(..))
 
 
 navBar model =

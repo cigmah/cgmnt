@@ -2,8 +2,7 @@ module Shared.Init exposing (init)
 
 import Browser.Navigation as Nav
 import Shared.Router exposing (Route, fromUrl)
-import Shared.Types exposing (Model)
-import Shared.Update exposing (Msg)
+import Shared.Types exposing (Model, Msg)
 import Url exposing (Url)
 
 

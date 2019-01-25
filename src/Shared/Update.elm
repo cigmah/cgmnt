@@ -1,24 +1,10 @@
-module Shared.Update exposing (Msg(..), update)
+module Shared.Update exposing (update)
 
 import Browser
 import Browser.Navigation as Nav
 import Shared.Router exposing (fromUrl)
-import Shared.Types exposing (Model)
+import Shared.Types exposing (LoginEvent(..), Model, Msg(..), RegisterEvent(..))
 import Url exposing (Url, toString)
-
-
-type Msg
-    = LinkClicked Browser.UrlRequest
-    | UrlChanged Url
-    | ToggleBurgerMenu
-    | ToggleRegisterModal
-    | OnChangeRegisterEmail String
-    | OnChangeRegisterUsername String
-    | OnChangeRegisterFirstName String
-    | OnChangeRegisterLastName String
-    | ToggleLoginModal
-    | OnChangeLoginEmail String
-    | OnChangeLoginToken String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -33,29 +19,11 @@ update msg model =
         ToggleBurgerMenu ->
             ( { model | navbarMenuActive = not model.navbarMenuActive }, Cmd.none )
 
-        ToggleRegisterModal ->
-            handleToggleRegisterModal model
+        RegisterMsg event ->
+            handleRegisterEvent event model
 
-        OnChangeRegisterEmail email ->
-            handleOnChangeRegisterEmail model email
-
-        OnChangeRegisterUsername username ->
-            handleOnChangeRegisterUsername model username
-
-        OnChangeRegisterFirstName firstName ->
-            handleOnChangeRegisterFirstName model firstName
-
-        OnChangeRegisterLastName lastName ->
-            handleOnChangeRegisterLastName model lastName
-
-        ToggleLoginModal ->
-            handleToggleLoginModal model
-
-        OnChangeLoginEmail email ->
-            handleOnChangeLoginEmail model email
-
-        OnChangeLoginToken token ->
-            handleOnChangeLoginToken model token
+        LoginMsg event ->
+            handleLoginEvent event model
 
 
 handleLinkClicked model urlRequest =
@@ -78,6 +46,42 @@ handleToggleLoginModal model =
                     Just { email = "", token = "" }
     in
     ( { model | loginInformation = loginState }, Cmd.none )
+
+
+handleLoginEvent msg model =
+    case msg of
+        ToggleLoginModal ->
+            handleToggleLoginModal model
+
+        OnChangeLoginEmail email ->
+            handleOnChangeLoginEmail model email
+
+        OnChangeLoginToken token ->
+            handleOnChangeLoginToken model token
+
+        OnLogin ->
+            handleOnLogin model
+
+
+handleRegisterEvent msg model =
+    case msg of
+        ToggleRegisterModal ->
+            handleToggleRegisterModal model
+
+        OnChangeRegisterEmail email ->
+            handleOnChangeRegisterEmail model email
+
+        OnChangeRegisterUsername username ->
+            handleOnChangeRegisterUsername model username
+
+        OnChangeRegisterFirstName firstName ->
+            handleOnChangeRegisterFirstName model firstName
+
+        OnChangeRegisterLastName lastName ->
+            handleOnChangeRegisterLastName model lastName
+
+        OnRegister ->
+            handleOnRegister model
 
 
 handleToggleRegisterModal model =
@@ -145,3 +149,11 @@ handleOnChangeRegisterLastName model lastName =
 
         Nothing ->
             ( model, Cmd.none )
+
+
+handleOnRegister model =
+    ( model, Cmd.none )
+
+
+handleOnLogin model =
+    ( model, Cmd.none )
