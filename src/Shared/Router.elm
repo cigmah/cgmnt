@@ -1,16 +1,9 @@
-module Shared.Router exposing (Route(..), fromUrl, routeParser)
+module Shared.Router exposing (fromUrl, routeParser)
 
 import Maybe
+import Shared.Types exposing (Route(..))
 import Url exposing (Url)
 import Url.Parser exposing ((</>), Parser, map, oneOf, parse, s, string, top)
-
-
-type Route
-    = Home
-    | About
-    | PuzzleHunt
-    | Contact
-    | NotFound
 
 
 routeParser : Parser (Route -> a) a

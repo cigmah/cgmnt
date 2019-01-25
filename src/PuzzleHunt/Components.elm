@@ -1,4 +1,4 @@
-module PuzzleHunt.Components exposing (viewPuzzleHuntInfo)
+module PuzzleHunt.Components exposing (viewPuzzleHunt)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -6,16 +6,24 @@ import Html.Events exposing (..)
 import Markdown
 import PuzzleHunt.Content as Content
 import Shared.Components exposing (navBar)
+import Shared.Init exposing (emptyLogin, emptyRegister)
 import Shared.Types exposing (LoginEvent(..), Msg(..), RegisterEvent(..))
 
 
-viewPuzzleHuntInfo model =
-    { title = "CIGMAH PuzzleHunt"
-    , body = bodyPuzzleHuntInfo model
-    }
+viewPuzzleHunt model =
+    case model.authToken of
+        Nothing ->
+            { title = "CIGMAH PuzzleHunt"
+            , body = bodyPuzzleHunt model
+            }
+
+        Just token ->
+            { title = "PuzzleHunt Portal"
+            , body = [ navBar model, div [] [ text <| "PLACEHOLDER FOR PORTAL. DEBUG TOKEN IS " ++ token ] ]
+            }
 
 
-bodyPuzzleHuntInfo model =
+bodyPuzzleHunt model =
     [ navBar model
     , registerModal model
     , loginModal model
@@ -80,10 +88,52 @@ registerForm model =
                     info
 
                 Nothing ->
-                    { username = "", email = "", firstName = "", lastName = "" }
+                    emptyRegister
+
+        registerColour =
+            case registerParams.response of
+                Just _ ->
+                    "success"
+
+                Nothing ->
+                    "danger"
+
+        loadingStatus =
+            case registerParams.isLoading of
+                True ->
+                    "is-loading"
+
+                False ->
+                    ""
+
+        errorStatus =
+            case registerParams.message of
+                Just message ->
+                    div [ class <| "notification has-text-centered is-" ++ registerColour ]
+                        [ text message
+                        ]
+
+                Nothing ->
+                    div [] []
+
+        maybeFooter =
+            case registerParams.response of
+                Just _ ->
+                    div [] []
+
+                Nothing ->
+                    footer [ class "card-footer" ]
+                        [ div [ class "card-footer-item" ]
+                            [ button
+                                [ class <| "button is-medium is-fullwidth is-outlined is-" ++ registerColour ++ " " ++ loadingStatus
+                                , onClick <| RegisterMsg OnRegister
+                                ]
+                                [ text "Register" ]
+                            ]
+                        ]
     in
     div [ class "card" ]
-        [ div [ class "card-header has-background-danger" ] [ span [ class "card-header-title has-text-white" ] [ text "User Registration" ] ]
+        [ div [ class <| "card-header has-background-" ++ registerColour ] [ span [ class "card-header-title has-text-white" ] [ text "User Registration" ] ]
         , div [ class "card-content" ]
             [ div [ class "field" ]
                 [ label [ class "label" ] [ text "Username" ]
@@ -137,11 +187,9 @@ registerForm model =
                         []
                     ]
                 ]
+            , errorStatus
             ]
-        , footer [ class "card-footer" ]
-            [ div [ class "card-footer-item" ]
-                [ button [ class "button is-medium is-fullwidth is-danger is-outlined" ] [ text "Register" ] ]
-            ]
+        , maybeFooter
         ]
 
 
@@ -170,7 +218,41 @@ loginForm model =
                     info
 
                 Nothing ->
-                    { email = "", token = "" }
+                    emptyLogin
+
+        loadingSendTokenClass =
+            case loginParams.isLoadingSendToken of
+                True ->
+                    " is-loading "
+
+                False ->
+                    ""
+
+        loadingLoginClass =
+            case loginParams.isLoadingLogin of
+                True ->
+                    " is-loading "
+
+                False ->
+                    ""
+
+        sendTokenResponse =
+            case loginParams.sendTokenResponse of
+                Just _ ->
+                    { class = " is-success ", text = "Sent!" }
+
+                Nothing ->
+                    { class = " is-info is-outlined ", text = "Send Token" }
+
+        notification =
+            case loginParams.message of
+                Just message ->
+                    div [ class <| "notification has-text-centered is-danger" ]
+                        [ text message
+                        ]
+
+                Nothing ->
+                    div [] []
     in
     div [ class "card" ]
         [ div [ class "card-header has-background-info" ] [ span [ class "card-header-title has-text-white" ] [ text "User Login" ] ]
@@ -189,7 +271,11 @@ loginForm model =
                             []
                         ]
                     , div [ class "control" ]
-                        [ button [ class "button is-info is-outlined" ] [ text "Send Token" ]
+                        [ button
+                            [ class <| "button " ++ loadingSendTokenClass ++ sendTokenResponse.class
+                            , onClick <| LoginMsg OnSendToken
+                            ]
+                            [ text sendTokenResponse.text ]
                         ]
                     ]
                 ]
@@ -206,9 +292,15 @@ loginForm model =
                         []
                     ]
                 ]
+            , notification
             ]
         , footer [ class "card-footer" ]
             [ div [ class "card-footer-item" ]
-                [ button [ class "button is-medium is-fullwidth is-info is-outlined" ] [ text "Login" ] ]
+                [ button
+                    [ class <| "button is-medium is-fullwidth is-info is-outlined" ++ loadingLoginClass
+                    , onClick <| LoginMsg OnLogin
+                    ]
+                    [ text "Login" ]
+                ]
             ]
         ]

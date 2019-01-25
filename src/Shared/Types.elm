@@ -1,14 +1,23 @@
-module Shared.Types exposing (LoginEvent(..), Model, Msg(..), RegisterEvent(..))
+module Shared.Types exposing (LoginEvent(..), LoginInformation, Model, Msg(..), RegisterEvent(..), RegisterInformation, Route(..))
 
 import Browser
 import Browser.Navigation as Nav
-import Shared.Router exposing (Route)
+import Http
 import Url exposing (Url)
+
+
+type Route
+    = Home
+    | About
+    | PuzzleHunt
+    | Contact
+    | NotFound
 
 
 type alias Model =
     { key : Nav.Key
     , route : Route
+    , authToken : Maybe String
     , navbarMenuActive : Bool
     , registerInformation : Maybe RegisterInformation
     , loginInformation : Maybe LoginInformation
@@ -20,12 +29,19 @@ type alias RegisterInformation =
     , email : String
     , firstName : String
     , lastName : String
+    , isLoading : Bool
+    , response : Maybe String
+    , message : Maybe String
     }
 
 
 type alias LoginInformation =
     { email : String
     , token : String
+    , isLoadingSendToken : Bool
+    , sendTokenResponse : Maybe String
+    , isLoadingLogin : Bool
+    , message : Maybe String
     }
 
 
@@ -44,6 +60,7 @@ type RegisterEvent
     | OnChangeRegisterFirstName String
     | OnChangeRegisterLastName String
     | OnRegister
+    | ReceivedRegister (Result Http.Error String)
 
 
 type LoginEvent
@@ -51,3 +68,6 @@ type LoginEvent
     | OnChangeLoginEmail String
     | OnChangeLoginToken String
     | OnLogin
+    | OnSendToken
+    | ReceivedSendToken (Result Http.Error String)
+    | ReceivedLogin (Result Http.Error String)
