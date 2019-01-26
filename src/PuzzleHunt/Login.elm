@@ -5,6 +5,7 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Shared.ApiBase exposing (apiBase)
 import Shared.Init exposing (emptyLogin, emptyRegister)
+import Shared.Ports exposing (cache)
 import Shared.Types exposing (LoginEvent(..), LoginInformation, Model, Msg(..), Route(..))
 
 
@@ -146,7 +147,7 @@ handleReceivedLogin model result =
                         | authToken = Just value
                         , loginInformation = Just { info | isLoadingLogin = False, message = Nothing }
                       }
-                    , Cmd.none
+                    , cache (Encode.string value)
                     )
 
                 Err error ->
@@ -164,7 +165,7 @@ handleReceivedLogin model result =
                                 message =
                                     case code of
                                         400 ->
-                                            "That token doesn't seem to be correct. Maybe a typo?"
+                                            "That token doesn't seem to be correct. Maybe a typo or maybe it's expired?"
 
                                         _ ->
                                             "There was an error with code " ++ String.fromInt code

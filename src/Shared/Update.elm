@@ -1,7 +1,9 @@
-module Shared.Update exposing (update)
+port module Shared.Update exposing (update)
 
 import Browser
 import Browser.Navigation as Nav
+import Json.Decode as Decode
+import Json.Encode as Encode
 import PuzzleHunt.Login
 import PuzzleHunt.Register
 import Shared.Init exposing (emptyLogin, emptyRegister)
