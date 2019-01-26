@@ -9,5 +9,9 @@ var app = Elm.Main.init({
 registerServiceWorker();
 
 app.ports.cache.subscribe(function(data) {
-  localStorage.setItem('cache', JSON.stringify(data))
+  if (data == "") {
+    localStorage.removeItem('cache')
+  } else {
+    localStorage.setItem('cache', JSON.stringify(data))
+  }
 })

@@ -71,3 +71,4 @@ type LoginEvent
     | OnSendToken
     | ReceivedSendToken (Result Http.Error String)
     | ReceivedLogin (Result Http.Error String)
+    | OnLogout

@@ -32,6 +32,9 @@ handleLoginEvent msg model =
         ReceivedLogin result ->
             handleReceivedLogin model result
 
+        OnLogout ->
+            ( { model | authToken = Nothing }, cache <| Encode.string "" )
+
 
 handleToggleLoginModal model =
     let

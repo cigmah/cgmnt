@@ -1,9 +1,9 @@
 module Shared.Components exposing (navBar)
 
-import Html exposing (a, div, img, nav, span, text)
+import Html exposing (a, button, div, img, nav, span, text)
 import Html.Attributes exposing (class, height, href, src)
 import Html.Events exposing (onClick)
-import Shared.Types exposing (Msg(..))
+import Shared.Types exposing (LoginEvent(..), Msg(..))
 
 
 navBar model =
@@ -15,6 +15,14 @@ navBar model =
 
                 False ->
                     "navbar-menu"
+
+        logoutButton =
+            case model.authToken of
+                Just _ ->
+                    a [ class "navbar-item", onClick <| LoginMsg OnLogout ] [ text "Logout" ]
+
+                Nothing ->
+                    div [] []
     in
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
@@ -35,5 +43,7 @@ navBar model =
                 , a [ class "navbar-item", href "/#/contact" ]
                     [ text "Contact" ]
                 ]
+            , div [ class "navbar-end" ]
+                [ logoutButton ]
             ]
         ]
