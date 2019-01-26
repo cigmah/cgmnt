@@ -1,19 +1,19 @@
-module NotFound.Components exposing (viewNotFound)
+module View.NotFound exposing (body, view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
-import Shared.Components exposing (navBar)
+import View.NavBar exposing (..)
 
 
-viewNotFound model =
+view model =
     { title = "Page Not Found"
-    , body = bodyNotFound model
+    , body = body model
     }
 
 
-bodyNotFound model =
+body model =
     [ navBar model
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]

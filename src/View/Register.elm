@@ -1,4 +1,4 @@
-module PuzzleHunt.Register exposing (encodeRegister, handleOnChangeRegisterEmail, handleOnChangeRegisterFirstName, handleOnChangeRegisterLastName, handleOnChangeRegisterUsername, handleOnRegister, handleReceivedRegister, handleRegisterEvent, handleToggleRegisterModal)
+module View.Register exposing (encodeRegister, handleOnChangeRegisterEmail, handleOnChangeRegisterFirstName, handleOnChangeRegisterLastName, handleOnChangeRegisterUsername, handleOnRegister, handleReceivedRegister, handleRegisterEvent, handleToggleRegisterModal)
 
 import Http
 import Json.Decode as Decode

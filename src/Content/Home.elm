@@ -1,4 +1,4 @@
-module Home.Content exposing (homeIntroText, homeNotification)
+module Content.Home exposing (homeIntroText, homeNotification)
 
 
 homeIntroText =

@@ -1,20 +1,20 @@
-module Home.Components exposing (viewHome)
+module View.Home exposing (view)
 
-import Home.Content as Content
+import Content.Home as Content
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
-import Shared.Components exposing (navBar)
+import View.NavBar exposing (navBar)
 
 
-viewHome model =
+view model =
     { title = "CIGMAH - Coding Interest Group in Medicine and Healthcare"
-    , body = bodyHome model
+    , body = body model
     }
 
 
-bodyHome model =
+body model =
     [ navBar model
     , section [ class "hero is-primary is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]

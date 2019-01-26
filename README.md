@@ -42,3 +42,22 @@ changes.
 ``` sh
 git checkout develop
 ```
+
+# Structure
+
+Here's a simple structure hierarchy, starting from most low-level to most high-level.
+
+``` 
+
+Content
+Types 
+    -> Msg
+        -> Functions
+            -> Update
+            -> View
+            -> Subscriptions
+                -> Main
+
+```
+
+Nothing should be importing anything to the left of it.

@@ -2,11 +2,11 @@ module Main exposing (main)
 
 import Browser.Hash as Hash
 import Json.Decode as Decode
-import Shared.Init exposing (init)
-import Shared.Subscriptions exposing (subscriptions)
-import Shared.Types exposing (Model, Msg(..))
-import Shared.Update exposing (update)
-import Shared.View exposing (view)
+import Msg.Msg exposing (..)
+import Subscriptions.Subscriptions exposing (subscriptions)
+import Types.Types exposing (..)
+import Update.Update exposing (init, update)
+import View.View exposing (view)
 
 
 main : Program Decode.Value Model Msg

@@ -1,15 +1,16 @@
-module Shared.Components exposing (navBar)
+module View.NavBar exposing (navBar)
 
 import Html exposing (a, button, div, img, nav, span, text)
 import Html.Attributes exposing (class, height, href, src)
 import Html.Events exposing (onClick)
-import Shared.Types exposing (LoginEvent(..), Msg(..))
+import Msg.Msg exposing (..)
+import Types.Types exposing (..)
 
 
 navBar model =
     let
-        navbarMenuClass =
-            case model.navbarMenuActive of
+        navBarMenuClass =
+            case model.navBarMenuActive of
                 True ->
                     "navbar-menu is-active"
 
@@ -19,7 +20,7 @@ navBar model =
         logoutButton =
             case model.authToken of
                 Just _ ->
-                    a [ class "navbar-item", onClick <| LoginMsg OnLogout ] [ text "Logout" ]
+                    a [ class "navbar-item", onClick <| OnLogout ] [ text "Logout" ]
 
                 Nothing ->
                     div [] []
@@ -32,7 +33,7 @@ navBar model =
                 [ class "navbar-burger", onClick ToggleBurgerMenu ]
                 [ span [] [], span [] [], span [] [], span [] [] ]
             ]
-        , div [ class navbarMenuClass ]
+        , div [ class navBarMenuClass ]
             [ div [ class "navbar-start" ]
                 [ a [ class "navbar-item", href "/" ]
                     [ text "Home" ]

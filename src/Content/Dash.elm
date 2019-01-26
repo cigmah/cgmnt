@@ -1,4 +1,4 @@
-module PuzzleHunt.Content exposing (neverCodedText, puzzleHuntIntroText)
+module Content.Dash exposing (neverCodedText, puzzleHuntIntroText)
 
 
 puzzleHuntIntroText =

@@ -1,4 +1,4 @@
-module About.Content exposing (butConcentrate, thisSite, whatCIGMAH, whatCanDo, whyLearn)
+module Content.About exposing (butConcentrate, thisSite, whatCIGMAH, whatCanDo, whyLearn)
 
 
 whyLearn =

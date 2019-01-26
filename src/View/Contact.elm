@@ -1,20 +1,20 @@
-module Contact.Components exposing (bodyContact, viewContact)
+module View.Contact exposing (body, view)
 
-import Contact.Content as Content
+import Content.Contact as Content
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
-import Shared.Components exposing (navBar)
+import View.NavBar exposing (navBar)
 
 
-viewContact model =
+view model =
     { title = "Contact CIGMAH"
-    , body = bodyContact model
+    , body = body model
     }
 
 
-bodyContact model =
+body model =
     [ navBar model
     , section [ class "hero is-primary" ]
         [ div [ class "hero-body" ]

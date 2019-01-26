@@ -1,4 +1,4 @@
-module Contact.Content exposing (helpWanted)
+module Content.Contact exposing (helpWanted)
 
 
 helpWanted =

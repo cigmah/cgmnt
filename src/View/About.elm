@@ -1,16 +1,16 @@
-module About.Components exposing (aboutBox, bodyAbout, viewAbout)
+module View.About exposing (aboutBox, body, view)
 
-import About.Content as Content
+import Content.About as Content
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
-import Shared.Components exposing (navBar)
+import View.NavBar exposing (navBar)
 
 
-viewAbout model =
+view model =
     { title = "About CIGMAH"
-    , body = bodyAbout model
+    , body = body model
     }
 
 
@@ -24,7 +24,7 @@ aboutBox title textMarkdown =
         ]
 
 
-bodyAbout model =
+body model =
     [ navBar model
     , section [ class "hero is-primary" ]
         [ div [ class "hero-body" ]
