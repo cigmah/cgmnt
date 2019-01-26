@@ -12,6 +12,6 @@ app.ports.cache.subscribe(function(data) {
   if (data == "") {
     localStorage.removeItem('cache')
   } else {
-    localStorage.setItem('cache', JSON.stringify(data))
+    localStorage.setItem('cache', data)
   }
 })

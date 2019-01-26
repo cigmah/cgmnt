@@ -2,8 +2,9 @@ module Shared.Init exposing (emptyLogin, emptyRegister, init)
 
 import Browser.Navigation as Nav
 import Json.Decode as Decode
+import PuzzleHunt.Hunt exposing (emptyHuntDashboard)
 import Shared.Router exposing (fromUrl)
-import Shared.Types exposing (Model, Msg, Route(..))
+import Shared.Types exposing (HuntEvent(..), Model, Msg, Route(..))
 import Url exposing (Url)
 
 
@@ -12,29 +13,33 @@ init flags url key =
     let
         value =
             Decode.decodeValue Decode.string flags
+
+        route =
+            fromUrl url
+
+        defaultModel =
+            { key = key
+            , route = route
+            , authToken = Nothing
+            , navbarMenuActive = False
+            , registerInformation = Nothing
+            , loginInformation = Nothing
+            , huntDashboardInformation = Nothing
+            }
     in
     case value of
         Ok token ->
-            ( { key = key
-              , route = fromUrl url
-              , authToken = Just token
-              , navbarMenuActive = False
-              , registerInformation = Nothing
-              , loginInformation = Nothing
-              }
-            , Cmd.none
-            )
+            case route of
+                PuzzleHunt ->
+                    PuzzleHunt.Hunt.handleOnDashboardLoad { defaultModel | authToken = Just token }
+
+                _ ->
+                    ( { defaultModel | authToken = Just token }
+                    , Cmd.none
+                    )
 
         Err _ ->
-            ( { key = key
-              , route = fromUrl url
-              , authToken = Nothing
-              , navbarMenuActive = False
-              , registerInformation = Nothing
-              , loginInformation = Nothing
-              }
-            , Cmd.none
-            )
+            ( defaultModel, Cmd.none )
 
 
 emptyLogin =

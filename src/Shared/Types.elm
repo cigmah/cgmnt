@@ -1,8 +1,9 @@
-module Shared.Types exposing (LoginEvent(..), LoginInformation, Model, Msg(..), RegisterEvent(..), RegisterInformation, Route(..))
+module Shared.Types exposing (DashboardData, HuntEvent(..), LoginEvent(..), LoginInformation, Model, Msg(..), RegisterEvent(..), RegisterInformation, Route(..), ThemeData)
 
 import Browser
 import Browser.Navigation as Nav
 import Http
+import Time exposing (Posix)
 import Url exposing (Url)
 
 
@@ -21,6 +22,7 @@ type alias Model =
     , navbarMenuActive : Bool
     , registerInformation : Maybe RegisterInformation
     , loginInformation : Maybe LoginInformation
+    , huntDashboardInformation : Maybe HuntDashboardInformation
     }
 
 
@@ -45,12 +47,36 @@ type alias LoginInformation =
     }
 
 
+type alias HuntDashboardInformation =
+    { isLoading : Bool
+    , data : Maybe DashboardData
+    , message : Maybe String
+    }
+
+
+type alias DashboardData =
+    { current : List ThemeData
+    , next : Maybe ThemeData
+    }
+
+
+type alias ThemeData =
+    { id : Int
+    , year : Int
+    , theme : String
+    , tagline : String
+    , openDatetime : Posix
+    , closeDatetime : Posix
+    }
+
+
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url
     | ToggleBurgerMenu
     | RegisterMsg RegisterEvent
     | LoginMsg LoginEvent
+    | HuntMsg HuntEvent
 
 
 type RegisterEvent
@@ -72,3 +98,8 @@ type LoginEvent
     | ReceivedSendToken (Result Http.Error String)
     | ReceivedLogin (Result Http.Error String)
     | OnLogout
+
+
+type HuntEvent
+    = OnDashboardLoad
+    | ReceivedDashboardData (Result Http.Error DashboardData)

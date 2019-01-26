@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Nav
 import Json.Decode as Decode
 import Json.Encode as Encode
+import PuzzleHunt.Hunt
 import PuzzleHunt.Login
 import PuzzleHunt.Register
 import Shared.Init exposing (emptyLogin, emptyRegister)
@@ -29,6 +30,9 @@ update msg model =
 
         LoginMsg event ->
             PuzzleHunt.Login.handleLoginEvent event model
+
+        HuntMsg event ->
+            PuzzleHunt.Hunt.handleHuntEvent event model
 
 
 handleLinkClicked model urlRequest =

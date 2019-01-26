@@ -3,6 +3,7 @@ module PuzzleHunt.Login exposing (decodeAuthToken, encodeLogin, encodeSendToken,
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
+import PuzzleHunt.Hunt exposing (emptyHuntDashboard, getDashboardDataCmd)
 import Shared.ApiBase exposing (apiBase)
 import Shared.Init exposing (emptyLogin, emptyRegister)
 import Shared.Ports exposing (cache)
@@ -146,11 +147,16 @@ handleReceivedLogin model result =
         Just info ->
             case result of
                 Ok value ->
-                    ( { model
-                        | authToken = Just value
-                        , loginInformation = Just { info | isLoadingLogin = False, message = Nothing }
-                      }
-                    , cache (Encode.string value)
+                    let
+                        newModel =
+                            { model
+                                | authToken = Just value
+                                , huntDashboardInformation = Just { emptyHuntDashboard | isLoading = True }
+                                , loginInformation = Just { info | isLoadingLogin = False, message = Nothing }
+                            }
+                    in
+                    ( newModel
+                    , Cmd.batch [ cache (Encode.string value), getDashboardDataCmd value ]
                     )
 
                 Err error ->
