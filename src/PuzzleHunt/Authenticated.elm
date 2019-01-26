@@ -6,49 +6,16 @@ import Html.Events exposing (..)
 import Iso8601
 import List
 import Markdown
+import Maybe exposing (withDefault)
 import PuzzleHunt.Content as Content
 import Shared.Components exposing (navBar)
 import Shared.Types exposing (Msg(..))
 import String
-import Time exposing (posixToMillis)
+import Time exposing (millisToPosix, posixToMillis)
 
 
 bodyPuzzleHunt model token =
     let
-        themeTable =
-            case model.huntDashboardInformation of
-                Just info ->
-                    case info.data of
-                        Just data ->
-                            div [ class "hero-body" ]
-                                [ div [ class "container" ]
-                                    [ table [ class "table is-fullwidth" ]
-                                        [ thead []
-                                            [ tr []
-                                                [ th [] [ text "Theme" ]
-                                                , th [] [ text "Tagline" ]
-                                                , th [] [ text "Opened For" ]
-                                                , th [] [ text "Closes In" ]
-                                                ]
-                                            ]
-                                        , tbody [] <|
-                                            List.map
-                                                (\x ->
-                                                    themeRow
-                                                        model
-                                                        x
-                                                )
-                                                data.current
-                                        ]
-                                    ]
-                                ]
-
-                        Nothing ->
-                            div [] []
-
-                Nothing ->
-                    div [] []
-
         loadingBarOn =
             case model.huntDashboardInformation of
                 Just info ->
@@ -66,19 +33,91 @@ bodyPuzzleHunt model token =
 
                 Nothing ->
                     ""
+
+        nextPuzzle =
+            case model.huntDashboardInformation of
+                Just info ->
+                    case model.currentTime of
+                        Just currentTime ->
+                            case info.data of
+                                Just data ->
+                                    case data.next of
+                                        Just next ->
+                                            "The next theme is ''" ++ next.theme ++ "'' and opens in " ++ getTimeString (posixToMillis next.openDatetime - posixToMillis currentTime)
+
+                                        Nothing ->
+                                            "The next theme has not been announced yet."
+
+                                Nothing ->
+                                    ""
+
+                        Nothing ->
+                            ""
+
+                Nothing ->
+                    ""
+
+        openCards =
+            case model.huntDashboardInformation of
+                Just info ->
+                    case info.data of
+                        Just data ->
+                            case model.currentTime of
+                                Just currentTime ->
+                                    List.map (\x -> makeOpenCard x <| posixToMillis x.closeDatetime - posixToMillis currentTime) data.current
+
+                                Nothing ->
+                                    [ div [] [] ]
+
+                        Nothing ->
+                            [ div [] [] ]
+
+                Nothing ->
+                    [ div [] [] ]
     in
     [ navBar model
     , loadingModal loadingBarOn
-    , section [ class "hero is-success" ]
+    , section [ class "hero is-dark" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "title" ] [ text "Puzzle Hunt 2019 Portal" ]
-                , h2 [ class "subtitle" ] [ text "The next set is ___ and opens at ___" ]
+                , h2 [ class "subtitle" ] [ text nextPuzzle ]
                 ]
             ]
-        , themeTable
+        ]
+    , section [ class "hero" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ div [ class "tile is-ancestor" ]
+                    openCards
+                ]
+            ]
         ]
     ]
+
+
+makeOpenCard themeData timeDelta =
+    let
+        timeString =
+            getTimeString timeDelta
+    in
+    div [ class "tile is-parent" ]
+        [ div [ class "tile is-child box" ]
+            [ h1 [ class "subtitle" ] [ text themeData.theme ]
+            , div [ class "field is-grouped is-grouped-multiline" ]
+                [ div [ class "control" ]
+                    [ div
+                        [ class "tag has-addons" ]
+                        [ span [ class "tag is-danger" ]
+                            [ text "Closes" ]
+                        , span [ class "tag" ] [ text <| getTimeString timeDelta ]
+                        ]
+                    ]
+                ]
+            , div [ class "content" ]
+                [ text themeData.tagline ]
+            ]
+        ]
 
 
 loadingModal activeClass =
@@ -95,34 +134,24 @@ loadingModal activeClass =
         ]
 
 
-themeRow model themeData =
-    case model.currentTime of
-        Just t ->
-            let
-                seconds d =
-                    modBy 60 <| d // 1000
+getTimeString timeDelta =
+    let
+        seconds d =
+            modBy 60 <| d // 1000
 
-                minutes d =
-                    modBy 60 <| d // (60 * 1000)
+        minutes d =
+            modBy 60 <| d // (60 * 1000)
 
-                hours d =
-                    modBy 24 <| d // (60 * 60 * 1000)
+        hours d =
+            modBy 24 <| d // (60 * 60 * 1000)
 
-                days d =
-                    d // (24 * 60 * 60 * 1000)
+        days d =
+            d // (24 * 60 * 60 * 1000)
 
-                phrase d f qualifier =
-                    String.fromInt (f d) ++ " " ++ qualifier
+        phrase d f qualifier =
+            String.fromInt (f d) ++ qualifier
 
-                timeString d =
-                    phrase d days "day(s)" ++ ", " ++ phrase d hours "hour(s)" ++ ", " ++ phrase d minutes "minute(s)" ++ " and " ++ phrase d seconds "second(s)"
-            in
-            tr []
-                [ td [] [ text themeData.theme ]
-                , td [] [ text themeData.tagline ]
-                , td [] [ text <| timeString (posixToMillis t - posixToMillis themeData.openDatetime) ]
-                , td [] [ text <| timeString (posixToMillis themeData.closeDatetime - posixToMillis t) ]
-                ]
-
-        Nothing ->
-            tr [] []
+        timeString d =
+            phrase d days "d" ++ ":" ++ phrase d hours "h" ++ ":" ++ phrase d minutes "m" ++ ":" ++ phrase d seconds "s"
+    in
+    timeString timeDelta

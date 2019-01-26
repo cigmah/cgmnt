@@ -22,7 +22,21 @@ update msg model =
             handleLinkClicked model urlRequest
 
         UrlChanged url ->
-            ( { model | route = fromUrl url }, Cmd.none )
+            let
+                route =
+                    fromUrl url
+            in
+            case route of
+                PuzzleHunt ->
+                    case model.authToken of
+                        Just token ->
+                            PuzzleHunt.Hunt.handleOnDashboardLoad { model | route = fromUrl url }
+
+                        Nothing ->
+                            ( { model | route = fromUrl url }, Cmd.none )
+
+                _ ->
+                    ( { model | route = fromUrl url }, Cmd.none )
 
         NewTime time ->
             ( { model | currentTime = Just time }, Cmd.none )
