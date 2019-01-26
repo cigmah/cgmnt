@@ -18,6 +18,7 @@ type Route
 type alias Model =
     { key : Nav.Key
     , route : Route
+    , currentTime : Maybe Posix
     , authToken : Maybe String
     , navbarMenuActive : Bool
     , registerInformation : Maybe RegisterInformation
@@ -73,6 +74,8 @@ type alias ThemeData =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url
+    | NewTime Posix
+    | GetCurrentTime
     | ToggleBurgerMenu
     | RegisterMsg RegisterEvent
     | LoginMsg LoginEvent

@@ -21,6 +21,7 @@ init flags url key =
             { key = key
             , route = route
             , authToken = Nothing
+            , currentTime = Nothing
             , navbarMenuActive = False
             , registerInformation = Nothing
             , loginInformation = Nothing

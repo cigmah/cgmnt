@@ -10,6 +10,8 @@ import PuzzleHunt.Register
 import Shared.Init exposing (emptyLogin, emptyRegister)
 import Shared.Router exposing (fromUrl)
 import Shared.Types exposing (LoginEvent(..), LoginInformation, Model, Msg(..), RegisterEvent(..), RegisterInformation, Route(..))
+import Task
+import Time
 import Url exposing (Url)
 
 
@@ -21,6 +23,12 @@ update msg model =
 
         UrlChanged url ->
             ( { model | route = fromUrl url }, Cmd.none )
+
+        NewTime time ->
+            ( { model | currentTime = Just time }, Cmd.none )
+
+        GetCurrentTime ->
+            ( model, Task.perform NewTime Time.now )
 
         ToggleBurgerMenu ->
             ( { model | navbarMenuActive = not model.navbarMenuActive }, Cmd.none )
