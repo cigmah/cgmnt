@@ -48,8 +48,27 @@ bodyPuzzleHunt model token =
 
                 Nothing ->
                     div [] []
+
+        loadingBarOn =
+            case model.huntDashboardInformation of
+                Just info ->
+                    case info.isLoading of
+                        True ->
+                            "is-active"
+
+                        False ->
+                            case model.currentTime of
+                                Nothing ->
+                                    "is-active"
+
+                                _ ->
+                                    ""
+
+                Nothing ->
+                    ""
     in
     [ navBar model
+    , loadingModal loadingBarOn
     , section [ class "hero is-success" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
@@ -60,6 +79,20 @@ bodyPuzzleHunt model token =
         , themeTable
         ]
     ]
+
+
+loadingModal activeClass =
+    div [ class <| "modal " ++ activeClass ]
+        [ div [ class "modal-background" ] []
+        , div [ class "modal-content" ]
+            [ div [ class "card" ]
+                [ div [ class "card-content has-background-dark" ]
+                    [ h1 [ class "title has-text-white has-text-centered" ] [ text "Loading..." ]
+                    , span [ class "button is-large is-dark is-loading is-fullwidth" ] []
+                    ]
+                ]
+            ]
+        ]
 
 
 themeRow model themeData =
@@ -73,16 +106,16 @@ themeRow model themeData =
                     modBy 60 <| d // (60 * 1000)
 
                 hours d =
-                    modBy 24 <| d // (24 * 60 * 1000)
+                    modBy 24 <| d // (60 * 60 * 1000)
 
                 days d =
-                    d // (24 * 60 * 1000)
+                    d // (24 * 60 * 60 * 1000)
 
                 phrase d f qualifier =
                     String.fromInt (f d) ++ " " ++ qualifier
 
                 timeString d =
-                    phrase d days "days" ++ phrase d hours "hours" ++ phrase d minutes "minutes" ++ phrase d seconds "seconds"
+                    phrase d days "day(s)" ++ ", " ++ phrase d hours "hour(s)" ++ ", " ++ phrase d minutes "minute(s)" ++ " and " ++ phrase d seconds "second(s)"
             in
             tr []
                 [ td [] [ text themeData.theme ]
