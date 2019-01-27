@@ -54,9 +54,8 @@ type PuzzlesEvent
 
 
 type RegisterEvent
-    = ToggleRegisterModal
+    = OnChangeRegisterUsername String
     | OnChangeRegisterEmail String
-    | OnChangeRegisterUsername String
     | OnChangeRegisterFirstName String
     | OnChangeRegisterLastName String
     | OnRegister

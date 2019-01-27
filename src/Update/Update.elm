@@ -36,7 +36,7 @@ update msg model =
             Handlers.onLogout model
 
         RegisterMsg event ->
-            ( model, Cmd.none )
+            updateRegister event model
 
         LoginMsg event ->
             ( model, Cmd.none )
@@ -62,53 +62,19 @@ init flags url key =
     Handlers.init flags url key
 
 
-updateLogin model msg =
-    case msg of
-        ToggleLoginModal ->
-            handleToggleLoginModal model
+updateRegister : RegisterEvent -> Model -> ( Model, Cmd Msg )
+updateRegister msg model =
+    case model.route of
+        Home registerInfo registerData ->
+            case msg of
+                OnChangeRegisterUsername input ->
+                    ( { model | route = Home { registerInfo | username = input } registerData }, Cmd.none )
 
-        OnChangeLoginEmail email ->
-            handleOnChangeLoginEmail model email
+                OnChangeRegisterEmail input ->
+                    ( { model | route = Home { registerInfo | email = input } registerData }, Cmd.none )
 
-        OnChangeLoginToken token ->
-            handleOnChangeLoginToken model token
+                _ ->
+                    ( model, Cmd.none )
 
-        OnSendToken ->
-            handleOnSendToken model
-
-        OnLogin ->
-            handleOnLogin model
-
-        ReceivedSendToken result ->
-            handleReceivedSendToken model result
-
-        ReceivedLogin result ->
-            handleReceivedLogin model result
-
-
-handleToggleLoginModal model =
-    ( model, Cmd.none )
-
-
-handleOnChangeLoginEmail model email =
-    ( model, Cmd.none )
-
-
-handleOnChangeLoginToken model token =
-    ( model, Cmd.none )
-
-
-handleOnSendToken model =
-    ( model, Cmd.none )
-
-
-handleOnLogin model =
-    ( model, Cmd.none )
-
-
-handleReceivedSendToken model result =
-    ( model, Cmd.none )
-
-
-handleReceivedLogin model result =
-    ( model, Cmd.none )
+        _ ->
+            ( model, Cmd.none )

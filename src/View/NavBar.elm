@@ -3,22 +3,23 @@ module View.NavBar exposing (navBar)
 import Html exposing (..)
 import Html.Attributes exposing (class, height, href, src)
 import Html.Events exposing (onClick)
+import Html.Lazy exposing (..)
 import Msg.Msg exposing (..)
 import Types.Types exposing (..)
 
 
-navBar : Model -> Html Msg
-navBar model =
+navBar : Maybe AuthToken -> Bool -> Html Msg
+navBar authToken navBarMenuActive =
     let
         navBarMenuClass =
-            if model.navBarMenuActive then
+            if navBarMenuActive then
                 "navbar-menu is-active"
 
             else
                 "navbar-menu"
 
         logoutButton =
-            case model.authToken of
+            case authToken of
                 Just _ ->
                     a [ class "navbar-item", onClick <| OnLogout ] [ text "Logout" ]
 

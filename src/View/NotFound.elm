@@ -3,6 +3,7 @@ module View.NotFound exposing (body, view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Html.Lazy exposing (..)
 import Markdown
 import View.NavBar exposing (..)
 
@@ -14,7 +15,7 @@ view model =
 
 
 body model =
-    [ navBar model
+    [ lazy2 navBar model.authToken model.navBarMenuActive
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
