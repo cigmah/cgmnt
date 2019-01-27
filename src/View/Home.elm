@@ -43,6 +43,7 @@ body meta registerInfo registerData =
                 [ h1 [ class "subtitle has-text-centered" ]
                     [ text "Coding Interest Group in Medicine And Healthcare" ]
                 , h1 [ class "title has-text-centered" ] [ text "Puzzle Hunt 2019" ]
+                , h2 [ class "subtitle has-text-centered has-text-weight-light" ] [ text tagline ]
                 , lazy2 renderBody registerInfo registerData
                 ]
             ]

@@ -1,4 +1,4 @@
-module Functions.Functions exposing (fromUrl, intDeltaString, routeParser, timeDelta, timeStringWithDefault)
+module Functions.Functions exposing (fromUrl, intDeltaString, monthToString, posixToString, puzzleSetString, routeParser, timeDelta, timeStringWithDefault)
 
 import Browser.Navigation as Nav
 import Functions.ApiBase exposing (apiBase)
@@ -8,7 +8,7 @@ import Iso8601
 import Maybe
 import Msg.Msg exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Time exposing (Posix, posixToMillis)
+import Time exposing (..)
 import Types.Init as Init
 import Types.Types exposing (..)
 import Url exposing (Url)
@@ -99,3 +99,86 @@ timeStringWithDefault tEarly tLater default base =
 
         Nothing ->
             default
+
+
+puzzleSetString : PuzzleSet -> String
+puzzleSetString set =
+    case set of
+        A ->
+            "Abstract"
+
+        B ->
+            "Beginner"
+
+        C ->
+            "Challenge"
+
+        M ->
+            "Meta"
+
+        S ->
+            "Sample"
+
+
+posixToString : Posix -> String
+posixToString time =
+    let
+        zone =
+            Time.customZone (11 * 60) []
+
+        year =
+            Time.toYear zone time
+
+        month =
+            Time.toMonth zone time
+
+        day =
+            Time.toDay zone time
+
+        hour =
+            Time.toHour zone time
+
+        minute =
+            Time.toHour zone time
+    in
+    monthToString month ++ " " ++ String.fromInt day ++ " " ++ String.fromInt hour ++ ":" ++ String.fromInt minute
+
+
+monthToString : Month -> String
+monthToString month =
+    case month of
+        Jan ->
+            "Jan"
+
+        Feb ->
+            "Feb"
+
+        Mar ->
+            "Mar"
+
+        Apr ->
+            "Apr"
+
+        May ->
+            "May"
+
+        Jun ->
+            "Jun"
+
+        Jul ->
+            "Jul"
+
+        Aug ->
+            "Aug"
+
+        Sep ->
+            "Sep"
+
+        Oct ->
+            "Oct"
+
+        Nov ->
+            "Nov"
+
+        Dec ->
+            "Dec"

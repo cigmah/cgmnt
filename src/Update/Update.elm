@@ -7,6 +7,7 @@ import Functions.Ports exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Msg.Msg exposing (..)
+import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time
 import Types.Init as Init
@@ -93,6 +94,22 @@ updateArchive msg model =
             case msg of
                 ReceivedArchive receivedData ->
                     ( { model | route = Archive receivedData }, Cmd.none )
+
+                OnSelectArchivePuzzle puzzle ->
+                    case archiveData of
+                        Success (ArchiveFull puzzleList) ->
+                            ( { model | route = Archive (Success (ArchiveDetail puzzleList puzzle)) }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                OnDeselectPuzzle ->
+                    case archiveData of
+                        Success (ArchiveDetail puzzleList _) ->
+                            ( { model | route = Archive (Success (ArchiveFull puzzleList)) }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )

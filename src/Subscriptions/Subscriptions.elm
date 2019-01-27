@@ -7,4 +7,8 @@ import Types.Types exposing (..)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    every 1000 (\x -> GetCurrentTime)
+    Sub.none
+
+
+
+--every 1000 (\x -> GetCurrentTime)
