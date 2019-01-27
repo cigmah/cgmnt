@@ -42,7 +42,7 @@ update msg model =
             ( model, Cmd.none )
 
         ArchiveMsg event ->
-            ( model, Cmd.none )
+            updateArchive event model
 
         LeaderMsg event ->
             ( model, Cmd.none )
@@ -72,6 +72,27 @@ updateRegister msg model =
 
                 OnChangeRegisterEmail input ->
                     ( { model | route = Home { registerInfo | email = input } registerData }, Cmd.none )
+
+                OnChangeRegisterFirstName input ->
+                    ( { model | route = Home { registerInfo | firstName = input } registerData }, Cmd.none )
+
+                OnChangeRegisterLastName input ->
+                    ( { model | route = Home { registerInfo | lastName = input } registerData }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updateArchive : ArchiveEvent -> Model -> ( Model, Cmd Msg )
+updateArchive msg model =
+    case model.route of
+        Archive archiveData ->
+            case msg of
+                ReceivedArchive receivedData ->
+                    ( { model | route = Archive receivedData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )

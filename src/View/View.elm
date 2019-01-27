@@ -4,6 +4,7 @@ import Browser
 import Msg.Msg exposing (..)
 import Types.Types exposing (..)
 import View.About
+import View.Archive
 import View.Contact
 import View.Home
 import View.NotFound
@@ -20,6 +21,9 @@ view model =
 
         Contact ->
             View.Contact.view model
+
+        Archive archiveData ->
+            View.Archive.view model
 
         _ ->
             View.NotFound.view model

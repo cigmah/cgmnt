@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeAuthToken, decodeDashData, decodePuzzleData, decodeThemeData)
+module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodePuzzleData, decodePuzzleSet, decodeThemeData)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -6,16 +6,14 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Types.Types exposing (..)
 
 
-decodeAuthToken : Decoder String
+decodeAuthToken : Decoder AuthToken
 decodeAuthToken =
     field "token" string
 
 
-decodeDashData : Decoder DashData
-decodeDashData =
-    map2 DashData
-        (field "active" <| maybe (list decodePuzzleData))
-        (field "next" (maybe decodeThemeData))
+decodeArchiveData : Decoder ArchiveData
+decodeArchiveData =
+    map ArchiveFull <| list decodePuzzleData
 
 
 decodePuzzleData : Decoder PuzzleData
@@ -23,12 +21,12 @@ decodePuzzleData =
     succeed PuzzleData
         |> required "id" int
         |> required "theme" decodeThemeData
-        |> required "set" decodePuzzleSet
+        |> required "puzzle_set" decodePuzzleSet
         |> required "title" string
         |> required "body" string
         |> required "example" string
         |> required "statement" string
-        |> required "input" string
+        |> optional "input" (maybe string) Nothing
         |> optional "answer" (maybe string) Nothing
         |> optional "explanation" (maybe string) Nothing
 

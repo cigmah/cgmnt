@@ -2,6 +2,7 @@ module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderEvent(..), 
 
 import Browser exposing (UrlRequest)
 import Http
+import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Types.Types exposing (..)
 import Url exposing (Url)
@@ -26,7 +27,7 @@ type Msg
 type ArchiveEvent
     = OnGetArchive
     | OnSelectArchivePuzzle PuzzleData
-    | ReceivedArchive (Result Http.Error (List PuzzleData))
+    | ReceivedArchive (WebData ArchiveData)
 
 
 type LeaderEvent

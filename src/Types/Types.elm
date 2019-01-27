@@ -67,7 +67,7 @@ type alias PuzzleData =
     , body : String
     , example : String
     , statement : String
-    , input : String
+    , input : Maybe String
     , answer : Maybe String
     , explanation : Maybe String
     }

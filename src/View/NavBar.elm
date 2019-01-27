@@ -18,13 +18,13 @@ navBar authToken navBarMenuActive =
             else
                 "navbar-menu"
 
-        logoutButton =
+        loginoutButton =
             case authToken of
                 Just _ ->
                     a [ class "navbar-item", onClick <| OnLogout ] [ text "Logout" ]
 
                 Nothing ->
-                    div [] []
+                    a [ class "navbar-item", href "/#/login" ] [ text "Login" ]
     in
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
@@ -40,12 +40,16 @@ navBar authToken navBarMenuActive =
                     [ text "Home" ]
                 , a [ class "navbar-item", href "/#/about" ]
                     [ text "About" ]
-                , a [ class "navbar-item", href "/#/puzzle-hunt" ]
-                    [ text "Puzzle Hunt 2019" ]
                 , a [ class "navbar-item", href "/#/contact" ]
                     [ text "Contact" ]
+                , a [ class "navbar-item", href "/#/resources" ]
+                    [ text "Resources" ]
+                , a [ class "navbar-item", href "/#/archive" ]
+                    [ text "Archive" ]
+                , a [ class "navbar-item", href "/#/leaderboard" ]
+                    [ text "Leaderboard" ]
                 ]
             , div [ class "navbar-end" ]
-                [ logoutButton ]
+                [ loginoutButton ]
             ]
         ]

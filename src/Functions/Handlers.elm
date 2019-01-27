@@ -6,9 +6,11 @@ import Functions.ApiBase exposing (apiBase)
 import Functions.Decoders exposing (..)
 import Functions.Functions exposing (fromUrl)
 import Functions.Ports exposing (cache)
+import Functions.Requests exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Msg.Msg exposing (..)
+import RemoteData exposing (RemoteData(..), WebData)
 import Result
 import Task
 import Time exposing (Posix)
@@ -32,7 +34,7 @@ init flags url key =
         start =
             Init.model key route maybeToken
     in
-    ( start, Cmd.none )
+    urlChanged start url
 
 
 linkClicked : Model -> UrlRequest -> ( Model, Cmd Msg )
@@ -47,7 +49,16 @@ linkClicked model urlRequest =
 
 urlChanged : Model -> Url -> ( Model, Cmd Msg )
 urlChanged model url =
-    ( { model | route = fromUrl model.authToken url }, Cmd.none )
+    let
+        newModel =
+            { model | route = fromUrl model.authToken url }
+    in
+    case newModel.route of
+        Archive NotAsked ->
+            ( { newModel | route = Archive Loading }, getArchive )
+
+        _ ->
+            ( newModel, Cmd.none )
 
 
 newTime : Model -> Posix -> ( Model, Cmd Msg )

@@ -33,16 +33,16 @@ body model =
                     "Getting the time..."
 
         title x =
-            h1 [ class "title has-text-centered is-family-monospace" ]
+            h1 [ class "subtitle has-text-centered is-family-monospace" ]
                 [ text tagline ]
     in
     [ lazy2 navBar model.authToken model.navBarMenuActive
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
-                [ lazy title tagline
-                , h2 [ class "subtitle has-text-centered" ]
-                    [ text "Coding Interest Group in Medicine And Healthcare: Puzzle Hunt 2019" ]
+                [ h1 [ class "subtitle has-text-centered" ]
+                    [ text "Coding Interest Group in Medicine And Healthcare" ]
+                , h1 [ class "title has-text-centered" ] [ text "Puzzle Hunt 2019" ]
                 , lazy renderBody model.route
                 ]
             ]
@@ -54,22 +54,22 @@ renderBody route =
     div [ class "columns is-centered" ]
         [ div [ class "column has-background-dark is-two-thirds" ]
             [ div [ class "card" ]
-                [ div [ class "card-header" ] [ span [ class "card-header-title has-text-weight-light is-centered has-text-centered" ] [ text "Want to enter? Registration is free, and we only require a username and email." ] ]
-                , div [ class "card-content" ]
-                    [ registerField "Username*" "bms_intern" <| RegisterMsg << OnChangeRegisterUsername
-                    , registerField "Email*" "roy.basch@bestmedicalschool.com" <| RegisterMsg << OnChangeRegisterEmail
+                [ div [ class "card-header" ] [ span [ class "card-header-title has-background-danger has-text-white has-text-weight-semibold is-centered has-text-centered" ] [ text "Registrations open." ] ]
+                , div [ class "card-content has-background-grey-dark" ]
+                    [ registerField "Username" "" <| RegisterMsg << OnChangeRegisterUsername
+                    , registerField "Email" "" <| RegisterMsg << OnChangeRegisterEmail
                     , div [ class "field is-horizontal" ]
-                        [ div [ class "field-label is-normal" ] [ label [ class "label" ] [ text "Name" ] ]
+                        [ div [ class "field-label is-normal " ] [ label [ class "label has-text-white" ] [ text "Name" ] ]
                         , div [ class "field-body" ]
                             [ div [ class "field " ]
                                 [ div [ class "control" ]
-                                    [ input [ class "input", type_ "text", placeholder "Roy" ]
+                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| RegisterMsg << OnChangeRegisterFirstName ]
                                         []
                                     ]
                                 ]
                             , div [ class "field" ]
                                 [ div [ class "control" ]
-                                    [ input [ class "input", type_ "text", placeholder "Basch" ]
+                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| RegisterMsg << OnChangeRegisterLastName ]
                                         []
                                     ]
                                 ]
@@ -93,17 +93,13 @@ renderBody route =
 
 registerField : String -> String -> (String -> Msg) -> Html Msg
 registerField fieldLabel fieldPlaceholder fieldOnChange =
-    let
-        _ =
-            Debug.log "rendering field" fieldLabel
-    in
     div [ class "field is-horizontal" ]
         [ div [ class "field-label is-normal" ]
-            [ label [ class "label" ] [ text fieldLabel ] ]
+            [ label [ class "label has-text-white" ] [ text fieldLabel ] ]
         , div [ class "field-body  is-expanded" ]
             [ div [ class "field" ]
                 [ div [ class "control is-expanded" ]
-                    [ input [ class "input", type_ "text", placeholder fieldPlaceholder, onInput fieldOnChange ]
+                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder fieldPlaceholder, onInput fieldOnChange ]
                         []
                     ]
                 ]
