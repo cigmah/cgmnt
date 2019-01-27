@@ -8,14 +8,14 @@ import Markdown
 import View.NavBar exposing (..)
 
 
-view model =
+view meta =
     { title = "Page Not Found"
-    , body = body model
+    , body = body meta
     }
 
 
-body model =
-    [ lazy2 navBar model.authToken model.navBarMenuActive
+body meta =
+    [ lazy2 navBar meta.authToken meta.navBarMenuActive
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]

@@ -8,14 +8,19 @@ import Time exposing (Posix)
 type alias Model =
     { key : Nav.Key
     , route : Route
-    , currentTime : Maybe Posix
-    , authToken : Maybe String
-    , navBarMenuActive : Bool
+    , meta : Meta
     }
 
 
 type alias AuthToken =
     String
+
+
+type alias Meta =
+    { currentTime : Maybe Posix
+    , authToken : Maybe String
+    , navBarMenuActive : Bool
+    }
 
 
 type Route

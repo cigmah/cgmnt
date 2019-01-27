@@ -9,7 +9,12 @@ model : Nav.Key -> Route -> Maybe AuthToken -> Model
 model key route authToken =
     { key = key
     , route = route
-    , currentTime = Nothing
+    , meta = meta authToken
+    }
+
+
+meta authToken =
+    { currentTime = Nothing
     , authToken = authToken
     , navBarMenuActive = False
     }

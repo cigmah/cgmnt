@@ -136,20 +136,6 @@ makeOpenCard themeData timeDelta =
         ]
 
 
-loadingModal activeClass =
-    div [ class <| "modal " ++ activeClass ]
-        [ div [ class "modal-background" ] []
-        , div [ class "modal-content" ]
-            [ div [ class "card" ]
-                [ div [ class "card-content has-background-dark" ]
-                    [ h1 [ class "title has-text-white has-text-centered" ] [ text "Loading..." ]
-                    , span [ class "button is-large is-dark is-loading is-fullwidth" ] []
-                    ]
-                ]
-            ]
-        ]
-
-
 getTimeString timeDelta =
     let
         seconds d =

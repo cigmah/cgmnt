@@ -9,9 +9,9 @@ import Markdown
 import View.NavBar exposing (navBar)
 
 
-view model =
+view meta =
     { title = "About CIGMAH"
-    , body = body model
+    , body = body meta
     }
 
 
@@ -25,8 +25,8 @@ aboutBox title textMarkdown =
         ]
 
 
-body model =
-    [ lazy2 navBar model.authToken model.navBarMenuActive
+body meta =
+    [ lazy2 navBar meta.authToken meta.navBarMenuActive
     , section [ class "hero is-primary" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]

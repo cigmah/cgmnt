@@ -14,16 +14,16 @@ view : Model -> Browser.Document Msg
 view model =
     case model.route of
         Home registerInfo registerData ->
-            View.Home.view model
+            View.Home.view model.meta registerInfo registerData
 
         About ->
-            View.About.view model
+            View.About.view model.meta
 
         Contact ->
-            View.Contact.view model
+            View.Contact.view model.meta
 
         Archive archiveData ->
-            View.Archive.view model
+            View.Archive.view model.meta archiveData
 
         _ ->
-            View.NotFound.view model
+            View.NotFound.view model.meta

@@ -39,9 +39,13 @@ init flags url key =
 
 linkClicked : Model -> UrlRequest -> ( Model, Cmd Msg )
 linkClicked model urlRequest =
+    let
+        meta =
+            model.meta
+    in
     case urlRequest of
         Browser.Internal url ->
-            ( { model | navBarMenuActive = False }, Nav.pushUrl model.key (Url.toString url) )
+            ( { model | meta = { meta | navBarMenuActive = False } }, Nav.pushUrl model.key (Url.toString url) )
 
         Browser.External href ->
             ( model, Nav.load href )
@@ -51,7 +55,7 @@ urlChanged : Model -> Url -> ( Model, Cmd Msg )
 urlChanged model url =
     let
         newModel =
-            { model | route = fromUrl model.authToken url }
+            { model | route = fromUrl model.meta.authToken url }
     in
     case newModel.route of
         Archive NotAsked ->
@@ -63,7 +67,11 @@ urlChanged model url =
 
 newTime : Model -> Posix -> ( Model, Cmd Msg )
 newTime model time =
-    ( { model | currentTime = Just time }, Cmd.none )
+    let
+        meta =
+            model.meta
+    in
+    ( { model | meta = { meta | currentTime = Just time } }, Cmd.none )
 
 
 getCurrentTime : Model -> ( Model, Cmd Msg )
@@ -73,9 +81,17 @@ getCurrentTime model =
 
 toggleBurgerMenu : Model -> ( Model, Cmd Msg )
 toggleBurgerMenu model =
-    ( { model | navBarMenuActive = not model.navBarMenuActive }, Cmd.none )
+    let
+        meta =
+            model.meta
+    in
+    ( { model | meta = { meta | navBarMenuActive = not meta.navBarMenuActive } }, Cmd.none )
 
 
 onLogout : Model -> ( Model, Cmd Msg )
 onLogout model =
-    ( { model | authToken = Nothing }, cache <| Encode.string "" )
+    let
+        meta =
+            model.meta
+    in
+    ( { model | meta = { meta | authToken = Nothing } }, cache <| Encode.string "" )
