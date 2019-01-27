@@ -2,7 +2,7 @@ module Update.Update exposing (init, update)
 
 import Browser
 import Browser.Navigation as Nav
-import Functions.Functions exposing (..)
+import Functions.Handlers as Handlers
 import Functions.Ports exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -18,22 +18,28 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         LinkClicked urlRequest ->
-            handleLinkClicked model urlRequest
+            Handlers.linkClicked model urlRequest
 
         UrlChanged url ->
-            handleUrlChanged model url
+            Handlers.urlChanged model url
 
         NewTime time ->
-            ( { model | currentTime = Just time }, Cmd.none )
+            Handlers.newTime model time
 
         GetCurrentTime ->
-            ( model, Task.perform NewTime Time.now )
+            Handlers.getCurrentTime model
 
         ToggleBurgerMenu ->
-            ( { model | navBarMenuActive = not model.navBarMenuActive }, Cmd.none )
+            Handlers.toggleBurgerMenu model
 
         OnLogout ->
-            ( { model | authToken = Nothing }, cache <| Encode.string "" )
+            Handlers.onLogout model
+
+        RegisterMsg event ->
+            ( model, Cmd.none )
+
+        LoginMsg event ->
+            ( model, Cmd.none )
 
         ArchiveMsg event ->
             ( model, Cmd.none )
@@ -41,7 +47,7 @@ update msg model =
         LeaderMsg event ->
             ( model, Cmd.none )
 
-        DashMsg event ->
+        PuzzlesMsg event ->
             ( model, Cmd.none )
 
         CompletedMsg event ->
@@ -53,26 +59,7 @@ update msg model =
 
 init : Decode.Value -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    let
-        value =
-            Decode.decodeValue Decode.string flags
-
-        route =
-            fromUrl url
-
-        start =
-            Init.model key route
-    in
-    case value of
-        Ok token ->
-            case route of
-                _ ->
-                    ( { start | authToken = Just token }
-                    , Cmd.none
-                    )
-
-        Err _ ->
-            ( start, Cmd.none )
+    Handlers.init flags url key
 
 
 updateLogin model msg =

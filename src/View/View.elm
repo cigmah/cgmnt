@@ -12,14 +12,11 @@ import View.NotFound
 view : Model -> Browser.Document Msg
 view model =
     case model.route of
-        Home ->
+        Home registerInfo registerData ->
             View.Home.view model
 
         About ->
             View.About.view model
-
-        Dash _ _ ->
-            View.NotFound.view model
 
         Contact ->
             View.Contact.view model

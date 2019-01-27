@@ -1,21 +1,21 @@
 module View.NavBar exposing (navBar)
 
-import Html exposing (a, button, div, img, nav, span, text)
+import Html exposing (..)
 import Html.Attributes exposing (class, height, href, src)
 import Html.Events exposing (onClick)
 import Msg.Msg exposing (..)
 import Types.Types exposing (..)
 
 
+navBar : Model -> Html Msg
 navBar model =
     let
         navBarMenuClass =
-            case model.navBarMenuActive of
-                True ->
-                    "navbar-menu is-active"
+            if model.navBarMenuActive then
+                "navbar-menu is-active"
 
-                False ->
-                    "navbar-menu"
+            else
+                "navbar-menu"
 
         logoutButton =
             case model.authToken of
@@ -28,7 +28,7 @@ navBar model =
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
             [ a [ class "navbar-item", href "/" ]
-                [ img [ src "./icon.png", height 28 ] [], text "CIGMAH" ]
+                [ img [ src "./icon.png", height 28 ] [], text "CIGMAH Puzzle Hunt 2019" ]
             , div
                 [ class "navbar-burger", onClick ToggleBurgerMenu ]
                 [ span [] [], span [] [], span [] [], span [] [] ]

@@ -1,4 +1,4 @@
-module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), DashEvent(..), LeaderEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), RegisterEvent(..), SubmissionEvent(..))
+module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionEvent(..))
 
 import Browser exposing (UrlRequest)
 import Http
@@ -14,9 +14,11 @@ type Msg
     | GetCurrentTime
     | ToggleBurgerMenu
     | OnLogout
+    | RegisterMsg RegisterEvent
+    | LoginMsg LoginEvent
     | ArchiveMsg ArchiveEvent
     | LeaderMsg LeaderEvent
-    | DashMsg DashEvent
+    | PuzzlesMsg PuzzlesEvent
     | CompletedMsg CompletedEvent
     | SubmissionMsg SubmissionEvent
 
@@ -42,11 +44,9 @@ type LeaderPuzzleEvent
     | ReceivedLeaderPuzzle (Result Http.Error (List LeaderPuzzleData))
 
 
-type DashEvent
-    = RegisterMsg RegisterEvent
-    | LoginMsg LoginEvent
-    | OnGetDashData
-    | ReceivedDashData (Result Http.Error DashData)
+type PuzzlesEvent
+    = OnGetDashData
+    | ReceivedDashData (Result Http.Error ActiveData)
     | OnSelectDashPuzzle PuzzleData
     | OnChangeInput String
     | OnPostSubmission

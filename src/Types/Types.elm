@@ -1,6 +1,7 @@
-module Types.Types exposing (AccountModal(..), ArchiveInfo, CompletedInfo, DashData, DashInfo, LeaderInfo(..), LeaderPuzzle, LeaderPuzzleData, LeaderTotal, LeaderTotalData, LoginInfo, Model, OkSubmitData, PuzzleData, PuzzleSet(..), RegisterInfo, Route(..), SubmissionResponse(..), SubmissionsInfo, ThemeData, TooSoonSubmitData, UserSubmission)
+module Types.Types exposing (ActiveData, ArchiveData(..), AuthToken, Email, LeaderPuzzleData, LeaderPuzzleUser, LeaderState(..), LeaderTotalData, LeaderTotalUser, LoginState(..), Message, Model, OkSubmitData, PuzzleData, PuzzleSet(..), PuzzlesData(..), RegisterInfo, Route(..), SelectedPuzzleInfo, SubmissionResponse(..), SubmissionsData, ThemeData, Token, TooSoonSubmitData, UserSubmission)
 
 import Browser.Navigation as Nav
+import RemoteData exposing (RemoteData(..), WebData)
 import Time exposing (Posix)
 
 
@@ -13,25 +14,41 @@ type alias Model =
     }
 
 
+type alias AuthToken =
+    String
+
+
 type Route
-    = Home
+    = Home RegisterInfo (WebData Message)
     | About
     | Contact
     | Resources
-    | Archive ArchiveInfo
-    | Leader LeaderInfo
-    | Dash DashInfo (Maybe AccountModal)
-    | Completed CompletedInfo
-    | Submissions SubmissionsInfo
+    | Archive (WebData ArchiveData)
+    | Leader LeaderState
+    | Login LoginState
+    | HomeAuth AuthToken
+    | LoginAuth AuthToken
+    | PuzzlesAuth AuthToken (WebData PuzzleData)
+    | CompletedAuth AuthToken (WebData ArchiveData)
+    | SubmissionsAuth AuthToken (WebData SubmissionsData)
     | NotFound
 
 
-type alias ArchiveInfo =
-    { isLoading : Bool
-    , data : Maybe (List PuzzleData)
-    , selectedPuzzle : Maybe PuzzleData
-    , message : Maybe String
+type alias Message =
+    String
+
+
+type alias RegisterInfo =
+    { username : String
+    , email : String
+    , firstName : String
+    , lastName : String
     }
+
+
+type ArchiveData
+    = ArchiveFull (List PuzzleData)
+    | ArchiveDetail (List PuzzleData) PuzzleData
 
 
 type PuzzleSet
@@ -66,32 +83,26 @@ type alias ThemeData =
     }
 
 
-type LeaderInfo
-    = ByTotal LeaderTotal
-    | ByPuzzle LeaderPuzzle
-
-
-type alias LeaderTotal =
-    { isLoading : Bool
-    , data : Maybe (List LeaderTotalData)
-    , message : Maybe String
-    }
+type LeaderState
+    = ByTotal (WebData (List LeaderTotalData))
+    | ByPuzzle (WebData (List LeaderPuzzleData))
 
 
 type alias LeaderTotalData =
+    List LeaderTotalUser
+
+
+type alias LeaderTotalUser =
     { username : String
     , total : Int
     }
 
 
-type alias LeaderPuzzle =
-    { isLoading : Bool
-    , data : Maybe (List LeaderPuzzleData)
-    , message : Maybe String
-    }
-
-
 type alias LeaderPuzzleData =
+    List LeaderPuzzleUser
+
+
+type alias LeaderPuzzleUser =
     { username : String
     , puzzleTitle : String
     , submissionDatetime : Posix
@@ -99,21 +110,33 @@ type alias LeaderPuzzleData =
     }
 
 
-type alias DashInfo =
-    { isLoadingDash : Bool
-    , dashData : Maybe DashData
-    , dashMessage : Maybe String
-    , currentPuzzle : Maybe PuzzleData
-    , currentInput : Maybe String
-    , isLoadingSendPuzzle : Bool
-    , submissionData : Maybe SubmissionResponse
-    , puzzleMessage : Maybe String
+type alias Email =
+    String
+
+
+type alias Token =
+    String
+
+
+type LoginState
+    = InputEmail Email (WebData Message)
+    | InputToken Token (WebData Message)
+
+
+type PuzzlesData
+    = PuzzlesAll ActiveData
+    | PuzzlesDetail ActiveData SelectedPuzzleInfo (WebData SubmissionResponse)
+
+
+type alias ActiveData =
+    { active : List PuzzleData
+    , next : ThemeData
     }
 
 
-type alias DashData =
-    { active : Maybe (List PuzzleData)
-    , next : Maybe ThemeData
+type alias SelectedPuzzleInfo =
+    { puzzle : PuzzleData
+    , input : String
     }
 
 
@@ -139,45 +162,8 @@ type alias TooSoonSubmitData =
     }
 
 
-type AccountModal
-    = Register RegisterInfo
-    | Login LoginInfo
-
-
-type alias RegisterInfo =
-    { username : String
-    , email : String
-    , firstName : String
-    , lastName : String
-    , isLoading : Bool
-    , response : Maybe String
-    , message : Maybe String
-    }
-
-
-type alias LoginInfo =
-    { email : String
-    , token : String
-    , isLoadingSendToken : Bool
-    , sendTokenResponse : Maybe String
-    , isLoadingLogin : Bool
-    , message : Maybe String
-    }
-
-
-type alias CompletedInfo =
-    { isLoading : Bool
-    , data : Maybe (List PuzzleData)
-    , selectedPuzzle : Maybe PuzzleData
-    , message : Maybe String
-    }
-
-
-type alias SubmissionsInfo =
-    { isLoading : Bool
-    , data : Maybe (List UserSubmission)
-    , message : Maybe String
-    }
+type alias SubmissionsData =
+    List UserSubmission
 
 
 type alias UserSubmission =
