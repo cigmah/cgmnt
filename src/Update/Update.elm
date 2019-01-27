@@ -87,7 +87,6 @@ updateRegister msg model =
             ( model, Cmd.none )
 
 
-updateArchive : ArchiveEvent -> Model -> ( Model, Cmd Msg )
 updateArchive msg model =
     case model.route of
         Archive archiveData ->
