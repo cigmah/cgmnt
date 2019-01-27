@@ -77,13 +77,13 @@ intDeltaString diff =
         days =
             diff // (60 * 60 * 1000 * 24)
     in
-    String.fromInt days
+    String.padLeft 3 '0' (String.fromInt days)
         ++ "days, "
-        ++ String.fromInt hours
+        ++ String.padLeft 2 '0' (String.fromInt hours)
         ++ "h:"
-        ++ String.fromInt minutes
+        ++ String.padLeft 2 '0' (String.fromInt minutes)
         ++ "m:"
-        ++ String.fromInt seconds
+        ++ String.padLeft 2 '0' (String.fromInt seconds)
         ++ "s"
 
 

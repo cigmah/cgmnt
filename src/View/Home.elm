@@ -25,7 +25,7 @@ body model =
         tagline =
             case model.currentTime of
                 Just currentTime ->
-                    timeStringWithDefault currentTime endTime "The Hunt has ended." "The Hunt ends in "
+                    timeStringWithDefault currentTime endTime "The Puzzle Hunt has ended." "The Puzzle Hunt ends in "
 
                 Nothing ->
                     "Getting the time..."
@@ -34,7 +34,7 @@ body model =
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container has-text-centered" ]
-                [ h1 [ class "title " ]
+                [ h1 [ class "title is-family-monospace" ]
                     [ text tagline ]
                 , h2 [ class "subtitle" ]
                     [ text "Coding Interest Group in Medicine And Healthcare Puzzle Hunt 2019" ]
