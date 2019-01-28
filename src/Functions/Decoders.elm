@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodePuzzleData, decodePuzzleSet, decodeThemeData)
+module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodePuzzleData, decodePuzzleSet, decodeRegisterResponse, decodeThemeData)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -63,3 +63,8 @@ decodeThemeData =
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
+
+
+decodeRegisterResponse : Decoder String
+decodeRegisterResponse =
+    succeed "Success! You can now login with your email."

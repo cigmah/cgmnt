@@ -61,7 +61,7 @@ type RegisterEvent
     | OnChangeRegisterFirstName String
     | OnChangeRegisterLastName String
     | OnRegister
-    | ReceivedRegister (Result Http.Error String)
+    | ReceivedRegister (WebData Message)
 
 
 type LoginEvent

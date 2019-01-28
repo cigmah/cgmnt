@@ -1,13 +1,14 @@
 module View.Home exposing (view)
 
 import Content.Home as Content
-import Functions.Functions exposing (timeStringWithDefault)
+import Functions.Functions exposing (safeOnSubmit, timeStringWithDefault)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
 import Markdown
 import Msg.Msg exposing (..)
+import RemoteData exposing (RemoteData(..), WebData)
 import Time exposing (Posix, millisToPosix)
 import View.NavBar exposing (navBar)
 
@@ -52,11 +53,62 @@ body meta registerInfo registerData =
 
 
 renderBody registerInfo registerData =
+    let
+        loadingState =
+            case registerData of
+                Loading ->
+                    " is-loading "
+
+                _ ->
+                    ""
+
+        colourState =
+            case registerData of
+                Success msg ->
+                    " is-success has-background-success "
+
+                _ ->
+                    " is-danger has-background-danger  "
+
+        registerButton =
+            case registerData of
+                Success _ ->
+                    div [] []
+
+                _ ->
+                    div [ class "field is-horizontal" ]
+                        [ div [ class "field-body" ]
+                            [ div [ class "field " ]
+                                [ div [ class "control" ]
+                                    [ button [ type_ "submit", class <| "button is-medium is-fullwidth" ++ loadingState ++ colourState ]
+                                        [ text "Register" ]
+                                    ]
+                                ]
+                            ]
+                        ]
+
+        message =
+            case registerData of
+                NotAsked ->
+                    div [] []
+
+                Loading ->
+                    div [] []
+
+                Success msg ->
+                    footer [ class "card-footer has-text-white is-success has-background-success" ] [ span [ class "card-footer-item content has-text-centered" ] [ text msg ] ]
+
+                Failure error ->
+                    footer [ class "card-footer has-text-white has-background-danger" ] [ span [ class "card-footer-item content has-text-centered" ] [ text "There was an error." ] ]
+    in
     div [ class "columns is-centered" ]
         [ div [ class "column has-background-dark is-two-thirds" ]
             [ div [ class "card" ]
-                [ div [ class "card-header" ] [ span [ class "card-header-title has-background-danger has-text-white has-text-weight-semibold is-centered has-text-centered" ] [ text "Registrations open." ] ]
-                , div [ class "card-content has-background-grey-dark" ]
+                [ div [ class "card-header" ] [ span [ class <| "card-header-title has-text-white has-text-weight-semibold is-centered has-text-centered" ++ colourState ] [ text "Registrations open." ] ]
+                , Html.form
+                    [ class "card-content has-background-grey-dark"
+                    , safeOnSubmit <| RegisterMsg OnRegister
+                    ]
                     [ registerField "Username" "" "text" <| RegisterMsg << OnChangeRegisterUsername
                     , registerField "Email" "" "email" <| RegisterMsg << OnChangeRegisterEmail
                     , div [ class "field is-horizontal" ]
@@ -76,17 +128,9 @@ renderBody registerInfo registerData =
                                 ]
                             ]
                         ]
-                    , div [ class "field is-horizontal" ]
-                        [ div [ class "field-body" ]
-                            [ div [ class "field " ]
-                                [ div [ class "control" ]
-                                    [ button [ class "button is-medium is-danger is-fullwidth" ]
-                                        [ text "Register" ]
-                                    ]
-                                ]
-                            ]
-                        ]
+                    , registerButton
                     ]
+                , message
                 ]
             ]
         ]

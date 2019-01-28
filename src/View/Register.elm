@@ -131,13 +131,3 @@ handleReceivedRegister model result =
 
         Nothing ->
             ( model, Cmd.none )
-
-
-encodeRegister : RegisterInformation -> Encode.Value
-encodeRegister info =
-    Encode.object
-        [ ( "username", Encode.string info.username )
-        , ( "email", Encode.string info.email )
-        , ( "first_name", Encode.string info.firstName )
-        , ( "last_name", Encode.string info.lastName )
-        ]

@@ -1,10 +1,12 @@
-module Functions.Functions exposing (fromUrl, intDeltaString, monthToString, posixToString, puzzleSetString, routeParser, timeDelta, timeStringWithDefault)
+module Functions.Functions exposing (fromUrl, intDeltaString, monthToString, posixToString, puzzleSetString, routeParser, safeOnSubmit, timeDelta, timeStringWithDefault)
 
 import Browser.Navigation as Nav
 import Functions.ApiBase exposing (apiBase)
 import Functions.Decoders exposing (..)
+import Html.Events exposing (custom)
 import Http
 import Iso8601
+import Json.Decode as Decode
 import Maybe
 import Msg.Msg exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
@@ -182,3 +184,7 @@ monthToString month =
 
         Dec ->
             "Dec"
+
+
+safeOnSubmit message =
+    custom "submit" (Decode.succeed { message = message, stopPropagation = True, preventDefault = True })

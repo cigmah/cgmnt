@@ -80,8 +80,11 @@ updateRegister msg model =
                 OnChangeRegisterLastName input ->
                     ( { model | route = Home { registerInfo | lastName = input } registerData }, Cmd.none )
 
-                _ ->
-                    ( model, Cmd.none )
+                OnRegister ->
+                    Handlers.onRegister model registerInfo registerData
+
+                ReceivedRegister receivedData ->
+                    ( { model | route = Home registerInfo receivedData }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )

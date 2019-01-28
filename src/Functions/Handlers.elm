@@ -1,4 +1,4 @@
-module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogout, toggleBurgerMenu, urlChanged)
+module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogout, onRegister, toggleBurgerMenu, urlChanged)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav
@@ -95,3 +95,13 @@ onLogout model =
             model.meta
     in
     ( { model | meta = { meta | authToken = Nothing } }, cache <| Encode.string "" )
+
+
+onRegister : Model -> RegisterInfo -> WebData Message -> ( Model, Cmd Msg )
+onRegister model registerInfo webData =
+    case webData of
+        Success _ ->
+            ( model, Cmd.none )
+
+        _ ->
+            ( { model | route = Home registerInfo Loading }, postRegister registerInfo )
