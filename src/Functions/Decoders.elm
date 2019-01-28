@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodePuzzleData, decodePuzzleSet, decodeRegisterResponse, decodeThemeData)
+module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodeLogin, decodePuzzleData, decodePuzzleSet, decodeRegisterResponse, decodeSendEmail, decodeThemeData)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -68,3 +68,11 @@ decodeThemeData =
 decodeRegisterResponse : Decoder String
 decodeRegisterResponse =
     succeed "Success! You can now login with your email."
+
+
+decodeSendEmail =
+    succeed "A login token was sent to your email!"
+
+
+decodeLogin =
+    succeed "Login was successful!"

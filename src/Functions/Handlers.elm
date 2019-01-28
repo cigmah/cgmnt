@@ -1,4 +1,4 @@
-module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogout, onRegister, toggleBurgerMenu, urlChanged)
+module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogin, onLogout, onRegister, onSendEmail, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav
@@ -105,3 +105,53 @@ onRegister model registerInfo webData =
 
         _ ->
             ( { model | route = Home registerInfo Loading }, postRegister registerInfo )
+
+
+onSendEmail model email webData =
+    case webData of
+        Success _ ->
+            ( model, Cmd.none )
+
+        _ ->
+            ( { model | route = Login (InputEmail email Loading) }, postSendEmail email )
+
+
+receivedSendEmail model email webData responseData =
+    case webData of
+        Loading ->
+            case responseData of
+                Success _ ->
+                    ( { model | route = Login (InputToken email responseData Init.token NotAsked) }, Cmd.none )
+
+                _ ->
+                    ( { model | route = Login (InputEmail email responseData) }, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+onLogin model email emailData token tokenData =
+    case tokenData of
+        Success _ ->
+            ( model, Cmd.none )
+
+        _ ->
+            ( { model | route = Login (InputToken email emailData token Loading) }, postLogin token )
+
+
+receivedLogin model email emailData token originalData responseData =
+    case originalData of
+        Loading ->
+            case responseData of
+                Success authToken ->
+                    let
+                        originalMeta =
+                            model.meta
+                    in
+                    ( { model | meta = { originalMeta | authToken = Just authToken }, route = Login (InputToken email emailData token responseData) }, cache <| Encode.string authToken )
+
+                _ ->
+                    ( { model | route = Login (InputToken email emailData token responseData) }, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )

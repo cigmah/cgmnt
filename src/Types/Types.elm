@@ -125,7 +125,7 @@ type alias Token =
 
 type LoginState
     = InputEmail Email (WebData Message)
-    | InputToken Email Token (WebData Message)
+    | InputToken Email (WebData Message) Token (WebData Message)
 
 
 type PuzzlesData

@@ -25,6 +25,21 @@ navBar authToken navBarMenuActive =
 
                 Nothing ->
                     a [ class "navbar-item", href "/#/login" ] [ text "Login" ]
+
+        authMenu =
+            case authToken of
+                Just _ ->
+                    div [ class "navbar-item has-dropdown is-hoverable" ]
+                        [ p [ class "navbar-link" ] [ text "Puzzle Hunt Portal" ]
+                        , div [ class "navbar-dropdown" ]
+                            [ a [ class "navbar-item", href "/#/my-puzzles/" ] [ text "My Active Puzzles" ]
+                            , a [ class "navbar-item", href "/#/my-completed" ] [ text "My Completed Puzzles" ]
+                            , a [ class "navbar-item", href "/#/my-submissions" ] [ text "My Submissions" ]
+                            ]
+                        ]
+
+                _ ->
+                    div [] []
     in
     nav [ class "navbar" ]
         [ div [ class "navbar-brand" ]
@@ -48,6 +63,7 @@ navBar authToken navBarMenuActive =
                     [ text "Archive" ]
                 , a [ class "navbar-item", href "/#/leaderboard" ]
                     [ text "Leaderboard" ]
+                , authMenu
                 ]
             , div [ class "navbar-end" ]
                 [ loginoutButton ]

@@ -129,11 +129,28 @@ updateLogin model msg =
                         OnChangeLoginEmail input ->
                             ( { model | route = Login (InputEmail input webData) }, Cmd.none )
 
+                        OnSendEmail ->
+                            Handlers.onSendEmail model email webData
+
+                        ReceivedSendEmail responseData ->
+                            Handlers.receivedSendEmail model email webData responseData
+
                         _ ->
                             ( model, Cmd.none )
 
-                _ ->
-                    ( model, Cmd.none )
+                InputToken email emailResponse token tokenResponse ->
+                    case msg of
+                        OnChangeLoginToken input ->
+                            ( { model | route = Login (InputToken email emailResponse input tokenResponse) }, Cmd.none )
+
+                        OnLogin ->
+                            Handlers.onLogin model email emailResponse token tokenResponse
+
+                        ReceivedLogin responseData ->
+                            Handlers.receivedLogin model email emailResponse token tokenResponse responseData
+
+                        _ ->
+                            ( model, Cmd.none )
 
         _ ->
             ( model, Cmd.none )

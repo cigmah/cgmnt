@@ -69,9 +69,9 @@ type LoginEvent
     | OnChangeLoginEmail String
     | OnChangeLoginToken String
     | OnLogin
-    | OnSendToken
-    | ReceivedSendToken (Result Http.Error String)
-    | ReceivedLogin (Result Http.Error String)
+    | OnSendEmail
+    | ReceivedSendEmail (WebData Message)
+    | ReceivedLogin (WebData Message)
 
 
 type CompletedEvent

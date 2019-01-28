@@ -8,6 +8,7 @@ import View.Archive
 import View.Contact
 import View.Home
 import View.Login
+import View.LoginAuth
 import View.NotFound
 
 
@@ -28,6 +29,9 @@ view model =
 
         Login loginState ->
             View.Login.view model.meta loginState
+
+        LoginAuth authToken ->
+            View.LoginAuth.view model.meta authToken
 
         _ ->
             View.NotFound.view model.meta

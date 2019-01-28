@@ -1,18 +1,19 @@
-module Functions.Encoders exposing (encodeRegister)
+module Functions.Encoders exposing (encodeEmail, encodeRegister, encodeToken)
 
 import Json.Encode as Encode exposing (..)
 import Types.Types exposing (..)
 
 
+encodeEmail : Email -> Value
+encodeEmail email =
+    object
+        [ ( "email", string email ) ]
 
--- encodeSendToken : LoginInfo -> Value
--- encodeSendToken info =
---     object
---         [ ( "email", string info.email ) ]
--- encodeLogin : LoginInfo -> Value
--- encodeLogin info =
---     object
---         [ ( "token", string info.token ) ]
+
+encodeToken : Token -> Value
+encodeToken token =
+    object
+        [ ( "token", string token ) ]
 
 
 encodeRegister : RegisterInfo -> Encode.Value
