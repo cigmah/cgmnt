@@ -7,6 +7,7 @@ import View.About
 import View.Archive
 import View.Contact
 import View.Home
+import View.Login
 import View.NotFound
 
 
@@ -24,6 +25,9 @@ view model =
 
         Archive archiveData ->
             View.Archive.view model.meta archiveData
+
+        Login loginState ->
+            View.Login.view model.meta loginState
 
         _ ->
             View.NotFound.view model.meta

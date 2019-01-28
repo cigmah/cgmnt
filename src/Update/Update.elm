@@ -37,13 +37,13 @@ update msg model =
             Handlers.onLogout model
 
         RegisterMsg event ->
-            updateRegister event model
+            updateRegister model event
 
         LoginMsg event ->
-            ( model, Cmd.none )
+            updateLogin model event
 
         ArchiveMsg event ->
-            updateArchive event model
+            updateArchive model event
 
         LeaderMsg event ->
             ( model, Cmd.none )
@@ -63,8 +63,8 @@ init flags url key =
     Handlers.init flags url key
 
 
-updateRegister : RegisterEvent -> Model -> ( Model, Cmd Msg )
-updateRegister msg model =
+updateRegister : Model -> RegisterEvent -> ( Model, Cmd Msg )
+updateRegister model msg =
     case model.route of
         Home registerInfo registerData ->
             case msg of
@@ -90,7 +90,7 @@ updateRegister msg model =
             ( model, Cmd.none )
 
 
-updateArchive msg model =
+updateArchive model msg =
     case model.route of
         Archive archiveData ->
             case msg of
@@ -109,6 +109,25 @@ updateArchive msg model =
                     case archiveData of
                         Success (ArchiveDetail puzzleList _) ->
                             ( { model | route = Archive (Success (ArchiveFull puzzleList)) }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updateLogin model msg =
+    case model.route of
+        Login loginState ->
+            case loginState of
+                InputEmail email webData ->
+                    case msg of
+                        OnChangeLoginEmail input ->
+                            ( { model | route = Login (InputEmail input webData) }, Cmd.none )
 
                         _ ->
                             ( model, Cmd.none )
