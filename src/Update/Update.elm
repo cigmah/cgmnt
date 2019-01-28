@@ -47,7 +47,10 @@ update msg model =
         ArchiveMsg event ->
             updateArchive model event
 
-        LeaderMsg event ->
+        LeaderTotalMsg event ->
+            updateLeaderTotal model event
+
+        LeaderPuzzleMsg event ->
             ( model, Cmd.none )
 
         PuzzlesMsg event ->
@@ -251,6 +254,20 @@ updatePuzzles model msg =
             case msg of
                 ReceivedActiveData newData ->
                     Handlers.receivedActiveData model authToken newData
+
+                _ ->
+                    ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updateLeaderTotal model msg =
+    case model.route of
+        LeaderTotal Loading ->
+            case msg of
+                ReceivedLeaderTotal receivedData ->
+                    ( { model | route = LeaderTotal receivedData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )

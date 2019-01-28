@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeActiveData, decodeArchiveData, decodeAuthToken, decodeLogin, decodeOkSubmit, decodePuzzleData, decodePuzzleSet, decodePuzzlesData, decodeRegisterResponse, decodeSendEmail, decodeSubmissionResponse, decodeThemeData, decodeTooSoonSubmit)
+module Functions.Decoders exposing (decodeActiveData, decodeArchiveData, decodeAuthToken, decodeLeaderTotal, decodeLeaderTotalUser, decodeLogin, decodeOkSubmit, decodePuzzleData, decodePuzzleSet, decodePuzzlesData, decodeRegisterResponse, decodeSendEmail, decodeSubmissionResponse, decodeThemeData, decodeTooSoonSubmit)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -112,3 +112,33 @@ decodeTooSoonSubmit =
 decodeSubmissionResponse : Decoder SubmissionResponse
 decodeSubmissionResponse =
     map OkSubmit decodeOkSubmit
+
+
+decodeLeaderTotal : Decoder LeaderTotalData
+decodeLeaderTotal =
+    list decodeLeaderTotalUser
+
+
+
+-- decodeLeaderTotalUser : Decoder LeaderTotalUser
+-- decodeLeaderTotalUser =
+--     map2 LeaderTotalUser
+--         (field "username" string)
+--         (field "total" int)
+
+
+decodeLeaderTotalUser : Decoder LeaderTotalUser
+decodeLeaderTotalUser =
+    map2 LeaderTotalUser
+        (field "username" string)
+        (field "total" <| oneOf [ int, map (\str -> unwrapStringInt <| String.toInt str) string ])
+
+
+unwrapStringInt : Maybe Int -> Int
+unwrapStringInt x =
+    case x of
+        Just i ->
+            i
+
+        Nothing ->
+            0

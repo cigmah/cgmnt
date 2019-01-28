@@ -8,6 +8,7 @@ import View.Archive
 import View.CompletedAuth
 import View.Contact
 import View.Home
+import View.Leader
 import View.Login
 import View.LoginAuth
 import View.NotFound
@@ -28,6 +29,12 @@ view model =
 
         Archive archiveData ->
             View.Archive.view model.meta archiveData
+
+        LeaderTotal leaderTotalData ->
+            View.Leader.viewTotal model.meta leaderTotalData
+
+        LeaderPuzzle leaderPuzzleData ->
+            View.Leader.viewPuzzle model.meta leaderPuzzleData
 
         Login loginState ->
             View.Login.view model.meta loginState

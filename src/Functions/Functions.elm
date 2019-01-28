@@ -27,7 +27,8 @@ routeParser maybeAuth =
                 , map Contact <| s "contact"
                 , map Resources <| s "resources"
                 , map (Archive NotAsked) <| s "archive"
-                , map (Leader <| ByTotal NotAsked) <| s "leaderboard"
+                , map (LeaderTotal NotAsked) <| s "leaderboard"
+                , map (LeaderPuzzle NotAsked) <| s "leaderboard-by-puzzle"
                 , map (LoginAuth token) <| s "login"
                 , map (PuzzlesAuth token NotAsked) <| s "my-puzzles"
                 , map (CompletedAuth token NotAsked) <| s "my-completed"
@@ -41,7 +42,8 @@ routeParser maybeAuth =
                 , map Contact <| s "contact"
                 , map Resources <| s "resources"
                 , map (Archive NotAsked) <| s "archive"
-                , map (Leader <| ByTotal NotAsked) <| s "leaderboard"
+                , map (LeaderTotal NotAsked) <| s "leaderboard"
+                , map (LeaderPuzzle NotAsked) <| s "leaderboard-by-puzzle"
                 , map (Login <| InputEmail Init.email NotAsked) <| s "login"
                 ]
 

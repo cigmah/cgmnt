@@ -1,4 +1,4 @@
-module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionEvent(..))
+module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionEvent(..))
 
 import Browser exposing (UrlRequest)
 import Http
@@ -18,7 +18,8 @@ type Msg
     | RegisterMsg RegisterEvent
     | LoginMsg LoginEvent
     | ArchiveMsg ArchiveEvent
-    | LeaderMsg LeaderEvent
+    | LeaderTotalMsg LeaderTotalEvent
+    | LeaderPuzzleMsg LeaderPuzzleEvent
     | PuzzlesMsg PuzzlesEvent
     | CompletedMsg CompletedEvent
     | SubmissionMsg SubmissionEvent
@@ -31,14 +32,9 @@ type ArchiveEvent
     | ReceivedArchive (WebData ArchiveData)
 
 
-type LeaderEvent
-    = LeaderTotalMsg LeaderTotalEvent
-    | LeaderPuzzleMsg LeaderPuzzleEvent
-
-
 type LeaderTotalEvent
     = OnGetLeaderTotal
-    | ReceivedLeaderTotal (Result Http.Error (List LeaderTotalData))
+    | ReceivedLeaderTotal (WebData LeaderTotalData)
 
 
 type LeaderPuzzleEvent

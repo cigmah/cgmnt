@@ -61,6 +61,9 @@ urlChanged model url =
         Archive NotAsked ->
             ( { newModel | route = Archive Loading }, getArchive )
 
+        LeaderTotal NotAsked ->
+            ( { newModel | route = LeaderTotal Loading }, getLeader )
+
         PuzzlesAuth authToken _ ->
             ( { newModel | route = PuzzlesAuth authToken Loading }, getActivePuzzles authToken )
 

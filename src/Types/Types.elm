@@ -1,4 +1,4 @@
-module Types.Types exposing (ActiveData, ArchiveData(..), AuthToken, Email, LeaderPuzzleData, LeaderPuzzleUser, LeaderState(..), LeaderTotalData, LeaderTotalUser, LoginState(..), Message, Model, OkSubmitData, PuzzleData, PuzzleSet(..), PuzzlesData(..), RegisterInfo, Route(..), SelectedPuzzleInfo, SubmissionResponse(..), SubmissionsData, ThemeData, Token, TooSoonSubmitData, UserSubmission)
+module Types.Types exposing (ActiveData, ArchiveData(..), AuthToken, Email, LeaderPuzzleData, LeaderPuzzleUser, LeaderTotalData, LeaderTotalUser, LoginState(..), Message, Meta, Model, OkSubmitData, PuzzleData, PuzzleSet(..), PuzzlesData(..), RegisterInfo, Route(..), SelectedPuzzleInfo, SubmissionResponse(..), SubmissionsData, ThemeData, Token, TooSoonSubmitData, UserSubmission)
 
 import Browser.Navigation as Nav
 import RemoteData exposing (RemoteData(..), WebData)
@@ -29,7 +29,8 @@ type Route
     | Contact
     | Resources
     | Archive (WebData ArchiveData)
-    | Leader LeaderState
+    | LeaderTotal (WebData LeaderTotalData)
+    | LeaderPuzzle (WebData LeaderPuzzleData)
     | Login LoginState
     | HomeAuth AuthToken
     | LoginAuth AuthToken
@@ -86,11 +87,6 @@ type alias ThemeData =
     , openDatetime : Posix
     , closeDatetime : Posix
     }
-
-
-type LeaderState
-    = ByTotal (WebData (List LeaderTotalData))
-    | ByPuzzle (WebData (List LeaderPuzzleData))
 
 
 type alias LeaderTotalData =
