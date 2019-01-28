@@ -14,7 +14,7 @@ import Types.Types exposing (..)
 puzzleCard : PuzzleData -> Html Msg
 puzzleCard puzzle =
     div [ class "column is-one-third-desktop is-half-tablet" ]
-        [ div [ class "card" ]
+        [ div [ class "card puzzle", onClick <| ArchiveMsg <| OnSelectArchivePuzzle puzzle ]
             [ div [ class "card-image" ]
                 [ figure [ class "image is-2by1" ]
                     [ img [ src "https://bulma.io/images/placeholders/1280x960.png", alt "Placeholder" ] []
@@ -27,8 +27,6 @@ puzzleCard puzzle =
                     ]
                 , puzzleTags puzzle
                 ]
-            , footer [ class "card-footer" ]
-                [ button [ class "button is-fullwidth", onClick <| ArchiveMsg <| OnSelectArchivePuzzle puzzle ] [ text "Open" ] ]
             ]
         ]
 
@@ -98,7 +96,7 @@ detailPuzzle puzzle =
         , div [ class "modal-card" ]
             [ header [ class "modal-card-head" ]
                 [ p [ class "modal-card-title" ]
-                    [ text "Fractal Geometry in Cancer" ]
+                    [ text puzzle.title ]
                 , button [ class "delete is-medium", onClick <| ArchiveMsg OnDeselectPuzzle ] []
                 ]
             , div [ class "modal-card-body" ]

@@ -9,4 +9,10 @@ $pageloader-opacity: 0.7;
 
 @import "../../node_modules/bulma/bulma.sass";
 //@import "../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass"
-@import "../../node_modules/bulma-extensions/bulma-pageloader/src/sass/index.sass"
+@import "../../node_modules/bulma-extensions/bulma-pageloader/src/sass/index.sass";
+
+
+.card.puzzle:hover {
+    cursor: hand;
+    cursor: pointer;
+}

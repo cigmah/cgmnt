@@ -7782,3 +7782,7 @@ label.panel-block {
     border-width: 0;
     opacity: 0;
     background-color: transparent; } }
+
+.card.puzzle:hover {
+  cursor: hand;
+  cursor: pointer; }
