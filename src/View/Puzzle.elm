@@ -11,10 +11,10 @@ import RemoteData exposing (RemoteData(..), WebData)
 import Types.Types exposing (..)
 
 
-puzzleCard : PuzzleData -> Html Msg
-puzzleCard puzzle =
+puzzleCard : PuzzleData -> (PuzzleData -> Msg) -> Html Msg
+puzzleCard puzzle onSelectEvent =
     div [ class "column is-one-third-desktop is-half-tablet" ]
-        [ div [ class "card puzzle", onClick <| ArchiveMsg <| OnSelectArchivePuzzle puzzle ]
+        [ div [ class "card puzzle", onClick <| onSelectEvent puzzle ]
             [ div [ class "card-image" ]
                 [ figure [ class "image is-2by1" ]
                     [ img [ src "https://bulma.io/images/placeholders/1280x960.png", alt "Placeholder" ] []
@@ -62,11 +62,11 @@ puzzleTags puzzle =
         ]
 
 
-puzzleContainer puzzles =
-    div [ class "columns is-multiline" ] <| List.map puzzleCard puzzles
+puzzleContainer puzzles onSelectEvent =
+    div [ class "columns is-multiline" ] <| List.map (\x -> puzzleCard x onSelectEvent) puzzles
 
 
-detailPuzzle puzzle =
+detailPuzzle puzzle currentInput maybeSubmissionData onDeselectEvent =
     let
         solutionSection =
             case puzzle.answer of
@@ -105,7 +105,7 @@ detailPuzzle puzzle =
             [ header [ class "modal-card-head" ]
                 [ p [ class "modal-card-title" ]
                     [ text puzzle.title ]
-                , button [ class "delete is-medium", onClick <| ArchiveMsg OnDeselectPuzzle ] []
+                , button [ class "delete is-medium", onClick onDeselectEvent ] []
                 ]
             , div [ class "modal-card-body" ]
                 [ puzzleTags puzzle

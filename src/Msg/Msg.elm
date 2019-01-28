@@ -47,12 +47,13 @@ type LeaderPuzzleEvent
 
 
 type PuzzlesEvent
-    = OnGetDashData
-    | ReceivedDashData (Result Http.Error ActiveData)
-    | OnSelectDashPuzzle PuzzleData
+    = OnGetActiveData
+    | ReceivedActiveData (WebData PuzzlesData)
+    | OnSelectActivePuzzle PuzzleData
+    | OnDeselectActivePuzzle
     | OnChangeInput String
     | OnPostSubmission
-    | ReceivedSubmissionData (Result Http.Error OkSubmitData)
+    | ReceivedSubmissionData (WebData SubmissionResponse)
 
 
 type RegisterEvent

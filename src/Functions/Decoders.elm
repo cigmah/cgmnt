@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeArchiveData, decodeAuthToken, decodeLogin, decodePuzzleData, decodePuzzleSet, decodeRegisterResponse, decodeSendEmail, decodeThemeData)
+module Functions.Decoders exposing (decodeActiveData, decodeArchiveData, decodeAuthToken, decodeLogin, decodePuzzleData, decodePuzzleSet, decodePuzzlesData, decodeRegisterResponse, decodeSendEmail, decodeThemeData)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -63,6 +63,18 @@ decodeThemeData =
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
+
+
+decodeActiveData : Decoder ActiveData
+decodeActiveData =
+    map2 ActiveData
+        (field "active" (list decodePuzzleData))
+        (field "next" decodeThemeData)
+
+
+decodePuzzlesData : Decoder PuzzlesData
+decodePuzzlesData =
+    map PuzzlesAll decodeActiveData
 
 
 decodeRegisterResponse : Decoder String

@@ -1,11 +1,16 @@
-module Functions.Requests exposing (getArchive, noAuthConfig, postLogin, postRegister, postSendEmail)
+module Functions.Requests exposing (authConfig, authHeader, getActivePuzzles, getArchive, noAuthConfig, postLogin, postRegister, postSendEmail)
 
 import Functions.ApiBase exposing (apiBase)
 import Functions.Decoders exposing (..)
 import Functions.Encoders exposing (..)
+import Http as ElmHttp exposing (header)
 import Msg.Msg exposing (..)
 import RemoteData.Http as Http exposing (Config)
 import Types.Types exposing (..)
+
+
+authHeader token =
+    header "Authorization" <| "Token " ++ token
 
 
 noAuthConfig : Config
@@ -16,9 +21,22 @@ noAuthConfig =
     }
 
 
+authConfig : AuthToken -> Config
+authConfig token =
+    { headers = [ authHeader token ]
+    , withCredentials = False
+    , timeout = Nothing
+    }
+
+
 getArchive : Cmd Msg
 getArchive =
     Http.getWithConfig noAuthConfig (apiBase ++ "puzzles/archive/public/") (ArchiveMsg << ReceivedArchive) decodeArchiveData
+
+
+getActivePuzzles : AuthToken -> Cmd Msg
+getActivePuzzles token =
+    Http.getWithConfig (authConfig token) (apiBase ++ "puzzles/active/") (PuzzlesMsg << ReceivedActiveData) decodePuzzlesData
 
 
 postRegister : RegisterInfo -> Cmd Msg

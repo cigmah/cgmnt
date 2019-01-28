@@ -10,6 +10,7 @@ import View.Home
 import View.Login
 import View.LoginAuth
 import View.NotFound
+import View.PuzzlesAuth
 
 
 view : Model -> Browser.Document Msg
@@ -32,6 +33,9 @@ view model =
 
         LoginAuth authToken ->
             View.LoginAuth.view model.meta authToken
+
+        PuzzlesAuth authToken webData ->
+            View.PuzzlesAuth.view model.meta authToken webData
 
         _ ->
             View.NotFound.view model.meta

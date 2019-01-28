@@ -1,4 +1,4 @@
-module View.Archive exposing (view)
+module View.PuzzlesAuth exposing (view)
 
 import Functions.Functions exposing (..)
 import Html exposing (..)
@@ -14,13 +14,13 @@ import View.NavBar exposing (navBar)
 import View.Puzzle exposing (..)
 
 
-view meta data =
-    { title = "Puzzle Archive"
-    , body = body meta data
+view meta authToken data =
+    { title = "My Active Puzzles"
+    , body = body meta authToken data
     }
 
 
-body meta data =
+body meta authToken data =
     let
         isLoading =
             case data of
@@ -32,11 +32,11 @@ body meta data =
 
         basePage =
             case data of
-                Success (ArchiveFull puzzles) ->
-                    mainContainer puzzles
+                Success (PuzzlesAll activeData) ->
+                    mainContainer activeData.active
 
-                Success (ArchiveDetail puzzles selectedPuzzle) ->
-                    mainContainer puzzles
+                Success (PuzzlesDetail activeData selectedPuzzle _) ->
+                    mainContainer activeData.active
 
                 Loading ->
                     div [] []
@@ -49,11 +49,11 @@ body meta data =
 
         puzzleModal =
             case data of
-                Success (ArchiveFull puzzles) ->
+                Success (PuzzlesAll activeData) ->
                     div [] []
 
-                Success (ArchiveDetail puzzles selectedPuzzle) ->
-                    detailPuzzle selectedPuzzle "" Nothing <| ArchiveMsg OnDeselectPuzzle
+                Success (PuzzlesDetail activeData selectedPuzzle submissionData) ->
+                    detailPuzzle selectedPuzzle.puzzle selectedPuzzle.input submissionData <| PuzzlesMsg OnDeselectActivePuzzle
 
                 Loading ->
                     div [] []
@@ -76,13 +76,13 @@ banner =
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "title" ]
-                    [ text "Puzzle Archive" ]
+                    [ text "Active Puzzles" ]
                 , h2 [ class "subtitle" ]
-                    [ text "Closed puzzles from this year's Puzzle Hunt." ]
+                    [ text "Active puzzles that you are yet to solve!" ]
                 ]
             ]
         ]
 
 
 mainContainer puzzles =
-    div [] [ lazy (\_ -> banner) Nothing, section [ class "hero-body" ] [ div [ class "container" ] [ puzzleContainer puzzles <| ArchiveMsg << OnSelectArchivePuzzle ] ] ]
+    div [] [ lazy (\_ -> banner) Nothing, section [ class "hero-body" ] [ div [ class "container" ] [ puzzleContainer puzzles <| PuzzlesMsg << OnSelectActivePuzzle ] ] ]

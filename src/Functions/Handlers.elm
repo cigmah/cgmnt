@@ -1,4 +1,4 @@
-module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogin, onLogout, onRegister, onSendEmail, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
+module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogin, onLogout, onRegister, onSendEmail, receivedActiveData, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav
@@ -60,6 +60,9 @@ urlChanged model url =
     case newModel.route of
         Archive NotAsked ->
             ( { newModel | route = Archive Loading }, getArchive )
+
+        PuzzlesAuth authToken _ ->
+            ( { newModel | route = PuzzlesAuth authToken Loading }, getActivePuzzles authToken )
 
         _ ->
             ( newModel, Cmd.none )
@@ -152,6 +155,15 @@ receivedLogin model email emailData token originalData responseData =
 
                 _ ->
                     ( { model | route = Login (InputToken email emailData token responseData) }, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+receivedActiveData model authToken webData newData =
+    case webData of
+        Loading ->
+            ( { model | route = PuzzlesAuth authToken newData }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )

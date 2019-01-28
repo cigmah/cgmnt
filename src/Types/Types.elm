@@ -33,7 +33,7 @@ type Route
     | Login LoginState
     | HomeAuth AuthToken
     | LoginAuth AuthToken
-    | PuzzlesAuth AuthToken (WebData PuzzleData)
+    | PuzzlesAuth AuthToken (WebData PuzzlesData)
     | CompletedAuth AuthToken (WebData ArchiveData)
     | SubmissionsAuth AuthToken (WebData SubmissionsData)
     | NotFound

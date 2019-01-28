@@ -49,7 +49,7 @@ update msg model =
             ( model, Cmd.none )
 
         PuzzlesMsg event ->
-            ( model, Cmd.none )
+            updatePuzzles model event
 
         CompletedMsg event ->
             ( model, Cmd.none )
@@ -151,6 +151,20 @@ updateLogin model msg =
 
                         _ ->
                             ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updatePuzzles model msg =
+    case model.route of
+        PuzzlesAuth authToken webData ->
+            case msg of
+                ReceivedActiveData newData ->
+                    Handlers.receivedActiveData model authToken webData newData
+
+                _ ->
+                    ( model, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
