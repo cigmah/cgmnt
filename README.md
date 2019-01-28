@@ -43,6 +43,30 @@ changes.
 git checkout develop
 ```
 
+# Styling
+
+We are using [Bulma](https://bulma.io) with SASS to set some custom variables.
+
+To compile the custom styles, you will need to have NPM installed.
+
+Once it is installed, you can install the required Node modules using:
+
+``` sh
+npm install
+```
+
+Then, you can run either "watch" for changes in the SASS file using:
+
+``` sh
+npm run css-watch
+```
+
+Or you can compile the styles using:
+
+``` sh
+npm run css-build
+```
+
 # Structure
 
 Here's a simple structure hierarchy, starting from most low-level to most high-level.

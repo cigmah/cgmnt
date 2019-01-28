@@ -1,0 +1,29 @@
+{
+  "name": "cigmah.github.io",
+  "version": "1.0.0",
+  "description": "This is the frontend code for the CIGMAH Website.",
+  "main": "elmapp.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "bulma": "^0.7.2",
+    "node-sass": "^4.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "node-sass --omit-source-map-url src/Styles/custom.scss src/Styles/custom.css",
+    "css-watch": "npm run css-build -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cigmah/cigmah.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cigmah/cigmah.github.io/issues"
+  },
+  "homepage": "https://github.com/cigmah/cigmah.github.io#readme"
+}
