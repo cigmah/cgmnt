@@ -6,7 +6,9 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bulma-extensions": "^4.0.1"
+  },
   "devDependencies": {
     "bulma": "^0.7.2",
     "node-sass": "^4.11.0"
