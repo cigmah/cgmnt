@@ -1,4 +1,4 @@
-module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onDeselectActivePuzzle, onLogin, onLogout, onRegister, onSendEmail, receivedActiveData, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
+module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onDeselectActivePuzzle, onLogin, onLogout, onPostSubmission, onRegister, onSendEmail, receivedActiveData, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav
@@ -176,3 +176,7 @@ onDeselectActivePuzzle model authToken puzzlesData webData =
 
         _ ->
             ( { model | route = PuzzlesAuth authToken (Success (PuzzlesAll puzzlesData)) }, Cmd.none )
+
+
+onPostSubmission model authToken puzzlesData selectedPuzzle =
+    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle Loading)) }, postSubmit authToken selectedPuzzle )

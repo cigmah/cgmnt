@@ -135,7 +135,7 @@ type PuzzlesData
 
 type alias ActiveData =
     { active : List PuzzleData
-    , next : ThemeData
+    , next : Maybe ThemeData
     }
 
 
@@ -162,7 +162,7 @@ type alias TooSoonSubmitData =
     { message : String
     , attempts : Int
     , last : Posix
-    , wait : Posix
+    , wait : Int
     , next : Posix
     }
 

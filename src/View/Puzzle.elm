@@ -96,10 +96,77 @@ detailPuzzle puzzle currentInput maybeSubmissionData onDeselectEvent =
                         Nothing ->
                             div [] []
 
+        submitField =
+            div [ class "field is-grouped" ]
+                [ div [ class "control" ]
+                    [ div [ class "field has-addons" ]
+                        [ div [ class "control is-expanded" ]
+                            [ input [ class "input", type_ "text", placeholder "Your submission here.", onInput <| PuzzlesMsg << OnChangeInput ] [] ]
+                        , div [ class "control" ]
+                            [ button [ class "button is-info", onClick <| PuzzlesMsg OnPostSubmission ] [ text "Submit" ] ]
+                        ]
+                    ]
+                ]
+
         footerSection =
             case puzzle.answer of
                 Just answer ->
                     div [ class "content" ] [ text "This puzzle has closed." ]
+
+                -- Note to self...better way to do this?!? :(
+                Nothing ->
+                    case maybeSubmissionData of
+                        Just webData ->
+                            case webData of
+                                Success submitData ->
+                                    case submitData of
+                                        OkSubmit submission ->
+                                            case submission.isCorrect of
+                                                True ->
+                                                    div [ class "field" ]
+                                                        [ div [ class "control is-expanded" ]
+                                                            [ button [ class "button has-background-success has-text-white is-static" ]
+                                                                [ text <| "Congratulations! You scored " ++ String.fromInt submission.points ++ " points!" ]
+                                                            ]
+                                                        ]
+
+                                                False ->
+                                                    submitField
+
+                                        _ ->
+                                            submitField
+
+                                _ ->
+                                    submitField
+
+                        _ ->
+                            submitField
+
+        baseHeaderMessage colour msg =
+            header [ class <| "modal-card-head has-text-white has-background-" ++ colour ] [ p [ class "content" ] [ text msg ] ]
+
+        headerMessage =
+            case maybeSubmissionData of
+                Just webData ->
+                    case webData of
+                        Success submitData ->
+                            case submitData of
+                                OkSubmit submission ->
+                                    case submission.isCorrect of
+                                        True ->
+                                            div [] []
+
+                                        False ->
+                                            baseHeaderMessage "warning" "Your response was incorrect. Have a break and have another go later :) "
+
+                                TooSoonSubmit submission ->
+                                    baseHeaderMessage "danger" <| "Your last attempt (" ++ posixToString submission.last ++ ", attempt no. " ++ String.fromInt submission.attempts ++ ") was too recent. You can next submit at " ++ posixToString submission.next ++ "."
+
+                        Failure _ ->
+                            baseHeaderMessage "danger" "Hm. There was an error with submitting your submission...maybe a network issue? If not, get in contact with us - we'd like to know!"
+
+                        _ ->
+                            div [] []
 
                 Nothing ->
                     div [] []
@@ -112,6 +179,7 @@ detailPuzzle puzzle currentInput maybeSubmissionData onDeselectEvent =
                     [ text puzzle.title ]
                 , button [ class "delete is-medium", onClick onDeselectEvent ] []
                 ]
+            , headerMessage
             , div [ class "modal-card-body" ]
                 [ puzzleTags puzzle
                 , div [ class "container" ]

@@ -141,7 +141,7 @@ posixToString time =
             Time.toHour zone time
 
         minute =
-            Time.toHour zone time
+            Time.toMinute zone time
     in
     monthToString month ++ " " ++ String.fromInt day ++ " " ++ String.fromInt hour ++ ":" ++ String.fromInt minute
 

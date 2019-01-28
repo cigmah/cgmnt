@@ -1,9 +1,10 @@
-module Functions.Requests exposing (authConfig, authHeader, getActivePuzzles, getArchive, noAuthConfig, postLogin, postRegister, postSendEmail)
+module Functions.Requests exposing (authConfig, authHeader, getActivePuzzles, getArchive, noAuthConfig, postLogin, postRegister, postSendEmail, postSubmit)
 
 import Functions.ApiBase exposing (apiBase)
 import Functions.Decoders exposing (..)
 import Functions.Encoders exposing (..)
 import Http as ElmHttp exposing (header)
+import Json.Encode as Encode
 import Msg.Msg exposing (..)
 import RemoteData.Http as Http exposing (Config)
 import Types.Types exposing (..)
@@ -52,3 +53,8 @@ postSendEmail email =
 postLogin : Token -> Cmd Msg
 postLogin token =
     Http.post (apiBase ++ "callback/auth/") (LoginMsg << ReceivedLogin) decodeAuthToken (encodeToken token)
+
+
+postSubmit : AuthToken -> SelectedPuzzleInfo -> Cmd Msg
+postSubmit token selectedPuzzle =
+    Http.postWithConfig (authConfig token) (apiBase ++ "submissions/") (PuzzlesMsg << ReceivedSubmissionResponse) decodeSubmissionResponse (encodeSubmission selectedPuzzle)

@@ -2,8 +2,10 @@ module Update.Update exposing (init, update)
 
 import Browser
 import Browser.Navigation as Nav
+import Functions.Decoders exposing (..)
 import Functions.Handlers as Handlers
 import Functions.Ports exposing (..)
+import Http exposing (Error(..))
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Msg.Msg exposing (..)
@@ -170,6 +172,47 @@ updatePuzzles model msg =
             case msg of
                 OnDeselectActivePuzzle ->
                     Handlers.onDeselectActivePuzzle model authToken puzzlesData webData
+
+                OnChangeInput newInput ->
+                    let
+                        newSelectedPuzzle =
+                            { selectedPuzzle | input = newInput }
+                    in
+                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData newSelectedPuzzle webData)) }, Cmd.none )
+
+                OnPostSubmission ->
+                    case webData of
+                        Loading ->
+                            ( model, Cmd.none )
+
+                        _ ->
+                            Handlers.onPostSubmission model authToken puzzlesData selectedPuzzle
+
+                ReceivedSubmissionResponse newSubmitData ->
+                    case newSubmitData of
+                        Failure (BadStatus e) ->
+                            case e.status.code of
+                                412 ->
+                                    let
+                                        decodedErrorData =
+                                            Decode.decodeString decodeTooSoonSubmit e.body
+                                    in
+                                    case decodedErrorData of
+                                        Ok tooSoonData ->
+                                            let
+                                                tooSoonWebData =
+                                                    Success (TooSoonSubmit tooSoonData)
+                                            in
+                                            ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle tooSoonWebData)) }, Cmd.none )
+
+                                        Err decodeErr ->
+                                            ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle newSubmitData)) }, Cmd.none )
+
+                                _ ->
+                                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle newSubmitData)) }, Cmd.none )
+
+                        _ ->
+                            ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle newSubmitData)) }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )

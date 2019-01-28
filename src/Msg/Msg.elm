@@ -53,7 +53,7 @@ type PuzzlesEvent
     | OnDeselectActivePuzzle
     | OnChangeInput String
     | OnPostSubmission
-    | ReceivedSubmissionData (WebData SubmissionResponse)
+    | ReceivedSubmissionResponse (WebData SubmissionResponse)
 
 
 type RegisterEvent

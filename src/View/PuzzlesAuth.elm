@@ -53,7 +53,7 @@ body meta authToken data =
                     div [] []
 
                 Success (PuzzlesDetail activeData selectedPuzzle submissionData) ->
-                    detailPuzzle selectedPuzzle.puzzle selectedPuzzle.input submissionData <| PuzzlesMsg OnDeselectActivePuzzle
+                    detailPuzzle selectedPuzzle.puzzle selectedPuzzle.input (Just submissionData) <| PuzzlesMsg OnDeselectActivePuzzle
 
                 Loading ->
                     div [] []
