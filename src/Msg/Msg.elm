@@ -27,7 +27,7 @@ type Msg
 type ArchiveEvent
     = OnGetArchive
     | OnSelectArchivePuzzle PuzzleData
-    | OnDeselectPuzzle
+    | OnDeselectArchivePuzzle
     | ReceivedArchive (WebData ArchiveData)
 
 

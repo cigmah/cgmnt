@@ -53,7 +53,7 @@ body meta data =
                     div [] []
 
                 Success (ArchiveDetail puzzles selectedPuzzle) ->
-                    detailPuzzle selectedPuzzle "" Nothing <| ArchiveMsg OnDeselectPuzzle
+                    detailPuzzle selectedPuzzle "" Nothing <| ArchiveMsg OnDeselectArchivePuzzle
 
                 Loading ->
                     div [] []

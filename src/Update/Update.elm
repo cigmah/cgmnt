@@ -105,7 +105,7 @@ updateArchive model msg =
                         _ ->
                             ( model, Cmd.none )
 
-                OnDeselectPuzzle ->
+                OnDeselectArchivePuzzle ->
                     case archiveData of
                         Success (ArchiveDetail puzzleList _) ->
                             ( { model | route = Archive (Success (ArchiveFull puzzleList)) }, Cmd.none )
@@ -158,6 +158,14 @@ updateLogin model msg =
 
 updatePuzzles model msg =
     case model.route of
+        PuzzlesAuth authToken (Success (PuzzlesAll puzzleData)) ->
+            case msg of
+                OnSelectActivePuzzle puzzle ->
+                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzleData { puzzle = puzzle, input = "" } NotAsked)) }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
         PuzzlesAuth authToken webData ->
             case msg of
                 ReceivedActiveData newData ->

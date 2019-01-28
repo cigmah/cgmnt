@@ -89,7 +89,12 @@ detailPuzzle puzzle currentInput maybeSubmissionData onDeselectEvent =
                         [ p [] <| Markdown.toHtml Nothing explanation ]
 
                 Nothing ->
-                    div [ class "content" ] [ text "Hm...it looks like there's no explanation here. Sorry about that!" ]
+                    case puzzle.answer of
+                        Just _ ->
+                            div [ class "content" ] [ text "Hm...it looks like there's no explanation here. Sorry about that!" ]
+
+                        Nothing ->
+                            div [] []
 
         footerSection =
             case puzzle.answer of
