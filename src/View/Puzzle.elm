@@ -80,13 +80,21 @@ detailPuzzle puzzle =
                         ]
 
                 Nothing ->
-                    div [] []
+                    div [ class "content" ] [ text "When you've solved the puzzle, enter your solution in the box in the footer." ]
 
         explanationSection =
             case puzzle.explanation of
                 Just explanation ->
                     div [ class "content" ]
                         [ p [] <| Markdown.toHtml Nothing explanation ]
+
+                Nothing ->
+                    div [ class "content" ] [ text "Hm...it looks like there's no explanation here. Sorry about that!" ]
+
+        footerSection =
+            case puzzle.answer of
+                Just answer ->
+                    div [ class "content" ] [ text "This puzzle has closed." ]
 
                 Nothing ->
                     div [] []
@@ -114,6 +122,6 @@ detailPuzzle puzzle =
                     ]
                 ]
             , footer [ class "modal-card-foot" ]
-                [ p [] [ text "TEST" ] ]
+                [ footerSection ]
             ]
         ]
