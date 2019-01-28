@@ -5,6 +5,7 @@ import Msg.Msg exposing (..)
 import Types.Types exposing (..)
 import View.About
 import View.Archive
+import View.CompletedAuth
 import View.Contact
 import View.Home
 import View.Login
@@ -36,6 +37,9 @@ view model =
 
         PuzzlesAuth authToken webData ->
             View.PuzzlesAuth.view model.meta authToken webData
+
+        CompletedAuth authToken webData ->
+            View.CompletedAuth.view model.meta authToken webData
 
         _ ->
             View.NotFound.view model.meta

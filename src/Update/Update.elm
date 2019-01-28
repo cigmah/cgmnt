@@ -54,7 +54,7 @@ update msg model =
             updatePuzzles model event
 
         CompletedMsg event ->
-            ( model, Cmd.none )
+            updateCompleted model event
 
         SubmissionMsg event ->
             ( model, Cmd.none )
@@ -111,6 +111,36 @@ updateArchive model msg =
                     case archiveData of
                         Success (ArchiveDetail puzzleList _) ->
                             ( { model | route = Archive (Success (ArchiveFull puzzleList)) }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updateCompleted model msg =
+    case model.route of
+        CompletedAuth authToken archiveData ->
+            case msg of
+                ReceivedCompleted receivedData ->
+                    ( { model | route = CompletedAuth authToken receivedData }, Cmd.none )
+
+                OnSelectCompletedPuzzle puzzle ->
+                    case archiveData of
+                        Success (ArchiveFull puzzleList) ->
+                            ( { model | route = CompletedAuth authToken (Success (ArchiveDetail puzzleList puzzle)) }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                OnDeselectCompletedPuzzle ->
+                    case archiveData of
+                        Success (ArchiveDetail puzzleList _) ->
+                            ( { model | route = CompletedAuth authToken (Success (ArchiveFull puzzleList)) }, Cmd.none )
 
                         _ ->
                             ( model, Cmd.none )

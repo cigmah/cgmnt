@@ -77,8 +77,9 @@ type LoginEvent
 
 type CompletedEvent
     = OnGetCompleted
-    | ReceivedCompleted (Result Http.Error (List PuzzleData))
+    | ReceivedCompleted (WebData ArchiveData)
     | OnSelectCompletedPuzzle PuzzleData
+    | OnDeselectCompletedPuzzle
 
 
 type SubmissionEvent

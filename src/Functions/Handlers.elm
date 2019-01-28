@@ -64,6 +64,9 @@ urlChanged model url =
         PuzzlesAuth authToken _ ->
             ( { newModel | route = PuzzlesAuth authToken Loading }, getActivePuzzles authToken )
 
+        CompletedAuth authToken _ ->
+            ( { newModel | route = CompletedAuth authToken Loading }, getCompleted authToken )
+
         _ ->
             ( newModel, Cmd.none )
 
