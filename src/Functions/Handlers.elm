@@ -1,4 +1,4 @@
-module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onLogin, onLogout, onRegister, onSendEmail, receivedActiveData, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
+module Functions.Handlers exposing (getCurrentTime, init, linkClicked, newTime, onDeselectActivePuzzle, onLogin, onLogout, onRegister, onSendEmail, receivedActiveData, receivedLogin, receivedSendEmail, toggleBurgerMenu, urlChanged)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav
@@ -160,10 +160,19 @@ receivedLogin model email emailData token originalData responseData =
             ( model, Cmd.none )
 
 
-receivedActiveData model authToken webData newData =
+receivedActiveData model authToken newData =
+    ( { model | route = PuzzlesAuth authToken newData }, Cmd.none )
+
+
+onDeselectActivePuzzle model authToken puzzlesData webData =
     case webData of
-        Loading ->
-            ( { model | route = PuzzlesAuth authToken newData }, Cmd.none )
+        Success (OkSubmit okData) ->
+            case okData.isCorrect of
+                True ->
+                    ( { model | route = PuzzlesAuth authToken Loading }, getActivePuzzles authToken )
+
+                False ->
+                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesAll puzzlesData)) }, Cmd.none )
 
         _ ->
-            ( model, Cmd.none )
+            ( { model | route = PuzzlesAuth authToken (Success (PuzzlesAll puzzlesData)) }, Cmd.none )

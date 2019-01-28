@@ -158,18 +158,26 @@ updateLogin model msg =
 
 updatePuzzles model msg =
     case model.route of
-        PuzzlesAuth authToken (Success (PuzzlesAll puzzleData)) ->
+        PuzzlesAuth authToken (Success (PuzzlesAll puzzlesData)) ->
             case msg of
                 OnSelectActivePuzzle puzzle ->
-                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzleData { puzzle = puzzle, input = "" } NotAsked)) }, Cmd.none )
+                    ( { model | route = PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData { puzzle = puzzle, input = "" } NotAsked)) }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
 
-        PuzzlesAuth authToken webData ->
+        PuzzlesAuth authToken (Success (PuzzlesDetail puzzlesData selectedPuzzle webData)) ->
+            case msg of
+                OnDeselectActivePuzzle ->
+                    Handlers.onDeselectActivePuzzle model authToken puzzlesData webData
+
+                _ ->
+                    ( model, Cmd.none )
+
+        PuzzlesAuth authToken Loading ->
             case msg of
                 ReceivedActiveData newData ->
-                    Handlers.receivedActiveData model authToken webData newData
+                    Handlers.receivedActiveData model authToken newData
 
                 _ ->
                     ( model, Cmd.none )
