@@ -170,6 +170,8 @@ type alias SubmissionsData =
 type alias UserSubmission =
     { username : String
     , puzzleTitle : String
+    , theme : String
+    , set : PuzzleSet
     , submissionDatetime : Posix
     , submission : String
     , isCorrect : Bool

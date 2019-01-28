@@ -59,8 +59,8 @@ update msg model =
         CompletedMsg event ->
             updateCompleted model event
 
-        SubmissionMsg event ->
-            ( model, Cmd.none )
+        SubmissionsMsg event ->
+            updateSubmissions model event
 
 
 init : Decode.Value -> Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -268,6 +268,20 @@ updateLeaderTotal model msg =
             case msg of
                 ReceivedLeaderTotal receivedData ->
                     ( { model | route = LeaderTotal receivedData }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+updateSubmissions model msg =
+    case model.route of
+        SubmissionsAuth authToken Loading ->
+            case msg of
+                ReceivedSubmissions receivedData ->
+                    ( { model | route = SubmissionsAuth authToken receivedData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )

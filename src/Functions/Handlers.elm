@@ -70,6 +70,9 @@ urlChanged model url =
         CompletedAuth authToken _ ->
             ( { newModel | route = CompletedAuth authToken Loading }, getCompleted authToken )
 
+        SubmissionsAuth authToken _ ->
+            ( { newModel | route = SubmissionsAuth authToken Loading }, getSubmissions authToken )
+
         _ ->
             ( newModel, Cmd.none )
 

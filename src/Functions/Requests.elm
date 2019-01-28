@@ -1,4 +1,4 @@
-module Functions.Requests exposing (authConfig, authHeader, getActivePuzzles, getArchive, getCompleted, getLeader, noAuthConfig, postLogin, postRegister, postSendEmail, postSubmit)
+module Functions.Requests exposing (authConfig, authHeader, getActivePuzzles, getArchive, getCompleted, getLeader, getSubmissions, noAuthConfig, postLogin, postRegister, postSendEmail, postSubmit)
 
 import Functions.ApiBase exposing (apiBase)
 import Functions.Decoders exposing (..)
@@ -38,6 +38,11 @@ getArchive =
 getLeader : Cmd Msg
 getLeader =
     Http.getWithConfig noAuthConfig (apiBase ++ "submissions/leaderboard/") (LeaderTotalMsg << ReceivedLeaderTotal) decodeLeaderTotal
+
+
+getSubmissions : AuthToken -> Cmd Msg
+getSubmissions token =
+    Http.getWithConfig (authConfig token) (apiBase ++ "submissions/user/") (SubmissionsMsg << ReceivedSubmissions) decodeSubmissionsData
 
 
 getCompleted : AuthToken -> Cmd Msg

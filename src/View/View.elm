@@ -13,6 +13,7 @@ import View.Login
 import View.LoginAuth
 import View.NotFound
 import View.PuzzlesAuth
+import View.SubmissionsAuth
 
 
 view : Model -> Browser.Document Msg
@@ -47,6 +48,9 @@ view model =
 
         CompletedAuth authToken webData ->
             View.CompletedAuth.view model.meta authToken webData
+
+        SubmissionsAuth authToken webData ->
+            View.SubmissionsAuth.view model.meta authToken webData
 
         _ ->
             View.NotFound.view model.meta

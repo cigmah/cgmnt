@@ -1,4 +1,4 @@
-module Functions.Decoders exposing (decodeActiveData, decodeArchiveData, decodeAuthToken, decodeLeaderTotal, decodeLeaderTotalUser, decodeLogin, decodeOkSubmit, decodePuzzleData, decodePuzzleSet, decodePuzzlesData, decodeRegisterResponse, decodeSendEmail, decodeSubmissionResponse, decodeThemeData, decodeTooSoonSubmit)
+module Functions.Decoders exposing (decodeActiveData, decodeArchiveData, decodeAuthToken, decodeLeaderTotal, decodeLeaderTotalUser, decodeLogin, decodeOkSubmit, decodePuzzleData, decodePuzzleSet, decodePuzzlesData, decodeRegisterResponse, decodeSendEmail, decodeSubmissionResponse, decodeSubmissionsData, decodeThemeData, decodeTooSoonSubmit, decodeUserSubmissions, unwrapStringInt)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -142,3 +142,21 @@ unwrapStringInt x =
 
         Nothing ->
             0
+
+
+decodeUserSubmissions : Decoder UserSubmission
+decodeUserSubmissions =
+    map8 UserSubmission
+        (field "user" <| field "username" string)
+        (field "puzzle" <| field "title" string)
+        (field "puzzle" <| field "theme" <| field "theme" string)
+        (field "puzzle" <| field "puzzle_set" decodePuzzleSet)
+        (field "submission_datetime" Iso8601.decoder)
+        (field "submission" string)
+        (field "is_response_correct" bool)
+        (field "points" int)
+
+
+decodeSubmissionsData : Decoder SubmissionsData
+decodeSubmissionsData =
+    list decodeUserSubmissions

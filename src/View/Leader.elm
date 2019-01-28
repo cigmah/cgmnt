@@ -1,4 +1,4 @@
-module View.Leader exposing (bodyPuzzle, bodyTotal, leaderTableTotal, makeRowTotal, makeTableHeadings, viewPuzzle, viewTotal)
+module View.Leader exposing (bodyPuzzle, bodyTotal, leaderTableTotal, makeRowTotal, viewPuzzle, viewTotal)
 
 import Functions.Functions exposing (..)
 import Html exposing (..)
@@ -13,6 +13,7 @@ import Types.Types exposing (..)
 import View.LoadingModal exposing (loadingModal)
 import View.NavBar exposing (navBar)
 import View.Puzzle exposing (..)
+import View.Table exposing (..)
 
 
 viewTotal meta data =
@@ -90,22 +91,11 @@ leaderTableTotal data =
         ]
 
 
-makeTableHeadings : List String -> Html Msg
-makeTableHeadings headingList =
-    let
-        makeRow heading =
-            th [ class "has-background-info has-text-white" ] [ text heading ]
-    in
-    thead []
-        [ tr [] <| List.map makeRow headingList ]
-
-
 makeRowTotal : Int -> LeaderTotalUser -> Html Msg
 makeRowTotal rank data =
     tr []
         [ td [] [ text <| String.fromInt rank ]
-        , td []
-            [ text data.username ]
+        , td [] [ text data.username ]
         , td [] [ text <| String.fromInt data.total ]
         ]
 

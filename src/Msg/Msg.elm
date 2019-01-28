@@ -1,4 +1,4 @@
-module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionEvent(..))
+module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionsEvent(..))
 
 import Browser exposing (UrlRequest)
 import Http
@@ -22,7 +22,7 @@ type Msg
     | LeaderPuzzleMsg LeaderPuzzleEvent
     | PuzzlesMsg PuzzlesEvent
     | CompletedMsg CompletedEvent
-    | SubmissionMsg SubmissionEvent
+    | SubmissionsMsg SubmissionsEvent
 
 
 type ArchiveEvent
@@ -78,6 +78,6 @@ type CompletedEvent
     | OnDeselectCompletedPuzzle
 
 
-type SubmissionEvent
-    = OnGetSubmission
-    | ReceivedSubmission (Result Http.Error (List UserSubmission))
+type SubmissionsEvent
+    = OnGetSubmissions
+    | ReceivedSubmissions (WebData SubmissionsData)
