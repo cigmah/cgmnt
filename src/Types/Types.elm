@@ -1,4 +1,4 @@
-module Types.Types exposing (ActiveData, ArchiveData(..), AuthToken, Email, LeaderPuzzleData, LeaderPuzzleUser, LeaderTotalData, LeaderTotalUser, LoginState(..), Message, Meta, Model, OkSubmitData, PuzzleData, PuzzleSet(..), PuzzlesData(..), RegisterInfo, Route(..), SelectedPuzzleInfo, SubmissionResponse(..), SubmissionsData, ThemeData, Token, TooSoonSubmitData, UserSubmission)
+module Types.Types exposing (ActiveData, ArchiveData(..), AuthToken, Email, LeaderFullData, LeaderPuzzleData, LeaderPuzzleUser, LeaderTotalData, LeaderTotalUser, LeaderUnit, LoginState(..), Message, Meta, Model, OkSubmitData, PageNoAuth(..), PageWithAuth(..), PuzzleData, PuzzleSet(..), PuzzlesData(..), RegisterInfo, Route(..), SelectedPuzzleInfo, SubmissionResponse(..), SubmissionsData, ThemeData, Token, TooSoonSubmitData, User, UserSubmission)
 
 import Browser.Navigation as Nav
 import RemoteData exposing (RemoteData(..), WebData)
@@ -6,8 +6,7 @@ import Time exposing (Posix)
 
 
 type alias Model =
-    { key : Nav.Key
-    , route : Route
+    { route : Route
     , meta : Meta
     }
 
@@ -18,26 +17,46 @@ type alias AuthToken =
 
 type alias Meta =
     { currentTime : Maybe Posix
-    , authToken : Maybe String
-    , navBarMenuActive : Bool
+    , navActive : Bool
+    , key : Nav.Key
+    }
+
+
+type alias User =
+    { username : String
+    , email : String
+    , firstName : Maybe String
+    , lastName : Maybe String
+    , authToken : AuthToken
     }
 
 
 type Route
+    = RouteNoAuth PageNoAuth
+    | RouteWithAuth (WebData User) PageWithAuth
+
+
+type PageNoAuth
     = Home RegisterInfo (WebData Message)
     | About
     | Contact
     | Resources
     | Archive (WebData ArchiveData)
     | LeaderTotal (WebData LeaderTotalData)
-    | LeaderPuzzle (WebData LeaderPuzzleData)
     | Login LoginState
-    | HomeAuth AuthToken
-    | LoginAuth AuthToken
-    | PuzzlesAuth AuthToken (WebData PuzzlesData)
-    | CompletedAuth AuthToken (WebData ArchiveData)
-    | SubmissionsAuth AuthToken (WebData SubmissionsData)
     | NotFound
+
+
+type PageWithAuth
+    = MyHome
+    | MyResources
+    | MyLogin
+    | MyLeader (WebData LeaderTotalData)
+    | MyLeaderFull (WebData LeaderFullData)
+    | MyPuzzles (WebData PuzzlesData)
+    | MyCompleted (WebData ArchiveData)
+    | MySubmissions (WebData SubmissionsData)
+    | MyNotFound
 
 
 type alias Message =
@@ -69,10 +88,12 @@ type alias PuzzleData =
     { id : Int
     , theme : ThemeData
     , set : PuzzleSet
+    , imagePath : String
     , title : String
     , body : String
     , example : String
     , statement : String
+    , references : String
     , input : Maybe String
     , answer : Maybe String
     , explanation : Maybe String
@@ -107,6 +128,20 @@ type alias LeaderPuzzleUser =
     { username : String
     , puzzleTitle : String
     , submissionDatetime : Posix
+    , points : Int
+    }
+
+
+type alias LeaderFullData =
+    List LeaderUnit
+
+
+type alias LeaderUnit =
+    { username : String
+    , puzzleTitle : String
+    , submissionDatetime : Posix
+    , themeTitle : String
+    , puzzleSet : PuzzleSet
     , points : Int
     }
 

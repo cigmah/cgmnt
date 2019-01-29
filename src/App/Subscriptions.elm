@@ -1,7 +1,7 @@
-module Subscriptions.Subscriptions exposing (subscriptions)
+module App.Subscriptions exposing (subscriptions)
 
-import Msg.Msg exposing (..)
 import Time exposing (every)
+import Types.Msg exposing (..)
 import Types.Types exposing (..)
 
 

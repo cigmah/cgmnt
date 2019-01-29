@@ -1,4 +1,4 @@
-port module Functions.Ports exposing (cache)
+port module Shared.Ports exposing (cache)
 
 import Json.Encode as Encode
 

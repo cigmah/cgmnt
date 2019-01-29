@@ -1,4 +1,4 @@
-module Msg.Msg exposing (ArchiveEvent(..), CompletedEvent(..), LeaderPuzzleEvent(..), LeaderTotalEvent(..), LoginEvent(..), Msg(..), PuzzlesEvent(..), RegisterEvent(..), SubmissionsEvent(..))
+module Types.Msg exposing (Msg(..))
 
 import Browser exposing (UrlRequest)
 import Http
@@ -15,69 +15,37 @@ type Msg
     | GetCurrentTime
     | ToggleBurgerMenu
     | OnLogout
-    | RegisterMsg RegisterEvent
-    | LoginMsg LoginEvent
-    | ArchiveMsg ArchiveEvent
-    | LeaderTotalMsg LeaderTotalEvent
-    | LeaderPuzzleMsg LeaderPuzzleEvent
-    | PuzzlesMsg PuzzlesEvent
-    | CompletedMsg CompletedEvent
-    | SubmissionsMsg SubmissionsEvent
-
-
-type ArchiveEvent
-    = OnGetArchive
+    | OnGetArchive
     | OnSelectArchivePuzzle PuzzleData
     | OnDeselectArchivePuzzle
     | ReceivedArchive (WebData ArchiveData)
-
-
-type LeaderTotalEvent
-    = OnGetLeaderTotal
+    | OnGetLeaderTotal
     | ReceivedLeaderTotal (WebData LeaderTotalData)
-
-
-type LeaderPuzzleEvent
-    = OnGetLeaderPuzzle
+    | OnGetLeaderPuzzle
     | ReceivedLeaderPuzzle (Result Http.Error (List LeaderPuzzleData))
-
-
-type PuzzlesEvent
-    = OnGetActiveData
+    | OnGetActiveData
     | ReceivedActiveData (WebData PuzzlesData)
     | OnSelectActivePuzzle PuzzleData
     | OnDeselectActivePuzzle
     | OnChangeInput String
     | OnPostSubmission
     | ReceivedSubmissionResponse (WebData SubmissionResponse)
-
-
-type RegisterEvent
-    = OnChangeRegisterUsername String
+    | OnChangeRegisterUsername String
     | OnChangeRegisterEmail String
     | OnChangeRegisterFirstName String
     | OnChangeRegisterLastName String
     | OnRegister
     | ReceivedRegister (WebData Message)
-
-
-type LoginEvent
-    = ToggleLoginModal
+    | ToggleLoginModal
     | OnChangeLoginEmail String
     | OnChangeLoginToken String
     | OnLogin
     | OnSendEmail
     | ReceivedSendEmail (WebData Message)
     | ReceivedLogin (WebData Message)
-
-
-type CompletedEvent
-    = OnGetCompleted
+    | OnGetCompleted
     | ReceivedCompleted (WebData ArchiveData)
     | OnSelectCompletedPuzzle PuzzleData
     | OnDeselectCompletedPuzzle
-
-
-type SubmissionsEvent
-    = OnGetSubmissions
+    | OnGetSubmissions
     | ReceivedSubmissions (WebData SubmissionsData)

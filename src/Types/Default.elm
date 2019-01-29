@@ -1,22 +1,22 @@
-module Types.Init exposing (email, model, register, selectedPuzzle, token)
+module Types.Default exposing (email, meta, model, register, selectedPuzzle, token)
 
 import Browser.Navigation as Nav
 import Time exposing (Posix, millisToPosix)
 import Types.Types exposing (..)
 
 
-model : Nav.Key -> Route -> Maybe AuthToken -> Model
-model key route authToken =
-    { key = key
+model : Nav.Key -> Route -> Model
+model key route =
+    { meta = meta key
     , route = route
-    , meta = meta authToken
     }
 
 
-meta authToken =
+meta : Nav.Key -> Meta
+meta key =
     { currentTime = Nothing
-    , authToken = authToken
-    , navBarMenuActive = False
+    , navActive = False
+    , key = key
     }
 
 
