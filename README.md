@@ -4,6 +4,14 @@ This is the frontend code for the CIGMAH Website.
 
 This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
 
+After multiple refactors, we ended up structuring our app very similarly to
+Richard Feldman's [elm-spa-example](https://github.com/rtfeldman/elm-spa-example).
+The `elm-spa-example` codebase is a great reference for structuring an SPA in Elm.
+When we came to our own difficulties in keeping components modular but
+with some shared state, we came up with an untidier, hacked-on version of the
+basic structure in Feldman's example and decided to completely rewrite from
+scratch to follow it more closely.
+
 If you would like to contribute, clone this project and change to the `develop` branch.
 
 ``` sh
@@ -71,10 +79,10 @@ npm run css-build
 
 Here's a simple structure hierarchy, starting from most low-level to most high-level.
 
-``` 
+```
 
 Content
-Types 
+Types
     -> Msg
         -> Functions
             -> Update

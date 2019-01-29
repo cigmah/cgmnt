@@ -9,10 +9,10 @@ var app = Elm.Main.init({
 
 registerServiceWorker();
 
-app.ports.cache.subscribe(function(data) {
-  if (data == "") {
-    localStorage.removeItem('cache')
-  } else {
-    localStorage.setItem('cache', data)
-  }
-})
+//app.ports.cache.subscribe(function(data) {
+//  if (data == "") {
+//    localStorage.removeItem('cache')
+//  } else {
+//    localStorage.setItem('cache', data)
+//  }
+//})
