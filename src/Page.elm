@@ -13,6 +13,9 @@ import Viewer exposing (Viewer)
 type Page
     = Other
     | Home
+    | Resources
+    | Archive
+    | Login
 
 
 view : Maybe Viewer -> Page -> { title : String, content : Html msg } -> Document msg
@@ -24,13 +27,20 @@ view maybeViewer page { title, content } =
 
 viewHeader : Page -> Maybe Viewer -> Html msg
 viewHeader page maybeViewer =
-    nav [ class "navbar navbar-light" ]
-        [ div [ class "container" ]
-            [ a [ class "navbar-brand", Route.href Route.Home ]
-                [ text "NAVBAR" ]
-            , ul [ class "nav navbar-nav pull-xs-right" ] <|
+    nav [ class "navbar" ]
+        [ div [ class "navbar-brand" ]
+            [ a [ class "navbar-item", Route.href Route.Home ]
+                [ text "CIGMAH Puzzle Hunt 2019" ]
+            , a [ class "navbar-burger burger" ]
+                [ span [] [], span [] [], span [] [] ]
+            ]
+        , div [ class "navbar-menu" ]
+            [ div [ class "navbar-start" ] <|
                 navbarLink page Route.Home [ text "Home" ]
-                    :: viewMenu page maybeViewer
+                    :: navbarLink page Route.Resources [ text "Resources" ]
+                    :: navbarLink page Route.Archive [ text "Archive" ]
+                    :: []
+            , div [ class "navbar-end" ] <| viewMenu page maybeViewer
             ]
         ]
 
@@ -51,7 +61,7 @@ viewMenu page maybeViewer =
             ]
 
         Nothing ->
-            [ div [] [ text "NOT LOGGED IN!" ] ]
+            [ linkTo Route.Login [ text "Login" ] ]
 
 
 
@@ -70,7 +80,7 @@ viewFooter =
 
 navbarLink : Page -> Route -> List (Html msg) -> Html msg
 navbarLink page route linkContent =
-    li [ classList [ ( "nav-item", True ), ( "active", isActive page route ) ] ]
+    li [ classList [ ( "navbar-item", True ), ( "active", isActive page route ) ] ]
         [ a [ class "nav-link", Route.href route ] linkContent ]
 
 
@@ -78,6 +88,15 @@ isActive : Page -> Route -> Bool
 isActive page route =
     case ( page, route ) of
         ( Home, Route.Home ) ->
+            True
+
+        ( Resources, Route.Resources ) ->
+            True
+
+        ( Archive, Route.Archive ) ->
+            True
+
+        ( Login, Route.Login ) ->
             True
 
         _ ->

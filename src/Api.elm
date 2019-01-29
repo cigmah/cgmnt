@@ -1,11 +1,13 @@
-port module Api exposing (Cred(..), Email, FirstName, LastName, Username, application, decodeFromChange, decoderFromCred, emailVal, firstNameVal, lastNameVal, logout, onStoreChange, storageDecoder, storeCache, storeCredWith, usernameVal, viewerChanges)
+port module Api exposing (Cred(..), Email, FirstName, LastName, Username, application, decodeFromChange, decoderFromCred, emailVal, firstNameVal, get, lastNameVal, login, logout, onStoreChange, post, storageDecoder, storeCache, storeCredWith, usernameVal, viewerChanges)
 
+import Api.ApiBase exposing (apiBase)
 import Browser
 import Browser.Navigation as Nav
 import Http exposing (Body, Expect)
 import Json.Decode as Decode exposing (Decoder, Value, decodeString, field, string)
 import Json.Decode.Pipeline as Pipeline exposing (optional, required)
 import Json.Encode as Encode
+import RemoteData.Http as RemoteHttp exposing (Config)
 import Url exposing (Url)
 
 
@@ -113,6 +115,36 @@ logout =
 
 
 port storeCache : Maybe Value -> Cmd msg
+
+
+
+-- Http
+
+
+authConfig : Maybe Cred -> Config
+authConfig maybeCred =
+    { headers =
+        case maybeCred of
+            Just cred ->
+                [ credHeader cred ]
+
+            Nothing ->
+                []
+    , withCredentials = False
+    , timeout = Nothing
+    }
+
+
+get urlAdd maybeCred callback decoder =
+    RemoteHttp.getWithConfig (authConfig maybeCred) (apiBase ++ urlAdd) callback decoder
+
+
+post urlAdd maybeCred callback decoder encodeValue =
+    RemoteHttp.postWithConfig (authConfig maybeCred) (apiBase ++ urlAdd) callback decoder encodeValue
+
+
+login callback encodeValue decoder =
+    post "callback/auth/" Nothing callback (decoderFromCred decoder) encodeValue
 
 
 

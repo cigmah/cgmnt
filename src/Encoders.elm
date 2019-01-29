@@ -1,4 +1,4 @@
-module Functions.Encoders exposing (encodeEmail, encodeRegister, encodeSubmission, encodeToken)
+module Encoders exposing (encodeEmail, encodeRegister, encodeSubmission, encodeToken)
 
 import Json.Encode as Encode exposing (..)
 import Types.Types exposing (..)

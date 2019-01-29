@@ -80,6 +80,29 @@ subscriptions model =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "Conduit"
-    , content = div [] [ h1 [] [ text "THIS IS THE HOME PAGE!" ] ]
+    { title = "CIGMAH"
+    , content = mainHero
     }
+
+
+mainHero =
+    div [ class "hero is-primary is-fullheight-with-navbar" ]
+        [ div [ class "hero-body" ]
+            [ div [ class "container" ]
+                [ div [ class "columns is-multiline" ]
+                    [ tableColumn
+                    , registerColumn
+                    ]
+                ]
+            ]
+        ]
+
+
+tableColumn =
+    div [ class "column" ]
+        [ div [ class "title" ] [ text "Leaderboard" ] ]
+
+
+registerColumn =
+    div [ class "column" ]
+        [ div [ class "title" ] [ text "Registration" ] ]
