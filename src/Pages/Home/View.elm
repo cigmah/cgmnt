@@ -1,16 +1,14 @@
-module View.Home exposing (view)
+module Pages.Home.View exposing (view)
 
-import Content.Home as Content
-import Functions.Functions exposing (safeOnSubmit, timeStringWithDefault)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
 import Markdown
-import Msg.Msg exposing (..)
+import Pages.Utils.Nav exposing (navMenu)
 import RemoteData exposing (RemoteData(..), WebData)
 import Time exposing (Posix, millisToPosix)
-import View.NavBar exposing (navBar)
+import Types.Msg exposing (..)
 
 
 view meta registerInfo registerData =
@@ -20,31 +18,14 @@ view meta registerInfo registerData =
 
 
 body meta registerInfo registerData =
-    let
-        -- Hard coded for now, corresponds to 2019/09/21 5PM AEST
-        endTime =
-            millisToPosix 1569049200000
-
-        tagline =
-            case meta.currentTime of
-                Just currentTime ->
-                    timeStringWithDefault currentTime endTime "The Puzzle Hunt has ended." "The Puzzle Hunt ends in "
-
-                Nothing ->
-                    "Getting the time..."
-
-        title x =
-            h1 [ class "subtitle has-text-centered is-family-monospace" ]
-                [ text tagline ]
-    in
-    [ lazy2 navBar meta.authToken meta.navBarMenuActive
+    [ lazy2 navMenu Nothing meta.navActive
     , section [ class "hero is-dark is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
                 [ h1 [ class "subtitle has-text-centered" ]
                     [ text "Coding Interest Group in Medicine And Healthcare" ]
                 , h1 [ class "title has-text-centered" ] [ text "Puzzle Hunt 2019" ]
-                , h2 [ class "subtitle has-text-centered has-text-weight-light" ] [ text tagline ]
+                , h2 [ class "subtitle has-text-centered has-text-weight-light" ] [ text "Tagline" ]
                 , lazy2 renderBody registerInfo registerData
                 ]
             ]
@@ -107,22 +88,21 @@ renderBody registerInfo registerData =
                 [ div [ class "card-header" ] [ span [ class <| "card-header-title has-text-white has-text-weight-semibold is-centered has-text-centered" ++ colourState ] [ text "Registrations open." ] ]
                 , Html.form
                     [ class "card-content has-background-grey-dark"
-                    , safeOnSubmit <| RegisterMsg OnRegister
                     ]
-                    [ registerField "Username" "" "text" <| RegisterMsg << OnChangeRegisterUsername
-                    , registerField "Email" "" "email" <| RegisterMsg << OnChangeRegisterEmail
+                    [ registerField "Username" "" "text" <| OnChangeRegisterUsername
+                    , registerField "Email" "" "email" <| OnChangeRegisterEmail
                     , div [ class "field is-horizontal" ]
                         [ div [ class "field-label is-normal " ] [ label [ class "label has-text-white" ] [ text "Name" ] ]
                         , div [ class "field-body" ]
                             [ div [ class "field " ]
                                 [ div [ class "control" ]
-                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| RegisterMsg << OnChangeRegisterFirstName ]
+                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| OnChangeRegisterFirstName ]
                                         []
                                     ]
                                 ]
                             , div [ class "field" ]
                                 [ div [ class "control" ]
-                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| RegisterMsg << OnChangeRegisterLastName ]
+                                    [ input [ class "input has-background-grey-dark has-text-white", type_ "text", placeholder "", onInput <| OnChangeRegisterLastName ]
                                         []
                                     ]
                                 ]

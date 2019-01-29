@@ -25,7 +25,7 @@ update msg model =
 
 updateNoAuth : Msg -> Meta -> PageNoAuth -> ( Model, Cmd Msg )
 updateNoAuth msg meta pageNoAuth =
-    ( Model (RouteNoAuth pageNoAuth) meta, cache <| Encode.string "1" )
+    ( Model (RouteNoAuth pageNoAuth) meta, cache <| Encode.string "" )
 
 
 updateWithAuth : Msg -> Meta -> WebData User -> PageWithAuth -> ( Model, Cmd Msg )
