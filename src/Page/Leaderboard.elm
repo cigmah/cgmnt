@@ -10,6 +10,7 @@ import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
+import Page.Error exposing (..)
 import Page.Nav exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
@@ -292,17 +293,64 @@ navMenuLinked model body =
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = navMenuLinked model <| mainHero
+    , content = navMenuLinked model <| mainHero model
     }
 
 
-mainHero =
-    div [ class "hero is-primary is-fullheight-with-navbar" ]
-        [ div [ class "hero-body" ]
-            [ div [ class "container" ]
-                [ div [ class "columns is-multiline" ]
-                    [ div [] [ text "TEST" ]
-                    ]
-                ]
+makeHeaderCell headerText =
+    th [] [ text headerText ]
+
+
+makeRow rank leaderUnit =
+    tr []
+        [ td [] [ text <| String.fromInt rank ]
+        , td [] [ text leaderUnit.username ]
+        , td [] [ text <| String.fromInt leaderUnit.total ]
+        ]
+
+
+tableColumn data =
+    let
+        tableHeaders =
+            [ "Rank", "Username", "Points" ]
+
+        tableHead =
+            tr [] <| List.map makeHeaderCell tableHeaders
+
+        ranks =
+            List.range 1 (List.length data)
+
+        rows =
+            List.map2 makeRow ranks data
+
+        leaderContent =
+            [ table [ class "table is-fullwidth is-hoverable" ]
+                [ thead [] [ tableHead ], tbody [] <| rows ]
+            ]
+    in
+    div [ class "column" ]
+        [ div [ class "card is-fullheight" ]
+            [ div [ class "card-header" ]
+                [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
+            , div [ class "card-content" ] leaderContent
             ]
         ]
+
+
+mainHero model =
+    case model.state of
+        ByTotal (Success data) ->
+            div [ class "hero is-fullheight-with-navbar" ]
+                [ div [ class "hero-body" ]
+                    [ div [ class "container" ]
+                        [ div [ class "columns is-multiline" ]
+                            [ tableColumn data ]
+                        ]
+                    ]
+                ]
+
+        ByTotal Loading ->
+            div [ class "pageloader is-active" ] [ span [ class "title" ] [ text "Loading..." ] ]
+
+        _ ->
+            errorPage
