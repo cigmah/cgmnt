@@ -40,7 +40,7 @@ type alias Model =
 type LoginState
     = InputEmail Email (WebData Response)
     | InputToken Email (WebData Response) Token (WebData Viewer.Viewer)
-    | LoginSuccess
+    | LoginSuccess Viewer.Viewer
 
 
 init : Session -> ( Model, Cmd Msg )
@@ -144,10 +144,10 @@ update msg model =
                 Success viewer ->
                     case model.session of
                         Guest key ->
-                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess }, Viewer.store viewer )
+                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess viewer }, Viewer.store viewer )
 
                         LoggedIn key user ->
-                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess }, Viewer.store viewer )
+                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess viewer }, Viewer.store viewer )
 
                 _ ->
                     ( { model | loginState = InputToken email data token response }, Cmd.none )
@@ -188,13 +188,43 @@ view model =
     }
 
 
-mainHero model =
+loggedInPage viewer =
     div [ class "hero is-fullheight-with-navbar" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
-                [ loginForm model ]
+                [ h1 [ class "title" ]
+                    [ text <| "Success! Welcome to the Puzzle Hunt, " ++ Viewer.username viewer ++ "." ]
+                , h2 [ class "subtitle" ]
+                    [ text "You can now access the Puzzle Hunt tab to check out the open puzzles :)" ]
+                , h2 [ class "" ]
+                    [ text "(Or, if you like, "
+                    , a [ Route.href Route.Dashboard ] [ text "click here" ]
+                    , text " for the dashboard."
+                    ]
+                ]
             ]
         ]
+
+
+mainHero model =
+    let
+        mainBody =
+            case ( model.loginState, model.session ) of
+                ( LoginSuccess viewer, _ ) ->
+                    loggedInPage viewer
+
+                ( _, LoggedIn _ viewer ) ->
+                    loggedInPage viewer
+
+                ( _, _ ) ->
+                    div [ class "hero is-fullheight-with-navbar" ]
+                        [ div [ class "hero-body" ]
+                            [ div [ class "container" ]
+                                [ loginForm model ]
+                            ]
+                        ]
+    in
+    mainBody
 
 
 loginForm model =
@@ -265,7 +295,7 @@ loginForm model =
                 InputToken _ _ _ _ ->
                     ClickedSendToken
 
-                LoginSuccess ->
+                LoginSuccess _ ->
                     ClickedSendToken
     in
     div [ class "columns is-centered" ]

@@ -50,10 +50,10 @@ viewMenu maybeViewer =
                     , linkTo Route.ClosedPuzzles [ text "Closed Puzzles" ]
                     , linkTo Route.Leaderboard [ text "Leaderboard" ]
                     , linkTo Route.Submissions [ text "Submissions" ]
-                    , li [ class "navbar-item" ] [ p [] [ text username ] ]
-                    , li [ class "navbar-item" ] [ a [ Route.href Route.Logout ] [ text "Logout" ] ]
                     ]
                 ]
+            , li [ class "navbar-item" ] [ p [] [ text username ] ]
+            , a [ class "navbar-item", Route.href Route.Logout ] [ text "Logout" ]
             ]
 
         Nothing ->
