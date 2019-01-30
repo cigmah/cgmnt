@@ -23,11 +23,11 @@ import Viewer exposing (Viewer(..))
 
 type alias Model =
     { session : Session
-    , state : OpenState
+    , state : State
     }
 
 
-type OpenState
+type State
     = Denied
     | Unloaded (WebData OpenData)
     | Full OpenData

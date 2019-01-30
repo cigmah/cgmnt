@@ -17,11 +17,11 @@ import Viewer
 
 type alias Model =
     { session : Session
-    , state : DashState
+    , state : State
     }
 
 
-type DashState
+type State
     = Denied
     | Accepted (WebData DashData)
 
