@@ -20,6 +20,7 @@ import Types exposing (..)
 
 type alias Model =
     { session : Session
+    , isRegisterActive : Bool
     , navActive : Bool
     , username : String
     , email : String
@@ -37,6 +38,7 @@ type alias Response =
 init : Session -> ( Model, Cmd Msg )
 init session =
     ( { session = session
+      , isRegisterActive = False
       , navActive = False
       , username = ""
       , email = ""
@@ -78,6 +80,7 @@ type Msg
     | ChangeRegisterFirstName String
     | ChangeRegisterLastName String
     | ClickedRegister
+    | ToggleRegister
     | ReceivedRegisterResponse (WebData Response)
     | ReceivedMiniLeader (WebData LeaderTotalData)
     | GotSession Session
@@ -98,6 +101,9 @@ update msg model =
 
         ChangeRegisterLastName input ->
             ( { model | lastName = input }, Cmd.none )
+
+        ToggleRegister ->
+            ( { model | isRegisterActive = not model.isRegisterActive }, Cmd.none )
 
         ClickedRegister ->
             case model.registerResponse of
@@ -158,6 +164,11 @@ mainHero model =
     in
     div []
         [ div [ classList [ ( "pageloader", True ), ( "is-active", isLoading ) ] ] [ span [ class "title" ] [ text "Loading..." ] ]
+        , div [ classList [ ( "modal", True ), ( "is-active", model.isRegisterActive ) ] ]
+            [ div [ class "modal-background", onClick ToggleRegister ] []
+            , div [ class "modal-content" ] [ registerColumn model ]
+            , div [ class "modal-close" ] []
+            ]
         , div [ class "section" ]
             [ div [ class "hero is-fullheight-with-navbar" ]
                 [ div [ class "hero-body" ]
@@ -165,7 +176,7 @@ mainHero model =
                         [ h2 [ class "subtitle" ] [ text "The Coding Interest Group in Medicine and Healthcare presents" ]
                         , h1 [ class "title" ] [ text "The CIGMAH Puzzle Hunt 2019" ]
                         , p [ class "content" ] [ text "A puzzle hunt for biomedical and medical students to learn how to code." ]
-                        , p [ class "button", href "#register" ] [ text "Register" ]
+                        , p [ class "button", onClick ToggleRegister ] [ text "Register" ]
                         ]
                     ]
                 ]
@@ -174,8 +185,7 @@ mainHero model =
             [ div [ class "hero is-fullheight-with-navbar" ]
                 [ div [ class "hero-body" ]
                     [ div [ class "container" ]
-                        [ div [ class "columns is-centered" ] [ registerColumn model ]
-                        ]
+                        [ text "Description text" ]
                     ]
                 ]
             ]
@@ -228,8 +238,7 @@ tableColumn model =
 
 
 registerColumn model =
-    div [ class "column is-half" ] <|
-        registerForm model
+    div [] <| registerForm model
 
 
 registerForm model =
