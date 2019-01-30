@@ -16,6 +16,11 @@ type Page
     | Resources
     | Archive
     | Login
+    | Dashboard
+    | OpenPuzzles
+    | ClosedPuzzles
+    | Leaderboard
+    | Submissions
 
 
 view : Maybe Viewer -> Page -> { title : String, content : Html msg } -> Document msg
@@ -57,7 +62,11 @@ viewMenu page maybeViewer =
                 username =
                     Viewer.username viewer
             in
-            [ linkTo Route.Home [ i [ class "ion-compose" ] [], text "\u{00A0}New Post" ]
+            [ linkTo Route.Dashboard [ text "Dashboard" ]
+            , linkTo Route.OpenPuzzles [ text "Open Puzzles" ]
+            , linkTo Route.ClosedPuzzles [ text "Closed Puzzles" ]
+            , linkTo Route.Leaderboard [ text "Leaderboard" ]
+            , linkTo Route.Submissions [ text "Submissions" ]
             ]
 
         Nothing ->

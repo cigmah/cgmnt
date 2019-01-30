@@ -1,14 +1,14 @@
 module Page.Login exposing (Email, LoginState(..), Model, Msg(..), Response, Token, init, mainHero, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodeLogin, decodeSendEmail)
+import Decoders exposing (decodeSendEmail)
 import Encoders exposing (encodeEmail, encodeToken)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Route
-import Session exposing (Session)
+import Session exposing (Session(..))
 import Viewer
 
 
@@ -121,7 +121,12 @@ update msg model =
         ( ReceivedSendTokenResponse response, InputToken email data token Loading ) ->
             case response of
                 Success viewer ->
-                    ( { model | loginState = LoginSuccess }, Viewer.store viewer )
+                    case model.session of
+                        Guest key ->
+                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess }, Viewer.store viewer )
+
+                        LoggedIn key user ->
+                            ( { model | session = LoggedIn key viewer, loginState = LoginSuccess }, Viewer.store viewer )
 
                 _ ->
                     ( { model | loginState = InputToken email data token response }, Cmd.none )

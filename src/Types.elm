@@ -34,7 +34,6 @@ type PuzzleSet
     | B
     | C
     | M
-    | S
 
 
 type ArchiveData

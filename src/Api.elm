@@ -73,7 +73,7 @@ credDecoder =
 decode : Decoder (Cred -> viewer) -> Value -> Result Decode.Error viewer
 decode decoder value =
     Decode.decodeValue Decode.string value
-        |> Result.andThen (\str -> Decode.decodeString (Decode.field "user" (decoderFromCred decoder)) str)
+        |> Result.andThen (\str -> Decode.decodeString (Decode.field "puzzlehunt_user" (decoderFromCred decoder)) str)
 
 
 port onStoreChange : (Value -> msg) -> Sub msg
@@ -95,7 +95,7 @@ storeCredWith (Cred uname email firstName lastName token) =
     let
         json =
             Encode.object
-                [ ( "user"
+                [ ( "puzzlehunt_user"
                   , Encode.object
                         [ ( "username", Encode.string uname )
                         , ( "email", Encode.string email )
@@ -186,7 +186,7 @@ application viewerDecoder config =
 
 storageDecoder : Decoder (Cred -> viewer) -> Decoder viewer
 storageDecoder viewerDecoder =
-    Decode.field "user" (decoderFromCred viewerDecoder)
+    Decode.field "puzzlehunt_user" (decoderFromCred viewerDecoder)
 
 
 decoderFromCred : Decoder (Cred -> a) -> Decoder a
@@ -194,17 +194,3 @@ decoderFromCred decoder =
     Decode.map2 (\fromCred cred -> fromCred cred)
         decoder
         credDecoder
-
-
-
--- LOCALSTORAGE KEYS
-
-
-cacheStorageKey : String
-cacheStorageKey =
-    "cache"
-
-
-credStorageKey : String
-credStorageKey =
-    "cred"

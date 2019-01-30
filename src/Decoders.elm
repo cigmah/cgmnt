@@ -1,9 +1,10 @@
-module Decoders exposing (decodeArchiveData, decodeLogin, decodePuzzleData, decodePuzzleSet, decodeSendEmail, decodeThemeData)
+module Decoders exposing (decodeArchiveData, decodePuzzleData, decodePuzzleSet, decodeSendEmail, decodeThemeData)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Pipeline exposing (optional, required)
 import Types exposing (..)
+import Viewer
 
 
 decodeArchiveData : Decoder ArchiveData
@@ -47,7 +48,7 @@ decodePuzzleSet =
                         succeed M
 
                     _ ->
-                        succeed S
+                        fail "Failure"
             )
 
 
@@ -90,14 +91,6 @@ decodeSendEmail =
 
 --
 --
-
-
-decodeLogin =
-    --succeed "Login was successful!"
-    map5 Viewer
-
-
-
 --
 --
 --decodeOkSubmit : Decoder OkSubmitData

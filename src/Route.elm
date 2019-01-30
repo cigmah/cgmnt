@@ -12,6 +12,11 @@ type Route
     | Resources
     | Archive
     | Login
+    | Dashboard
+    | OpenPuzzles
+    | ClosedPuzzles
+    | Leaderboard
+    | Submissions
 
 
 parser : Parser (Route -> a) a
@@ -21,6 +26,11 @@ parser =
         , Parser.map Resources <| s "resources"
         , Parser.map Archive <| s "archive"
         , Parser.map Login <| s "login"
+        , Parser.map Dashboard <| s "dashboard"
+        , Parser.map OpenPuzzles <| s "open-puzzles"
+        , Parser.map ClosedPuzzles <| s "closed-puzzles"
+        , Parser.map Leaderboard <| s "leaderboard"
+        , Parser.map Submissions <| s "submissions"
         ]
 
 
@@ -40,6 +50,21 @@ routeToString page =
 
                 Login ->
                     [ "login" ]
+
+                Dashboard ->
+                    [ "dashboard" ]
+
+                OpenPuzzles ->
+                    [ "open-puzzles" ]
+
+                ClosedPuzzles ->
+                    [ "closed-puzzles" ]
+
+                Leaderboard ->
+                    [ "leaderboard" ]
+
+                Submissions ->
+                    [ "submissions" ]
     in
     "#/" ++ String.join "/" pieces
 
