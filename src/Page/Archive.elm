@@ -2,13 +2,17 @@ module Page.Archive exposing (Model, Msg, init, subscriptions, toSession, update
 
 import Api
 import Decoders exposing (decoderArchiveData)
-import Html exposing (Html, div, h1, text)
-import Html.Attributes exposing (class)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Markdown
 import Page.Nav exposing (navMenu)
+import Page.Puzzle exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session)
 import Types exposing (..)
+import Utils exposing (..)
 
 
 
@@ -23,8 +27,8 @@ type alias Model =
 
 
 type State
-    = Full (WebData ArchiveData)
-    | Detail ArchiveData FullPuzzleData
+    = Full (WebData (List FullPuzzleData))
+    | Detail (List FullPuzzleData) FullPuzzleData
 
 
 init : Session -> ( Model, Cmd Msg )
@@ -48,7 +52,7 @@ toSession model =
 
 type Msg
     = ClickedRefresh
-    | ReceivedData (WebData ArchiveData)
+    | ReceivedData (WebData (List FullPuzzleData))
     | ClickedPuzzle FullPuzzleData
     | ClickedBackToFull
     | ToggledNavMenu
@@ -107,5 +111,36 @@ navMenuLinked model body =
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Archive"
-    , content = navMenuLinked model <| div [] [ h1 [] [ text "THIS IS THE Archive PAGE!" ] ]
+    , content = navMenuLinked model <| mainBody model
     }
+
+
+isLoading model =
+    case model.state of
+        Full Loading ->
+            True
+
+        _ ->
+            False
+
+
+mainBody model =
+    section [ class "section" ]
+        [ div [ classList [ ( "pageloader", True ), ( "is-active", isLoading model ) ] ] [ span [ class "title" ] [ text "Loading..." ] ]
+        , div [ class "container" ] [ makePuzzleCards model ]
+        ]
+
+
+makePuzzleCards model =
+    case model.state of
+        Full Loading ->
+            div [] []
+
+        Full (Success puzzles) ->
+            div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) puzzles
+
+        Detail puzzles selectedPuzzle ->
+            detailPuzzle selectedPuzzle ClickedBackToFull
+
+        _ ->
+            div [] []

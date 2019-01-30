@@ -7,9 +7,9 @@ import Types exposing (..)
 import Viewer
 
 
-decoderArchiveData : Decoder ArchiveData
+decoderArchiveData : Decoder (List FullPuzzleData)
 decoderArchiveData =
-    map ArchiveFull <| list decoderPuzzleData
+    list decoderPuzzleData
 
 
 decoderPuzzleData : Decoder FullPuzzleData
@@ -25,8 +25,8 @@ decoderPuzzleData =
         |> required "statement" string
         |> required "references" string
         |> optional "input" (maybe string) Nothing
-        |> optional "answer" (maybe string) Nothing
-        |> optional "explanation" (maybe string) Nothing
+        |> required "answer" string
+        |> required "explanation" string
 
 
 unwrapStringInt : Maybe Int -> Int

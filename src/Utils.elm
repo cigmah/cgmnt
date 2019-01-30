@@ -1,16 +1,12 @@
-module Shared.Functions exposing (fromUrl, intDeltaString, monthToString, posixToString, puzzleSetString, routeParser, safeOnSubmit, timeDelta, timeStringWithDefault)
+module Utils exposing (intDeltaString, monthToString, posixToString, puzzleSetString, safeOnSubmit, timeDelta, timeStringWithDefault)
 
-import Functions.ApiBase exposing (apiBase)
-import Functions.Decoders exposing (..)
 import Html.Events exposing (custom)
 import Http
 import Iso8601
 import Json.Decode as Decode
-import Msg.Msg exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Time exposing (..)
-import Types.Init as Init
-import Types.Types exposing (..)
+import Types exposing (..)
 
 
 timeDelta : Posix -> Posix -> Maybe Int
@@ -79,9 +75,6 @@ puzzleSetString set =
 
         M ->
             "Meta"
-
-        S ->
-            "Sample"
 
 
 posixToString : Posix -> String

@@ -27,8 +27,8 @@ navMenu toggleMsg navActive maybeViewer =
 
 
 navbarLink route linkContent =
-    li [ classList [ ( "navbar-item", True ) ] ]
-        [ a [ class "nav-link", Route.href route ] linkContent ]
+    a [ classList [ ( "navbar-item", True ) ], Route.href route ]
+        [ p [ class "nav-link" ] linkContent ]
 
 
 viewMenu maybeViewer =

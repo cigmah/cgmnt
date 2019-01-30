@@ -14,8 +14,8 @@ type alias FullPuzzleData =
     , statement : String
     , references : String
     , input : Maybe String
-    , answer : Maybe String
-    , explanation : Maybe String
+    , answer : String
+    , explanation : String
     }
 
 

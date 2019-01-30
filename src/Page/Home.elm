@@ -141,7 +141,7 @@ navMenuLinked model body =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "CIGMAH"
+    { title = "CIGMAH - Home"
     , content = navMenuLinked model <| mainHero model
     }
 
@@ -158,14 +158,14 @@ mainHero model =
     in
     div []
         [ div [ classList [ ( "pageloader", True ), ( "is-active", isLoading ) ] ] [ span [ class "title" ] [ text "Loading..." ] ]
-        , div [ class "hero is-primary is-fullheight-with-navbar" ]
+        , div [ class "hero is-fullheight-with-navbar" ]
             [ div [ class "hero-body" ]
                 [ div [ class "container" ]
                     [ div [ class "tile is-ancestor" ]
                         [ div [ class "tile is-parent is-vertical" ]
                             [ div [ class "tile is-parent is-12" ]
                                 [ div [ class "tile is-child" ]
-                                    [ div [ class "subtitle has-text-centered" ] [ text "Coding Interest Group in Medicine and Healthcare presents the " ]
+                                    [ div [ class "subtitle has-text-centered" ] [ text "The Coding Interest Group in Medicine and Healthcare presents the " ]
                                     , div [ class "title has-text-centered" ] [ text "CIGMAH Puzzle Hunt 2019" ]
                                     ]
                                 ]
@@ -295,7 +295,7 @@ registerForm model =
             , onSubmit ClickedRegister
             ]
             [ registerField "Username" "bms_intern" "text" <| ChangeRegisterUsername
-            , registerField "Email" "ray.basch@bestmedicalschool.com" "email" <| ChangeRegisterEmail
+            , registerField "Email" "roy.basch@bestmedicalschool.com" "email" <| ChangeRegisterEmail
             , div [ class "field is-horizontal" ]
                 [ div [ class "field-label is-normal " ] [ label [ class "label " ] [ text "Name" ] ]
                 , div [ class "field-body" ]
@@ -304,7 +304,7 @@ registerForm model =
                             [ input
                                 [ class "input "
                                 , type_ "text"
-                                , placeholder "Ray"
+                                , placeholder "Roy"
                                 , onInput <| ChangeRegisterFirstName
                                 ]
                                 []

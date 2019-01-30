@@ -36,8 +36,8 @@ type State
 
 
 type alias ClosedData =
-    { complete : ArchiveData
-    , incomplete : ArchiveData
+    { complete : List FullPuzzleData
+    , incomplete : List FullPuzzleData
     }
 
 
