@@ -4,12 +4,13 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Markdown
+import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
 import Utils exposing (..)
 
 
 puzzleCard onSelectEvent puzzle =
-    div [ class "column is-one-quarter-desktop is-one-third-tablet" ]
+    div [ class "column is-one-third-desktop is-half-tablet" ]
         [ div [ class "card puzzle", onClick <| onSelectEvent puzzle ]
             [ div [ class "card-image" ]
                 [ figure [ class "image is-2by1" ]
