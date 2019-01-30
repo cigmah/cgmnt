@@ -29,7 +29,8 @@ type alias Model =
 
 type State
     = Denied
-    | Accepted (WebData ClosedData)
+    | AcceptedFull (WebData ClosedData)
+    | AcceptedDetail ClosedData FullPuzzleData
 
 
 type alias ClosedData =
@@ -53,7 +54,7 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
         LoggedIn _ viewer ->
-            ( { session = session, state = Accepted Loading }
+            ( { session = session, state = AcceptedFull Loading }
             , Api.get "puzzles/inactive/" (Just <| Viewer.cred viewer) ReceivedClosedData decoderClosedData
             )
 
@@ -75,6 +76,8 @@ toSession model =
 type Msg
     = GotSession Session
     | ReceivedClosedData (WebData ClosedData)
+    | ClickedPuzzle FullPuzzleData
+    | ClickedBackToFull
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -84,7 +87,23 @@ update msg model =
             ( { model | session = session }, Cmd.none )
 
         ReceivedClosedData response ->
-            ( { model | state = Accepted response }, Cmd.none )
+            ( { model | state = AcceptedFull response }, Cmd.none )
+
+        ClickedPuzzle puzzle ->
+            case model.state of
+                AcceptedFull (Success closedData) ->
+                    ( { model | state = AcceptedDetail closedData puzzle }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ClickedBackToFull ->
+            case model.state of
+                AcceptedDetail closedData fullPuzzleData ->
+                    ( { model | state = AcceptedFull (Success closedData) }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
 
 

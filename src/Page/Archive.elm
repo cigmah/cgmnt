@@ -15,14 +15,19 @@ import Types exposing (..)
 
 type alias Model =
     { session : Session
-    , archive : WebData ArchiveData
+    , state : State
     }
+
+
+type State
+    = Full (WebData ArchiveData)
+    | Detail ArchiveData FullPuzzleData
 
 
 init : Session -> ( Model, Cmd Msg )
 init session =
     ( { session = session
-      , archive = Loading
+      , state = Full Loading
       }
     , Api.get "puzzles/archive/public/" Nothing ReceivedData decoderArchiveData
     )
@@ -40,6 +45,8 @@ toSession model =
 type Msg
     = ClickedRefresh
     | ReceivedData (WebData ArchiveData)
+    | ClickedPuzzle FullPuzzleData
+    | ClickedBackToFull
     | GotSession Session
 
 
@@ -50,7 +57,23 @@ update msg model =
             ( model, Cmd.none )
 
         ReceivedData data ->
-            ( { model | archive = data }, Cmd.none )
+            ( { model | state = Full data }, Cmd.none )
+
+        ClickedPuzzle puzzle ->
+            case model.state of
+                Full (Success data) ->
+                    ( { model | state = Detail data puzzle }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ClickedBackToFull ->
+            case model.state of
+                Full archiveDataWebData ->
+                    ( model, Cmd.none )
+
+                Detail archiveData _ ->
+                    ( { model | state = Full (Success archiveData) }, Cmd.none )
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )
