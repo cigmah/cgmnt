@@ -1,7 +1,7 @@
 module Page.OpenPuzzles exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodePuzzleSet, decodeThemeData)
+import Decoders exposing (decoderPuzzleSet, decoderThemeData)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -77,8 +77,8 @@ decoderLimitedPuzzleData : Decoder LimitedPuzzleData
 decoderLimitedPuzzleData =
     Decode.succeed LimitedPuzzleData
         |> required "id" Decode.int
-        |> required "theme" decodeThemeData
-        |> required "puzzle_set" decodePuzzleSet
+        |> required "theme" decoderThemeData
+        |> required "puzzle_set" decoderPuzzleSet
         |> required "image_link" Decode.string
         |> required "title" Decode.string
         |> required "body" Decode.string

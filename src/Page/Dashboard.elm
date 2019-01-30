@@ -1,7 +1,7 @@
 module Page.Dashboard exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodeThemeData)
+import Decoders exposing (decoderThemeData)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
 import Json.Decode as Decode
@@ -37,8 +37,8 @@ type alias DashData =
 decoderDashData =
     Decode.map4 DashData
         (Decode.field "num_solved" Decode.int)
-        (Decode.field "current" <| Decode.list decodeThemeData)
-        (Decode.field "next" decodeThemeData)
+        (Decode.field "current" <| Decode.list decoderThemeData)
+        (Decode.field "next" decoderThemeData)
         (Decode.field "total" Decode.int)
 
 

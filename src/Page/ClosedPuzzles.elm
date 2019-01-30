@@ -1,7 +1,7 @@
 module Page.ClosedPuzzles exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodeArchiveData)
+import Decoders exposing (decoderArchiveData)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -45,8 +45,8 @@ type alias ClosedData =
 decoderClosedData : Decoder ClosedData
 decoderClosedData =
     Decode.map2 ClosedData
-        (Decode.field "complete" decodeArchiveData)
-        (Decode.field "incomplete" decodeArchiveData)
+        (Decode.field "complete" decoderArchiveData)
+        (Decode.field "incomplete" decoderArchiveData)
 
 
 init : Session -> ( Model, Cmd Msg )

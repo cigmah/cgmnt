@@ -1,4 +1,4 @@
-module Decoders exposing (decodeArchiveData, decodePuzzleData, decodePuzzleSet, decodeSendEmail, decodeThemeData, decodeThemeSet)
+module Decoders exposing (decodeSendEmail, decoderArchiveData, decoderPuzzleData, decoderPuzzleSet, decoderThemeData, decoderThemeSet)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -7,17 +7,17 @@ import Types exposing (..)
 import Viewer
 
 
-decodeArchiveData : Decoder ArchiveData
-decodeArchiveData =
-    map ArchiveFull <| list decodePuzzleData
+decoderArchiveData : Decoder ArchiveData
+decoderArchiveData =
+    map ArchiveFull <| list decoderPuzzleData
 
 
-decodePuzzleData : Decoder FullPuzzleData
-decodePuzzleData =
+decoderPuzzleData : Decoder FullPuzzleData
+decoderPuzzleData =
     succeed FullPuzzleData
         |> required "id" int
-        |> required "theme" decodeThemeData
-        |> required "puzzle_set" decodePuzzleSet
+        |> required "theme" decoderThemeData
+        |> required "puzzle_set" decoderPuzzleSet
         |> required "image_link" string
         |> required "title" string
         |> required "body" string
@@ -29,8 +29,8 @@ decodePuzzleData =
         |> optional "explanation" (maybe string) Nothing
 
 
-decodePuzzleSet : Decoder PuzzleSet
-decodePuzzleSet =
+decoderPuzzleSet : Decoder PuzzleSet
+decoderPuzzleSet =
     string
         |> andThen
             (\str ->
@@ -52,8 +52,8 @@ decodePuzzleSet =
             )
 
 
-decodeThemeSet : Decoder ThemeSet
-decodeThemeSet =
+decoderThemeSet : Decoder ThemeSet
+decoderThemeSet =
     string
         |> andThen
             (\string ->
@@ -72,13 +72,13 @@ decodeThemeSet =
             )
 
 
-decodeThemeData : Decoder ThemeData
-decodeThemeData =
+decoderThemeData : Decoder ThemeData
+decoderThemeData =
     map7 ThemeData
         (field "id" int)
         (field "year" int)
         (field "theme" string)
-        (field "theme_set" decodeThemeSet)
+        (field "theme_set" decoderThemeSet)
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
@@ -89,8 +89,8 @@ decodeThemeData =
 --decodeActiveData : Decoder ActiveData
 --decodeActiveData =
 --    map2 ActiveData
---        (field "active" (list decodePuzzleData))
---        (field "next" (maybe decodeThemeData))
+--        (field "active" (list decoderPuzzleData))
+--        (field "next" (maybe decoderThemeData))
 --
 --
 --decodePuzzlesData : Decoder PuzzlesData
@@ -116,34 +116,18 @@ decodeSendEmail =
 --
 --
 --
---decodeLeaderTotal : Decoder LeaderTotalData
---decodeLeaderTotal =
---    list decodeLeaderTotalUser
 --
 --
 --
----- decodeLeaderTotalUser : Decoder LeaderTotalUser
+-- decodeLeaderTotalUser : Decoder LeaderTotalUser
 ---- decodeLeaderTotalUser =
 ----     map2 LeaderTotalUser
 ----         (field "username" string)
 ----         (field "total" int)
 --
 --
---decodeLeaderTotalUser : Decoder LeaderTotalUser
---decodeLeaderTotalUser =
---    map2 LeaderTotalUser
---        (field "username" string)
---        (field "total" <| oneOf [ int, map (\str -> unwrapStringInt <| String.toInt str) string ])
 --
 --
---unwrapStringInt : Maybe Int -> Int
---unwrapStringInt x =
---    case x of
---        Just i ->
---            i
---
---        Nothing ->
---            0
 --
 --
 --decodeUserSubmissions : Decoder UserSubmission
@@ -152,7 +136,7 @@ decodeSendEmail =
 --        (field "user" <| field "username" string)
 --        (field "puzzle" <| field "title" string)
 --        (field "puzzle" <| field "theme" <| field "theme" string)
---        (field "puzzle" <| field "puzzle_set" decodePuzzleSet)
+--        (field "puzzle" <| field "puzzle_set" decoderPuzzleSet)
 --        (field "submission_datetime" Iso8601.decoder)
 --        (field "submission" string)
 --        (field "is_response_correct" bool)

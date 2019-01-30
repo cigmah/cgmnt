@@ -1,7 +1,7 @@
 module Page.Archive exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodeArchiveData)
+import Decoders exposing (decoderArchiveData)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
 import RemoteData exposing (RemoteData(..), WebData)
@@ -24,7 +24,7 @@ init session =
     ( { session = session
       , archive = Loading
       }
-    , Api.get "puzzles/archive/public/" Nothing ReceivedData decodeArchiveData
+    , Api.get "puzzles/archive/public/" Nothing ReceivedData decoderArchiveData
     )
 
 
