@@ -1,4 +1,4 @@
-port module Api exposing (Cred(..), Email, FirstName, LastName, Username, application, decodeFromChange, decoderFromCred, emailVal, firstNameVal, get, lastNameVal, login, logout, onStoreChange, post, storageDecoder, storeCache, storeCredWith, usernameVal, viewerChanges)
+port module Api exposing (Cred(..), Email, FirstName, LastName, Username, application, authConfig, credDecoder, credHeader, decode, decodeFromChange, decoderFromCred, emailVal, firstNameVal, get, lastNameVal, login, logout, onStoreChange, post, storageDecoder, storeCache, storeCredWith, usernameVal, viewerChanges)
 
 import Api.ApiBase exposing (apiBase)
 import Browser

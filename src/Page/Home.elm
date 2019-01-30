@@ -1,7 +1,10 @@
 module Page.Home exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
+import Api
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
+import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Encode
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session)
 
@@ -14,8 +17,8 @@ type alias Model =
     { session : Session
     , username : String
     , email : String
-    , firstName : Maybe String
-    , lastName : Maybe String
+    , firstName : String
+    , lastName : String
     , response : WebData Response
     }
 
@@ -29,12 +32,26 @@ init session =
     ( { session = session
       , username = ""
       , email = ""
-      , firstName = Nothing
-      , lastName = Nothing
+      , firstName = ""
+      , lastName = ""
       , response = NotAsked
       }
     , Cmd.none
     )
+
+
+decoderRegister =
+    Decode.succeed "Registration was succesful!"
+
+
+encoderRegister : Model -> Encode.Value
+encoderRegister model =
+    Encode.object
+        [ ( "username", Encode.string model.username )
+        , ( "email", Encode.string model.email )
+        , ( "first_name", Encode.string model.firstName )
+        , ( "last_name", Encode.string model.lastName )
+        ]
 
 
 toSession : Model -> Session
@@ -49,6 +66,8 @@ toSession model =
 type Msg
     = ChangeRegisterUsername String
     | ChangeRegisterEmail String
+    | ClickedRegister
+    | ReceivedRegisterResponse (WebData Response)
     | GotSession Session
 
 
@@ -60,6 +79,19 @@ update msg model =
 
         ChangeRegisterEmail input ->
             ( { model | email = input }, Cmd.none )
+
+        ClickedRegister ->
+            case model.response of
+                Success _ ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( { model | response = Loading }
+                    , Api.post "users/" (Session.cred model.session) ReceivedRegisterResponse decoderRegister (encoderRegister model)
+                    )
+
+        ReceivedRegisterResponse response ->
+            ( { model | response = response }, Cmd.none )
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )

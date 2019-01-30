@@ -1,4 +1,4 @@
-module Decoders exposing (decodeSendEmail, decoderArchiveData, decoderPuzzleData, decoderPuzzleSet, decoderThemeData, decoderThemeSet)
+module Decoders exposing (decoderArchiveData, decoderPuzzleData, decoderPuzzleSet, decoderThemeData, decoderThemeSet)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -82,67 +82,3 @@ decoderThemeData =
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
-
-
-
---
---decodeActiveData : Decoder ActiveData
---decodeActiveData =
---    map2 ActiveData
---        (field "active" (list decoderPuzzleData))
---        (field "next" (maybe decoderThemeData))
---
---
---decodePuzzlesData : Decoder PuzzlesData
---decodePuzzlesData =
---    map PuzzlesAll decodeActiveData
---
---
---decodeRegisterResponse : Decoder String
---decodeRegisterResponse =
---    succeed "Success! You can now login with your email."
---
---
-
-
-decodeSendEmail =
-    succeed "A login token was sent to your email!"
-
-
-
---
---
---
---
---
---
---
---
---
--- decodeLeaderTotalUser : Decoder LeaderTotalUser
----- decodeLeaderTotalUser =
-----     map2 LeaderTotalUser
-----         (field "username" string)
-----         (field "total" int)
---
---
---
---
---
---
---decodeUserSubmissions : Decoder UserSubmission
---decodeUserSubmissions =
---    map8 UserSubmission
---        (field "user" <| field "username" string)
---        (field "puzzle" <| field "title" string)
---        (field "puzzle" <| field "theme" <| field "theme" string)
---        (field "puzzle" <| field "puzzle_set" decoderPuzzleSet)
---        (field "submission_datetime" Iso8601.decoder)
---        (field "submission" string)
---        (field "is_response_correct" bool)
---        (field "points" int)
---
---
---decodeSubmissionsData : Decoder SubmissionsData
---decodeSubmissionsData =
---    list decodeUserSubmissions

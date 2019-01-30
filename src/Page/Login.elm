@@ -1,11 +1,11 @@
 module Page.Login exposing (Email, LoginState(..), Model, Msg(..), Response, Token, init, mainHero, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decodeSendEmail)
-import Encoders exposing (encodeEmail, encodeToken)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode as Decode
+import Json.Encode as Encode
 import RemoteData exposing (RemoteData(..), WebData)
 import Route
 import Session exposing (Session(..))
@@ -54,6 +54,22 @@ toSession model =
     model.session
 
 
+encoderEmail : Email -> Encode.Value
+encoderEmail email =
+    Encode.object
+        [ ( "email", Encode.string email ) ]
+
+
+encoderToken : Token -> Encode.Value
+encoderToken token =
+    Encode.object
+        [ ( "token", Encode.string token ) ]
+
+
+decoderSendEmail =
+    Decode.succeed "A login token was sent to your email!"
+
+
 
 -- UPDATE
 
@@ -93,7 +109,7 @@ update msg model =
 
         ( ClickedSendEmail, InputEmail email state ) ->
             ( { model | loginState = InputEmail email Loading }
-            , Api.post "auth/email/" (Session.cred model.session) ReceivedSendEmailResponse decodeSendEmail (encodeEmail email)
+            , Api.post "auth/email/" (Session.cred model.session) ReceivedSendEmailResponse decoderSendEmail (encoderEmail email)
             )
 
         ( ReceivedSendEmailResponse response, InputEmail email Loading ) ->
@@ -115,7 +131,7 @@ update msg model =
 
         ( ClickedSendToken, InputToken email (Success s) token state ) ->
             ( { model | loginState = InputToken email (Success s) token Loading }
-            , Api.login ReceivedSendTokenResponse (encodeToken token) Viewer.decoder
+            , Api.login ReceivedSendTokenResponse (encoderToken token) Viewer.decoder
             )
 
         ( ReceivedSendTokenResponse response, InputToken email data token Loading ) ->
