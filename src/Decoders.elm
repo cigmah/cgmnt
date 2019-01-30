@@ -12,9 +12,9 @@ decodeArchiveData =
     map ArchiveFull <| list decodePuzzleData
 
 
-decodePuzzleData : Decoder PuzzleData
+decodePuzzleData : Decoder FullPuzzleData
 decodePuzzleData =
-    succeed PuzzleData
+    succeed FullPuzzleData
         |> required "id" int
         |> required "theme" decodeThemeData
         |> required "puzzle_set" decodePuzzleSet
@@ -114,28 +114,6 @@ decodeSendEmail =
 --
 --
 --
---decodeOkSubmit : Decoder OkSubmitData
---decodeOkSubmit =
---    map4 OkSubmitData
---        (field "id" int)
---        (field "submission" string)
---        (field "is_response_correct" bool)
---        (field "points" int)
---
---
---decodeTooSoonSubmit : Decoder TooSoonSubmitData
---decodeTooSoonSubmit =
---    map5 TooSoonSubmitData
---        (field "message" string)
---        (field "num_attempts" int)
---        (field "last_submission" Iso8601.decoder)
---        (field "wait_time_seconds" int)
---        (field "next_allowed" Iso8601.decoder)
---
---
---decodeSubmissionResponse : Decoder SubmissionResponse
---decodeSubmissionResponse =
---    map OkSubmit decodeOkSubmit
 --
 --
 --decodeLeaderTotal : Decoder LeaderTotalData

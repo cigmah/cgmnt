@@ -1,9 +1,9 @@
-module Types exposing (ArchiveData(..), PuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
+module Types exposing (ArchiveData(..), FullPuzzleData, LimitedPuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
 
 import Time exposing (Posix)
 
 
-type alias PuzzleData =
+type alias FullPuzzleData =
     { id : Int
     , theme : ThemeData
     , set : PuzzleSet
@@ -16,6 +16,20 @@ type alias PuzzleData =
     , input : Maybe String
     , answer : Maybe String
     , explanation : Maybe String
+    }
+
+
+type alias LimitedPuzzleData =
+    { id : Int
+    , theme : ThemeData
+    , set : PuzzleSet
+    , imagePath : String
+    , title : String
+    , body : String
+    , example : String
+    , statement : String
+    , references : String
+    , input : Maybe String
     }
 
 
@@ -44,5 +58,5 @@ type PuzzleSet
 
 
 type ArchiveData
-    = ArchiveFull (List PuzzleData)
-    | ArchiveDetail (List PuzzleData) PuzzleData
+    = ArchiveFull (List FullPuzzleData)
+    | ArchiveDetail (List FullPuzzleData) FullPuzzleData

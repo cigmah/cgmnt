@@ -17,8 +17,13 @@ import Viewer
 
 type alias Model =
     { session : Session
-    , dashData : WebData DashData
+    , state : DashState
     }
+
+
+type DashState
+    = Denied
+    | Accepted (WebData DashData)
 
 
 type alias DashData =
@@ -41,12 +46,12 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
         LoggedIn _ viewer ->
-            ( { session = session, dashData = Loading }
+            ( { session = session, state = Accepted Loading }
             , Api.get "dashboard/" (Just <| Viewer.cred viewer) ReceivedData decoderDashData
             )
 
         Guest _ ->
-            ( { session = session, dashData = NotAsked }
+            ( { session = session, state = Denied }
             , Cmd.none
             )
 
@@ -69,7 +74,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ReceivedData response ->
-            ( { model | dashData = response }, Cmd.none )
+            ( { model | state = Accepted response }, Cmd.none )
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )
