@@ -1,4 +1,4 @@
-module Types exposing (ArchiveData(..), PuzzleData, PuzzleSet(..), ThemeData)
+module Types exposing (ArchiveData(..), PuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
 
 import Time exposing (Posix)
 
@@ -19,10 +19,17 @@ type alias PuzzleData =
     }
 
 
+type ThemeSet
+    = RTheme
+    | MTheme
+    | STheme
+
+
 type alias ThemeData =
     { id : Int
     , year : Int
     , theme : String
+    , themeSet : ThemeSet
     , tagline : String
     , openDatetime : Posix
     , closeDatetime : Posix

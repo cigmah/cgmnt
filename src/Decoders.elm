@@ -1,4 +1,4 @@
-module Decoders exposing (decodeArchiveData, decodePuzzleData, decodePuzzleSet, decodeSendEmail, decodeThemeData)
+module Decoders exposing (decodeArchiveData, decodePuzzleData, decodePuzzleSet, decodeSendEmail, decodeThemeData, decodeThemeSet)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -52,12 +52,33 @@ decodePuzzleSet =
             )
 
 
+decodeThemeSet : Decoder ThemeSet
+decodeThemeSet =
+    string
+        |> andThen
+            (\string ->
+                case string of
+                    "R" ->
+                        succeed RTheme
+
+                    "M" ->
+                        succeed MTheme
+
+                    "S" ->
+                        succeed STheme
+
+                    _ ->
+                        fail "Invalid ThemeSet"
+            )
+
+
 decodeThemeData : Decoder ThemeData
 decodeThemeData =
-    map6 ThemeData
+    map7 ThemeData
         (field "id" int)
         (field "year" int)
         (field "theme" string)
+        (field "theme_set" decodeThemeSet)
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
