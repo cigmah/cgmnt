@@ -220,7 +220,7 @@ tableColumn model =
                     [ div [] [ text "Loading..." ] ]
     in
     div [ class "column is-half" ]
-        [ div [ class "card" ]
+        [ div [ class "card is-fullheight" ]
             [ div [ class "card-header" ]
                 [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
             , div [ class "card-content" ] leaderContent
@@ -285,7 +285,7 @@ registerForm model =
                 Failure error ->
                     footer [ class "card-footer has-text-white has-background-danger" ] [ span [ class "card-footer-item content has-text-centered" ] [ text "There was an error." ] ]
     in
-    [ div [ class "card" ]
+    [ div [ class "card is-fullheight" ]
         [ div [ class "card-header" ]
             [ span [ class <| "card-header-title has-text-weight-semibold is-centered has-text-centered" ++ colourState ]
                 [ text "Registrations open." ]

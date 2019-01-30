@@ -90,15 +90,15 @@ posixToString time =
             Time.toMonth zone time
 
         day =
-            Time.toDay zone time
+            String.padLeft 2 '0' <| String.fromInt <| Time.toDay zone time
 
         hour =
-            Time.toHour zone time
+            String.padLeft 2 '0' <| String.fromInt <| Time.toHour zone time
 
         minute =
-            Time.toMinute zone time
+            String.padLeft 2 '0' <| String.fromInt <| Time.toMinute zone time
     in
-    monthToString month ++ " " ++ String.fromInt day ++ " " ++ String.fromInt hour ++ ":" ++ String.fromInt minute
+    monthToString month ++ " " ++ day ++ " " ++ hour ++ ":" ++ minute
 
 
 monthToString : Month -> String
