@@ -2,9 +2,9 @@ module Page.Home exposing (Model, Msg, init, subscriptions, toSession, update, v
 
 import Api
 import Decoders exposing (decoderLeaderTotal)
-import Html exposing (Html, button, div, footer, h1, input, label, span, table, tbody, td, text, th, thead, tr)
-import Html.Attributes exposing (class, classList, placeholder, type_)
-import Html.Events exposing (onInput, onSubmit)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Html.Lazy exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -158,24 +158,23 @@ mainHero model =
     in
     div []
         [ div [ classList [ ( "pageloader", True ), ( "is-active", isLoading ) ] ] [ span [ class "title" ] [ text "Loading..." ] ]
-        , div [ class "hero is-fullheight-with-navbar" ]
-            [ div [ class "hero-body" ]
-                [ div [ class "container" ]
-                    [ div [ class "tile is-ancestor" ]
-                        [ div [ class "tile is-parent is-vertical" ]
-                            [ div [ class "tile is-parent is-12" ]
-                                [ div [ class "tile is-child" ]
-                                    [ div [ class "subtitle " ] [ text "The Coding Interest Group in Medicine and Healthcare presents the " ]
-                                    , div [ class "title " ] [ text "CIGMAH Puzzle Hunt 2019" ]
-                                    ]
-                                ]
-                            , div [ class "tile is-parent is-12" ]
-                                [ div [ class "tile is-child columns is-multiline" ]
-                                    [ tableColumn model
-                                    , registerColumn model
-                                    ]
-                                ]
-                            ]
+        , div [ class "section" ]
+            [ div [ class "hero is-fullheight-with-navbar" ]
+                [ div [ class "hero-body" ]
+                    [ div [ class "container" ]
+                        [ h2 [ class "subtitle" ] [ text "The Coding Interest Group in Medicine and Healthcare presents" ]
+                        , h1 [ class "title" ] [ text "The CIGMAH Puzzle Hunt 2019" ]
+                        , p [ class "content" ] [ text "A puzzle hunt for biomedical and medical students to learn how to code." ]
+                        , p [ class "button", href "#register" ] [ text "Register" ]
+                        ]
+                    ]
+                ]
+            ]
+        , div [ class "section" ]
+            [ div [ class "hero is-fullheight-with-navbar" ]
+                [ div [ class "hero-body" ]
+                    [ div [ class "container" ]
+                        [ div [ class "columns is-centered" ] [ registerColumn model ]
                         ]
                     ]
                 ]
@@ -219,8 +218,8 @@ tableColumn model =
                 _ ->
                     [ div [] [ text "Loading..." ] ]
     in
-    div [ class "column is-half" ]
-        [ div [ class "card is-fullheight" ]
+    div [ class "column is-half is-narrow is-centered" ]
+        [ div [ class "card is-fullheight", id "register" ]
             [ div [ class "card-header" ]
                 [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
             , div [ class "card-content" ] leaderContent
@@ -288,7 +287,7 @@ registerForm model =
     [ div [ class "card is-fullheight" ]
         [ div [ class "card-header" ]
             [ span [ class <| "card-header-title has-text-weight-semibold is-centered has-text-centered" ++ colourState ]
-                [ text "Registrations open." ]
+                [ text "Registrations are open." ]
             ]
         , Html.form
             [ class "card-content "
