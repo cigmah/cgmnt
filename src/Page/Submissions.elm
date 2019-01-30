@@ -10,11 +10,13 @@ import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
+import Page.Error exposing (..)
 import Page.Nav exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
 import Types exposing (..)
+import Utils
 import Viewer exposing (Viewer(..))
 
 
@@ -130,17 +132,88 @@ navMenuLinked model body =
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = navMenuLinked model <| mainHero
+    , content = navMenuLinked model <| mainHero model
     }
 
 
-mainHero =
-    div [ class "hero is-primary is-fullheight-with-navbar" ]
+mainHero model =
+    case model.state of
+        Accepted (Success data) ->
+            div [ class "hero is-fullheight-with-navbar" ]
+                [ div [ class "hero-body" ]
+                    [ div [ class "container" ]
+                        [ div [ class "columns is-multiline" ] <|
+                            [ submissionsBody
+                                data
+                            ]
+                        ]
+                    ]
+                ]
+
+        Accepted Loading ->
+            div [ class "pageloader is-active" ] []
+
+        Accepted _ ->
+            errorPage
+
+        Denied ->
+            whoopsPage
+
+
+makeTableHeadings : List String -> Html Msg
+makeTableHeadings headingList =
+    let
+        makeRow heading =
+            th [ class "has-background-info has-text-white" ] [ text heading ]
+    in
+    thead []
+        [ tr [] <| List.map makeRow headingList ]
+
+
+submissionsBody data =
+    let
+        headings =
+            makeTableHeadings [ "Puzzle", "Theme", "Set", "Submission Time", "Submission", "Status", "Points" ]
+
+        numRows =
+            List.length data
+
+        dataRows =
+            List.map makeRowUserSubmission data
+
+        tableBody =
+            table [ class "table is-hoverable is-fullwidth" ]
+                [ headings
+                , tbody [] dataRows
+                ]
+    in
+    section [ class "hero" ]
         [ div [ class "hero-body" ]
             [ div [ class "container" ]
-                [ div [ class "columns is-multiline" ]
-                    [ div [] [ text "Submissions" ]
+                [ div [ class "columns is-centered" ]
+                    [ div [ class "column" ] [ tableBody ]
                     ]
                 ]
             ]
+        ]
+
+
+makeRowUserSubmission dataRow =
+    let
+        makeStatus isCorrect =
+            case isCorrect of
+                True ->
+                    "Correct"
+
+                False ->
+                    "Incorrect"
+    in
+    tr []
+        [ td [] [ text <| dataRow.puzzleTitle ]
+        , td [] [ text <| dataRow.theme ]
+        , td [] [ text <| Utils.puzzleSetString dataRow.set ]
+        , td [] [ text <| Utils.posixToString dataRow.submissionDatetime ]
+        , td [] [ text <| dataRow.submission ]
+        , td [] [ text <| makeStatus dataRow.isCorrect ]
+        , td [] [ text <| String.fromInt dataRow.points ]
         ]
