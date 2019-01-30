@@ -10,7 +10,9 @@ import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
+import Page.Error exposing (..)
 import Page.Nav exposing (navMenu)
+import Page.Puzzle exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -131,18 +133,45 @@ navMenuLinked model body =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "CIGMAH"
-    , content = navMenuLinked model <| mainHero
+    { title = "Closed Puzzles - CIGMAH"
+    , content = navMenuLinked model <| mainBody model
     }
 
 
-mainHero =
-    div [ class "hero is-primary is-fullheight-with-navbar" ]
-        [ div [ class "hero-body" ]
-            [ div [ class "container" ]
-                [ div [ class "columns is-multiline" ]
-                    [ div [] [ text "TEST" ]
-                    ]
-                ]
-            ]
+isLoading model =
+    case model.state of
+        AcceptedFull Loading ->
+            True
+
+        _ ->
+            False
+
+
+mainBody model =
+    section [ class "section" ]
+        [ div [ class "container" ] [ makePuzzleCards model ]
         ]
+
+
+makePuzzleCards model =
+    case model.state of
+        AcceptedFull Loading ->
+            div [ class "pageloader is-active" ] [ span [ class "title" ] [ text "Loading..." ] ]
+
+        AcceptedFull (Success data) ->
+            div []
+                [ h1 [ class "title" ] [ text "Unsolved Puzzles" ]
+                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.complete
+                , hr [] []
+                , h1 [ class "title" ] [ text "Solved Puzzles" ]
+                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.incomplete
+                ]
+
+        AcceptedDetail puzzles selectedPuzzle ->
+            detailPuzzle selectedPuzzle ClickedBackToFull
+
+        Denied ->
+            whoopsPage
+
+        _ ->
+            errorPage
