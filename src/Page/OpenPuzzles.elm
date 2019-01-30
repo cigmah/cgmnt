@@ -6,10 +6,11 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
-import Json.Encode as Encode
+import Json.Encode as Encode exposing (Value)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -32,7 +33,7 @@ type State
     | Unloaded (WebData OpenData)
     | Full OpenData
     | Detail OpenData SelectedPuzzleInfo (WebData SubmissionResponse)
-    | Completed OpenData SelectedPuzzleInfo OkSubmitData
+    | Completed SelectedPuzzleInfo OkSubmitData
 
 
 type alias OpenData =
@@ -119,6 +120,14 @@ decodeSubmissionResponse =
     Decode.map OkSubmit decodeOkSubmit
 
 
+encoderSubmission : SelectedPuzzleInfo -> Value
+encoderSubmission selectedPuzzle =
+    Encode.object
+        [ ( "puzzle_id", Encode.int selectedPuzzle.puzzle.id )
+        , ( "submission", Encode.string selectedPuzzle.input )
+        ]
+
+
 init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
@@ -143,6 +152,11 @@ toSession model =
 type Msg
     = GotSession Session
     | ReceivedOpenData (WebData OpenData)
+    | ReceivedSubmissionResponse (WebData SubmissionResponse)
+    | ClickedPuzzle LimitedPuzzleData
+    | ChangedSubmission String
+    | ClickedSubmit
+    | ClickedBackToFull
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -158,6 +172,83 @@ update msg model =
 
                 _ ->
                     ( { model | state = Unloaded response }, Cmd.none )
+
+        ClickedPuzzle puzzle ->
+            case model.state of
+                Full openData ->
+                    ( { model | state = Detail openData { puzzle = puzzle, input = "" } NotAsked }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ChangedSubmission input ->
+            case model.state of
+                Detail openData selectedPuzzleInfo submissionResponseWebData ->
+                    ( { model | state = Detail openData { selectedPuzzleInfo | input = input } submissionResponseWebData }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ClickedSubmit ->
+            case model.state of
+                Detail openData selectedPuzzleInfo submissionResponseWebData ->
+                    ( { model | state = Detail openData selectedPuzzleInfo Loading }
+                    , Api.post "submissions/" (Session.cred model.session) ReceivedSubmissionResponse decodeSubmissionResponse (encoderSubmission selectedPuzzleInfo)
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ReceivedSubmissionResponse response ->
+            case model.state of
+                Detail openData selectedPuzzleInfo submissionResponseWebData ->
+                    case response of
+                        Success (OkSubmit okSubmitData) ->
+                            case okSubmitData.isCorrect of
+                                True ->
+                                    ( { model | state = Completed selectedPuzzleInfo okSubmitData }, Cmd.none )
+
+                                _ ->
+                                    ( { model | state = Detail openData selectedPuzzleInfo response }, Cmd.none )
+
+                        Failure (BadStatus e) ->
+                            case e.status.code of
+                                412 ->
+                                    let
+                                        decodedErrorData =
+                                            Decode.decodeString decodeTooSoonSubmit e.body
+                                    in
+                                    case decodedErrorData of
+                                        Ok tooSoonData ->
+                                            ( { model | state = Detail openData selectedPuzzleInfo (Success (TooSoonSubmit tooSoonData)) }, Cmd.none )
+
+                                        Err _ ->
+                                            ( { model | state = Detail openData selectedPuzzleInfo response }, Cmd.none )
+
+                                _ ->
+                                    ( { model | state = Detail openData selectedPuzzleInfo response }, Cmd.none )
+
+                        _ ->
+                            ( { model | state = Detail openData selectedPuzzleInfo response }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ClickedBackToFull ->
+            case model.state of
+                Detail _ _ Loading ->
+                    ( model, Cmd.none )
+
+                Detail openData _ _ ->
+                    ( { model | state = Full openData }, Cmd.none )
+
+                Completed selectedPuzzleInfo okSubmitData ->
+                    ( { model | state = Unloaded Loading }
+                    , Api.get "puzzles/active/" (Session.cred model.session) ReceivedOpenData decoderOpenData
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
 
 
 
