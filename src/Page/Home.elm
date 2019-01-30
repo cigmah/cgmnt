@@ -208,22 +208,24 @@ tableColumn model =
 
         rows miniLeader =
             List.map2 makeRow (ranks miniLeader) miniLeader
-    in
-    case model.miniLeader of
-        Success miniLeader ->
-            div [ class "column is-half" ]
-                [ div [ class "card" ]
-                    [ div [ class "card-header" ]
-                        [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
-                    , div [ class "card-content" ]
-                        [ table [ class "table is-fullwidth is-hoverable" ]
-                            [ thead [] [ tableHead ], tbody [] <| rows miniLeader ]
-                        ]
-                    ]
-                ]
 
-        _ ->
-            div [] []
+        leaderContent =
+            case model.miniLeader of
+                Success miniLeader ->
+                    [ table [ class "table is-fullwidth is-hoverable" ]
+                        [ thead [] [ tableHead ], tbody [] <| rows miniLeader ]
+                    ]
+
+                _ ->
+                    [ div [] [ text "Loading..." ] ]
+    in
+    div [ class "column is-half" ]
+        [ div [ class "card" ]
+            [ div [ class "card-header" ]
+                [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
+            , div [ class "card-content" ] leaderContent
+            ]
+        ]
 
 
 registerColumn model =
