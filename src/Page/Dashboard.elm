@@ -4,7 +4,9 @@ import Api
 import Decoders exposing (decoderThemeData)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
+import Html.Lazy exposing (..)
 import Json.Decode as Decode
+import Page.Nav exposing (navMenu)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Types exposing (..)
@@ -18,6 +20,7 @@ import Viewer
 type alias Model =
     { session : Session
     , state : State
+    , navActive : Bool
     }
 
 
@@ -46,12 +49,12 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
         LoggedIn _ viewer ->
-            ( { session = session, state = Accepted Loading }
+            ( { session = session, state = Accepted Loading, navActive = False }
             , Api.get "dashboard/" (Just <| Viewer.cred viewer) ReceivedData decoderDashData
             )
 
         Guest _ ->
-            ( { session = session, state = Denied }
+            ( { session = session, state = Denied, navActive = False }
             , Cmd.none
             )
 
@@ -68,6 +71,7 @@ toSession model =
 type Msg
     = GotSession Session
     | ReceivedData (WebData DashData)
+    | ToggledNavMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -78,6 +82,9 @@ update msg model =
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )
+
+        ToggledNavMenu ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
 
 
 
@@ -93,10 +100,14 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Puzzle Hunt Dashboard"
-    , content = mainHero
+    , content = navMenuLinked model <| mainHero
     }
 
 

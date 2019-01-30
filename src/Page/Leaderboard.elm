@@ -1,7 +1,7 @@
 module Page.Leaderboard exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
-import Decoders exposing (decoderPuzzleSet, decoderThemeSet)
+import Decoders exposing (decoderLeaderTotal, decoderLeaderTotalUnit, decoderPuzzleSet, decoderThemeSet)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -10,6 +10,7 @@ import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
+import Page.Nav exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -24,6 +25,7 @@ import Viewer exposing (Viewer(..))
 type alias Model =
     { session : Session
     , state : State
+    , navActive : Bool
     }
 
 
@@ -33,16 +35,6 @@ type State
     | ByPuzzleChosen PuzzleOptionsData PuzzleOption (WebData LeaderPuzzleData)
     | ByThemeNotChosen (WebData ThemeOptionsData)
     | ByThemeChosen ThemeOptionsData ThemeOption (WebData LeaderThemeData)
-
-
-type alias LeaderTotalData =
-    List LeaderTotalUnit
-
-
-type alias LeaderTotalUnit =
-    { username : String
-    , total : Int
-    }
 
 
 type alias ThemeOptionsData =
@@ -94,33 +86,6 @@ type alias LeaderThemeUnit =
 
 
 -- DECODERS
-
-
-unwrapStringInt : Maybe Int -> Int
-unwrapStringInt x =
-    case x of
-        Just i ->
-            i
-
-        Nothing ->
-            0
-
-
-decoderLeaderTotalUnit : Decoder LeaderTotalUnit
-decoderLeaderTotalUnit =
-    Decode.map2 LeaderTotalUnit
-        (Decode.field "username" Decode.string)
-        (Decode.field "total" <|
-            Decode.oneOf
-                [ Decode.int
-                , Decode.map (\str -> unwrapStringInt <| String.toInt str) Decode.string
-                ]
-        )
-
-
-decoderLeaderTotal : Decoder LeaderTotalData
-decoderLeaderTotal =
-    Decode.list decoderLeaderTotalUnit
 
 
 decoderThemeOption : Decoder ThemeOption
@@ -202,7 +167,7 @@ getLeaderTheme id =
 
 init : Session -> ( Model, Cmd Msg )
 init session =
-    ( { session = session, state = ByTotal Loading }
+    ( { session = session, state = ByTotal Loading, navActive = False }
     , getLeaderTotal
     )
 
@@ -228,6 +193,7 @@ type Msg
     | ClickedPuzzle PuzzleOption
     | ClickedLeaderTheme
     | ClickedTheme ThemeOption
+    | ToggledNavMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -302,6 +268,9 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
+        ToggledNavMenu ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
+
 
 
 -- SUBSCRIPTIONS
@@ -316,10 +285,14 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = mainHero
+    , content = navMenuLinked model <| mainHero
     }
 
 

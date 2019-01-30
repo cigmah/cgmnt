@@ -1,6 +1,6 @@
 module Page exposing (Page(..), view, viewErrors)
 
-import Api exposing (Cred)
+import Api exposing (Cred, logout)
 import Browser exposing (Document)
 import Html exposing (Html, a, button, div, footer, i, img, li, nav, p, span, text, ul)
 import Html.Attributes exposing (class, classList, href, style)
@@ -26,7 +26,7 @@ type Page
 view : Maybe Viewer -> Page -> { title : String, content : Html msg } -> Document msg
 view maybeViewer page { title, content } =
     { title = title ++ ""
-    , body = viewHeader page maybeViewer :: content :: [ viewFooter ]
+    , body = content :: [ viewFooter ]
     }
 
 
@@ -67,6 +67,8 @@ viewMenu page maybeViewer =
             , linkTo Route.ClosedPuzzles [ text "Closed Puzzles" ]
             , linkTo Route.Leaderboard [ text "Leaderboard" ]
             , linkTo Route.Submissions [ text "Submissions" ]
+            , li [ class "navbar-item" ] [ p [] [ text username ] ]
+            , li [ class "navbar-item" ] [ a [ Route.href Route.Logout ] [ text "Logout" ] ]
             ]
 
         Nothing ->

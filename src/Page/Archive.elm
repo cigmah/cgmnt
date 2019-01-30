@@ -4,6 +4,8 @@ import Api
 import Decoders exposing (decoderArchiveData)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
+import Html.Lazy exposing (..)
+import Page.Nav exposing (navMenu)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session)
 import Types exposing (..)
@@ -16,6 +18,7 @@ import Types exposing (..)
 type alias Model =
     { session : Session
     , state : State
+    , navActive : Bool
     }
 
 
@@ -28,6 +31,7 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     ( { session = session
       , state = Full Loading
+      , navActive = False
       }
     , Api.get "puzzles/archive/public/" Nothing ReceivedData decoderArchiveData
     )
@@ -47,6 +51,7 @@ type Msg
     | ReceivedData (WebData ArchiveData)
     | ClickedPuzzle FullPuzzleData
     | ClickedBackToFull
+    | ToggledNavMenu
     | GotSession Session
 
 
@@ -78,6 +83,9 @@ update msg model =
         GotSession session ->
             ( { model | session = session }, Cmd.none )
 
+        ToggledNavMenu ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
+
 
 
 -- SUBSCRIPTIONS
@@ -92,8 +100,12 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Archive"
-    , content = div [] [ h1 [] [ text "THIS IS THE Archive PAGE!" ] ]
+    , content = navMenuLinked model <| div [] [ h1 [] [ text "THIS IS THE Archive PAGE!" ] ]
     }

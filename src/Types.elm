@@ -1,4 +1,4 @@
-module Types exposing (ArchiveData(..), FullPuzzleData, LimitedPuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
+module Types exposing (ArchiveData(..), FullPuzzleData, LeaderTotalData, LeaderTotalUnit, LimitedPuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
 
 import Time exposing (Posix)
 
@@ -60,3 +60,13 @@ type PuzzleSet
 type ArchiveData
     = ArchiveFull (List FullPuzzleData)
     | ArchiveDetail (List FullPuzzleData) FullPuzzleData
+
+
+type alias LeaderTotalData =
+    List LeaderTotalUnit
+
+
+type alias LeaderTotalUnit =
+    { username : String
+    , total : Int
+    }

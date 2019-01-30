@@ -18,7 +18,7 @@ import Page.OpenPuzzles as OpenPuzzles
 import Page.Resources as Resources
 import Page.Submissions as Submissions
 import Route exposing (Route)
-import Session exposing (Session)
+import Session exposing (Session(..))
 import Time exposing (Posix)
 import Url exposing (Url)
 import Viewer exposing (Viewer)
@@ -54,8 +54,8 @@ toSession model =
         Home modelHome ->
             Home.toSession modelHome
 
-        Resources session ->
-            session
+        Resources modelResources ->
+            Resources.toSession modelResources
 
         Archive modelArchive ->
             Archive.toSession modelArchive
@@ -63,20 +63,20 @@ toSession model =
         Login modelLogin ->
             Login.toSession modelLogin
 
-        Dashboard modelLogin ->
-            Dashboard.toSession modelLogin
+        Dashboard modelDashboard ->
+            Dashboard.toSession modelDashboard
 
-        OpenPuzzles modelLogin ->
-            OpenPuzzles.toSession modelLogin
+        OpenPuzzles modelOpenPuzzles ->
+            OpenPuzzles.toSession modelOpenPuzzles
 
-        ClosedPuzzles modelLogin ->
-            ClosedPuzzles.toSession modelLogin
+        ClosedPuzzles modelClosedPuzzles ->
+            ClosedPuzzles.toSession modelClosedPuzzles
 
-        Leaderboard modelLogin ->
-            Leaderboard.toSession modelLogin
+        Leaderboard modelLeaderboard ->
+            Leaderboard.toSession modelLeaderboard
 
-        Submissions modelLogin ->
-            Submissions.toSession modelLogin
+        Submissions modelSubmissions ->
+            Submissions.toSession modelSubmissions
 
         NotFound session ->
             session
@@ -106,7 +106,7 @@ changeRouteTo routeMaybe model =
             Archive.init session |> updateWith Archive GotArchiveMsg model
 
         Just Route.Resources ->
-            ( Resources session, Cmd.none )
+            Resources.init session |> updateWith Resources GotResourcesMsg model
 
         Just Route.Login ->
             Login.init session |> updateWith Login GotLoginMsg model
@@ -126,6 +126,14 @@ changeRouteTo routeMaybe model =
         Just Route.Submissions ->
             Submissions.init session |> updateWith Submissions GotSubmissionsMsg model
 
+        Just Route.Logout ->
+            case session of
+                LoggedIn key _ ->
+                    Home.init (Guest key) |> updateWith Home GotHomeMsg model
+
+                Guest _ ->
+                    ( model, Cmd.none )
+
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toModel toMsg model ( subModel, subCmd ) =
@@ -142,6 +150,7 @@ type Msg
     | ToggledNavMenu
     | GotHomeMsg Home.Msg
     | GotArchiveMsg Archive.Msg
+    | GotResourcesMsg Resources.Msg
     | GotLoginMsg Login.Msg
     | GotDashboardMsg Dashboard.Msg
     | GotOpenPuzzlesMsg OpenPuzzles.Msg
@@ -178,6 +187,9 @@ update msg model =
 
         ( GotArchiveMsg subMsg, Archive data ) ->
             Archive.update subMsg data |> updateWith Archive GotArchiveMsg model
+
+        ( GotResourcesMsg subMsg, Resources data ) ->
+            Resources.update subMsg data |> updateWith Resources GotResourcesMsg model
 
         ( GotDashboardMsg subMsg, Dashboard data ) ->
             Dashboard.update subMsg data |> updateWith Dashboard GotDashboardMsg model
@@ -265,8 +277,8 @@ view model =
         Archive modelArchive ->
             viewPage Page.Archive GotArchiveMsg (Archive.view modelArchive)
 
-        Resources session ->
-            viewPage Page.Other (\_ -> Ignored) Resources.view
+        Resources modelResources ->
+            viewPage Page.Other GotResourcesMsg (Resources.view modelResources)
 
         Login modelLogin ->
             viewPage Page.Login GotLoginMsg (Login.view modelLogin)

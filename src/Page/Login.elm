@@ -4,8 +4,10 @@ import Api
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Html.Lazy exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
+import Page.Nav exposing (navMenu)
 import RemoteData exposing (RemoteData(..), WebData)
 import Route
 import Session exposing (Session(..))
@@ -31,6 +33,7 @@ type alias Response =
 type alias Model =
     { session : Session
     , loginState : LoginState
+    , navActive : Bool
     }
 
 
@@ -44,6 +47,7 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     ( { session = session
       , loginState = InputEmail "" NotAsked
+      , navActive = False
       }
     , Cmd.none
     )
@@ -82,6 +86,7 @@ type Msg
     | ClickedSendToken
     | ReceivedSendTokenResponse (WebData Viewer.Viewer)
     | GotSession Session
+    | ToggledNavMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -152,6 +157,9 @@ update msg model =
             , Route.replaceUrl (Session.navKey session) Route.Home
             )
 
+        ( ToggledNavMenu, _ ) ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
+
         ( _, _ ) ->
             ( model, Cmd.none )
 
@@ -169,10 +177,14 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Login"
-    , content = mainHero model
+    , content = navMenuLinked model <| mainHero model
     }
 
 

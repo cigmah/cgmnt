@@ -11,6 +11,7 @@ import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode exposing (Value)
+import Page.Nav exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -25,6 +26,7 @@ import Viewer exposing (Viewer(..))
 type alias Model =
     { session : Session
     , state : State
+    , navActive : Bool
     }
 
 
@@ -132,12 +134,12 @@ init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
         LoggedIn _ viewer ->
-            ( { session = session, state = Unloaded Loading }
+            ( { session = session, state = Unloaded Loading, navActive = False }
             , Api.get "puzzles/active/" (Just <| Viewer.cred viewer) ReceivedOpenData decoderOpenData
             )
 
         Guest _ ->
-            ( { session = session, state = Denied }, Cmd.none )
+            ( { session = session, state = Denied, navActive = False }, Cmd.none )
 
 
 toSession : Model -> Session
@@ -157,6 +159,7 @@ type Msg
     | ChangedSubmission String
     | ClickedSubmit
     | ClickedBackToFull
+    | ToggledNavMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -250,6 +253,9 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
+        ToggledNavMenu ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
+
 
 
 -- SUBSCRIPTIONS
@@ -264,10 +270,14 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = mainHero
+    , content = navMenuLinked model <| mainHero
     }
 
 

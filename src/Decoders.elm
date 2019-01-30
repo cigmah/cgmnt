@@ -1,4 +1,4 @@
-module Decoders exposing (decoderArchiveData, decoderPuzzleData, decoderPuzzleSet, decoderThemeData, decoderThemeSet)
+module Decoders exposing (decoderArchiveData, decoderLeaderTotal, decoderLeaderTotalUnit, decoderPuzzleData, decoderPuzzleSet, decoderThemeData, decoderThemeSet)
 
 import Iso8601
 import Json.Decode as Decode exposing (..)
@@ -27,6 +27,16 @@ decoderPuzzleData =
         |> optional "input" (maybe string) Nothing
         |> optional "answer" (maybe string) Nothing
         |> optional "explanation" (maybe string) Nothing
+
+
+unwrapStringInt : Maybe Int -> Int
+unwrapStringInt x =
+    case x of
+        Just i ->
+            i
+
+        Nothing ->
+            0
 
 
 decoderPuzzleSet : Decoder PuzzleSet
@@ -82,3 +92,20 @@ decoderThemeData =
         (field "tagline" string)
         (field "open_datetime" Iso8601.decoder)
         (field "close_datetime" Iso8601.decoder)
+
+
+decoderLeaderTotalUnit : Decoder LeaderTotalUnit
+decoderLeaderTotalUnit =
+    Decode.map2 LeaderTotalUnit
+        (Decode.field "username" Decode.string)
+        (Decode.field "total" <|
+            Decode.oneOf
+                [ Decode.int
+                , Decode.map (\str -> unwrapStringInt <| String.toInt str) Decode.string
+                ]
+        )
+
+
+decoderLeaderTotal : Decoder LeaderTotalData
+decoderLeaderTotal =
+    Decode.list decoderLeaderTotalUnit

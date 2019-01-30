@@ -12,6 +12,7 @@ type Route
     | Resources
     | Archive
     | Login
+    | Logout
     | Dashboard
     | OpenPuzzles
     | ClosedPuzzles
@@ -26,6 +27,7 @@ parser =
         , Parser.map Resources <| s "resources"
         , Parser.map Archive <| s "archive"
         , Parser.map Login <| s "login"
+        , Parser.map Logout <| s "logout"
         , Parser.map Dashboard <| s "dashboard"
         , Parser.map OpenPuzzles <| s "open-puzzles"
         , Parser.map ClosedPuzzles <| s "closed-puzzles"
@@ -50,6 +52,9 @@ routeToString page =
 
                 Login ->
                     [ "login" ]
+
+                Logout ->
+                    [ "logout" ]
 
                 Dashboard ->
                     [ "dashboard" ]

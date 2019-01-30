@@ -1,12 +1,16 @@
 module Page.Home exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
 import Api
+import Decoders exposing (decoderLeaderTotal)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
+import Html.Lazy exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
+import Page.Nav exposing (navMenu)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session)
+import Types exposing (..)
 
 
 
@@ -15,11 +19,13 @@ import Session exposing (Session)
 
 type alias Model =
     { session : Session
+    , navActive : Bool
     , username : String
     , email : String
     , firstName : String
     , lastName : String
-    , response : WebData Response
+    , miniLeader : WebData LeaderTotalData
+    , registerResponse : WebData Response
     }
 
 
@@ -30,13 +36,15 @@ type alias Response =
 init : Session -> ( Model, Cmd Msg )
 init session =
     ( { session = session
+      , navActive = False
       , username = ""
       , email = ""
       , firstName = ""
       , lastName = ""
-      , response = NotAsked
+      , miniLeader = Loading
+      , registerResponse = NotAsked
       }
-    , Cmd.none
+    , Api.get "submissions/leaderboard/mini/" Nothing ReceivedMiniLeader decoderLeaderTotal
     )
 
 
@@ -68,7 +76,9 @@ type Msg
     | ChangeRegisterEmail String
     | ClickedRegister
     | ReceivedRegisterResponse (WebData Response)
+    | ReceivedMiniLeader (WebData LeaderTotalData)
     | GotSession Session
+    | ToggledNavMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -81,17 +91,23 @@ update msg model =
             ( { model | email = input }, Cmd.none )
 
         ClickedRegister ->
-            case model.response of
+            case model.registerResponse of
                 Success _ ->
                     ( model, Cmd.none )
 
                 _ ->
-                    ( { model | response = Loading }
+                    ( { model | registerResponse = Loading }
                     , Api.post "users/" (Session.cred model.session) ReceivedRegisterResponse decoderRegister (encoderRegister model)
                     )
 
         ReceivedRegisterResponse response ->
-            ( { model | response = response }, Cmd.none )
+            ( { model | registerResponse = response }, Cmd.none )
+
+        ReceivedMiniLeader response ->
+            ( { model | miniLeader = response }, Cmd.none )
+
+        ToggledNavMenu ->
+            ( { model | navActive = not model.navActive }, Cmd.none )
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )
@@ -110,10 +126,14 @@ subscriptions model =
 -- VIEW
 
 
+navMenuLinked model body =
+    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+
+
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = mainHero
+    , content = navMenuLinked model <| mainHero
     }
 
 
