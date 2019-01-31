@@ -113,7 +113,7 @@ detailPuzzle puzzle onDeselectEvent =
                 [ div [ class "font-semibold font-sans text-4xl text-primary rounded-t border-b-4 pb-4 border-primary pb-3" ] <| Markdown.toHtml Nothing puzzle.title
                 , div [ class "mb-3 mt-3 w-full" ] [ puzzleTagsList puzzle ]
                 , div [ class "markdown" ] <| Markdown.toHtml Nothing puzzle.body
-                , div [ class "bg-white mt-3 mb-3 rounded font-light shadow p-4 border-primary rounded-l-none border-l-8 markdown" ] <| Markdown.toHtml Nothing puzzle.example
+                , div [ class "bg-white mt-3 mb-3 rounded font-light shadow p-4 pt-2 border-primary rounded-l-none border-l-8 markdown" ] <| Markdown.toHtml Nothing puzzle.example
                 , div [ class "markdown" ] <| Markdown.toHtml Nothing puzzle.statement
                 ]
             ]
