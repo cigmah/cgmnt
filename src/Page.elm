@@ -16,7 +16,7 @@ type Page
     | Resources
     | Archive
     | Login
-    | Dashboard
+    | Register
     | OpenPuzzles
     | ClosedPuzzles
     | Leaderboard
@@ -26,7 +26,7 @@ type Page
 view : Maybe Viewer -> Page -> { title : String, content : Html msg } -> Document msg
 view maybeViewer page { title, content } =
     { title = title ++ ""
-    , body = content :: [ viewFooter ]
+    , body = [ div [ class "w-full bg-grey-lighter" ] <| content :: [ viewFooter ] ]
     }
 
 

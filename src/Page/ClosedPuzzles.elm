@@ -161,10 +161,10 @@ makePuzzleCards model =
         AcceptedFull (Success data) ->
             div []
                 [ h1 [ class "title" ] [ text "Unsolved Puzzles" ]
-                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.complete
+                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.incomplete
                 , hr [] []
                 , h1 [ class "title" ] [ text "Solved Puzzles" ]
-                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.incomplete
+                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.complete
                 ]
 
         AcceptedDetail puzzles selectedPuzzle ->

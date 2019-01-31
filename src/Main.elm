@@ -9,12 +9,12 @@ import Page
 import Page.Archive as Archive
 import Page.Blank as Blank
 import Page.ClosedPuzzles as ClosedPuzzles
-import Page.Dashboard as Dashboard
 import Page.Home as Home
 import Page.Leaderboard as Leaderboard
 import Page.Login as Login
 import Page.NotFound as NotFound
 import Page.OpenPuzzles as OpenPuzzles
+import Page.Register as Register
 import Page.Resources as Resources
 import Page.Submissions as Submissions
 import Route exposing (Route)
@@ -33,7 +33,7 @@ type Model
     | Resources Resources.Model
     | Archive Archive.Model
     | Login Login.Model
-    | Dashboard Dashboard.Model
+    | Register Register.Model
     | OpenPuzzles OpenPuzzles.Model
     | ClosedPuzzles ClosedPuzzles.Model
     | Leaderboard Leaderboard.Model
@@ -63,8 +63,8 @@ toSession model =
         Login modelLogin ->
             Login.toSession modelLogin
 
-        Dashboard modelDashboard ->
-            Dashboard.toSession modelDashboard
+        Register modelDashboard ->
+            Register.toSession modelDashboard
 
         OpenPuzzles modelOpenPuzzles ->
             OpenPuzzles.toSession modelOpenPuzzles
@@ -111,8 +111,8 @@ changeRouteTo routeMaybe model =
         Just Route.Login ->
             Login.init session |> updateWith Login GotLoginMsg model
 
-        Just Route.Dashboard ->
-            Dashboard.init session |> updateWith Dashboard GotDashboardMsg model
+        Just Route.Register ->
+            Register.init session |> updateWith Register GotRegisterMsg model
 
         Just Route.OpenPuzzles ->
             OpenPuzzles.init session |> updateWith OpenPuzzles GotOpenPuzzlesMsg model
@@ -152,7 +152,7 @@ type Msg
     | GotArchiveMsg Archive.Msg
     | GotResourcesMsg Resources.Msg
     | GotLoginMsg Login.Msg
-    | GotDashboardMsg Dashboard.Msg
+    | GotRegisterMsg Register.Msg
     | GotOpenPuzzlesMsg OpenPuzzles.Msg
     | GotClosedPuzzlesMsg ClosedPuzzles.Msg
     | GotLeaderboardMsg Leaderboard.Msg
@@ -191,8 +191,8 @@ update msg model =
         ( GotResourcesMsg subMsg, Resources data ) ->
             Resources.update subMsg data |> updateWith Resources GotResourcesMsg model
 
-        ( GotDashboardMsg subMsg, Dashboard data ) ->
-            Dashboard.update subMsg data |> updateWith Dashboard GotDashboardMsg model
+        ( GotRegisterMsg subMsg, Register data ) ->
+            Register.update subMsg data |> updateWith Register GotRegisterMsg model
 
         ( GotOpenPuzzlesMsg subMsg, OpenPuzzles data ) ->
             OpenPuzzles.update subMsg data |> updateWith OpenPuzzles GotOpenPuzzlesMsg model
@@ -232,8 +232,8 @@ subscriptions model =
         Login modelLogin ->
             Sub.map GotLoginMsg (Login.subscriptions modelLogin)
 
-        Dashboard modelDashboard ->
-            Sub.map GotDashboardMsg (Dashboard.subscriptions modelDashboard)
+        Register modelDashboard ->
+            Sub.map GotRegisterMsg (Register.subscriptions modelDashboard)
 
         OpenPuzzles modelOpenPuzzles ->
             Sub.map GotOpenPuzzlesMsg (OpenPuzzles.subscriptions modelOpenPuzzles)
@@ -283,8 +283,8 @@ view model =
         Login modelLogin ->
             viewPage Page.Login GotLoginMsg (Login.view modelLogin)
 
-        Dashboard modelDashboard ->
-            viewPage Page.Dashboard GotDashboardMsg (Dashboard.view modelDashboard)
+        Register modelDashboard ->
+            viewPage Page.Register GotRegisterMsg (Register.view modelDashboard)
 
         OpenPuzzles modelOpenPuzzles ->
             viewPage Page.OpenPuzzles GotOpenPuzzlesMsg (OpenPuzzles.view modelOpenPuzzles)

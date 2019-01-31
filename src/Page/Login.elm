@@ -198,7 +198,7 @@ loggedInPage viewer =
                     [ text "You can now access the Puzzle Hunt tab to check out the open puzzles :)" ]
                 , h2 [ class "" ]
                     [ text "(Or, if you like, "
-                    , a [ Route.href Route.Dashboard ] [ text "click here" ]
+                    , a [ Route.href Route.Home ] [ text "click here" ]
                     , text " for the dashboard."
                     ]
                 ]

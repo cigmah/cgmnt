@@ -1,4 +1,3 @@
-import './Styles/custom.css'
 import { Elm } from './Main.elm';
 import registerServiceWorker from './registerServiceWorker';
 
