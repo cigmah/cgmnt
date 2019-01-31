@@ -198,7 +198,7 @@ makePuzzleCards model =
                 ]
 
         Detail puzzles selectedPuzzle ->
-            detailPuzzle selectedPuzzle ClickedBackToFull
+            detailPuzzleWithSolution selectedPuzzle ClickedBackToFull
 
         AcceptedFull Loading ->
             loadingPuzzlePage
@@ -223,7 +223,7 @@ makePuzzleCards model =
                 ]
 
         AcceptedDetail puzzles selectedPuzzle ->
-            detailPuzzle selectedPuzzle ClickedBackToFull
+            detailPuzzleWithSolution selectedPuzzle ClickedBackToFull
 
         _ ->
             div [] []

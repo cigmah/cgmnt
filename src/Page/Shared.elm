@@ -1,4 +1,4 @@
-module Page.Shared exposing (detailPuzzle, loadingPuzzlePage, loadingState, loremIpsum, puzzleCard, puzzleCardPlaceholder)
+module Page.Shared exposing (detailPuzzle, detailPuzzleWithSolution, loadingPuzzlePage, loadingState, loremIpsum, puzzleCard, puzzleCardPlaceholder)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -113,8 +113,19 @@ detailPuzzle puzzle onDeselectEvent =
                 [ div [ class "font-semibold font-sans text-4xl text-primary rounded-t border-b-4 pb-4 border-primary pb-3" ] <| Markdown.toHtml Nothing puzzle.title
                 , div [ class "mb-3 mt-3 w-full" ] [ puzzleTagsList puzzle ]
                 , div [ class "markdown" ] <| Markdown.toHtml Nothing puzzle.body
-                , div [ class "bg-white mt-3 mb-3 rounded font-light shadow p-4 pt-2 border-primary rounded-l-none border-l-8 markdown" ] <| Markdown.toHtml Nothing puzzle.example
-                , div [ class "markdown" ] <| Markdown.toHtml Nothing puzzle.statement
+                , div [ class "bg-white mt-3 mb-3 rounded font-light shadow p-4 pt-2 border-grey rounded-l-none border-l-4 markdown" ] <| [ div [ class "font-light pt-3 pb-6 text-xl italic" ] [ text "Example" ] ] ++ Markdown.toHtml Nothing puzzle.example
+                , div [ class "markdown border-primary border-t-4 pt-3 pb-32 mt-6 font-sans font-semibold text-center text-2xl" ] <| Markdown.toHtml Nothing puzzle.statement
                 ]
+            ]
+        ]
+
+
+detailPuzzleWithSolution puzzle onDeselectEvent =
+    div []
+        [ detailPuzzle puzzle onDeselectEvent
+        , div [ class "content" ]
+            [ div [ class "font-semibold font-sant text-4xl text-primary rounded-t border-b-4 pb-4 border-primary pb-3 " ] [ text "Solution" ]
+            , div [ class "bg-white border-primary rounded rounded-l-none p-3 text-center shadow " ] [ text "The answer is ", span [ class "font-bold" ] [ text puzzle.answer ], text "." ]
+            , div [ class "markdown pb-12" ] <| Markdown.toHtml Nothing puzzle.explanation
             ]
         ]
