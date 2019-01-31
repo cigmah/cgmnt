@@ -26,7 +26,7 @@ type Page
 view : Maybe Viewer -> Page -> { title : String, content : Html msg } -> Document msg
 view maybeViewer page { title, content } =
     { title = title ++ ""
-    , body = [ div [ class "w-full bg-grey-lighter" ] <| content :: [ viewFooter ] ]
+    , body = [ div [ class "w-full h-full bg-grey-lighter" ] <| content :: [ viewFooter ] ]
     }
 
 
@@ -39,8 +39,8 @@ view maybeViewer page { title, content } =
 viewFooter : Html msg
 viewFooter =
     footer []
-        [ div [ class "container" ]
-            [ text "footer" ]
+        [ div []
+            []
         ]
 
 

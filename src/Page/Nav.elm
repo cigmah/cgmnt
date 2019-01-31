@@ -36,8 +36,8 @@ navMenu toggleMsg navActive maybeViewer =
                     [ ( Route.Logout, "Logout" ) ]
     in
     nav
-        [ class "flex lg:h-12 items-center pin-t pin-x w-screen fixed shadow justify-between flex-wrap bg-grey-lighter"
-        , classList [ ( "h-12", not navActive ) ]
+        [ class "flex lg:h-16 items-center pin-t pin-x w-screen fixed shadow justify-between flex-wrap bg-grey-lighter"
+        , classList [ ( "h-16", not navActive ) ]
         ]
         [ div [ class "flex items-center text-grey-dark mr-6 p-6" ]
             [ span [ class "font-semibold text-xl" ]
@@ -56,12 +56,12 @@ navMenu toggleMsg navActive maybeViewer =
             [ class "w-full h-full flex-grow  lg:flex lg:w-auto"
             , classList [ ( "block", navActive ), ( "hidden", not navActive ) ]
             ]
-            [ div [ class "text-sm h-full text-right  lg:flex-grow" ] <| List.map navLink rightLinks
+            [ div [ class "text-sm h-full lg:text-right  lg:flex-grow" ] <| List.map navLink rightLinks
             ]
         ]
 
 
 navLink : ( Route, String ) -> Html msg
 navLink ( route, name ) =
-    a [ Route.href route, class "font-normal font-sans text-base block h-full lg:inline-block hover:bg-grey-light hover:text-grey-darker ml-2 mt-2 mb-2 lg:mt-0 lg:mb-0 px-3 py-4 lg:text-center no-underline text-grey-dark  mr-4" ]
+    a [ Route.href route, class "font-normal font-sans text-lg block h-full lg:inline-block hover:bg-grey-light hover:text-grey-darker ml-2 mt-2 mb-2 lg:mt-0 lg:mb-0 px-3 py-6 lg:text-center no-underline text-grey-dark  mr-4" ]
         [ span [] [ text name ] ]

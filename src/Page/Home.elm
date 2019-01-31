@@ -10,6 +10,7 @@ import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 import List
 import Page.Nav exposing (navMenu)
+import Page.Shared exposing (loadingState)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Types exposing (..)
@@ -187,10 +188,6 @@ themeCard ( titleText, taglineText ) =
         ]
 
 
-loadingState textMsg =
-    span [ class "text-grey-light bg-grey-light rounded" ] [ textMsg ]
-
-
 template viewer webData =
     let
         texts =
@@ -227,21 +224,21 @@ template viewer webData =
                     }
     in
     div [ class "container mx-auto h-screen p-4 justify-center items-center" ]
-        [ div [ class "text-4xl font-sans font-normal mt-5 mb-3" ] [ texts.welcome ]
-        , div [ class "text-2xl font-sans font-light mb-6" ] [ texts.tagline ]
-        , div [ class "text-xl font-sans font-light mb-3" ] [ texts.currentLeadIn ]
-        , div [ class "block lg:flex mb-3" ] texts.themeCards
+        [ div [ class "text-4xl font-sans font-normal mt-5 mb-4" ] [ texts.welcome ]
+        , div [ class "text-2xl font-sans font-light mb-8" ] [ texts.tagline ]
+        , div [ class "text-xl font-sans font-light mb-4" ] [ texts.currentLeadIn ]
+        , div [ class "block lg:flex mb-6" ] texts.themeCards
         , div [ class "text-xl font-sans font-light mb-3" ] [ texts.nextTheme ]
         ]
 
 
 dashboardContainer viewer webData =
-    div [] [ div [ class "h-12" ] [], template viewer webData ]
+    div [] [ div [ class "h-16" ] [], template viewer webData ]
 
 
 landingContainer =
     div [ class " h-screen mx-auto px-4 justify-center items-center w-full lg:flex lg:flex-wrap " ]
-        [ div [ class "h-12" ] []
+        [ div [ class "h-16" ] []
         , div [ class "flex-1 align-middle px-4 py-4 lg:w-1/2 m-2 items-center w-full" ]
             [ h1 [ class "text-xl font-light mb-5 font-sans" ] [ text "The Coding Interest Group in Medicine and Healthcare presents" ]
             , h2 [ class "text-3xl font-sans font-normal mb-5" ] [ text "The CIGMAH Puzzle Hunt 2019" ]
