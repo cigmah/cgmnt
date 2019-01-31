@@ -56,7 +56,7 @@ puzzleCard clickedPuzzleEvent puzzle =
             [ div [ class "w-full h-32 overflow-hidden resize" ]
                 [ img [ class "w-full", src puzzle.imagePath ] [] ]
             , div [ class "px-6 pt-4" ]
-                [ div [ class "font-light text-xl " ] [ text <| "#" ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ] ]
+                [ div [ class "font-light text-lg " ] [ text <| "#" ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ] ]
             , div [ class "px-6 pt-2 pb-4" ] [ tagSet puzzle.set ]
             ]
         ]
@@ -66,9 +66,9 @@ puzzleCardPlaceholder =
     div [ class "md:w-1/2 lg:w-1/4" ]
         [ div [ class "m-3 bg-white rounded-lg shadow  verflow-hidden " ]
             [ div [ class "w-full h-32 overflow-hidden resize" ]
-                [ img [ class "w-full bg-grey" ] [] ]
+                [ img [ class "w-full bg-grey-lighter" ] [] ]
             , div [ class "px-6 pt-4" ]
-                [ div [ class "font-light text-xl " ] [ loadingState <| text <| slice 0 20 loremIpsum ] ]
+                [ div [ class "font-light text-lg " ] [ loadingState <| text <| slice 0 20 loremIpsum ] ]
             , div [ class "px-6 pt-2 pb-4" ] [ tagSetPlaceholder ]
             ]
         ]
@@ -77,10 +77,10 @@ puzzleCardPlaceholder =
 loadingPuzzlePage =
     div [ class "" ]
         [ div [ class "h-16" ] []
-        , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ loadingState <| text "Unsolved Puzzles" ]
+        , h1 [ class "font-sans font-normal text-2xl  border-grey-light border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ loadingState <| text "Unsolved Puzzles" ]
         , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         , hr [] []
-        , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ loadingState <| text "Solved Puzzles" ]
+        , h1 [ class "font-sans font-normal text-2xl  border-grey-light border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ loadingState <| text "Solved Puzzles" ]
         , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         ]
 
