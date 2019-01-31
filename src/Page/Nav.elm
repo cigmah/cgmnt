@@ -24,8 +24,16 @@ navMenu toggleMsg navActive maybeViewer =
                     , ( Route.Archive, "Archive" )
                     , ( Route.Leaderboard, "Leaderboard" )
                     , ( Route.OpenPuzzles, "Puzzles" )
-                    , ( Route.Submissions, "My Submissions" )
+                    , ( Route.Submissions, "Submissions" )
                     ]
+
+        rightLinks =
+            case maybeViewer of
+                Nothing ->
+                    [ ( Route.Login, "Login" ) ]
+
+                Just viewer ->
+                    [ ( Route.Logout, "Logout" ) ]
     in
     nav
         [ class "flex lg:h-12 items-center pin-t pin-x w-screen fixed shadow justify-between flex-wrap bg-grey-lighter"
@@ -44,10 +52,16 @@ navMenu toggleMsg navActive maybeViewer =
                 List.map navLink
                     mainLinks
             ]
+        , div
+            [ class "w-full h-full flex-grow  lg:flex lg:w-auto"
+            , classList [ ( "block", navActive ), ( "hidden", not navActive ) ]
+            ]
+            [ div [ class "text-sm h-full text-right  lg:flex-grow" ] <| List.map navLink rightLinks
+            ]
         ]
 
 
 navLink : ( Route, String ) -> Html msg
 navLink ( route, name ) =
-    a [ Route.href route, class "block h-full w-32 lg:inline-block hover:bg-grey-light hover:text-grey-darker ml-2 mt-2 mb-2 lg:mt-0 lg:mb-0 px-3 py-4 lg:text-center no-underline text-grey-dark  mr-4" ]
+    a [ Route.href route, class "font-normal font-sans text-base block h-full lg:inline-block hover:bg-grey-light hover:text-grey-darker ml-2 mt-2 mb-2 lg:mt-0 lg:mb-0 px-3 py-4 lg:text-center no-underline text-grey-dark  mr-4" ]
         [ span [] [ text name ] ]
