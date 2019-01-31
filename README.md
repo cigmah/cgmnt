@@ -53,26 +53,15 @@ git checkout develop
 
 # Styling
 
-We are using [Bulma](https://bulma.io) with SASS to set some custom variables.
+We are using [Tailwind](https://tailwindcss.com/docs/what-is-tailwind/)
+for styling.
 
-To compile the custom styles, you will need to have NPM installed.
+You will need to have Node installed to build the styles.
 
-Once it is installed, you can install the required Node modules using:
+To build the styles, navigate to the `public` directory and run:
 
-``` sh
-npm install
 ```
-
-Then, you can run either "watch" for changes in the SASS file using:
-
-``` sh
-npm run css-watch
-```
-
-Or you can compile the styles using:
-
-``` sh
-npm run css-build
+npx tailwind build styles.css -c ./tailwind.js -o main.css
 ```
 
 # Structure

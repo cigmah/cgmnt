@@ -184,7 +184,7 @@ tagMsg ( numSolved, totalPoints ) =
 themeCard ( titleText, taglineText ) =
     div [ class "p-4 shadow bg-white mb-4 mr-4 rounded-lg lg:w-1/3 " ]
         [ div [ class "font-sans font-normal text-xl mt-3 mb-5" ] [ titleText ]
-        , div [ class "font-sans font-normal text-lg mb-5" ] [ taglineText ]
+        , div [ class "font-sans font-light tracking-normal leading-normal text-lg mb-5" ] [ taglineText ]
         ]
 
 
@@ -223,7 +223,7 @@ template viewer webData =
                     , nextTheme = div [] []
                     }
     in
-    div [ class "container mx-auto h-screen p-4 justify-center items-center" ]
+    div [ class "container mx-auto h-screen p-6 justify-center items-center pt-24" ]
         [ div [ class "text-4xl font-sans font-normal mt-5 mb-4" ] [ texts.welcome ]
         , div [ class "text-2xl font-sans font-light mb-8" ] [ texts.tagline ]
         , div [ class "text-xl font-sans font-light mb-4" ] [ texts.currentLeadIn ]
@@ -233,13 +233,12 @@ template viewer webData =
 
 
 dashboardContainer viewer webData =
-    div [] [ div [ class "h-16" ] [], template viewer webData ]
+    template viewer webData
 
 
 landingContainer =
-    div [ class " h-screen mx-auto px-4 justify-center items-center w-full lg:flex lg:flex-wrap " ]
-        [ div [ class "h-16" ] []
-        , div [ class "flex-1 align-middle px-4 py-4 lg:w-1/2 m-2 items-center w-full" ]
+    div [ class " h-screen mx-auto px-4 justify-center items-center w-full lg:flex lg:flex-wrap" ]
+        [ div [ class "flex-1 align-middle px-4 py-4 lg:w-1/2 m-2 items-center w-full pt-24" ]
             [ h1 [ class "text-xl font-light mb-5 font-sans" ] [ text "The Coding Interest Group in Medicine and Healthcare presents" ]
             , h2 [ class "text-3xl font-sans font-normal mb-5" ] [ text "The CIGMAH Puzzle Hunt 2019" ]
             , p [ class "content font-sans font-light" ] [ text "A puzzle hunt integrating programming and medicine with a focus on learning." ]

@@ -6,13 +6,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Json.Decode as Decode exposing (Decoder)
 import Markdown
 import Page.Nav exposing (navMenu)
 import Page.Puzzle exposing (..)
+import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Session exposing (Session)
+import Session exposing (Session(..))
 import Types exposing (..)
 import Utils exposing (..)
+import Viewer exposing (Viewer)
 
 
 
@@ -29,16 +32,38 @@ type alias Model =
 type State
     = Full (WebData (List FullPuzzleData))
     | Detail (List FullPuzzleData) FullPuzzleData
+    | AcceptedFull (WebData ClosedData)
+    | AcceptedDetail ClosedData FullPuzzleData
+
+
+type alias ClosedData =
+    { complete : List FullPuzzleData
+    , incomplete : List FullPuzzleData
+    }
+
+
+decoderClosedData : Decoder ClosedData
+decoderClosedData =
+    Decode.map2 ClosedData
+        (Decode.field "complete" decoderArchiveData)
+        (Decode.field "incomplete" decoderArchiveData)
 
 
 init : Session -> ( Model, Cmd Msg )
 init session =
-    ( { session = session
-      , state = Full Loading
-      , navActive = False
-      }
-    , Api.get "puzzles/archive/public/" Nothing ReceivedData decoderArchiveData
-    )
+    case session of
+        LoggedIn keyNav viewer ->
+            ( { session = session, state = AcceptedFull Loading, navActive = False }
+            , Api.get "puzzles/inactive/" (Just <| Viewer.cred viewer) ReceivedClosedData decoderClosedData
+            )
+
+        Guest keyNav ->
+            ( { session = session
+              , state = Full Loading
+              , navActive = False
+              }
+            , Api.get "puzzles/archive/public/" Nothing ReceivedArchiveData decoderArchiveData
+            )
 
 
 toSession : Model -> Session
@@ -52,7 +77,8 @@ toSession model =
 
 type Msg
     = ClickedRefresh
-    | ReceivedData (WebData (List FullPuzzleData))
+    | ReceivedArchiveData (WebData (List FullPuzzleData))
+    | ReceivedClosedData (WebData ClosedData)
     | ClickedPuzzle FullPuzzleData
     | ClickedBackToFull
     | ToggledNavMenu
@@ -65,24 +91,33 @@ update msg model =
         ClickedRefresh ->
             ( model, Cmd.none )
 
-        ReceivedData data ->
+        ReceivedArchiveData data ->
             ( { model | state = Full data }, Cmd.none )
+
+        ReceivedClosedData response ->
+            ( { model | state = AcceptedFull response }, Cmd.none )
 
         ClickedPuzzle puzzle ->
             case model.state of
                 Full (Success data) ->
                     ( { model | state = Detail data puzzle }, Cmd.none )
 
+                AcceptedFull (Success data) ->
+                    ( { model | state = AcceptedDetail data puzzle }, Cmd.none )
+
                 _ ->
                     ( model, Cmd.none )
 
         ClickedBackToFull ->
             case model.state of
-                Full archiveDataWebData ->
-                    ( model, Cmd.none )
-
                 Detail archiveData _ ->
                     ( { model | state = Full (Success archiveData) }, Cmd.none )
+
+                AcceptedDetail closedData _ ->
+                    ( { model | state = AcceptedFull (Success closedData) }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
         GotSession session ->
             ( { model | session = session }, Cmd.none )
@@ -105,14 +140,31 @@ subscriptions model =
 
 
 navMenuLinked model body =
-    div [] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+    div [ class "h-full bg-grey" ] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
 
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "Archive"
-    , content = navMenuLinked model <| mainBody model
-    }
+    case model.state of
+        Full fullPuzzleDataListWebData ->
+            { title = "Archive - CIGMAH"
+            , content = navMenuLinked model <| mainBody model
+            }
+
+        Detail fullPuzzleDataList fullPuzzleData ->
+            { title = "Archive - CIGMAH"
+            , content = mainBody model
+            }
+
+        AcceptedFull closedDataWebData ->
+            { title = "Archive - CIGMAH"
+            , content = navMenuLinked model <| mainBody model
+            }
+
+        AcceptedDetail closedData fullPuzzleData ->
+            { title = "Archive - CIGMAH"
+            , content = mainBody model
+            }
 
 
 isLoading model =
@@ -120,26 +172,54 @@ isLoading model =
         Full Loading ->
             True
 
+        AcceptedFull Loading ->
+            True
+
         _ ->
             False
 
 
 mainBody model =
-    section [ class "section" ]
-        [ div [ classList [ ( "pageloader", True ), ( "is-active", isLoading model ) ] ] [ span [ class "title" ] [ text "Loading..." ] ]
-        , div [ class "container" ] [ makePuzzleCards model ]
+    div [ class "h-screen bg-grey-lighter" ]
+        [ div [ class "container mx-auto pr-4 pl-4  h-full" ] [ makePuzzleCards model ]
         ]
 
 
+makePuzzleCards : Model -> Html Msg
 makePuzzleCards model =
     case model.state of
         Full Loading ->
-            div [] []
+            loadingPuzzlePage
 
         Full (Success puzzles) ->
             div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) puzzles
 
         Detail puzzles selectedPuzzle ->
+            detailPuzzle selectedPuzzle ClickedBackToFull
+
+        AcceptedFull Loading ->
+            loadingPuzzlePage
+
+        AcceptedFull (Success data) ->
+            let
+                incompleteCards : List (Html Msg)
+                incompleteCards =
+                    List.map (puzzleCard ClickedPuzzle) data.incomplete
+
+                completeCards : List (Html Msg)
+                completeCards =
+                    List.map (puzzleCard ClickedPuzzle) data.complete
+            in
+            div [ class "" ]
+                [ div [ class "h-16" ] []
+                , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
+                , div [ class "block lg:inline-block" ] <| incompleteCards
+                , hr [] []
+                , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ text "Solved Puzzles" ]
+                , div [ class "block lg:inline-block" ] <| completeCards
+                ]
+
+        AcceptedDetail puzzles selectedPuzzle ->
             detailPuzzle selectedPuzzle ClickedBackToFull
 
         _ ->

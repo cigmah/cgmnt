@@ -15,6 +15,7 @@ import Markdown
 import Page.Error exposing (..)
 import Page.Nav exposing (..)
 import Page.Puzzle exposing (..)
+import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -300,151 +301,16 @@ mainHero model =
                     whoopsPage
 
                 Full openData ->
-                    puzzleContainer openData
+                    div [] []
 
+                --puzzleContainer openData
                 Detail _ selectedPuzzle submissionResponse ->
-                    detailPuzzleLimited selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit submissionResponse
+                    div [] []
 
+                --detailPuzzleLimited selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit submissionResponse
                 Completed selectedPuzzle okSubmitData ->
-                    completedPage selectedPuzzle okSubmitData ClickedBackToFull
+                    div [] []
+
+        --completedPage selectedPuzzle okSubmitData ClickedBackToFull
     in
     mainBody
-
-
-puzzleContainer openData =
-    div [ class "container" ]
-        [ h1 [ class "title" ] [ text "Unsolved Puzzles" ]
-        , div [ class "columns is-multiline" ] <| List.map (puzzleCard (ClickedPuzzle False)) openData.incomplete
-        , hr [] []
-        , h2 [ class "title" ] [ text "Solved Puzzles" ]
-        , div [ class "columns is-multiline" ] <| List.map (puzzleCard (ClickedPuzzle True)) openData.complete
-        ]
-
-
-completedPage selectedPuzzle okSubmitData backEvent =
-    div [ class "hero is-fullheight-with-navbar" ]
-        [ div [ class "hero-body" ]
-            [ div [ class "container" ]
-                [ h1 [ class "title" ] [ text "Congratulations!" ]
-                , h2 [ class "subtitle" ]
-                    [ text <|
-                        "You solved "
-                            ++ selectedPuzzle.puzzle.title
-                            ++ " and earned "
-                            ++ String.fromInt okSubmitData.points
-                            ++ " points!"
-                    ]
-                , button [ class "button", onClick backEvent ] [ text "Go Back to Open Puzzles" ]
-                ]
-            ]
-        ]
-
-
-detailPuzzleLimited selectedPuzzle onDeselectEvent onInputChangeEvent onSubmitEvent submissionResponse =
-    let
-        afterText =
-            case selectedPuzzle.isCompleted of
-                True ->
-                    "You've completed this puzzle! The solution and explanation will be disclosed when this theme closes."
-
-                False ->
-                    "Enter your submission in the submission box below."
-
-        isLoadingClass =
-            case submissionResponse of
-                Loading ->
-                    " is-loading "
-
-                _ ->
-                    ""
-
-        submitField =
-            case selectedPuzzle.isCompleted of
-                True ->
-                    div [] []
-
-                False ->
-                    div [ class "field is-grouped" ]
-                        [ div [ class "control" ]
-                            [ div [ class "field has-addons" ]
-                                [ div [ class "control is-expanded" ]
-                                    [ input [ class "input", type_ "text", placeholder "Your submission here.", onInput <| onInputChangeEvent ] [] ]
-                                , div [ class "control" ]
-                                    [ button [ class <| "button is-info " ++ isLoadingClass, onClick <| onSubmitEvent ] [ text "Submit" ] ]
-                                ]
-                            ]
-                        ]
-
-        footerSection =
-            case submissionResponse of
-                Success submitData ->
-                    case submitData of
-                        OkSubmit submission ->
-                            case submission.isCorrect of
-                                True ->
-                                    div [ class "field" ]
-                                        [ div [ class "control is-expanded" ]
-                                            [ button [ class "button has-background-success has-text-white is-static" ]
-                                                [ text <| "Congratulations! You scored " ++ String.fromInt submission.points ++ " points!" ]
-                                            ]
-                                        ]
-
-                                False ->
-                                    submitField
-
-                        _ ->
-                            submitField
-
-                _ ->
-                    submitField
-
-        baseHeaderMessage colour msg =
-            header [ class <| "modal-card-head has-text-white has-background-" ++ colour ] [ p [ class "content" ] [ text msg ] ]
-
-        headerMessage =
-            case submissionResponse of
-                Success submitData ->
-                    case submitData of
-                        OkSubmit submission ->
-                            case submission.isCorrect of
-                                True ->
-                                    div [] []
-
-                                False ->
-                                    baseHeaderMessage "warning" "Your response was incorrect. Have a break and have another go later :) "
-
-                        TooSoonSubmit submission ->
-                            baseHeaderMessage "danger" <| "Your last attempt (" ++ Utils.posixToString submission.last ++ ", attempt no. " ++ String.fromInt submission.attempts ++ ") was too recent. You can next submit at " ++ Utils.posixToString submission.next ++ "."
-
-                Failure _ ->
-                    baseHeaderMessage "danger" "Hm. There was an error with submitting your submission...maybe a network issue? If not, get in contact with us - we'd like to know!"
-
-                _ ->
-                    div [] []
-    in
-    div [ class "modal is-active" ]
-        [ div [ class "modal-background" ] []
-        , div [ class "modal-card" ]
-            [ header [ class "modal-card-head" ]
-                [ p [ class "modal-card-title" ]
-                    [ text selectedPuzzle.puzzle.title ]
-                , button [ class "delete is-medium", onClick onDeselectEvent ] []
-                ]
-            , headerMessage
-            , div [ class "modal-card-body" ]
-                [ puzzleTags selectedPuzzle.puzzle
-                , div [ class "container" ]
-                    [ div [ class "content" ]
-                        [ p [] <| Markdown.toHtml Nothing selectedPuzzle.puzzle.body ]
-                    , div [ class "message" ]
-                        [ div [ class "message-body" ] <| Markdown.toHtml Nothing selectedPuzzle.puzzle.example
-                        ]
-                    , div [ class "notification is-info" ] <| Markdown.toHtml Nothing selectedPuzzle.puzzle.statement
-                    , hr [] []
-                    , div [ class "content" ] [ text afterText ]
-                    ]
-                ]
-            , div [ class "modal-card-foot" ]
-                [ footerSection ]
-            ]
-        ]

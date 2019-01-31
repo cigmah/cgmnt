@@ -13,6 +13,7 @@ import Json.Encode as Encode
 import Page.Error exposing (..)
 import Page.Nav exposing (navMenu)
 import Page.Puzzle exposing (..)
+import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -33,34 +34,17 @@ type alias Model =
 
 type State
     = Denied
-    | AcceptedFull (WebData ClosedData)
-    | AcceptedDetail ClosedData FullPuzzleData
-
-
-type alias ClosedData =
-    { complete : List FullPuzzleData
-    , incomplete : List FullPuzzleData
-    }
 
 
 
 -- DECODERS
 
 
-decoderClosedData : Decoder ClosedData
-decoderClosedData =
-    Decode.map2 ClosedData
-        (Decode.field "complete" decoderArchiveData)
-        (Decode.field "incomplete" decoderArchiveData)
-
-
 init : Session -> ( Model, Cmd Msg )
 init session =
     case session of
         LoggedIn _ viewer ->
-            ( { session = session, state = AcceptedFull Loading, navActive = False }
-            , Api.get "puzzles/inactive/" (Just <| Viewer.cred viewer) ReceivedClosedData decoderClosedData
-            )
+            ( { session = session, state = Denied, navActive = False }, Cmd.none )
 
         Guest _ ->
             ( { session = session, state = Denied, navActive = False }
@@ -79,9 +63,6 @@ toSession model =
 
 type Msg
     = GotSession Session
-    | ReceivedClosedData (WebData ClosedData)
-    | ClickedPuzzle FullPuzzleData
-    | ClickedBackToFull
     | ToggledNavMenu
 
 
@@ -90,25 +71,6 @@ update msg model =
     case msg of
         GotSession session ->
             ( { model | session = session }, Cmd.none )
-
-        ReceivedClosedData response ->
-            ( { model | state = AcceptedFull response }, Cmd.none )
-
-        ClickedPuzzle puzzle ->
-            case model.state of
-                AcceptedFull (Success closedData) ->
-                    ( { model | state = AcceptedDetail closedData puzzle }, Cmd.none )
-
-                _ ->
-                    ( model, Cmd.none )
-
-        ClickedBackToFull ->
-            case model.state of
-                AcceptedDetail closedData fullPuzzleData ->
-                    ( { model | state = AcceptedFull (Success closedData) }, Cmd.none )
-
-                _ ->
-                    ( model, Cmd.none )
 
         ToggledNavMenu ->
             ( { model | navActive = not model.navActive }, Cmd.none )
@@ -138,40 +100,6 @@ view model =
     }
 
 
-isLoading model =
-    case model.state of
-        AcceptedFull Loading ->
-            True
-
-        _ ->
-            False
-
-
 mainBody model =
     section [ class "section" ]
-        [ div [ class "container" ] [ makePuzzleCards model ]
-        ]
-
-
-makePuzzleCards model =
-    case model.state of
-        AcceptedFull Loading ->
-            div [ class "pageloader is-active" ] [ span [ class "title" ] [ text "Loading..." ] ]
-
-        AcceptedFull (Success data) ->
-            div []
-                [ h1 [ class "title" ] [ text "Unsolved Puzzles" ]
-                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.incomplete
-                , hr [] []
-                , h1 [ class "title" ] [ text "Solved Puzzles" ]
-                , div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) data.complete
-                ]
-
-        AcceptedDetail puzzles selectedPuzzle ->
-            detailPuzzle selectedPuzzle ClickedBackToFull
-
-        Denied ->
-            whoopsPage
-
-        _ ->
-            errorPage
+        [ div [ class "container" ] [] ]

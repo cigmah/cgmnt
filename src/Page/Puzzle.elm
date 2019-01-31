@@ -1,4 +1,4 @@
-module Page.Puzzle exposing (detailPuzzle, explanationSection, puzzleCard, puzzleTags, solutionSection)
+module Page.Puzzle exposing (explanationSection, puzzleTags, solutionSection)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -7,25 +7,6 @@ import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
 import Utils exposing (..)
-
-
-puzzleCard onSelectEvent puzzle =
-    div [ class "column is-one-third-desktop is-half-tablet" ]
-        [ div [ class "card puzzle", onClick <| onSelectEvent puzzle ]
-            [ div [ class "card-image" ]
-                [ figure [ class "image is-2by1" ]
-                    [ img [ src puzzle.imagePath, alt "Placeholder" ] []
-                    ]
-                ]
-            , div [ class "card-content" ]
-                [ div [ class "media" ]
-                    [ div [ class "media-content" ]
-                        [ p [ class "subtitle" ] [ text puzzle.title ] ]
-                    ]
-                , puzzleTags puzzle
-                ]
-            ]
-        ]
 
 
 puzzleTags puzzle =
@@ -72,30 +53,3 @@ solutionSection puzzle =
 explanationSection puzzle =
     div [ class "content" ]
         [ p [] <| Markdown.toHtml Nothing puzzle.explanation ]
-
-
-detailPuzzle puzzle onDeselectEvent =
-    div [ class "modal is-active" ]
-        [ div [ class "modal-background" ] []
-        , div [ class "modal-card" ]
-            [ header [ class "modal-card-head" ]
-                [ p [ class "modal-card-title" ]
-                    [ text puzzle.title ]
-                , button [ class "delete is-medium", onClick onDeselectEvent ] []
-                ]
-            , div [ class "modal-card-body" ]
-                [ puzzleTags puzzle
-                , div [ class "container" ]
-                    [ div [ class "content" ]
-                        [ p [] <| Markdown.toHtml Nothing puzzle.body ]
-                    , div [ class "message" ]
-                        [ div [ class "message-body" ] <| Markdown.toHtml Nothing puzzle.example
-                        ]
-                    , div [ class "notification is-info" ] <| Markdown.toHtml Nothing puzzle.statement
-                    , hr [] []
-                    , solutionSection puzzle
-                    , explanationSection puzzle
-                    ]
-                ]
-            ]
-        ]
