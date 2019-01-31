@@ -140,7 +140,7 @@ subscriptions model =
 
 
 navMenuLinked model body =
-    div [ class "h-full bg-grey" ] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
+    div [ class "" ] [ lazy3 navMenu ToggledNavMenu model.navActive (Session.viewer model.session), body ]
 
 
 view : Model -> { title : String, content : Html Msg }
@@ -180,8 +180,8 @@ isLoading model =
 
 
 mainBody model =
-    div [ class "h-screen bg-grey-lighter" ]
-        [ div [ class "container mx-auto pr-4 pl-4  h-full" ] [ makePuzzleCards model ]
+    div [ class "h-screen" ]
+        [ div [ class "container mx-auto pr-4 pl-4 h-full" ] [ makePuzzleCards model ]
         ]
 
 

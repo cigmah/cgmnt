@@ -6126,6 +6126,34 @@ table {
   z-index: auto;
 }
 
+.markdown h1 {
+  font-weight: 300;
+  font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 1.125rem;
+  margin-bottom: .75rem;
+  margin-top: 1.5rem;
+  border-color: #b8c2cc;
+  border-bottom-width: 2px;
+}
+
+.markdown h2 {
+  font-weight: 300;
+  font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  border-color: #b8c2cc;
+  border-bottom-width: 2px;
+}
+
+.markdown {
+  font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 1rem;
+}
+
+.markdown p {
+  margin-top: .75rem;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

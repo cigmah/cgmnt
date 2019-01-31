@@ -1,3 +1,20 @@
 @tailwind preflight;
 @tailwind components;
 @tailwind utilities;
+
+
+.markdown h1 {
+  @apply font-light font-sans text-lg mb-3 mt-6 border-grey border-b-2
+}
+
+.markdown h2 {
+  @apply font-light font-sans mb-2 mt-4 border-grey border-b-2
+}
+
+.markdown {
+  @apply font-sans text-base
+}
+
+.markdown p {
+  @apply mt-3
+}
