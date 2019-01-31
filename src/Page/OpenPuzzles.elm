@@ -49,35 +49,6 @@ type alias OpenData =
     }
 
 
-type alias SelectedPuzzleInfo =
-    { puzzle : LimitedPuzzleData
-    , input : String
-    , isCompleted : Bool
-    }
-
-
-type SubmissionResponse
-    = OkSubmit OkSubmitData
-    | TooSoonSubmit TooSoonSubmitData
-
-
-type alias OkSubmitData =
-    { id : Int
-    , submission : String
-    , isCorrect : Bool
-    , points : Int
-    }
-
-
-type alias TooSoonSubmitData =
-    { message : String
-    , attempts : Int
-    , last : Posix
-    , wait : Int
-    , next : Posix
-    }
-
-
 
 -- DECODERS
 
@@ -282,9 +253,21 @@ navMenuLinked model body =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "CIGMAH"
-    , content = navMenuLinked model <| mainHero model
-    }
+    case model.state of
+        Detail openData selectedPuzzleInfo submissionResponseWebData ->
+            { title = "CIGMAH"
+            , content = mainHero model
+            }
+
+        Completed selectedPuzzleInfo okSubmitData ->
+            { title = "CIGMAH"
+            , content = mainHero model
+            }
+
+        _ ->
+            { title = "CIGMAH"
+            , content = navMenuLinked model <| mainHero model
+            }
 
 
 mainHero model =
@@ -292,7 +275,7 @@ mainHero model =
         mainBody =
             case model.state of
                 Unloaded Loading ->
-                    div [ class "pageloader is-active" ] []
+                    loadingPuzzlePage
 
                 Unloaded _ ->
                     errorPage
@@ -300,17 +283,44 @@ mainHero model =
                 Denied ->
                     whoopsPage
 
-                Full openData ->
-                    div [] []
+                Full data ->
+                    let
+                        incompleteCards : List (Html Msg)
+                        incompleteCards =
+                            List.map (puzzleCard (ClickedPuzzle False)) data.incomplete
+
+                        completeCards : List (Html Msg)
+                        completeCards =
+                            List.map (puzzleCard (ClickedPuzzle True)) data.complete
+                    in
+                    div [ class "" ]
+                        [ div [ class "h-16" ] []
+                        , h1 [ class "font-sans font-normal text-2xl  border-primary border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
+                        , div [ class "block md:flex md:flex-wrap" ] <| incompleteCards
+                        , hr [] []
+                        , h1 [ class "font-sans font-normal text-2xl  border-primary border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ text "Solved Puzzles" ]
+                        , div [ class "block md:flex md:flex-wrap" ] <| completeCards
+                        ]
 
                 --puzzleContainer openData
                 Detail _ selectedPuzzle submissionResponse ->
-                    div [] []
+                    detailOpenPuzzle selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit submissionResponse
 
-                --detailPuzzleLimited selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit submissionResponse
                 Completed selectedPuzzle okSubmitData ->
-                    div [] []
+                    div [ class "items-center content-center h-screen p-4 flex " ]
+                        [ div [ class "flex-1" ]
+                            [ h1 [ class "font-sans font-normal text-4xl mb-3" ] [ text "Congratulations!" ]
+                            , h2 [ class "font-sans font-light text-2xl mb-3" ] [ text "You earned ", span [ class "font-bold" ] [ text <| String.fromInt okSubmitData.points ], text " points! Great job!" ]
+                            , button
+                                [ class "bg-primary text-white px-4 py-2 hover:bg-primary-dark rounded-full"
+                                , onClick ClickedBackToFull
+                                ]
+                                [ text "Back to Puzzles" ]
+                            ]
+                        ]
 
         --completedPage selectedPuzzle okSubmitData ClickedBackToFull
     in
-    mainBody
+    div [ class "h-screen" ]
+        [ div [ class "container mx-auto pr-4 pl-4 h-full" ] [ mainBody ]
+        ]

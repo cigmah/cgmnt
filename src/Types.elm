@@ -1,4 +1,4 @@
-module Types exposing (ArchiveData(..), FullPuzzleData, LeaderTotalData, LeaderTotalUnit, LimitedPuzzleData, PuzzleSet(..), ThemeData, ThemeSet(..))
+module Types exposing (ArchiveData(..), FullPuzzleData, LeaderTotalData, LeaderTotalUnit, LimitedPuzzleData, OkSubmitData, PuzzleSet(..), SelectedPuzzleInfo, SubmissionResponse(..), ThemeData, ThemeSet(..), TooSoonSubmitData)
 
 import Time exposing (Posix)
 
@@ -69,4 +69,33 @@ type alias LeaderTotalData =
 type alias LeaderTotalUnit =
     { username : String
     , total : Int
+    }
+
+
+type SubmissionResponse
+    = OkSubmit OkSubmitData
+    | TooSoonSubmit TooSoonSubmitData
+
+
+type alias OkSubmitData =
+    { id : Int
+    , submission : String
+    , isCorrect : Bool
+    , points : Int
+    }
+
+
+type alias SelectedPuzzleInfo =
+    { puzzle : LimitedPuzzleData
+    , input : String
+    , isCompleted : Bool
+    }
+
+
+type alias TooSoonSubmitData =
+    { message : String
+    , attempts : Int
+    , last : Posix
+    , wait : Int
+    , next : Posix
     }
