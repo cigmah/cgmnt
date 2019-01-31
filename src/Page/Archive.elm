@@ -192,7 +192,7 @@ makePuzzleCards model =
             loadingPuzzlePage
 
         Full (Success puzzles) ->
-            div [ class "columns is-multiline" ] <| List.map (puzzleCard ClickedPuzzle) puzzles
+            div [ class "block md:flex md:flex-wrap pt-24" ] <| List.map (puzzleCard ClickedPuzzle) puzzles
 
         Detail puzzles selectedPuzzle ->
             detailPuzzle selectedPuzzle ClickedBackToFull
@@ -213,10 +213,10 @@ makePuzzleCards model =
             div [ class "" ]
                 [ div [ class "h-16" ] []
                 , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
-                , div [ class "block lg:inline-block" ] <| incompleteCards
+                , div [ class "block md:flex md:flex-wrap" ] <| incompleteCards
                 , hr [] []
                 , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ text "Solved Puzzles" ]
-                , div [ class "block lg:inline-block" ] <| completeCards
+                , div [ class "block md:flex md:flex-wrap" ] <| completeCards
                 ]
 
         AcceptedDetail puzzles selectedPuzzle ->

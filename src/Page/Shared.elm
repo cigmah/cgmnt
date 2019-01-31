@@ -24,29 +24,52 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.
 """
 
 
+tagSet puzzleSet =
+    let
+        colour =
+            case puzzleSet of
+                A ->
+                    "bg-red-light"
+
+                B ->
+                    "bg-blue-light"
+
+                C ->
+                    "bg-primary-light"
+
+                M ->
+                    "bg-pink-light"
+    in
+    span [ class "inline-block font-semibold lowercase rounded-full px-3 py-1 text-sm text-white", classList [ ( colour, True ) ] ]
+        [ text <| "#" ++ Utils.puzzleSetString puzzleSet ]
+
+
+tagSetPlaceholder =
+    span [ class "inline-block font-semibold lowercase rounded-full px-3 py-1 text-sm text-grey-light bg-grey-light" ]
+        [ loadingState <| text <| slice 0 8 loremIpsum ]
+
+
 puzzleCard : (FullPuzzleData -> msg) -> FullPuzzleData -> Html msg
 puzzleCard clickedPuzzleEvent puzzle =
-    div [ class "flex-1 mr-4 rounded-lg w-64 overflow-hidden shadow cursor-pointer hover:shadow-md bg-white", onClick (clickedPuzzleEvent puzzle) ]
-        [ div [ class "w-full h-32 overflow-hidden resize" ]
-            [ img [ class "w-full", src puzzle.imagePath ] [] ]
-        , div [ class "px-6 pt-2" ]
-            [ div [ class "font-bold text-xl " ] [ text <| "#" ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ] ]
-        , div [ class "px-6 pt-2 pb-2" ]
-            [ span [ class "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm text-grey-darker" ]
-                [ text <| Utils.puzzleSetString puzzle.set ]
+    div [ class "md:w-1/2 lg:w-1/4" ]
+        [ div [ class "m-3 bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-md", onClick (clickedPuzzleEvent puzzle) ]
+            [ div [ class "w-full h-32 overflow-hidden resize" ]
+                [ img [ class "w-full", src puzzle.imagePath ] [] ]
+            , div [ class "px-6 pt-4" ]
+                [ div [ class "font-light text-xl " ] [ text <| "#" ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ] ]
+            , div [ class "px-6 pt-2 pb-4" ] [ tagSet puzzle.set ]
             ]
         ]
 
 
 puzzleCardPlaceholder =
-    div [ class "flex-1 mr-4 rounded-lg w-64 overflow-hidden shadow bg-white" ]
-        [ div [ class "w-full h-32 overflow-hidden resize" ]
-            [ img [ class "w-full bg-grey-lighter" ] [] ]
-        , div [ class "px-6 pt-2" ]
-            [ div [ class "font-bold text-xl " ] [ loadingState <| text <| slice 0 20 loremIpsum ] ]
-        , div [ class "px-6 pt-2 pb-2" ]
-            [ span [ class "inline-block bg-grey-light rounded-full px-3 py-1 text-sm " ]
-                [ loadingState <| text <| slice 0 8 loremIpsum ]
+    div [ class "md:w-1/2 lg:w-1/4" ]
+        [ div [ class "m-3 bg-white rounded-lg shadow  verflow-hidden " ]
+            [ div [ class "w-full h-32 overflow-hidden resize" ]
+                [ img [ class "w-full bg-grey" ] [] ]
+            , div [ class "px-6 pt-4" ]
+                [ div [ class "font-light text-xl " ] [ loadingState <| text <| slice 0 20 loremIpsum ] ]
+            , div [ class "px-6 pt-2 pb-4" ] [ tagSetPlaceholder ]
             ]
         ]
 
@@ -55,10 +78,10 @@ loadingPuzzlePage =
     div [ class "" ]
         [ div [ class "h-16" ] []
         , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ loadingState <| text "Unsolved Puzzles" ]
-        , div [ class "block lg:flex" ] <| List.repeat 3 puzzleCardPlaceholder
+        , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         , hr [] []
         , h1 [ class "font-sans font-normal text-3xl mt-8 mb-4" ] [ loadingState <| text "Solved Puzzles" ]
-        , div [ class "block lg:flex" ] <| List.repeat 3 puzzleCardPlaceholder
+        , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         ]
 
 
