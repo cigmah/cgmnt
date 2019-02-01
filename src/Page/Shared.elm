@@ -102,17 +102,17 @@ puzzleTagsList puzzle =
 
 detailPuzzle puzzle onDeselectEvent headerColour =
     div [ class "" ]
-        [ div [ class "h-16 pin-t pin-x fixed shadow w-full", classList [ ( headerColour, True ) ] ]
+        [ div [ class "h-12 pin-t pin-x fixed shadow w-full", classList [ ( headerColour, True ) ] ]
             [ div [ class "content" ]
                 [ button
-                    [ class "m-2 px-5 py-3 font-normal hover:bg-white rounded-full border-2 hover:text-grey-dark text-white border-grey-light hover:border-white"
+                    [ class "m px-3 h-12 py-1 font-normal hover:bg-secondary  text-white "
                     , classList [ ( headerColour, True ) ]
                     , onClick onDeselectEvent
                     ]
                     [ text "Back to Puzzles" ]
                 ]
             ]
-        , div [ class "content bg-white shadow mt-24 p-6 rounded-lg mb-32" ]
+        , div [ class "content bg-white shadow mt-16 p-6 rounded-lg mb-32" ]
             [ div [ class "pt-4" ]
                 [ div [ class "xl:flex xl:justify-between xl:flex-wrap" ]
                     [ div [ class "font-light font-sans text-4xl text-black " ] <| Markdown.toHtml Nothing puzzle.title
@@ -134,10 +134,10 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
         headerColour =
             case selectedPuzzle.isCompleted of
                 True ->
-                    "bg-highlight"
+                    "bg-secondary-light"
 
                 False ->
-                    "bg-grey"
+                    "bg-secondary-light"
 
         message =
             case submissionResponse of
@@ -172,21 +172,21 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
         puzzleFooter =
             case selectedPuzzle.isCompleted of
                 True ->
-                    div [ class "pin-b pin-x fixed text-center text-white font-semibold bg-highlight" ]
+                    div [ class "pin-b pin-x fixed text-center text-white font-semibold bg-secondary-light" ]
                         [ div [ class "p-4" ] [ text "You've finished this puzzle - great work! The solution will be revealed when the theme ends." ] ]
 
                 False ->
-                    div [ class "pin-b pin-x shadow fixed h-16 bg-grey px-4" ]
+                    div [ class "pin-b pin-x shadow fixed h-16 bg-secondary-light px-4" ]
                         [ div [ class "flex justify-center" ]
                             [ div [ class "inline-flex m-2 w-full md:w-1/2" ]
                                 [ input
-                                    [ class "rounded-l w-full px-2 py-3 border-b-2 border-grey focus:border-primary "
+                                    [ class "rounded-l-full w-full px-4 py-3 border-b-2 bg-grey-lighter focus:bg-grey-lightest "
                                     , type_ "text"
                                     , placeholder "Your submission here."
                                     , onInput onChangeSubmissionEvent
                                     ]
                                     []
-                                , button [ class "bg-grey-dark px-3 text-white rounded-r hover:bg-grey-darker", onClick onSubmitEvent ] [ text "Submit" ]
+                                , button [ class "bg-grey px-3 text-white rounded-r-full hover:bg-grey-dark", onClick onSubmitEvent ] [ text "Submit" ]
                                 ]
                             ]
                         ]
@@ -199,8 +199,8 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
 
 
 detailPuzzleWithSolution puzzle onDeselectEvent =
-    div [ class "mb-32" ]
-        [ detailPuzzle puzzle onDeselectEvent "bg-grey"
+    div [ class "mb-8" ]
+        [ detailPuzzle puzzle onDeselectEvent "bg-secondary-light"
         , div [ class "content shadow rounded-lg p-6 bg-white mb-8" ]
             [ div [ class "font-light font-sans text-4xl pb-3 " ] [ text "Solution" ]
             , div [ class "p-3 text-center " ] [ text "The answer is ", span [ class "font-bold" ] [ text puzzle.answer ], text "." ]
