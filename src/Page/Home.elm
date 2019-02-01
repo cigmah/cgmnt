@@ -182,9 +182,9 @@ tagMsg ( numSolved, totalPoints ) =
 
 
 themeCard ( titleText, taglineText ) =
-    div [ class "p-4 shadow bg-white mb-4 mr-4 rounded-lg lg:w-1/3 " ]
-        [ div [ class "font-sans font-normal text-xl mt-3 mb-5" ] [ titleText ]
-        , div [ class "font-sans font-light tracking-normal leading-normal text-lg mb-5" ] [ taglineText ]
+    div [ class "p-4 shadow border-t-4 border-grey-light bg-white mb-4 mr-4 rounded-lg rounded-t-none lg:w-1/3 " ]
+        [ div [ class "font-sans font-normal text-base mt-3 mb-5" ] [ titleText ]
+        , div [ class "font-sans font-light tracking-normal leading-normal text-sm mb-5" ] [ taglineText ]
         ]
 
 
@@ -223,12 +223,12 @@ template viewer webData =
                     , nextTheme = div [] []
                     }
     in
-    div [ class "container mx-auto h-screen p-6 justify-center items-center pt-24" ]
+    div [ class "container mx-auto h-screen p-6 justify-center align-center items-center pt-24" ]
         [ div [ class "text-4xl font-sans font-normal mt-5 mb-4" ] [ texts.welcome ]
         , div [ class "text-2xl font-sans font-light mb-8" ] [ texts.tagline ]
-        , div [ class "text-xl font-sans font-light mb-4" ] [ texts.currentLeadIn ]
+        , div [ class "text-lg font-sans mb-4" ] [ texts.currentLeadIn ]
         , div [ class "block lg:flex mb-6" ] texts.themeCards
-        , div [ class "text-xl font-sans font-light mb-3" ] [ texts.nextTheme ]
+        , div [ class "text-lg font-sans mb-8" ] [ texts.nextTheme ]
         ]
 
 

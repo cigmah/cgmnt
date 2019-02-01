@@ -12,7 +12,7 @@ import Utils
 
 
 loadingState textMsg =
-    span [ class "text-grey-light bg-grey-light rounded" ] [ textMsg ]
+    span [ class "text-grey-lighter bg-grey-lighter rounded" ] [ textMsg ]
 
 
 loremIpsum =
@@ -46,7 +46,7 @@ tagSet puzzleSet =
 
 
 tagSetPlaceholder =
-    span [ class "inline-block font-semibold lowercase rounded-full mt-2 px-3 py-1 text-sm text-grey-light bg-grey-light" ]
+    span [ class "inline-block font-semibold lowercase rounded-full mt-2 px-3 py-1 text-sm text-grey-lighter bg-grey-lighter" ]
         [ loadingState <| text <| slice 0 8 loremIpsum ]
 
 
@@ -77,10 +77,10 @@ puzzleCardPlaceholder =
 loadingPuzzlePage =
     div [ class "" ]
         [ div [ class "h-16" ] []
-        , h1 [ class "font-sans font-normal text-2xl border-grey-light border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ loadingState <| text "Unsolved Puzzles" ]
+        , h1 [ class "font-sans font-normal  text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ loadingState <| text "Unsolved Puzzles" ]
         , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         , hr [] []
-        , h1 [ class "font-sans font-normal text-2xl  border-grey-light border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ loadingState <| text "Solved Puzzles" ]
+        , h1 [ class "font-sans font-normal  text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ loadingState <| text "Solved Puzzles" ]
         , div [ class "block md:flex md:flex-wrap" ] <| List.repeat 4 puzzleCardPlaceholder
         ]
 
@@ -113,7 +113,7 @@ detailPuzzle puzzle onDeselectEvent headerColour =
                 ]
             ]
         , div [ class "content bg-white shadow mt-16 p-6 rounded-lg mb-32" ]
-            [ div [ class "pt-4" ]
+            [ div [ class "pt-4 lg:pr-16 lg:pl-16 lg:pt-12 lg:pb-12" ]
                 [ div [ class "xl:flex xl:justify-between xl:flex-wrap" ]
                     [ div [ class "font-light font-sans text-4xl text-black " ] <| Markdown.toHtml Nothing puzzle.title
                     , div [ class "mb-4 mt-2 align-end " ] [ puzzleTagsList puzzle ]
@@ -201,7 +201,7 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
 detailPuzzleWithSolution puzzle onDeselectEvent =
     div [ class "mb-8" ]
         [ detailPuzzle puzzle onDeselectEvent "bg-secondary-light"
-        , div [ class "content shadow rounded-lg p-6 bg-white mb-8" ]
+        , div [ class "content shadow rounded-lg p-6 bg-white mb-8 lg:pb-12 lg:pt-12 lg:pr-16 lg:pl-16" ]
             [ div [ class "font-light font-sans text-4xl pb-3 " ] [ text "Solution" ]
             , div [ class "p-3 text-center " ] [ text "The answer is ", span [ class "font-bold" ] [ text puzzle.answer ], text "." ]
             , div [ class "markdown pb-12" ] <| Markdown.toHtml Nothing puzzle.explanation

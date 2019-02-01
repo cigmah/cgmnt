@@ -215,10 +215,10 @@ makePuzzleCards model =
             in
             div [ class "" ]
                 [ div [ class "h-16" ] []
-                , h1 [ class "font-sans font-normal text-2xl  border-primary border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
+                , h1 [ class "font-sans font-semibold text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
                 , div [ class "block md:flex md:flex-wrap" ] <| incompleteCards
                 , hr [] []
-                , h1 [ class "font-sans font-normal text-2xl  border-primary border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ text "Solved Puzzles" ]
+                , h1 [ class "font-sans font-semibold  text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ text "Solved Puzzles" ]
                 , div [ class "block md:flex md:flex-wrap" ] <| completeCards
                 ]
 

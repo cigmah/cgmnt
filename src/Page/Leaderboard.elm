@@ -94,7 +94,7 @@ decoderThemeOption =
     Decode.map3 ThemeOption
         (Decode.field "id" Decode.int)
         (Decode.field "theme" Decode.string)
-        (Decode.field "set" decoderThemeSet)
+        (Decode.field "theme_set" decoderThemeSet)
 
 
 decoderPuzzleOption : Decoder PuzzleOption
@@ -102,7 +102,7 @@ decoderPuzzleOption =
     Decode.map4 PuzzleOption
         (Decode.field "id" Decode.int)
         (Decode.field "theme" decoderThemeOption)
-        (Decode.field "set" decoderPuzzleSet)
+        (Decode.field "puzzle_set" decoderPuzzleSet)
         (Decode.field "title" Decode.string)
 
 
@@ -298,14 +298,14 @@ view model =
 
 
 makeHeaderCell headerText =
-    th [] [ text headerText ]
+    th [ class "py-2 px-4 bg-primary text-white text-left" ] [ text headerText ]
 
 
 makeRow rank leaderUnit =
-    tr []
-        [ td [] [ text <| String.fromInt rank ]
-        , td [] [ text leaderUnit.username ]
-        , td [] [ text <| String.fromInt leaderUnit.total ]
+    tr [ class "w-full md:w-1/2 table-row hover:bg-grey-lighter" ]
+        [ td [ class "font-light px-4 py-2" ] [ text <| String.fromInt rank ]
+        , td [ class "md:w-1/2 font-light px-4 py-2" ] [ text leaderUnit.username ]
+        , td [ class "md:w-1/3 font-light px-4 py-2" ] [ text <| String.fromInt leaderUnit.total ]
         ]
 
 
@@ -315,7 +315,7 @@ tableColumn data =
             [ "Rank", "Username", "Points" ]
 
         tableHead =
-            tr [] <| List.map makeHeaderCell tableHeaders
+            tr [ class "w-full lg:w-1/2" ] <| List.map makeHeaderCell tableHeaders
 
         ranks =
             List.range 1 (List.length data)
@@ -324,30 +324,86 @@ tableColumn data =
             List.map2 makeRow ranks data
 
         leaderContent =
-            [ table [ class "table is-fullwidth is-hoverable" ]
+            [ table [ class "table w-full" ]
                 [ thead [] [ tableHead ], tbody [] <| rows ]
             ]
     in
-    div [ class "column" ]
-        [ div [ class "card is-fullheight" ]
-            [ div [ class "card-header" ]
-                [ div [ class "card-header-title" ] [ text "Leaderboard" ] ]
-            , div [ class "card-content" ] leaderContent
-            ]
+    div [ class "flex justify-center mt-24 lg:mt-6 lg:ml-4 lg:mr-4 flex items-center w-full lg:w-1/2 overflow-auto" ]
+        [ div [ class "px-3 w-full" ] leaderContent
         ]
+
+
+selectorColumn =
+    [ button
+        [ class "rounded-full px-3 py-2 border-primary border-2 mr-4 text-primary hover:text-white hover:bg-primary"
+        , onClick ClickedLeaderTotal
+        ]
+        [ text "By Total" ]
+    , button
+        [ class "rounded-full px-3 py-2 border-primary border-2 mr-4 text-primary hover:text-white hover:bg-primary"
+        , onClick ClickedLeaderTheme
+        ]
+        [ text "By Theme" ]
+    , button
+        [ class "rounded-full px-3 py-2 border-primary border-2 text-primary hover:text-white hover:bg-primary"
+        , onClick ClickedLeaderPuzzle
+        ]
+        [ text "By Puzzle" ]
+    ]
+
+
+themeOptionUnit themeOption =
+    div [ class "block w-full px-3 py-2 shadow bg-white font-sans font-light cursor-pointer", onClick (ClickedTheme themeOption) ]
+        [ text <| "#" ++ String.fromInt themeOption.id ++ " " ++ themeOption.theme ]
+
+
+themeOptionView data =
+    case data of
+        Success themeOptions ->
+            div [ class "ml-2 mr-2 lg:mx-0" ] <| List.map themeOptionUnit themeOptions
+
+        _ ->
+            div [] []
+
+
+tableTheme data =
+    div [] []
 
 
 mainHero model =
     case model.state of
         ByTotal (Success data) ->
-            div [ class "hero is-fullheight-with-navbar" ]
-                [ div [ class "hero-body" ]
-                    [ div [ class "container" ]
-                        [ div [ class "columns is-multiline" ]
-                            [ tableColumn data ]
-                        ]
-                    ]
+            div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
+                [ div [ class "lg:w-1/2" ]
+                    [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn ]
+                , tableColumn data
                 ]
+
+        ByThemeNotChosen data ->
+            div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
+                [ div [ class "lg:w-1/2" ]
+                    [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn
+                    , div [ class "block mt-2 mb-4" ] [ themeOptionView data ]
+                    ]
+                , div [] []
+                ]
+
+        ByThemeChosen data chosen response ->
+            case response of
+                Success responseData ->
+                    div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
+                        [ div [ class "lg:w-1/2" ]
+                            [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn
+                            , div [ class "block mt-2 mb-4" ] [ themeOptionView (Success data) ]
+                            ]
+                        , div [] []
+                        ]
+
+                Loading ->
+                    div [] []
+
+                _ ->
+                    errorPage
 
         ByTotal Loading ->
             div [ class "pageloader is-active" ] [ span [ class "title" ] [ text "Loading..." ] ]
