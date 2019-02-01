@@ -30,16 +30,16 @@ tagSet puzzleSet =
         colour =
             case puzzleSet of
                 A ->
-                    "bg-red-light"
+                    "bg-primary"
 
                 B ->
-                    "bg-blue-light"
+                    "bg-secondary"
 
                 C ->
-                    "bg-primary-light"
+                    "bg-highlight"
 
                 M ->
-                    "bg-pink-light"
+                    "bg-grey-dark"
     in
     span [ class "inline-block font-semibold lowercase rounded-full mt-2 px-3 py-1 text-sm text-white", classList [ ( colour, True ) ] ]
         [ text <| "#" ++ Utils.puzzleSetString puzzleSet ]
@@ -54,7 +54,7 @@ puzzleCard clickedPuzzleEvent puzzle =
     div [ class "md:w-1/2 lg:w-1/4" ]
         [ div [ class "m-3 bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-md", onClick (clickedPuzzleEvent puzzle) ]
             [ div [ class "w-full h-32 overflow-hidden resize" ]
-                [ img [ class "w-full", src puzzle.imagePath ] [] ]
+                [ img [ class "w-full resize", src puzzle.imagePath ] [] ]
             , div [ class "px-6 pt-4" ]
                 [ div [ class "font-light text-lg " ] [ text <| "#" ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ] ]
             , div [ class "px-6 pt-2 pb-4" ] [ tagSet puzzle.set ]
@@ -86,16 +86,16 @@ loadingPuzzlePage =
 
 
 puzzleTagsList puzzle =
-    div [ class "md:flex md:inline-flex text-sm" ]
-        [ tagSet puzzle.set
-        , div [ class "inline-flex ml-2 mt-2 bg-primary-light text-white rounded-full px-3 py-1" ] [ text puzzle.theme.theme ]
+    div [ class "md:flex md:inline-flex text-sm mr-2" ]
+        [ div [ class "ml-2 inline-block" ] [ tagSet puzzle.set ]
+        , div [ class "inline-flex ml-2 mt-2 bg-grey-darkest text-white rounded-full px-3 py-1" ] [ text puzzle.theme.theme ]
         , div [ class " ml-2 mt-2 inline-flex" ]
-            [ div [ class "bg-primary-light rounded-l px-3 py-1 text-white" ] [ text "Start" ]
-            , div [ class "bg-grey-light px-3 py-1 rounded-r text-grey-darkest" ] [ text <| Utils.posixToString puzzle.theme.openDatetime ]
+            [ div [ class "bg-grey-darker rounded-l-full  px-3 py-1 text-white" ] [ text "Start" ]
+            , div [ class "bg-grey-lighter px-3 py-1 rounded-r-full text-grey-darkest" ] [ text <| Utils.posixToString puzzle.theme.openDatetime ]
             ]
         , div [ class "ml-2 mt-2 inline-flex" ]
-            [ div [ class "bg-primary-light px-3 py-1 rounded-l text-white" ] [ text "End" ]
-            , div [ class "bg-grey-light px-3 py-1 rounded-r text-grey-darkest" ] [ text <| Utils.posixToString puzzle.theme.closeDatetime ]
+            [ div [ class "bg-grey-darker px-3 py-1 rounded-l-full text-white" ] [ text "End" ]
+            , div [ class "bg-grey-lighter px-3 py-1 rounded-r-full text-grey-darkest" ] [ text <| Utils.posixToString puzzle.theme.closeDatetime ]
             ]
         ]
 
@@ -112,25 +112,29 @@ detailPuzzle puzzle onDeselectEvent headerColour =
                     [ text "Back to Puzzles" ]
                 ]
             ]
-        , div [ class "content" ]
-            [ div [ class "pt-24" ]
-                [ div [ class "font-semibold font-sans text-4xl text-primary rounded-t border-b-4 pb-4 border-primary pb-3" ] <| Markdown.toHtml Nothing puzzle.title
-                , div [ class "mb-3 mt-3 w-full" ] [ puzzleTagsList puzzle ]
+        , div [ class "content bg-white shadow mt-24 p-6 rounded-lg mb-32" ]
+            [ div [ class "pt-4" ]
+                [ div [ class "xl:flex xl:justify-between xl:flex-wrap" ]
+                    [ div [ class "font-light font-sans text-4xl text-black " ] <| Markdown.toHtml Nothing puzzle.title
+                    , div [ class "mb-4 mt-2 align-end " ] [ puzzleTagsList puzzle ]
+                    ]
+                , div [ class "rounded-lg mt-4 mb-3 w-full overflow-hidden resize" ]
+                    [ img [ class "w-full resize", src puzzle.imagePath ] [] ]
                 , div [ class "markdown" ] <| Markdown.toHtml Nothing puzzle.body
-                , div [ class "bg-white mt-3 mb-3 rounded font-light shadow p-4 pt-2 border-grey rounded-l-none border-l-4 markdown overflow-auto" ] <| [ div [ class "font-light pt-3 pb-6 text-xl italic" ] [ text "Example" ] ] ++ Markdown.toHtml Nothing puzzle.example
-                , div [ class "markdown border-primary border-t-4 pt-3 pb-32 mt-6 font-sans font-semibold text-center text-2xl" ] <| Markdown.toHtml Nothing puzzle.statement
+                , div [ class "bg-white mt-8 mb-3 rounded font-light p-4 pt-2 border-grey rounded-l-none border-l-4 markdown overflow-auto" ] <| [ div [ class "font-light pt-3 pb-3 text-xl italic" ] [ text "Example" ] ] ++ Markdown.toHtml Nothing puzzle.example
+                , div [ class "markdown pt-3 pb-12 mt-6 font-sans font-light text-center text-xl" ] <| Markdown.toHtml Nothing puzzle.statement
                 ]
             ]
         ]
 
 
-detailOpenPuzzle : SelectedPuzzleInfo -> msg -> (String -> msg) -> msg -> WebData SubmissionResponse -> Html msg
-detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmitEvent submissionResponse =
+detailOpenPuzzle : SelectedPuzzleInfo -> msg -> (String -> msg) -> msg -> msg -> WebData SubmissionResponse -> Html msg
+detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmitEvent removeMsg submissionResponse =
     let
         headerColour =
             case selectedPuzzle.isCompleted of
                 True ->
-                    "bg-primary"
+                    "bg-highlight"
 
                 False ->
                     "bg-grey"
@@ -160,7 +164,7 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
         messageDiv =
             case message of
                 Just messageText ->
-                    div [ class "bg-red-lighter p-3 text-center fixed pin-b pin-x h-36 pb-20" ] [ text messageText ]
+                    div [ class "bg-primary text-white p-3 text-center fixed pin-b pin-x h-36 pb-20", onClick removeMsg ] [ text messageText ]
 
                 Nothing ->
                     div [] []
@@ -168,7 +172,7 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
         puzzleFooter =
             case selectedPuzzle.isCompleted of
                 True ->
-                    div [ class "pin-b pin-x fixed text-center text-white font-semibold bg-primary" ]
+                    div [ class "pin-b pin-x fixed text-center text-white font-semibold bg-highlight" ]
                         [ div [ class "p-4" ] [ text "You've finished this puzzle - great work! The solution will be revealed when the theme ends." ] ]
 
                 False ->
@@ -195,11 +199,11 @@ detailOpenPuzzle selectedPuzzle onDeselectEvent onChangeSubmissionEvent onSubmit
 
 
 detailPuzzleWithSolution puzzle onDeselectEvent =
-    div []
+    div [ class "mb-32" ]
         [ detailPuzzle puzzle onDeselectEvent "bg-grey"
-        , div [ class "content" ]
-            [ div [ class "font-semibold font-sant text-4xl text-primary rounded-t border-b-4 pb-4 border-primary pb-3 " ] [ text "Solution" ]
-            , div [ class "bg-white border-primary rounded rounded-l-none p-3 text-center shadow " ] [ text "The answer is ", span [ class "font-bold" ] [ text puzzle.answer ], text "." ]
+        , div [ class "content shadow rounded-lg p-6 bg-white mb-8" ]
+            [ div [ class "font-light font-sans text-4xl pb-3 " ] [ text "Solution" ]
+            , div [ class "p-3 text-center " ] [ text "The answer is ", span [ class "font-bold" ] [ text puzzle.answer ], text "." ]
             , div [ class "markdown pb-12" ] <| Markdown.toHtml Nothing puzzle.explanation
             ]
         ]

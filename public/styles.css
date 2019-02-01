@@ -20,11 +20,11 @@
 }
 
 .markdown {
-  @apply font-sans text-base
+  @apply font-sans 
 }
 
 .markdown p {
-  @apply mt-3 
+  @apply mt-3
 }
 
 .markdown code {

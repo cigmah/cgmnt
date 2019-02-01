@@ -136,6 +136,7 @@ type Msg
     | ChangedSubmission String
     | ClickedSubmit
     | ClickedBackToFull
+    | RemoveMsg
     | ToggledNavMenu
 
 
@@ -230,6 +231,14 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
+        RemoveMsg ->
+            case model.state of
+                Detail data puzzle response ->
+                    ( { model | state = Detail data puzzle NotAsked }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
         ToggledNavMenu ->
             ( { model | navActive = not model.navActive }, Cmd.none )
 
@@ -304,7 +313,7 @@ mainHero model =
 
                 --puzzleContainer openData
                 Detail _ selectedPuzzle submissionResponse ->
-                    detailOpenPuzzle selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit submissionResponse
+                    detailOpenPuzzle selectedPuzzle ClickedBackToFull ChangedSubmission ClickedSubmit RemoveMsg submissionResponse
 
                 Completed selectedPuzzle okSubmitData ->
                     div [ class "items-center content-center h-screen p-4 flex " ]
@@ -312,7 +321,7 @@ mainHero model =
                             [ h1 [ class "font-sans font-normal text-4xl mb-3" ] [ text "Congratulations!" ]
                             , h2 [ class "font-sans font-light text-2xl mb-3" ] [ text "You earned ", span [ class "font-bold" ] [ text <| String.fromInt okSubmitData.points ], text " points! Great job!" ]
                             , button
-                                [ class "bg-primary text-white px-4 py-2 hover:bg-primary-dark rounded-full"
+                                [ class "bg-highlight text-white px-4 py-2 hover:bg-highlight-dark rounded-full"
                                 , onClick ClickedBackToFull
                                 ]
                                 [ text "Back to Puzzles" ]
