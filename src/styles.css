@@ -20,7 +20,7 @@
 }
 
 .markdown {
-  @apply font-sans 
+  @apply font-sans
 }
 
 .markdown p {
@@ -30,3 +30,10 @@
 .markdown code {
   @apply mt-3
 }
+
+
+* {font-family: "Nunito", arial, sans-serif;}
+
+input:focus {
+  outline:none !important;
+};

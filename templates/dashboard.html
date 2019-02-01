@@ -1,0 +1,73 @@
+<link href="../src/main.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nunito|Raleway|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<style>
+  * {font-family: "Nunito", arial, sans};
+  input:focus {
+    outline:none !important;
+};
+</style>
+
+<div class="px-8 bg-grey-lightest">
+  <div class="flex flex-wrap h-screen content-center justify-center items-center pt-12">
+      <div class="block md:w-3/4 lg:w-2/3">
+        <div class="inline-flex flex justify-center w-full">
+          <div class="flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red">
+            <span class="fas fa-chart-line"></span>
+          </div>
+          <div class="flex items-center  w-full p-3 px-5 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey">
+            Dashboard
+        </div>
+        </div>
+        <div class="block w-full my-3 bg-white rounded-lg p-6 pb-2 w-full text-base border-b-2 border-grey-light">
+          <span class="text-xl"><p>Welcome, username.</p></span>
+          <br>
+          <p>You've solved 4 puzzle(s) and earned 240 points.</p>
+          <br>
+          <p>The theme(s) that are currently open are:</p>
+          <br>
+          <div id="theme-card" class="block mb-2">
+            <div class="inline-flex w-full">
+              <div class="flex items-center justify-center px-3 py-1 w-8 h-8 rounded-l font-black text-grey-darkest">
+                <span class="fas fa-exclamation-circle"></span>
+              </div>
+              <div class="flex items-center w-full py-1 px-2 sm:h-12 h-8 rounded-tr text-grey-darkest flex-grow">
+                Charcot's Web
+              </div>
+            </div>
+            <div class="px-2 pb-2 pt-0 text-sm ml-8 rounded-b text-grey-darkest">This special web edition is themed around all things neurology!</div>
+            <div class="px-2 pb-2 pt-0 text-xs ml-8 rounded-b text-grey-dark">Ends Feb 25 17:00.</div>
+          </div>
+          <div class="pt-3 pb-2" ><p>We also have two ongoing themes that will be open until the end:</p></div>
+          <div id="theme-card" class="block mb-2">
+            <div class="inline-flex w-full">
+              <div class="flex items-center justify-center px-3 py-1 w-8 h-8 rounded-l font-black text-grey-darkest">
+                <span class="fas fa-ellipsis-h"></span>
+              </div>
+              <div class="flex items-center w-full py-1 px-2 sm:h-12 h-8 rounded-tr text-grey-darkest flex-grow">
+                Metric-ulous Measures
+              </div>
+            </div>
+            <div class="px-2 pb-2 pt-0 text-sm ml-8 rounded-b text-grey-darkest">A sample set of puzzles all about measurement! </div>
+          </div>
+          <div id="theme-card" class="block mb-2">
+            <div class="inline-flex w-full">
+              <div class="flex items-center justify-center px-3 py-1 w-8 h-8 rounded-l font-black text-grey-darkest">
+                <span class="fas fa-ellipsis-h"></span>
+              </div>
+              <div class="flex items-center w-full py-1 px-2 sm:h-12 h-8 rounded-tr text-grey-darkest flex-grow">
+                The Meta Puzzle
+              </div>
+            </div>
+            <div class="px-2 pb-2 pt-0 text-sm ml-8 rounded-b text-grey-darkest">This theme contains only one puzzle - a puzzle about all the other puzzles!</div>
+          </div>
+          <div class="pt-3 pb-4">
+            <p> The next theme, Messy Clinical Records, will open on Mar 01 17:00.
+          </div>
+        </div>
+        <div class="flex w-full justify-center">
+          <button class="px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-red">Take me to the open puzzles!</button>
+        </div>
+    </div>
+  </div>
+</div>

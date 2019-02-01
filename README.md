@@ -58,7 +58,7 @@ for styling.
 
 You will need to have Node installed to build the styles.
 
-To build the styles, navigate to the `public` directory and run:
+To build the styles, navigate to the `src` directory and run:
 
 ```
 npx tailwind build styles.css -c ./tailwind.js -o main.css
