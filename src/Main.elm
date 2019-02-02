@@ -129,7 +129,7 @@ changeRouteTo routeMaybe model =
         Just Route.Logout ->
             case session of
                 LoggedIn key _ ->
-                    Home.init (Guest key) |> updateWith Home GotHomeMsg model
+                    ( model, Api.logout )
 
                 Guest _ ->
                     ( model, Cmd.none )
