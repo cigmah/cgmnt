@@ -12,10 +12,12 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Page.Error exposing (..)
 import Page.Nav exposing (..)
+import Page.Shared exposing (textWithLoad)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
 import Types exposing (..)
+import Utils
 import Viewer exposing (Viewer(..))
 
 
@@ -32,8 +34,8 @@ type alias Model =
 
 type State
     = ByTotal (WebData LeaderTotalData)
-    | ByPuzzleNotChosen (WebData PuzzleOptionsData)
-    | ByPuzzleChosen PuzzleOptionsData PuzzleOption (WebData LeaderPuzzleData)
+    | ByPuzzleNotChosen Bool (WebData PuzzleOptionsData)
+    | ByPuzzleChosen Bool PuzzleOptionsData PuzzleOption (WebData LeaderPuzzleData)
     | ByThemeNotChosen (WebData ThemeOptionsData)
     | ByThemeChosen ThemeOptionsData ThemeOption (WebData LeaderThemeData)
 
@@ -194,6 +196,7 @@ type Msg
     | ClickedPuzzle PuzzleOption
     | ClickedLeaderTheme
     | ClickedTheme ThemeOption
+    | ToggleShowPuzzleOptions
     | ToggledNavMenu
 
 
@@ -207,23 +210,23 @@ update msg model =
             ( { model | state = ByTotal Loading }, getLeaderTotal )
 
         ClickedLeaderPuzzle ->
-            ( { model | state = ByPuzzleNotChosen Loading }, getPuzzleOptions )
+            ( { model | state = ByPuzzleNotChosen False Loading }, getPuzzleOptions )
 
         ClickedLeaderTheme ->
             ( { model | state = ByThemeNotChosen Loading }, getThemeOptions )
 
         ClickedPuzzle puzzle ->
             case model.state of
-                ByPuzzleNotChosen puzzleOptionsDataWebData ->
+                ByPuzzleNotChosen _ puzzleOptionsDataWebData ->
                     case puzzleOptionsDataWebData of
                         Success data ->
-                            ( { model | state = ByPuzzleChosen data puzzle Loading }, getLeaderPuzzle puzzle.id )
+                            ( { model | state = ByPuzzleChosen False data puzzle Loading }, getLeaderPuzzle puzzle.id )
 
                         _ ->
                             ( model, Cmd.none )
 
-                ByPuzzleChosen data _ _ ->
-                    ( { model | state = ByPuzzleChosen data puzzle Loading }, getLeaderPuzzle puzzle.id )
+                ByPuzzleChosen _ data _ _ ->
+                    ( { model | state = ByPuzzleChosen False data puzzle Loading }, getLeaderPuzzle puzzle.id )
 
                 _ ->
                     ( model, Cmd.none )
@@ -248,7 +251,7 @@ update msg model =
             ( { model | state = ByTotal response }, Cmd.none )
 
         ReceivedPuzzlesCurrent response ->
-            ( { model | state = ByPuzzleNotChosen response }, Cmd.none )
+            ( { model | state = ByPuzzleNotChosen False response }, Cmd.none )
 
         ReceivedThemesCurrent response ->
             ( { model | state = ByThemeNotChosen response }, Cmd.none )
@@ -263,8 +266,19 @@ update msg model =
 
         ReceivedLeaderPuzzle response ->
             case model.state of
-                ByPuzzleChosen puzzleOptionsData puzzleOption leaderPuzzleDataWebData ->
-                    ( { model | state = ByPuzzleChosen puzzleOptionsData puzzleOption response }, Cmd.none )
+                ByPuzzleChosen _ puzzleOptionsData puzzleOption leaderPuzzleDataWebData ->
+                    ( { model | state = ByPuzzleChosen False puzzleOptionsData puzzleOption response }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ToggleShowPuzzleOptions ->
+            case model.state of
+                ByPuzzleNotChosen bool puzzleOptionsDataWebData ->
+                    ( { model | state = ByPuzzleNotChosen (not bool) puzzleOptionsDataWebData }, Cmd.none )
+
+                ByPuzzleChosen bool puzzleOptionsData puzzleOption leaderPuzzleDataWebData ->
+                    ( { model | state = ByPuzzleChosen (not bool) puzzleOptionsData puzzleOption leaderPuzzleDataWebData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -293,120 +307,241 @@ navMenuLinked model body =
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "CIGMAH"
-    , content = navMenuLinked model <| mainHero model
+    , content = navMenuLinked model <| viewRouter model
     }
 
 
-makeHeaderCell headerText =
-    th [ class "py-2 px-4 bg-primary text-white text-left" ] [ text headerText ]
-
-
-makeRow rank leaderUnit =
-    tr [ class "w-full md:w-1/2 table-row hover:bg-grey-lighter" ]
-        [ td [ class "font-light px-4 py-2" ] [ text <| String.fromInt rank ]
-        , td [ class "md:w-1/2 font-light px-4 py-2" ] [ text leaderUnit.username ]
-        , td [ class "md:w-1/3 font-light px-4 py-2" ] [ text <| String.fromInt leaderUnit.total ]
-        ]
-
-
-tableColumn data =
-    let
-        tableHeaders =
-            [ "Rank", "Username", "Points" ]
-
-        tableHead =
-            tr [ class "w-full lg:w-1/2" ] <| List.map makeHeaderCell tableHeaders
-
-        ranks =
-            List.range 1 (List.length data)
-
-        rows =
-            List.map2 makeRow ranks data
-
-        leaderContent =
-            [ table [ class "table w-full" ]
-                [ thead [] [ tableHead ], tbody [] <| rows ]
-            ]
-    in
-    div [ class "flex justify-center mt-24 lg:mt-6 lg:ml-4 lg:mr-4 flex items-center w-full lg:w-1/2 overflow-auto" ]
-        [ div [ class "px-3 w-full" ] leaderContent
-        ]
-
-
-selectorColumn =
-    [ button
-        [ class "rounded-full px-3 py-2 border-primary border-2 mr-4 text-primary hover:text-white hover:bg-primary"
-        , onClick ClickedLeaderTotal
-        ]
-        [ text "By Total" ]
-    , button
-        [ class "rounded-full px-3 py-2 border-primary border-2 mr-4 text-primary hover:text-white hover:bg-primary"
-        , onClick ClickedLeaderTheme
-        ]
-        [ text "By Theme" ]
-    , button
-        [ class "rounded-full px-3 py-2 border-primary border-2 text-primary hover:text-white hover:bg-primary"
-        , onClick ClickedLeaderPuzzle
-        ]
-        [ text "By Puzzle" ]
-    ]
-
-
-themeOptionUnit themeOption =
-    div [ class "block w-full px-3 py-2 shadow bg-white font-sans font-light cursor-pointer", onClick (ClickedTheme themeOption) ]
-        [ text <| "#" ++ String.fromInt themeOption.id ++ " " ++ themeOption.theme ]
-
-
-themeOptionView data =
-    case data of
-        Success themeOptions ->
-            div [ class "ml-2 mr-2 lg:mx-0" ] <| List.map themeOptionUnit themeOptions
-
-        _ ->
-            div [] []
-
-
-tableTheme data =
-    div [] []
-
-
-mainHero model =
+viewRouter model =
     case model.state of
-        ByTotal (Success data) ->
-            div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
-                [ div [ class "lg:w-1/2" ]
-                    [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn ]
-                , tableColumn data
-                ]
-
-        ByThemeNotChosen data ->
-            div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
-                [ div [ class "lg:w-1/2" ]
-                    [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn
-                    , div [ class "block mt-2 mb-4" ] [ themeOptionView data ]
-                    ]
-                , div [] []
-                ]
-
-        ByThemeChosen data chosen response ->
-            case response of
-                Success responseData ->
-                    div [ class "container mx-auto mt-16 lg:flex lg:justify-between" ]
-                        [ div [ class "lg:w-1/2" ]
-                            [ div [ class "flex justify-center mt-24 lg:mt-6 mb-8" ] selectorColumn
-                            , div [ class "block mt-2 mb-4" ] [ themeOptionView (Success data) ]
-                            ]
-                        , div [] []
-                        ]
+        ByTotal leaderTotalDataWebData ->
+            case leaderTotalDataWebData of
+                Success data ->
+                    leaderboardByTotal data
 
                 Loading ->
-                    div [] []
+                    leaderboardLoading
 
                 _ ->
                     errorPage
 
-        ByTotal Loading ->
-            div [ class "pageloader is-active" ] [ span [ class "title" ] [ text "Loading..." ] ]
+        ByPuzzleNotChosen bool puzzleOptionsDataWebData ->
+            case puzzleOptionsDataWebData of
+                Success data ->
+                    leaderboardByPuzzle data bool Nothing Nothing
 
-        _ ->
+                Loading ->
+                    leaderboardLoading
+
+                _ ->
+                    errorPage
+
+        ByPuzzleChosen bool puzzleOptionsData puzzleOption leaderPuzzleDataWebData ->
+            case leaderPuzzleDataWebData of
+                Success data ->
+                    leaderboardByPuzzle puzzleOptionsData bool (Just puzzleOption) (Just data)
+
+                Loading ->
+                    leaderboardLoading
+
+                _ ->
+                    errorPage
+
+        ByThemeNotChosen themeOptionsDataWebData ->
             errorPage
+
+        ByThemeChosen themeOptionsData themeOption leaderThemeDataWebData ->
+            errorPage
+
+
+
+-- CONVERTED Html
+
+
+puzzleOptionDiv : PuzzleOption -> (PuzzleOption -> Msg) -> Html Msg
+puzzleOptionDiv puzzleOption clickEvent =
+    div
+        [ class "block" ]
+        [ div
+            [ class "bg-grey-lightest px-6 py-2 hover:bg-grey-light cursor-pointer text-grey-darker"
+            , onClick (clickEvent puzzleOption)
+            ]
+            [ text <| String.concat [ "№ ", String.fromInt puzzleOption.id, " ", puzzleOption.title ] ]
+        ]
+
+
+tableCell widthStr str isHeader =
+    if isHeader then
+        th
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+    else
+        td
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+
+tableRow isHeader strList =
+    let
+        classes =
+            if isHeader then
+                "w-full bg-grey-light text-sm text-grey-darker"
+
+            else
+                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
+    in
+    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) [ "w-1/5", "w-2/5", "w-1/5" ] strList
+
+
+tableMakerPuzzle headerList unitList =
+    let
+        rankList =
+            List.range 1 (List.length unitList)
+    in
+    div
+        [ id "table-block", class "block py-2" ]
+        [ table
+            [ class "w-full" ]
+          <|
+            [ tableRow True headerList ]
+                ++ List.map2 (\x y -> tableRow False [ String.fromInt y, x.username, Utils.posixToString x.submissionDatetime ]) unitList rankList
+        ]
+
+
+tableMakerTotal headerList unitList =
+    let
+        rankList =
+            List.range 1 (List.length unitList)
+    in
+    div
+        [ id "table-block", class "block py-2" ]
+        [ table
+            [ class "w-full" ]
+          <|
+            tableRow True headerList
+                :: List.map2 (\x y -> tableRow False [ String.fromInt y, x.username, String.fromInt x.total ]) unitList rankList
+        ]
+
+
+leaderboardTemplate isLoading optionsToShow tableToShow =
+    let
+        messageDiv =
+            --not used for now
+            if False then
+                div
+                    [ id "message-box", class "flex pin-b pin-x h-auto p-4 pb-6 fixed bg-grey-light text-grey-darkest justify-center text" ]
+                    [ span
+                        [ class "text-center md:w-3/4 " ]
+                        [ text "Hmm, it looks like there was an error. Let us know!" ]
+                    ]
+
+            else
+                div [] []
+    in
+    div
+        [ class "px-8 bg-grey-lightest" ]
+        [ div
+            [ class "mb-4 flex flex-wrap content-center justify-center items-center pt-16" ]
+            [ div
+                [ class "block md:w-5/6 lg:w-4/5 xl:w-3/4" ]
+                [ div
+                    [ class "inline-flex flex justify-center w-full" ]
+                    [ div
+                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
+                        [ span
+                            [ class "fas fa-table" ]
+                            []
+                        ]
+                    , div
+                        [ class "flex items-center  w-full p-3 px-5 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ textWithLoad isLoading "Leaderboard" ]
+                    ]
+                , div
+                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                    [ p
+                        []
+                        [ textWithLoad isLoading "You can choose to view the total leaderboard, or a per-puzzle leaderboard." ]
+                    , br
+                        []
+                        []
+                    , div
+                        [ id "leader-options", class "block my-1 w-full" ]
+                        [ div
+                            [ class "inline-flex flex:wrap w-full justify-center items-center" ]
+                            [ div
+                                [ id "leader-button", class "block p-1 w-1/2" ]
+                                [ button
+                                    [ class "rounded-lg px-3 py-2 bg-green border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark active:border-b-0 w-full"
+                                    , classList [ ( "text-white", not isLoading ), ( "text-green hover:text-green-dark", isLoading ) ]
+                                    , onClick ClickedLeaderTotal
+                                    ]
+                                    [ text "Total" ]
+                                ]
+                            , div
+                                [ class "block p-1 w-1/2" ]
+                                [ button
+                                    [ class "rounded-lg px-3 py-2 bg-green border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark active:border-b-0 w-full"
+                                    , classList [ ( "text-white", not isLoading ), ( "text-green hover:text-green-dark", isLoading ) ]
+                                    , onClick ClickedLeaderPuzzle
+                                    ]
+                                    [ text "By Puzzle" ]
+                                ]
+                            ]
+                        ]
+                    , optionsToShow
+                    , tableToShow
+                    ]
+                ]
+            ]
+        , messageDiv
+        ]
+
+
+leaderboardByTotal leaderUnits =
+    leaderboardTemplate False (div [] []) (tableMakerTotal [ "Rank", "Username", "Points" ] leaderUnits)
+
+
+leaderboardLoading =
+    leaderboardTemplate True (div [] []) (div [ class "block my-2 bg-grey-lightest rounded-lg h-64" ] [])
+
+
+leaderboardByPuzzle puzzleOptions isOptionsVisible maybeSelectedPuzzle maybeLeaderPuzzleUnits =
+    let
+        puzzleOptionSelector =
+            let
+                selectorText =
+                    case maybeSelectedPuzzle of
+                        Nothing ->
+                            "Select a puzzle..."
+
+                        Just puzzle ->
+                            String.concat [ "№ ", String.fromInt puzzle.id, " ", puzzle.title ]
+            in
+            div
+                [ class "flex-col w-full mb-3 mt-2" ]
+                [ div
+                    [ class "flex justify-between px-6 py-2 rounded-t-lg border-grey border-b-2 bg-grey-light text-grey-darker hover:bg-grey-light cursor-pointer active:border-b-0"
+                    , onClick ToggleShowPuzzleOptions
+                    ]
+                    [ div
+                        []
+                        [ text selectorText ]
+                    , div
+                        []
+                        [ span
+                            [ class "fas fa-caret-down text-grey-dark text-right" ]
+                            []
+                        ]
+                    ]
+                , div [ classList [ ( "hidden", not isOptionsVisible ) ] ] <| List.map (\x -> puzzleOptionDiv x ClickedPuzzle) puzzleOptions
+                ]
+
+        leaderTable =
+            case maybeLeaderPuzzleUnits of
+                Just units ->
+                    tableMakerPuzzle [ "Rank", "Username", "Correct Submission" ] units
+
+                Nothing ->
+                    div [] []
+    in
+    leaderboardTemplate False puzzleOptionSelector leaderTable
