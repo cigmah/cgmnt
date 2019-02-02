@@ -12,6 +12,7 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Page.Error exposing (..)
 import Page.Nav exposing (..)
+import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -139,19 +140,10 @@ view model =
 mainHero model =
     case model.state of
         Accepted (Success data) ->
-            div [ class "hero is-fullheight-with-navbar" ]
-                [ div [ class "hero-body" ]
-                    [ div [ class "container" ]
-                        [ div [ class "columns is-multiline" ] <|
-                            [ submissionsBody
-                                data
-                            ]
-                        ]
-                    ]
-                ]
+            viewPage data
 
         Accepted Loading ->
-            div [ class "pageloader is-active" ] []
+            loadingPage
 
         Accepted _ ->
             errorPage
@@ -160,60 +152,76 @@ mainHero model =
             whoopsPage
 
 
-makeTableHeadings : List String -> Html Msg
-makeTableHeadings headingList =
-    let
-        makeRow heading =
-            th [ class "has-background-info has-text-white" ] [ text heading ]
-    in
-    thead []
-        [ tr [] <| List.map makeRow headingList ]
+viewPage data =
+    pageTemplate False <| tableMaker [ "Puzzle", "Time", "Submission", "Correct", "Points" ] data
 
 
-submissionsBody data =
-    let
-        headings =
-            makeTableHeadings [ "Puzzle", "Theme", "Set", "Submission Time", "Submission", "Status", "Points" ]
+loadingPage =
+    pageTemplate True <| div [ class "h-64 bg-grey-lighter block my-2 w-full" ] []
 
-        numRows =
-            List.length data
 
-        dataRows =
-            List.map makeRowUserSubmission data
-
-        tableBody =
-            table [ class "table is-hoverable is-fullwidth" ]
-                [ headings
-                , tbody [] dataRows
-                ]
-    in
-    section [ class "hero" ]
-        [ div [ class "hero-body" ]
-            [ div [ class "container" ]
-                [ div [ class "columns is-centered" ]
-                    [ div [ class "column" ] [ tableBody ]
+pageTemplate isLoading tableToShow =
+    div
+        [ class "px-8 bg-grey-lightest" ]
+        [ div
+            [ class "mb-4 flex flex-wrap content-center justify-center items-center pt-16" ]
+            [ div
+                [ class "block md:w-5/6 lg:w-4/5 xl:w-3/4" ]
+                [ div
+                    [ class "inline-flex flex justify-center w-full" ]
+                    [ div
+                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-green border-b-2 border-green-dark"
+                        , classList [ ( "text-green", isLoading ), ( "text-white", not isLoading ) ]
+                        ]
+                        [ span
+                            [ class "fas fa-table" ]
+                            []
+                        ]
+                    , div
+                        [ class "flex items-center  w-full p-3 px-5 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ textWithLoad isLoading "My Submissions" ]
+                    ]
+                , div
+                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                    [ p
+                        []
+                        [ textWithLoad isLoading "Here is a list of your submissions." ]
+                    , br
+                        []
+                        []
+                    , tableToShow
                     ]
                 ]
             ]
         ]
 
 
-makeRowUserSubmission dataRow =
+tableRowExtended isHeader strList =
     let
-        makeStatus isCorrect =
-            case isCorrect of
-                True ->
-                    "Correct"
+        classes =
+            if isHeader then
+                "w-full bg-grey-light text-sm text-grey-darker"
 
-                False ->
-                    "Incorrect"
+            else
+                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
     in
-    tr []
-        [ td [] [ text <| dataRow.puzzleTitle ]
-        , td [] [ text <| dataRow.theme ]
-        , td [] [ text <| Utils.puzzleSetString dataRow.set ]
-        , td [] [ text <| Utils.posixToString dataRow.submissionDatetime ]
-        , td [] [ text <| dataRow.submission ]
-        , td [] [ text <| makeStatus dataRow.isCorrect ]
-        , td [] [ text <| String.fromInt dataRow.points ]
+    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) (List.repeat 5 "w-auto") strList
+
+
+tableMaker headerList unitList =
+    let
+        isCorrectString a =
+            if a then
+                "✓"
+
+            else
+                "x"
+    in
+    div
+        [ id "table-block", class "block py-2" ]
+        [ table
+            [ class "w-full" ]
+          <|
+            tableRowExtended True headerList
+                :: List.map (\x -> tableRowExtended False [ x.puzzleTitle, Utils.posixToString x.submissionDatetime, x.submission, isCorrectString x.isCorrect, String.fromInt x.points ]) unitList
         ]

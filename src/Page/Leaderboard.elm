@@ -12,7 +12,7 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Page.Error exposing (..)
 import Page.Nav exposing (..)
-import Page.Shared exposing (textWithLoad)
+import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
 import Time exposing (Posix)
@@ -369,30 +369,6 @@ puzzleOptionDiv puzzleOption clickEvent =
         ]
 
 
-tableCell widthStr str isHeader =
-    if isHeader then
-        th
-            [ class <| "p-1 py-2" ++ widthStr ]
-            [ text str ]
-
-    else
-        td
-            [ class <| "p-1 py-2" ++ widthStr ]
-            [ text str ]
-
-
-tableRow isHeader strList =
-    let
-        classes =
-            if isHeader then
-                "w-full bg-grey-light text-sm text-grey-darker"
-
-            else
-                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
-    in
-    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) [ "w-1/5", "w-2/5", "w-1/5" ] strList
-
-
 tableMakerPuzzle headerList unitList =
     let
         rankList =
@@ -447,7 +423,9 @@ leaderboardTemplate isLoading optionsToShow tableToShow =
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
-                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
+                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark"
+                        , classList [ ( "text-green", isLoading ), ( "text-white", not isLoading ) ]
+                        ]
                         [ span
                             [ class "fas fa-table" ]
                             []
@@ -497,12 +475,12 @@ leaderboardTemplate isLoading optionsToShow tableToShow =
         ]
 
 
-leaderboardByTotal leaderUnits =
-    leaderboardTemplate False (div [] []) (tableMakerTotal [ "Rank", "Username", "Points" ] leaderUnits)
-
-
 leaderboardLoading =
     leaderboardTemplate True (div [] []) (div [ class "block my-2 bg-grey-lightest rounded-lg h-64" ] [])
+
+
+leaderboardByTotal leaderUnits =
+    leaderboardTemplate False (div [] []) (tableMakerTotal [ "Rank", "Username", "Points" ] leaderUnits)
 
 
 leaderboardByPuzzle puzzleOptions isOptionsVisible maybeSelectedPuzzle maybeLeaderPuzzleUnits =

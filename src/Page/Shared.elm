@@ -1,4 +1,4 @@
-module Page.Shared exposing (DetailPuzzleType(..), PuzzlePageType(..), detailPuzzlePage, fullPuzzlePage, loadingState, loremIpsum, puzzleCard, textWithLoad, viewDetailPuzzle)
+module Page.Shared exposing (DetailPuzzleType(..), PuzzlePageType(..), detailPuzzlePage, fullPuzzlePage, loadingState, loremIpsum, puzzleCard, safeOnSubmit, tableCell, tableRow, textWithLoad, viewDetailPuzzle)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -608,3 +608,27 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                 ]
             ]
         ]
+
+
+tableCell widthStr str isHeader =
+    if isHeader then
+        th
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+    else
+        td
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+
+tableRow isHeader strList =
+    let
+        classes =
+            if isHeader then
+                "w-full bg-grey-light text-sm text-grey-darker"
+
+            else
+                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
+    in
+    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) [ "w-1/5", "w-2/5", "w-1/5" ] strList
