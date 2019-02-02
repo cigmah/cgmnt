@@ -8,11 +8,13 @@ import Html.Events exposing (..)
 import Html.Lazy exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Markdown
+import Page.Error exposing (..)
 import Page.Nav exposing (navMenu)
 import Page.Puzzle exposing (..)
 import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
+import Time exposing (millisToPosix)
 import Types exposing (..)
 import Utils exposing (..)
 import Viewer exposing (Viewer)
@@ -148,7 +150,7 @@ view model =
     case model.state of
         Full fullPuzzleDataListWebData ->
             { title = "Archive - CIGMAH"
-            , content = navMenuLinked model <| mainBody model
+            , content = navMenuLinked model <| bodyFullPublic fullPuzzleDataListWebData
             }
 
         Detail fullPuzzleDataList fullPuzzleData ->
@@ -158,7 +160,7 @@ view model =
 
         AcceptedFull closedDataWebData ->
             { title = "Archive - CIGMAH"
-            , content = navMenuLinked model <| mainBody model
+            , content = navMenuLinked model <| bodyFullUser closedDataWebData
             }
 
         AcceptedDetail closedData fullPuzzleData ->
@@ -180,9 +182,54 @@ isLoading model =
 
 
 mainBody model =
-    div [ class "h-screen" ]
-        [ div [ class "container mx-auto pr-4 pl-4 h-full" ] [ makePuzzleCards model ]
-        ]
+    div [] []
+
+
+defaultPuzzleData =
+    { id = 0
+    , theme =
+        { id = 0
+        , year = 2000
+        , theme = String.slice 0 15 loremIpsum
+        , themeSet = RTheme
+        , tagline = String.slice 0 50 loremIpsum
+        , openDatetime = millisToPosix 0
+        , closeDatetime = millisToPosix 0
+        }
+    , set = M
+    , imagePath = "https://i.imgur.com/qu0J7Wb.png"
+    , title = String.slice 0 20 loremIpsum
+    }
+
+
+bodyFullPublic webData =
+    case webData of
+        Loading ->
+            fullPuzzlePage True Nothing (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing
+
+        Success data ->
+            fullPuzzlePage False Nothing (ArchivePublic data) <| Just ClickedPuzzle
+
+        Failure e ->
+            fullPuzzlePage True (Just "There was an error :(") (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing
+
+        _ ->
+            errorPage
+
+
+bodyFullUser webData =
+    case webData of
+        Loading ->
+            fullPuzzlePage True Nothing (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing
+
+        Success data ->
+            fullPuzzlePage False Nothing (ArchiveUser data.incomplete data.complete) <| Just ClickedPuzzle
+
+        Failure e ->
+            fullPuzzlePage True (Just "There was an error :(") (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing
+
+        _ ->
+            errorPage
 
 
 makePuzzleCards : Model -> Html Msg

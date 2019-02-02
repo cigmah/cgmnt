@@ -1,6 +1,16 @@
-module Types exposing (ArchiveData(..), FullPuzzleData, LeaderTotalData, LeaderTotalUnit, LimitedPuzzleData, OkSubmitData, PuzzleSet(..), SelectedPuzzleInfo, SubmissionResponse(..), ThemeData, ThemeSet(..), TooSoonSubmitData)
+module Types exposing (ArchiveData(..), FullPuzzleData, LeaderTotalData, LeaderTotalUnit, LimitedPuzzleData, OkSubmitData, PuzzleData, PuzzleSet(..), SelectedPuzzleInfo, SubmissionResponse(..), ThemeData, ThemeSet(..), TooSoonSubmitData)
 
 import Time exposing (Posix)
+
+
+type alias PuzzleData a =
+    { a
+        | id : Int
+        , theme : ThemeData
+        , set : PuzzleSet
+        , imagePath : String
+        , title : String
+    }
 
 
 type alias FullPuzzleData =
