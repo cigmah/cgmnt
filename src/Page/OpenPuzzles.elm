@@ -18,7 +18,7 @@ import Page.Puzzle exposing (..)
 import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
-import Time exposing (Posix)
+import Time exposing (Posix, millisToPosix)
 import Types exposing (..)
 import Utils
 import Viewer exposing (Viewer(..))
@@ -264,20 +264,105 @@ view : Model -> { title : String, content : Html Msg }
 view model =
     case model.state of
         Detail openData selectedPuzzleInfo submissionResponseWebData ->
-            { title = "CIGMAH"
-            , content = mainHero model
+            { title = selectedPuzzleInfo.puzzle.title ++ " - CIGMAH"
+            , content = mainBody selectedPuzzleInfo submissionResponseWebData
             }
 
         Completed selectedPuzzleInfo okSubmitData ->
-            { title = "CIGMAH"
-            , content = mainHero model
+            { title = selectedPuzzleInfo.puzzle.title ++ " - CIGMAH"
+            , content = successScreen selectedPuzzleInfo okSubmitData
+            }
+
+        Full data ->
+            { title = "Open Puzzles - CIGMAH"
+            , content = navMenuLinked model <| bodyFullUser data
+            }
+
+        Unloaded Loading ->
+            { title = "Open Puzzles - CIGMAH"
+            , content = navMenuLinked model <| bodyFullPlaceholder
             }
 
         _ ->
-            { title = "CIGMAH"
-            , content = navMenuLinked model <| mainHero model
+            { title = "Open Puzzles - CIGMAH"
+            , content = navMenuLinked model <| errorPage
             }
 
 
-mainHero model =
-    div [] []
+successScreen selectedPuzzleInfo okSubmitData =
+    div
+        [ class "px-8 bg-grey-lightest" ]
+        [ div
+            [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
+            [ div
+                [ class "block md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ div
+                    [ class "inline-flex flex justify-center w-full" ]
+                    [ div
+                        [ class "flex items-center sm:text-xl justify-center sm:h-12 sm:w-10 px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
+                        [ span
+                            [ class "fas fa-glass-cheers" ]
+                            []
+                        ]
+                    , div
+                        [ class "flex items-center w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ text "Congratulations!" ]
+                    ]
+                , div
+                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                    [ div
+                        [ class "text-lg" ]
+                        [ text <| String.concat [ "You completed ", selectedPuzzleInfo.puzzle.title, " and earned ", String.fromInt okSubmitData.points, " points!" ]
+                        , br
+                            []
+                            []
+                        , div
+                            [ class "text-lg" ]
+                            [ text "Great job!" ]
+                        ]
+                    , div
+                        [ class "flex w-full justify-center" ]
+                        [ button
+                            [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                            , onClick ClickedBackToFull
+                            ]
+                            [ text "Go Back to Puzzles" ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+
+mainBody selectedPuzzleInfo webData =
+    case selectedPuzzleInfo.isCompleted of
+        True ->
+            viewDetailPuzzle (OpenSolved selectedPuzzleInfo.puzzle) ClickedBackToFull Nothing Nothing RemoveMsg
+
+        False ->
+            viewDetailPuzzle (OpenUnsolved selectedPuzzleInfo.puzzle webData) ClickedBackToFull (Just ChangedSubmission) (Just ClickedSubmit) RemoveMsg
+
+
+bodyFullUser data =
+    fullPuzzlePage False Nothing (Open data.incomplete data.complete) (Just (ClickedPuzzle False)) (Just (ClickedPuzzle True))
+
+
+bodyFullPlaceholder =
+    fullPuzzlePage True Nothing (Open (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing Nothing
+
+
+defaultPuzzleData =
+    { id = 0
+    , theme =
+        { id = 0
+        , year = 2000
+        , theme = String.slice 0 15 loremIpsum
+        , themeSet = RTheme
+        , tagline = String.slice 0 50 loremIpsum
+        , openDatetime = millisToPosix 0
+        , closeDatetime = millisToPosix 0
+        }
+    , set = M
+    , imagePath = "https://i.imgur.com/qu0J7Wb.png"
+    , title = String.slice 0 20 loremIpsum
+    }

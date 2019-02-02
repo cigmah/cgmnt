@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Json.Decode as Decode
 import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import String exposing (slice)
@@ -111,7 +112,7 @@ puzzleCard isLoading onClickPuzzle puzzle =
         ]
 
 
-fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle =
+fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzleComplete =
     let
         pageTitle =
             case puzzlePageType of
@@ -199,6 +200,14 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle =
                 Open _ _ ->
                     div [] []
 
+        onClickPuzzleComplete =
+            case maybeOnClickPuzzleComplete of
+                Nothing ->
+                    onClickPuzzle
+
+                Just event ->
+                    Just event
+
         solvedPuzzles =
             case puzzlePageType of
                 ArchivePublic _ ->
@@ -210,7 +219,7 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle =
                             div [ class "flex flex-inline justify-center w-full m-3 text-sm p-3" ] [ text "You haven't solved any of the closed puzzles." ]
 
                         _ ->
-                            div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
+                            div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzleComplete) puzzles
 
                 Open _ puzzles ->
                     case puzzles of
@@ -218,7 +227,7 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle =
                             div [ class "flex flex-inline justify-center w-full m-3 text-sm p-3" ] [ text "You haven't solved any puzzles this month yet." ]
 
                         _ ->
-                            div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
+                            div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzleComplete) puzzles
 
         errorDiv =
             case errorMsg of
@@ -272,26 +281,26 @@ type DetailPuzzleType
     | OpenUnsolved LimitedPuzzleData (WebData SubmissionResponse)
 
 
-viewDetailPuzzle detailPuzzleType onDeselectPuzzle onSubmitMaybe =
+viewDetailPuzzle detailPuzzleType onDeselectPuzzle onInputMaybe onSubmitMaybe toggleMsg =
     case detailPuzzleType of
         Closed data ->
-            detailPuzzlePage data onDeselectPuzzle True Nothing False Nothing False
+            detailPuzzlePage data onDeselectPuzzle True Nothing False Nothing Nothing False toggleMsg
 
         OpenSolved data ->
-            detailPuzzlePage data onDeselectPuzzle False (Just "Well done! You've already solved this puzzle.") False Nothing False
+            detailPuzzlePage data onDeselectPuzzle False (Just "Well done! You've already solved this puzzle.") False Nothing Nothing False toggleMsg
 
         OpenUnsolved data webResponse ->
             case webResponse of
                 NotAsked ->
-                    detailPuzzlePage data onDeselectPuzzle False Nothing True onSubmitMaybe False
+                    detailPuzzlePage data onDeselectPuzzle False Nothing True onSubmitMaybe onInputMaybe False toggleMsg
 
                 Loading ->
-                    detailPuzzlePage data onDeselectPuzzle False Nothing True Nothing True
+                    detailPuzzlePage data onDeselectPuzzle False Nothing True Nothing Nothing True toggleMsg
 
                 Success (OkSubmit okSubmitData) ->
                     case okSubmitData.isCorrect of
                         False ->
-                            detailPuzzlePage data onDeselectPuzzle False (Just "We're sorry, that answer was incorrect. Have a break and try again later :) ") True onSubmitMaybe False
+                            detailPuzzlePage data onDeselectPuzzle False (Just "We're sorry, that answer was incorrect. Have a break and try again later :) ") True onSubmitMaybe onInputMaybe False toggleMsg
 
                         _ ->
                             div [] []
@@ -304,13 +313,19 @@ viewDetailPuzzle detailPuzzleType onDeselectPuzzle onSubmitMaybe =
                         (Just <| String.concat [ "Your last attempt (", Utils.posixToString tooSoonData.last, ", attempt number ", String.fromInt tooSoonData.attempts, ") was too recent. You can next submit at ", Utils.posixToString tooSoonData.next, "." ])
                         True
                         onSubmitMaybe
+                        onInputMaybe
                         False
+                        toggleMsg
 
                 Failure e ->
-                    detailPuzzlePage data onDeselectPuzzle False (Just "We're sorry, there was an error. Please contact us!") True onSubmitMaybe False
+                    detailPuzzlePage data onDeselectPuzzle False (Just "We're sorry, there was an error. Please contact us!") True onSubmitMaybe onInputMaybe False toggleMsg
 
 
-detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissionBox onSubmitMaybe isLoading =
+safeOnSubmit message =
+    custom "submit" (Decode.succeed { message = message, stopPropagation = True, preventDefault = True })
+
+
+detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissionBox onSubmitMaybe onInputMaybe isLoading toggleMessage =
     let
         setSymbol =
             case puzzle.set of
@@ -392,7 +407,10 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
             case messageMaybe of
                 Just message ->
                     div
-                        [ id "message-box", class "flex pin-b pin-x h-auto px-4 pt-2 md:px-2 pb-20 fixed bg-grey-light text-grey-darkest justify-center text" ]
+                        [ id "message-box"
+                        , class "flex pin-b pin-x h-auto px-4 pt-2 md:px-2 pb-20 fixed bg-grey-light text-grey-darkest justify-center text"
+                        , onClick toggleMessage
+                        ]
                         [ span
                             [ class "text-center md:w-3/4 " ]
                             [ text message ]
@@ -408,32 +426,65 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                         onSubmitEvent =
                             case onSubmitMaybe of
                                 Just event ->
-                                    [ onSubmit event ]
+                                    if isLoading then
+                                        []
+
+                                    else
+                                        [ safeOnSubmit event ]
+
+                                Nothing ->
+                                    []
+
+                        onClickEvent =
+                            case onSubmitMaybe of
+                                Just event ->
+                                    if isLoading then
+                                        []
+
+                                    else
+                                        [ onClick event ]
+
+                                Nothing ->
+                                    []
+
+                        onInputEvent =
+                            case onInputMaybe of
+                                Just event ->
+                                    [ onInput event ]
 
                                 Nothing ->
                                     []
 
                         submitText =
                             if isLoading then
-                                "Submit"
+                                "Loading"
 
                             else
-                                "Loading"
+                                "Submit"
+
+                        buttonType =
+                            if isLoading then
+                                []
+
+                            else
+                                [ type_ "submit" ]
                     in
                     div
                         [ class "flex h-16 fixed pin-b pin-x justify-center bg-grey-lighter w-full" ]
-                        [ Html.form
-                            ([ class "flex items-center justify-center w-full md:w-1/2 xl:w-1/3" ] ++ onSubmitEvent)
+                        [ div
+                            ([ class "flex items-center justify-center w-full md:w-1/2 xl:w-1/3" ] ++ onSubmitEvent ++ onInputEvent)
                             [ input
                                 [ class "px-4 py-2 rounded-l-full outline-none text-grey-dark focus:bg-white focus:text-grey-darker"
                                 , placeholder "Your submission here."
-                                , classList [ ( "disabled", isLoading ), ( "bg-grey", isLoading ), ( "bg-grey-light", not isLoading ) ]
+                                , disabled isLoading
+                                , classList [ ( "bg-grey", isLoading ), ( "bg-grey-light", not isLoading ) ]
                                 ]
                                 []
                             , button
-                                [ class "px-4 py-2 rounded-r-full bg-grey outline-none border-b-2 border-grey-dark focus:outline-none hover:bg-grey-dark active:bg-grey-darker active:border-grey-darker text-grey-darker hover:text-grey-light active:border-b-0"
-                                , type_ "submit"
-                                ]
+                                ([ class "px-4 py-2 rounded-r-full bg-grey outline-none border-b-2 border-grey-dark focus:outline-none hover:bg-grey-dark active:bg-grey-darker active:border-grey-darker text-grey-darker hover:text-grey-light active:border-b-0" ]
+                                    ++ buttonType
+                                    ++ onClickEvent
+                                )
                                 [ text submitText ]
                             ]
                         ]
@@ -483,7 +534,7 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                   <|
                     Markdown.toHtml Nothing puzzle.body
                 , div
-                    [ id "puzzle-example", class "markdown m-1 mt-3 md:m-4 mb-6 p-2 md:p-4 border-grey-light border-l-4 text-grey-darkest bg-grey-lightest rounded-lg rounded-l-none md:text-base" ]
+                    [ id "puzzle-example", class "overflow-auto markdown m-1 mt-3 md:m-4 mb-6 p-2 md:p-4 border-grey-light border-l-4 text-grey-darkest bg-grey-lightest rounded-lg rounded-l-none md:text-base" ]
                   <|
                     Markdown.toHtml Nothing puzzle.example
                 , inputDiv

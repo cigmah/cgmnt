@@ -84,6 +84,7 @@ type Msg
     | ClickedPuzzle FullPuzzleData
     | ClickedBackToFull
     | ToggledNavMenu
+    | ToggleMessage
     | GotSession Session
 
 
@@ -117,6 +118,17 @@ update msg model =
 
                 AcceptedDetail closedData _ ->
                     ( { model | state = AcceptedFull (Success closedData) }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        ToggleMessage ->
+            case model.state of
+                Full fullPuzzleDataListWebData ->
+                    ( { model | state = Full NotAsked }, Cmd.none )
+
+                AcceptedFull closedDataWebData ->
+                    ( { model | state = Full NotAsked }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -182,7 +194,7 @@ isLoading model =
 
 
 mainBody data =
-    viewDetailPuzzle (Closed data) ClickedBackToFull Nothing
+    viewDetailPuzzle (Closed data) ClickedBackToFull Nothing Nothing ToggleMessage
 
 
 defaultPuzzleData =
@@ -205,13 +217,13 @@ defaultPuzzleData =
 bodyFullPublic webData =
     case webData of
         Loading ->
-            fullPuzzlePage True Nothing (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing
+            fullPuzzlePage True Nothing (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing Nothing
 
         Success data ->
-            fullPuzzlePage False Nothing (ArchivePublic data) <| Just ClickedPuzzle
+            fullPuzzlePage False Nothing (ArchivePublic data) (Just ClickedPuzzle) Nothing
 
         Failure e ->
-            fullPuzzlePage True (Just "There was an error :(") (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing
+            fullPuzzlePage True (Just "There was an error :(") (ArchivePublic (List.repeat 6 defaultPuzzleData)) Nothing Nothing
 
         _ ->
             errorPage
@@ -220,13 +232,13 @@ bodyFullPublic webData =
 bodyFullUser webData =
     case webData of
         Loading ->
-            fullPuzzlePage True Nothing (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing
+            fullPuzzlePage True Nothing (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing Nothing
 
         Success data ->
-            fullPuzzlePage False Nothing (ArchiveUser data.incomplete data.complete) <| Just ClickedPuzzle
+            fullPuzzlePage False Nothing (ArchiveUser data.incomplete data.complete) (Just ClickedPuzzle) Nothing
 
         Failure e ->
-            fullPuzzlePage True (Just "There was an error :(") (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing
+            fullPuzzlePage True (Just "There was an error :(") (ArchiveUser (List.repeat 4 defaultPuzzleData) (List.repeat 4 defaultPuzzleData)) Nothing Nothing
 
         _ ->
             errorPage
