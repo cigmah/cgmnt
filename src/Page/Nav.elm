@@ -44,16 +44,18 @@ navMenu toggleMsg navActive maybeViewer =
                     [ ( Route.Logout, "Logout" ) ]
     in
     nav
-        [ class "flex h-auto items-center pin-t pin-x w-screen fixed shadow justify-between text-white flex-wrap bg-primary lg:h-12"
+        [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest"
         , classList [ ( "h-12", not navActive ) ]
         ]
         [ div [ class "flex items-center align-middle  mr-6 ml-4" ]
             [ span [ class "font-semibold text-xl " ]
                 [ text "CIGMAH" ]
             ]
-        , div [ class "block lg:hidden p-4", onClick toggleMsg ]
-            [ button [ class "flex items-center h-full px-2 py-2 mr-2 border rounded border-white text-white hover:bg-white hover:text-primary" ]
-                [ text "Menu" ]
+        , div [ class "block lg:hidden py-2", onClick toggleMsg ]
+            [ button [ class "flex focus:outline-none items-center h-full px-4 mr-2 rounded-full bg-grey-lighter text-grey-dark hover:bg-grey-light" ]
+                [ div [ class "py-2" ]
+                    [ text "Menu" ]
+                ]
             ]
         , div [ class "w-full h-full bg-primary lg:flex lg:items-center lg:w-auto lg:bg-primary", classList [ ( "block", navActive ), ( "hidden", not navActive ) ] ]
             [ div [ class "text-sm h-full items-center lg:flex-grow" ] <|
@@ -71,10 +73,10 @@ navMenu toggleMsg navActive maybeViewer =
 
 navLink : ( Route, String ) -> Html msg
 navLink ( route, name ) =
-    a [ Route.href route, class "font-normal font-sans text-base text-white block h-full lg:inline-block hover:bg-primary-dark lg:mt-0 lg:mb-0 px-4 py-4 lg:py-4 lg:text-center no-underline mr-4" ]
+    a [ Route.href route, class "font-normal font-sans text-base text-grey-dark block h-full lg:inline-block hover:bg-grey-lighter hover:text-grey-darker lg:mt-0 lg:mb-0 px-4 py-4 lg:py-4 lg:text-center no-underline mr-4" ]
         [ span [] [ text name ] ]
 
 
 userBox name =
-    p [ class "font-normal font-sans text-base text-white font-semibold bg-primary-dark lock h-full lg:inline-block pl-4 lg:mt-0 lg:mb-0 lg:px-6 py-4 lg:py-4 lg:text-center mr-0 lg:mr-4" ]
+    p [ class "font-normal font-sans text-base text-grey-darker font-semibold lock h-full lg:inline-block pl-4 lg:mt-0 lg:mb-0 lg:px-6 py-4 lg:py-4 lg:text-center mr-0 lg:mr-4" ]
         [ span [] [ text name ] ]

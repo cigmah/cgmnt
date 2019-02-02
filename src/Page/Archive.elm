@@ -187,43 +187,4 @@ mainBody model =
 
 makePuzzleCards : Model -> Html Msg
 makePuzzleCards model =
-    case model.state of
-        Full Loading ->
-            loadingPuzzlePage
-
-        Full (Success puzzles) ->
-            div [ class "pt-12" ]
-                [ h1 [ class "font-sans font-normal text-2xl border-primary border-b-4 text-primary rounded-lg rounded-b-none  p-3 mt-8 mb-4" ] [ text "Archive" ]
-                , div [ class "block md:flex md:flex-wrap" ] <| List.map (puzzleCard ClickedPuzzle) puzzles
-                ]
-
-        Detail puzzles selectedPuzzle ->
-            detailPuzzleWithSolution selectedPuzzle ClickedBackToFull
-
-        AcceptedFull Loading ->
-            loadingPuzzlePage
-
-        AcceptedFull (Success data) ->
-            let
-                incompleteCards : List (Html Msg)
-                incompleteCards =
-                    List.map (puzzleCard ClickedPuzzle) data.incomplete
-
-                completeCards : List (Html Msg)
-                completeCards =
-                    List.map (puzzleCard ClickedPuzzle) data.complete
-            in
-            div [ class "" ]
-                [ div [ class "h-16" ] []
-                , h1 [ class "font-sans font-semibold text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ text "Unsolved Puzzles" ]
-                , div [ class "block md:flex md:flex-wrap" ] <| incompleteCards
-                , hr [] []
-                , h1 [ class "font-sans font-semibold  text-sm uppercase border-grey-light border-b-2 text-grey rounded-lg rounded-b-none  pb-2 mt-8 mb-4" ] [ text "Solved Puzzles" ]
-                , div [ class "block md:flex md:flex-wrap" ] <| completeCards
-                ]
-
-        AcceptedDetail puzzles selectedPuzzle ->
-            detailPuzzleWithSolution selectedPuzzle ClickedBackToFull
-
-        _ ->
-            div [] []
+    div [] []

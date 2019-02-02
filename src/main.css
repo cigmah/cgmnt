@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -4545,6 +4537,26 @@ table {
   opacity: 1;
 }
 
+.hover\:opacity-0:hover {
+  opacity: 0;
+}
+
+.hover\:opacity-25:hover {
+  opacity: .25;
+}
+
+.hover\:opacity-50:hover {
+  opacity: .5;
+}
+
+.hover\:opacity-75:hover {
+  opacity: .75;
+}
+
+.hover\:opacity-100:hover {
+  opacity: 1;
+}
+
 .group:hover .group-hover\:opacity-0 {
   opacity: 0;
 }
@@ -5076,6 +5088,456 @@ table {
 }
 
 .pl-px {
+  padding-left: 1px;
+}
+
+.active\:p-0:active {
+  padding: 0;
+}
+
+.active\:p-1:active {
+  padding: .25rem;
+}
+
+.active\:p-2:active {
+  padding: .5rem;
+}
+
+.active\:p-3:active {
+  padding: .75rem;
+}
+
+.active\:p-4:active {
+  padding: 1rem;
+}
+
+.active\:p-5:active {
+  padding: 1.25rem;
+}
+
+.active\:p-6:active {
+  padding: 1.5rem;
+}
+
+.active\:p-8:active {
+  padding: 2rem;
+}
+
+.active\:p-10:active {
+  padding: 2.5rem;
+}
+
+.active\:p-12:active {
+  padding: 3rem;
+}
+
+.active\:p-16:active {
+  padding: 4rem;
+}
+
+.active\:p-20:active {
+  padding: 5rem;
+}
+
+.active\:p-24:active {
+  padding: 6rem;
+}
+
+.active\:p-32:active {
+  padding: 8rem;
+}
+
+.active\:p-px:active {
+  padding: 1px;
+}
+
+.active\:py-0:active {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.active\:px-0:active {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.active\:py-1:active {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+.active\:px-1:active {
+  padding-left: .25rem;
+  padding-right: .25rem;
+}
+
+.active\:py-2:active {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.active\:px-2:active {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.active\:py-3:active {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+
+.active\:px-3:active {
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+
+.active\:py-4:active {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.active\:px-4:active {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.active\:py-5:active {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.active\:px-5:active {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.active\:py-6:active {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.active\:px-6:active {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.active\:py-8:active {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.active\:px-8:active {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.active\:py-10:active {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.active\:px-10:active {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.active\:py-12:active {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.active\:px-12:active {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.active\:py-16:active {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.active\:px-16:active {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.active\:py-20:active {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.active\:px-20:active {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.active\:py-24:active {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.active\:px-24:active {
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+.active\:py-32:active {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.active\:px-32:active {
+  padding-left: 8rem;
+  padding-right: 8rem;
+}
+
+.active\:py-px:active {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.active\:px-px:active {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.active\:pt-0:active {
+  padding-top: 0;
+}
+
+.active\:pr-0:active {
+  padding-right: 0;
+}
+
+.active\:pb-0:active {
+  padding-bottom: 0;
+}
+
+.active\:pl-0:active {
+  padding-left: 0;
+}
+
+.active\:pt-1:active {
+  padding-top: .25rem;
+}
+
+.active\:pr-1:active {
+  padding-right: .25rem;
+}
+
+.active\:pb-1:active {
+  padding-bottom: .25rem;
+}
+
+.active\:pl-1:active {
+  padding-left: .25rem;
+}
+
+.active\:pt-2:active {
+  padding-top: .5rem;
+}
+
+.active\:pr-2:active {
+  padding-right: .5rem;
+}
+
+.active\:pb-2:active {
+  padding-bottom: .5rem;
+}
+
+.active\:pl-2:active {
+  padding-left: .5rem;
+}
+
+.active\:pt-3:active {
+  padding-top: .75rem;
+}
+
+.active\:pr-3:active {
+  padding-right: .75rem;
+}
+
+.active\:pb-3:active {
+  padding-bottom: .75rem;
+}
+
+.active\:pl-3:active {
+  padding-left: .75rem;
+}
+
+.active\:pt-4:active {
+  padding-top: 1rem;
+}
+
+.active\:pr-4:active {
+  padding-right: 1rem;
+}
+
+.active\:pb-4:active {
+  padding-bottom: 1rem;
+}
+
+.active\:pl-4:active {
+  padding-left: 1rem;
+}
+
+.active\:pt-5:active {
+  padding-top: 1.25rem;
+}
+
+.active\:pr-5:active {
+  padding-right: 1.25rem;
+}
+
+.active\:pb-5:active {
+  padding-bottom: 1.25rem;
+}
+
+.active\:pl-5:active {
+  padding-left: 1.25rem;
+}
+
+.active\:pt-6:active {
+  padding-top: 1.5rem;
+}
+
+.active\:pr-6:active {
+  padding-right: 1.5rem;
+}
+
+.active\:pb-6:active {
+  padding-bottom: 1.5rem;
+}
+
+.active\:pl-6:active {
+  padding-left: 1.5rem;
+}
+
+.active\:pt-8:active {
+  padding-top: 2rem;
+}
+
+.active\:pr-8:active {
+  padding-right: 2rem;
+}
+
+.active\:pb-8:active {
+  padding-bottom: 2rem;
+}
+
+.active\:pl-8:active {
+  padding-left: 2rem;
+}
+
+.active\:pt-10:active {
+  padding-top: 2.5rem;
+}
+
+.active\:pr-10:active {
+  padding-right: 2.5rem;
+}
+
+.active\:pb-10:active {
+  padding-bottom: 2.5rem;
+}
+
+.active\:pl-10:active {
+  padding-left: 2.5rem;
+}
+
+.active\:pt-12:active {
+  padding-top: 3rem;
+}
+
+.active\:pr-12:active {
+  padding-right: 3rem;
+}
+
+.active\:pb-12:active {
+  padding-bottom: 3rem;
+}
+
+.active\:pl-12:active {
+  padding-left: 3rem;
+}
+
+.active\:pt-16:active {
+  padding-top: 4rem;
+}
+
+.active\:pr-16:active {
+  padding-right: 4rem;
+}
+
+.active\:pb-16:active {
+  padding-bottom: 4rem;
+}
+
+.active\:pl-16:active {
+  padding-left: 4rem;
+}
+
+.active\:pt-20:active {
+  padding-top: 5rem;
+}
+
+.active\:pr-20:active {
+  padding-right: 5rem;
+}
+
+.active\:pb-20:active {
+  padding-bottom: 5rem;
+}
+
+.active\:pl-20:active {
+  padding-left: 5rem;
+}
+
+.active\:pt-24:active {
+  padding-top: 6rem;
+}
+
+.active\:pr-24:active {
+  padding-right: 6rem;
+}
+
+.active\:pb-24:active {
+  padding-bottom: 6rem;
+}
+
+.active\:pl-24:active {
+  padding-left: 6rem;
+}
+
+.active\:pt-32:active {
+  padding-top: 8rem;
+}
+
+.active\:pr-32:active {
+  padding-right: 8rem;
+}
+
+.active\:pb-32:active {
+  padding-bottom: 8rem;
+}
+
+.active\:pl-32:active {
+  padding-left: 8rem;
+}
+
+.active\:pt-px:active {
+  padding-top: 1px;
+}
+
+.active\:pr-px:active {
+  padding-right: 1px;
+}
+
+.active\:pb-px:active {
+  padding-bottom: 1px;
+}
+
+.active\:pl-px:active {
   padding-left: 1px;
 }
 
@@ -6586,7 +7048,7 @@ table {
 }
 
 * {
-  font-family: "Nunito", arial, sans-serif;
+  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
 }
 
 input:focus {
@@ -10593,6 +11055,26 @@ input:focus {
     opacity: 1;
   }
 
+  .sm\:hover\:opacity-0:hover {
+    opacity: 0;
+  }
+
+  .sm\:hover\:opacity-25:hover {
+    opacity: .25;
+  }
+
+  .sm\:hover\:opacity-50:hover {
+    opacity: .5;
+  }
+
+  .sm\:hover\:opacity-75:hover {
+    opacity: .75;
+  }
+
+  .sm\:hover\:opacity-100:hover {
+    opacity: 1;
+  }
+
   .group:hover .sm\:group-hover\:opacity-0 {
     opacity: 0;
   }
@@ -11116,6 +11598,456 @@ input:focus {
   }
 
   .sm\:pl-px {
+    padding-left: 1px;
+  }
+
+  .sm\:active\:p-0:active {
+    padding: 0;
+  }
+
+  .sm\:active\:p-1:active {
+    padding: .25rem;
+  }
+
+  .sm\:active\:p-2:active {
+    padding: .5rem;
+  }
+
+  .sm\:active\:p-3:active {
+    padding: .75rem;
+  }
+
+  .sm\:active\:p-4:active {
+    padding: 1rem;
+  }
+
+  .sm\:active\:p-5:active {
+    padding: 1.25rem;
+  }
+
+  .sm\:active\:p-6:active {
+    padding: 1.5rem;
+  }
+
+  .sm\:active\:p-8:active {
+    padding: 2rem;
+  }
+
+  .sm\:active\:p-10:active {
+    padding: 2.5rem;
+  }
+
+  .sm\:active\:p-12:active {
+    padding: 3rem;
+  }
+
+  .sm\:active\:p-16:active {
+    padding: 4rem;
+  }
+
+  .sm\:active\:p-20:active {
+    padding: 5rem;
+  }
+
+  .sm\:active\:p-24:active {
+    padding: 6rem;
+  }
+
+  .sm\:active\:p-32:active {
+    padding: 8rem;
+  }
+
+  .sm\:active\:p-px:active {
+    padding: 1px;
+  }
+
+  .sm\:active\:py-0:active {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .sm\:active\:px-0:active {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .sm\:active\:py-1:active {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .sm\:active\:px-1:active {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .sm\:active\:py-2:active {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .sm\:active\:px-2:active {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .sm\:active\:py-3:active {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .sm\:active\:px-3:active {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .sm\:active\:py-4:active {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .sm\:active\:px-4:active {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sm\:active\:py-5:active {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .sm\:active\:px-5:active {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .sm\:active\:py-6:active {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .sm\:active\:px-6:active {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .sm\:active\:py-8:active {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .sm\:active\:px-8:active {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sm\:active\:py-10:active {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .sm\:active\:px-10:active {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .sm\:active\:py-12:active {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .sm\:active\:px-12:active {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .sm\:active\:py-16:active {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .sm\:active\:px-16:active {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .sm\:active\:py-20:active {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .sm\:active\:px-20:active {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .sm\:active\:py-24:active {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .sm\:active\:px-24:active {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .sm\:active\:py-32:active {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .sm\:active\:px-32:active {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .sm\:active\:py-px:active {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .sm\:active\:px-px:active {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .sm\:active\:pt-0:active {
+    padding-top: 0;
+  }
+
+  .sm\:active\:pr-0:active {
+    padding-right: 0;
+  }
+
+  .sm\:active\:pb-0:active {
+    padding-bottom: 0;
+  }
+
+  .sm\:active\:pl-0:active {
+    padding-left: 0;
+  }
+
+  .sm\:active\:pt-1:active {
+    padding-top: .25rem;
+  }
+
+  .sm\:active\:pr-1:active {
+    padding-right: .25rem;
+  }
+
+  .sm\:active\:pb-1:active {
+    padding-bottom: .25rem;
+  }
+
+  .sm\:active\:pl-1:active {
+    padding-left: .25rem;
+  }
+
+  .sm\:active\:pt-2:active {
+    padding-top: .5rem;
+  }
+
+  .sm\:active\:pr-2:active {
+    padding-right: .5rem;
+  }
+
+  .sm\:active\:pb-2:active {
+    padding-bottom: .5rem;
+  }
+
+  .sm\:active\:pl-2:active {
+    padding-left: .5rem;
+  }
+
+  .sm\:active\:pt-3:active {
+    padding-top: .75rem;
+  }
+
+  .sm\:active\:pr-3:active {
+    padding-right: .75rem;
+  }
+
+  .sm\:active\:pb-3:active {
+    padding-bottom: .75rem;
+  }
+
+  .sm\:active\:pl-3:active {
+    padding-left: .75rem;
+  }
+
+  .sm\:active\:pt-4:active {
+    padding-top: 1rem;
+  }
+
+  .sm\:active\:pr-4:active {
+    padding-right: 1rem;
+  }
+
+  .sm\:active\:pb-4:active {
+    padding-bottom: 1rem;
+  }
+
+  .sm\:active\:pl-4:active {
+    padding-left: 1rem;
+  }
+
+  .sm\:active\:pt-5:active {
+    padding-top: 1.25rem;
+  }
+
+  .sm\:active\:pr-5:active {
+    padding-right: 1.25rem;
+  }
+
+  .sm\:active\:pb-5:active {
+    padding-bottom: 1.25rem;
+  }
+
+  .sm\:active\:pl-5:active {
+    padding-left: 1.25rem;
+  }
+
+  .sm\:active\:pt-6:active {
+    padding-top: 1.5rem;
+  }
+
+  .sm\:active\:pr-6:active {
+    padding-right: 1.5rem;
+  }
+
+  .sm\:active\:pb-6:active {
+    padding-bottom: 1.5rem;
+  }
+
+  .sm\:active\:pl-6:active {
+    padding-left: 1.5rem;
+  }
+
+  .sm\:active\:pt-8:active {
+    padding-top: 2rem;
+  }
+
+  .sm\:active\:pr-8:active {
+    padding-right: 2rem;
+  }
+
+  .sm\:active\:pb-8:active {
+    padding-bottom: 2rem;
+  }
+
+  .sm\:active\:pl-8:active {
+    padding-left: 2rem;
+  }
+
+  .sm\:active\:pt-10:active {
+    padding-top: 2.5rem;
+  }
+
+  .sm\:active\:pr-10:active {
+    padding-right: 2.5rem;
+  }
+
+  .sm\:active\:pb-10:active {
+    padding-bottom: 2.5rem;
+  }
+
+  .sm\:active\:pl-10:active {
+    padding-left: 2.5rem;
+  }
+
+  .sm\:active\:pt-12:active {
+    padding-top: 3rem;
+  }
+
+  .sm\:active\:pr-12:active {
+    padding-right: 3rem;
+  }
+
+  .sm\:active\:pb-12:active {
+    padding-bottom: 3rem;
+  }
+
+  .sm\:active\:pl-12:active {
+    padding-left: 3rem;
+  }
+
+  .sm\:active\:pt-16:active {
+    padding-top: 4rem;
+  }
+
+  .sm\:active\:pr-16:active {
+    padding-right: 4rem;
+  }
+
+  .sm\:active\:pb-16:active {
+    padding-bottom: 4rem;
+  }
+
+  .sm\:active\:pl-16:active {
+    padding-left: 4rem;
+  }
+
+  .sm\:active\:pt-20:active {
+    padding-top: 5rem;
+  }
+
+  .sm\:active\:pr-20:active {
+    padding-right: 5rem;
+  }
+
+  .sm\:active\:pb-20:active {
+    padding-bottom: 5rem;
+  }
+
+  .sm\:active\:pl-20:active {
+    padding-left: 5rem;
+  }
+
+  .sm\:active\:pt-24:active {
+    padding-top: 6rem;
+  }
+
+  .sm\:active\:pr-24:active {
+    padding-right: 6rem;
+  }
+
+  .sm\:active\:pb-24:active {
+    padding-bottom: 6rem;
+  }
+
+  .sm\:active\:pl-24:active {
+    padding-left: 6rem;
+  }
+
+  .sm\:active\:pt-32:active {
+    padding-top: 8rem;
+  }
+
+  .sm\:active\:pr-32:active {
+    padding-right: 8rem;
+  }
+
+  .sm\:active\:pb-32:active {
+    padding-bottom: 8rem;
+  }
+
+  .sm\:active\:pl-32:active {
+    padding-left: 8rem;
+  }
+
+  .sm\:active\:pt-px:active {
+    padding-top: 1px;
+  }
+
+  .sm\:active\:pr-px:active {
+    padding-right: 1px;
+  }
+
+  .sm\:active\:pb-px:active {
+    padding-bottom: 1px;
+  }
+
+  .sm\:active\:pl-px:active {
     padding-left: 1px;
   }
 
@@ -16587,6 +17519,26 @@ input:focus {
     opacity: 1;
   }
 
+  .md\:hover\:opacity-0:hover {
+    opacity: 0;
+  }
+
+  .md\:hover\:opacity-25:hover {
+    opacity: .25;
+  }
+
+  .md\:hover\:opacity-50:hover {
+    opacity: .5;
+  }
+
+  .md\:hover\:opacity-75:hover {
+    opacity: .75;
+  }
+
+  .md\:hover\:opacity-100:hover {
+    opacity: 1;
+  }
+
   .group:hover .md\:group-hover\:opacity-0 {
     opacity: 0;
   }
@@ -17110,6 +18062,456 @@ input:focus {
   }
 
   .md\:pl-px {
+    padding-left: 1px;
+  }
+
+  .md\:active\:p-0:active {
+    padding: 0;
+  }
+
+  .md\:active\:p-1:active {
+    padding: .25rem;
+  }
+
+  .md\:active\:p-2:active {
+    padding: .5rem;
+  }
+
+  .md\:active\:p-3:active {
+    padding: .75rem;
+  }
+
+  .md\:active\:p-4:active {
+    padding: 1rem;
+  }
+
+  .md\:active\:p-5:active {
+    padding: 1.25rem;
+  }
+
+  .md\:active\:p-6:active {
+    padding: 1.5rem;
+  }
+
+  .md\:active\:p-8:active {
+    padding: 2rem;
+  }
+
+  .md\:active\:p-10:active {
+    padding: 2.5rem;
+  }
+
+  .md\:active\:p-12:active {
+    padding: 3rem;
+  }
+
+  .md\:active\:p-16:active {
+    padding: 4rem;
+  }
+
+  .md\:active\:p-20:active {
+    padding: 5rem;
+  }
+
+  .md\:active\:p-24:active {
+    padding: 6rem;
+  }
+
+  .md\:active\:p-32:active {
+    padding: 8rem;
+  }
+
+  .md\:active\:p-px:active {
+    padding: 1px;
+  }
+
+  .md\:active\:py-0:active {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .md\:active\:px-0:active {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .md\:active\:py-1:active {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .md\:active\:px-1:active {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .md\:active\:py-2:active {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .md\:active\:px-2:active {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .md\:active\:py-3:active {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .md\:active\:px-3:active {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .md\:active\:py-4:active {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .md\:active\:px-4:active {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:active\:py-5:active {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .md\:active\:px-5:active {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .md\:active\:py-6:active {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .md\:active\:px-6:active {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .md\:active\:py-8:active {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .md\:active\:px-8:active {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .md\:active\:py-10:active {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:active\:px-10:active {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .md\:active\:py-12:active {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .md\:active\:px-12:active {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .md\:active\:py-16:active {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .md\:active\:px-16:active {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .md\:active\:py-20:active {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .md\:active\:px-20:active {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .md\:active\:py-24:active {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .md\:active\:px-24:active {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .md\:active\:py-32:active {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .md\:active\:px-32:active {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .md\:active\:py-px:active {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .md\:active\:px-px:active {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .md\:active\:pt-0:active {
+    padding-top: 0;
+  }
+
+  .md\:active\:pr-0:active {
+    padding-right: 0;
+  }
+
+  .md\:active\:pb-0:active {
+    padding-bottom: 0;
+  }
+
+  .md\:active\:pl-0:active {
+    padding-left: 0;
+  }
+
+  .md\:active\:pt-1:active {
+    padding-top: .25rem;
+  }
+
+  .md\:active\:pr-1:active {
+    padding-right: .25rem;
+  }
+
+  .md\:active\:pb-1:active {
+    padding-bottom: .25rem;
+  }
+
+  .md\:active\:pl-1:active {
+    padding-left: .25rem;
+  }
+
+  .md\:active\:pt-2:active {
+    padding-top: .5rem;
+  }
+
+  .md\:active\:pr-2:active {
+    padding-right: .5rem;
+  }
+
+  .md\:active\:pb-2:active {
+    padding-bottom: .5rem;
+  }
+
+  .md\:active\:pl-2:active {
+    padding-left: .5rem;
+  }
+
+  .md\:active\:pt-3:active {
+    padding-top: .75rem;
+  }
+
+  .md\:active\:pr-3:active {
+    padding-right: .75rem;
+  }
+
+  .md\:active\:pb-3:active {
+    padding-bottom: .75rem;
+  }
+
+  .md\:active\:pl-3:active {
+    padding-left: .75rem;
+  }
+
+  .md\:active\:pt-4:active {
+    padding-top: 1rem;
+  }
+
+  .md\:active\:pr-4:active {
+    padding-right: 1rem;
+  }
+
+  .md\:active\:pb-4:active {
+    padding-bottom: 1rem;
+  }
+
+  .md\:active\:pl-4:active {
+    padding-left: 1rem;
+  }
+
+  .md\:active\:pt-5:active {
+    padding-top: 1.25rem;
+  }
+
+  .md\:active\:pr-5:active {
+    padding-right: 1.25rem;
+  }
+
+  .md\:active\:pb-5:active {
+    padding-bottom: 1.25rem;
+  }
+
+  .md\:active\:pl-5:active {
+    padding-left: 1.25rem;
+  }
+
+  .md\:active\:pt-6:active {
+    padding-top: 1.5rem;
+  }
+
+  .md\:active\:pr-6:active {
+    padding-right: 1.5rem;
+  }
+
+  .md\:active\:pb-6:active {
+    padding-bottom: 1.5rem;
+  }
+
+  .md\:active\:pl-6:active {
+    padding-left: 1.5rem;
+  }
+
+  .md\:active\:pt-8:active {
+    padding-top: 2rem;
+  }
+
+  .md\:active\:pr-8:active {
+    padding-right: 2rem;
+  }
+
+  .md\:active\:pb-8:active {
+    padding-bottom: 2rem;
+  }
+
+  .md\:active\:pl-8:active {
+    padding-left: 2rem;
+  }
+
+  .md\:active\:pt-10:active {
+    padding-top: 2.5rem;
+  }
+
+  .md\:active\:pr-10:active {
+    padding-right: 2.5rem;
+  }
+
+  .md\:active\:pb-10:active {
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:active\:pl-10:active {
+    padding-left: 2.5rem;
+  }
+
+  .md\:active\:pt-12:active {
+    padding-top: 3rem;
+  }
+
+  .md\:active\:pr-12:active {
+    padding-right: 3rem;
+  }
+
+  .md\:active\:pb-12:active {
+    padding-bottom: 3rem;
+  }
+
+  .md\:active\:pl-12:active {
+    padding-left: 3rem;
+  }
+
+  .md\:active\:pt-16:active {
+    padding-top: 4rem;
+  }
+
+  .md\:active\:pr-16:active {
+    padding-right: 4rem;
+  }
+
+  .md\:active\:pb-16:active {
+    padding-bottom: 4rem;
+  }
+
+  .md\:active\:pl-16:active {
+    padding-left: 4rem;
+  }
+
+  .md\:active\:pt-20:active {
+    padding-top: 5rem;
+  }
+
+  .md\:active\:pr-20:active {
+    padding-right: 5rem;
+  }
+
+  .md\:active\:pb-20:active {
+    padding-bottom: 5rem;
+  }
+
+  .md\:active\:pl-20:active {
+    padding-left: 5rem;
+  }
+
+  .md\:active\:pt-24:active {
+    padding-top: 6rem;
+  }
+
+  .md\:active\:pr-24:active {
+    padding-right: 6rem;
+  }
+
+  .md\:active\:pb-24:active {
+    padding-bottom: 6rem;
+  }
+
+  .md\:active\:pl-24:active {
+    padding-left: 6rem;
+  }
+
+  .md\:active\:pt-32:active {
+    padding-top: 8rem;
+  }
+
+  .md\:active\:pr-32:active {
+    padding-right: 8rem;
+  }
+
+  .md\:active\:pb-32:active {
+    padding-bottom: 8rem;
+  }
+
+  .md\:active\:pl-32:active {
+    padding-left: 8rem;
+  }
+
+  .md\:active\:pt-px:active {
+    padding-top: 1px;
+  }
+
+  .md\:active\:pr-px:active {
+    padding-right: 1px;
+  }
+
+  .md\:active\:pb-px:active {
+    padding-bottom: 1px;
+  }
+
+  .md\:active\:pl-px:active {
     padding-left: 1px;
   }
 
@@ -22581,6 +23983,26 @@ input:focus {
     opacity: 1;
   }
 
+  .lg\:hover\:opacity-0:hover {
+    opacity: 0;
+  }
+
+  .lg\:hover\:opacity-25:hover {
+    opacity: .25;
+  }
+
+  .lg\:hover\:opacity-50:hover {
+    opacity: .5;
+  }
+
+  .lg\:hover\:opacity-75:hover {
+    opacity: .75;
+  }
+
+  .lg\:hover\:opacity-100:hover {
+    opacity: 1;
+  }
+
   .group:hover .lg\:group-hover\:opacity-0 {
     opacity: 0;
   }
@@ -23104,6 +24526,456 @@ input:focus {
   }
 
   .lg\:pl-px {
+    padding-left: 1px;
+  }
+
+  .lg\:active\:p-0:active {
+    padding: 0;
+  }
+
+  .lg\:active\:p-1:active {
+    padding: .25rem;
+  }
+
+  .lg\:active\:p-2:active {
+    padding: .5rem;
+  }
+
+  .lg\:active\:p-3:active {
+    padding: .75rem;
+  }
+
+  .lg\:active\:p-4:active {
+    padding: 1rem;
+  }
+
+  .lg\:active\:p-5:active {
+    padding: 1.25rem;
+  }
+
+  .lg\:active\:p-6:active {
+    padding: 1.5rem;
+  }
+
+  .lg\:active\:p-8:active {
+    padding: 2rem;
+  }
+
+  .lg\:active\:p-10:active {
+    padding: 2.5rem;
+  }
+
+  .lg\:active\:p-12:active {
+    padding: 3rem;
+  }
+
+  .lg\:active\:p-16:active {
+    padding: 4rem;
+  }
+
+  .lg\:active\:p-20:active {
+    padding: 5rem;
+  }
+
+  .lg\:active\:p-24:active {
+    padding: 6rem;
+  }
+
+  .lg\:active\:p-32:active {
+    padding: 8rem;
+  }
+
+  .lg\:active\:p-px:active {
+    padding: 1px;
+  }
+
+  .lg\:active\:py-0:active {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .lg\:active\:px-0:active {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .lg\:active\:py-1:active {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .lg\:active\:px-1:active {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .lg\:active\:py-2:active {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .lg\:active\:px-2:active {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .lg\:active\:py-3:active {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .lg\:active\:px-3:active {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .lg\:active\:py-4:active {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .lg\:active\:px-4:active {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .lg\:active\:py-5:active {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .lg\:active\:px-5:active {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .lg\:active\:py-6:active {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .lg\:active\:px-6:active {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .lg\:active\:py-8:active {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .lg\:active\:px-8:active {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .lg\:active\:py-10:active {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .lg\:active\:px-10:active {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .lg\:active\:py-12:active {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .lg\:active\:px-12:active {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .lg\:active\:py-16:active {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .lg\:active\:px-16:active {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .lg\:active\:py-20:active {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .lg\:active\:px-20:active {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .lg\:active\:py-24:active {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .lg\:active\:px-24:active {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .lg\:active\:py-32:active {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .lg\:active\:px-32:active {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .lg\:active\:py-px:active {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .lg\:active\:px-px:active {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .lg\:active\:pt-0:active {
+    padding-top: 0;
+  }
+
+  .lg\:active\:pr-0:active {
+    padding-right: 0;
+  }
+
+  .lg\:active\:pb-0:active {
+    padding-bottom: 0;
+  }
+
+  .lg\:active\:pl-0:active {
+    padding-left: 0;
+  }
+
+  .lg\:active\:pt-1:active {
+    padding-top: .25rem;
+  }
+
+  .lg\:active\:pr-1:active {
+    padding-right: .25rem;
+  }
+
+  .lg\:active\:pb-1:active {
+    padding-bottom: .25rem;
+  }
+
+  .lg\:active\:pl-1:active {
+    padding-left: .25rem;
+  }
+
+  .lg\:active\:pt-2:active {
+    padding-top: .5rem;
+  }
+
+  .lg\:active\:pr-2:active {
+    padding-right: .5rem;
+  }
+
+  .lg\:active\:pb-2:active {
+    padding-bottom: .5rem;
+  }
+
+  .lg\:active\:pl-2:active {
+    padding-left: .5rem;
+  }
+
+  .lg\:active\:pt-3:active {
+    padding-top: .75rem;
+  }
+
+  .lg\:active\:pr-3:active {
+    padding-right: .75rem;
+  }
+
+  .lg\:active\:pb-3:active {
+    padding-bottom: .75rem;
+  }
+
+  .lg\:active\:pl-3:active {
+    padding-left: .75rem;
+  }
+
+  .lg\:active\:pt-4:active {
+    padding-top: 1rem;
+  }
+
+  .lg\:active\:pr-4:active {
+    padding-right: 1rem;
+  }
+
+  .lg\:active\:pb-4:active {
+    padding-bottom: 1rem;
+  }
+
+  .lg\:active\:pl-4:active {
+    padding-left: 1rem;
+  }
+
+  .lg\:active\:pt-5:active {
+    padding-top: 1.25rem;
+  }
+
+  .lg\:active\:pr-5:active {
+    padding-right: 1.25rem;
+  }
+
+  .lg\:active\:pb-5:active {
+    padding-bottom: 1.25rem;
+  }
+
+  .lg\:active\:pl-5:active {
+    padding-left: 1.25rem;
+  }
+
+  .lg\:active\:pt-6:active {
+    padding-top: 1.5rem;
+  }
+
+  .lg\:active\:pr-6:active {
+    padding-right: 1.5rem;
+  }
+
+  .lg\:active\:pb-6:active {
+    padding-bottom: 1.5rem;
+  }
+
+  .lg\:active\:pl-6:active {
+    padding-left: 1.5rem;
+  }
+
+  .lg\:active\:pt-8:active {
+    padding-top: 2rem;
+  }
+
+  .lg\:active\:pr-8:active {
+    padding-right: 2rem;
+  }
+
+  .lg\:active\:pb-8:active {
+    padding-bottom: 2rem;
+  }
+
+  .lg\:active\:pl-8:active {
+    padding-left: 2rem;
+  }
+
+  .lg\:active\:pt-10:active {
+    padding-top: 2.5rem;
+  }
+
+  .lg\:active\:pr-10:active {
+    padding-right: 2.5rem;
+  }
+
+  .lg\:active\:pb-10:active {
+    padding-bottom: 2.5rem;
+  }
+
+  .lg\:active\:pl-10:active {
+    padding-left: 2.5rem;
+  }
+
+  .lg\:active\:pt-12:active {
+    padding-top: 3rem;
+  }
+
+  .lg\:active\:pr-12:active {
+    padding-right: 3rem;
+  }
+
+  .lg\:active\:pb-12:active {
+    padding-bottom: 3rem;
+  }
+
+  .lg\:active\:pl-12:active {
+    padding-left: 3rem;
+  }
+
+  .lg\:active\:pt-16:active {
+    padding-top: 4rem;
+  }
+
+  .lg\:active\:pr-16:active {
+    padding-right: 4rem;
+  }
+
+  .lg\:active\:pb-16:active {
+    padding-bottom: 4rem;
+  }
+
+  .lg\:active\:pl-16:active {
+    padding-left: 4rem;
+  }
+
+  .lg\:active\:pt-20:active {
+    padding-top: 5rem;
+  }
+
+  .lg\:active\:pr-20:active {
+    padding-right: 5rem;
+  }
+
+  .lg\:active\:pb-20:active {
+    padding-bottom: 5rem;
+  }
+
+  .lg\:active\:pl-20:active {
+    padding-left: 5rem;
+  }
+
+  .lg\:active\:pt-24:active {
+    padding-top: 6rem;
+  }
+
+  .lg\:active\:pr-24:active {
+    padding-right: 6rem;
+  }
+
+  .lg\:active\:pb-24:active {
+    padding-bottom: 6rem;
+  }
+
+  .lg\:active\:pl-24:active {
+    padding-left: 6rem;
+  }
+
+  .lg\:active\:pt-32:active {
+    padding-top: 8rem;
+  }
+
+  .lg\:active\:pr-32:active {
+    padding-right: 8rem;
+  }
+
+  .lg\:active\:pb-32:active {
+    padding-bottom: 8rem;
+  }
+
+  .lg\:active\:pl-32:active {
+    padding-left: 8rem;
+  }
+
+  .lg\:active\:pt-px:active {
+    padding-top: 1px;
+  }
+
+  .lg\:active\:pr-px:active {
+    padding-right: 1px;
+  }
+
+  .lg\:active\:pb-px:active {
+    padding-bottom: 1px;
+  }
+
+  .lg\:active\:pl-px:active {
     padding-left: 1px;
   }
 
@@ -28575,6 +30447,26 @@ input:focus {
     opacity: 1;
   }
 
+  .xl\:hover\:opacity-0:hover {
+    opacity: 0;
+  }
+
+  .xl\:hover\:opacity-25:hover {
+    opacity: .25;
+  }
+
+  .xl\:hover\:opacity-50:hover {
+    opacity: .5;
+  }
+
+  .xl\:hover\:opacity-75:hover {
+    opacity: .75;
+  }
+
+  .xl\:hover\:opacity-100:hover {
+    opacity: 1;
+  }
+
   .group:hover .xl\:group-hover\:opacity-0 {
     opacity: 0;
   }
@@ -29098,6 +30990,456 @@ input:focus {
   }
 
   .xl\:pl-px {
+    padding-left: 1px;
+  }
+
+  .xl\:active\:p-0:active {
+    padding: 0;
+  }
+
+  .xl\:active\:p-1:active {
+    padding: .25rem;
+  }
+
+  .xl\:active\:p-2:active {
+    padding: .5rem;
+  }
+
+  .xl\:active\:p-3:active {
+    padding: .75rem;
+  }
+
+  .xl\:active\:p-4:active {
+    padding: 1rem;
+  }
+
+  .xl\:active\:p-5:active {
+    padding: 1.25rem;
+  }
+
+  .xl\:active\:p-6:active {
+    padding: 1.5rem;
+  }
+
+  .xl\:active\:p-8:active {
+    padding: 2rem;
+  }
+
+  .xl\:active\:p-10:active {
+    padding: 2.5rem;
+  }
+
+  .xl\:active\:p-12:active {
+    padding: 3rem;
+  }
+
+  .xl\:active\:p-16:active {
+    padding: 4rem;
+  }
+
+  .xl\:active\:p-20:active {
+    padding: 5rem;
+  }
+
+  .xl\:active\:p-24:active {
+    padding: 6rem;
+  }
+
+  .xl\:active\:p-32:active {
+    padding: 8rem;
+  }
+
+  .xl\:active\:p-px:active {
+    padding: 1px;
+  }
+
+  .xl\:active\:py-0:active {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .xl\:active\:px-0:active {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .xl\:active\:py-1:active {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .xl\:active\:px-1:active {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .xl\:active\:py-2:active {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .xl\:active\:px-2:active {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .xl\:active\:py-3:active {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .xl\:active\:px-3:active {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .xl\:active\:py-4:active {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .xl\:active\:px-4:active {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .xl\:active\:py-5:active {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .xl\:active\:px-5:active {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .xl\:active\:py-6:active {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .xl\:active\:px-6:active {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .xl\:active\:py-8:active {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .xl\:active\:px-8:active {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .xl\:active\:py-10:active {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .xl\:active\:px-10:active {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .xl\:active\:py-12:active {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .xl\:active\:px-12:active {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .xl\:active\:py-16:active {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .xl\:active\:px-16:active {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .xl\:active\:py-20:active {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .xl\:active\:px-20:active {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .xl\:active\:py-24:active {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .xl\:active\:px-24:active {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .xl\:active\:py-32:active {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .xl\:active\:px-32:active {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .xl\:active\:py-px:active {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .xl\:active\:px-px:active {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .xl\:active\:pt-0:active {
+    padding-top: 0;
+  }
+
+  .xl\:active\:pr-0:active {
+    padding-right: 0;
+  }
+
+  .xl\:active\:pb-0:active {
+    padding-bottom: 0;
+  }
+
+  .xl\:active\:pl-0:active {
+    padding-left: 0;
+  }
+
+  .xl\:active\:pt-1:active {
+    padding-top: .25rem;
+  }
+
+  .xl\:active\:pr-1:active {
+    padding-right: .25rem;
+  }
+
+  .xl\:active\:pb-1:active {
+    padding-bottom: .25rem;
+  }
+
+  .xl\:active\:pl-1:active {
+    padding-left: .25rem;
+  }
+
+  .xl\:active\:pt-2:active {
+    padding-top: .5rem;
+  }
+
+  .xl\:active\:pr-2:active {
+    padding-right: .5rem;
+  }
+
+  .xl\:active\:pb-2:active {
+    padding-bottom: .5rem;
+  }
+
+  .xl\:active\:pl-2:active {
+    padding-left: .5rem;
+  }
+
+  .xl\:active\:pt-3:active {
+    padding-top: .75rem;
+  }
+
+  .xl\:active\:pr-3:active {
+    padding-right: .75rem;
+  }
+
+  .xl\:active\:pb-3:active {
+    padding-bottom: .75rem;
+  }
+
+  .xl\:active\:pl-3:active {
+    padding-left: .75rem;
+  }
+
+  .xl\:active\:pt-4:active {
+    padding-top: 1rem;
+  }
+
+  .xl\:active\:pr-4:active {
+    padding-right: 1rem;
+  }
+
+  .xl\:active\:pb-4:active {
+    padding-bottom: 1rem;
+  }
+
+  .xl\:active\:pl-4:active {
+    padding-left: 1rem;
+  }
+
+  .xl\:active\:pt-5:active {
+    padding-top: 1.25rem;
+  }
+
+  .xl\:active\:pr-5:active {
+    padding-right: 1.25rem;
+  }
+
+  .xl\:active\:pb-5:active {
+    padding-bottom: 1.25rem;
+  }
+
+  .xl\:active\:pl-5:active {
+    padding-left: 1.25rem;
+  }
+
+  .xl\:active\:pt-6:active {
+    padding-top: 1.5rem;
+  }
+
+  .xl\:active\:pr-6:active {
+    padding-right: 1.5rem;
+  }
+
+  .xl\:active\:pb-6:active {
+    padding-bottom: 1.5rem;
+  }
+
+  .xl\:active\:pl-6:active {
+    padding-left: 1.5rem;
+  }
+
+  .xl\:active\:pt-8:active {
+    padding-top: 2rem;
+  }
+
+  .xl\:active\:pr-8:active {
+    padding-right: 2rem;
+  }
+
+  .xl\:active\:pb-8:active {
+    padding-bottom: 2rem;
+  }
+
+  .xl\:active\:pl-8:active {
+    padding-left: 2rem;
+  }
+
+  .xl\:active\:pt-10:active {
+    padding-top: 2.5rem;
+  }
+
+  .xl\:active\:pr-10:active {
+    padding-right: 2.5rem;
+  }
+
+  .xl\:active\:pb-10:active {
+    padding-bottom: 2.5rem;
+  }
+
+  .xl\:active\:pl-10:active {
+    padding-left: 2.5rem;
+  }
+
+  .xl\:active\:pt-12:active {
+    padding-top: 3rem;
+  }
+
+  .xl\:active\:pr-12:active {
+    padding-right: 3rem;
+  }
+
+  .xl\:active\:pb-12:active {
+    padding-bottom: 3rem;
+  }
+
+  .xl\:active\:pl-12:active {
+    padding-left: 3rem;
+  }
+
+  .xl\:active\:pt-16:active {
+    padding-top: 4rem;
+  }
+
+  .xl\:active\:pr-16:active {
+    padding-right: 4rem;
+  }
+
+  .xl\:active\:pb-16:active {
+    padding-bottom: 4rem;
+  }
+
+  .xl\:active\:pl-16:active {
+    padding-left: 4rem;
+  }
+
+  .xl\:active\:pt-20:active {
+    padding-top: 5rem;
+  }
+
+  .xl\:active\:pr-20:active {
+    padding-right: 5rem;
+  }
+
+  .xl\:active\:pb-20:active {
+    padding-bottom: 5rem;
+  }
+
+  .xl\:active\:pl-20:active {
+    padding-left: 5rem;
+  }
+
+  .xl\:active\:pt-24:active {
+    padding-top: 6rem;
+  }
+
+  .xl\:active\:pr-24:active {
+    padding-right: 6rem;
+  }
+
+  .xl\:active\:pb-24:active {
+    padding-bottom: 6rem;
+  }
+
+  .xl\:active\:pl-24:active {
+    padding-left: 6rem;
+  }
+
+  .xl\:active\:pt-32:active {
+    padding-top: 8rem;
+  }
+
+  .xl\:active\:pr-32:active {
+    padding-right: 8rem;
+  }
+
+  .xl\:active\:pb-32:active {
+    padding-bottom: 8rem;
+  }
+
+  .xl\:active\:pl-32:active {
+    padding-left: 8rem;
+  }
+
+  .xl\:active\:pt-px:active {
+    padding-top: 1px;
+  }
+
+  .xl\:active\:pr-px:active {
+    padding-right: 1px;
+  }
+
+  .xl\:active\:pb-px:active {
+    padding-bottom: 1px;
+  }
+
+  .xl\:active\:pl-px:active {
     padding-left: 1px;
   }
 
