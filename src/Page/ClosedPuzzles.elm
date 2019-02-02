@@ -12,7 +12,6 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Page.Error exposing (..)
 import Page.Nav exposing (navMenu)
-import Page.Puzzle exposing (..)
 import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))

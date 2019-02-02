@@ -10,7 +10,6 @@ import Json.Decode as Decode exposing (Decoder)
 import Markdown
 import Page.Error exposing (..)
 import Page.Nav exposing (navMenu)
-import Page.Puzzle exposing (..)
 import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))

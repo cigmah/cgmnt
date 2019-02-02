@@ -54,13 +54,13 @@ puzzleCard isLoading onClickPuzzle puzzle =
                     "red-light"
 
                 B ->
-                    "teal"
+                    "yellow"
 
                 C ->
                     "green"
 
                 M ->
-                    "grey-dark"
+                    "pink"
 
         onClickPuzzleAttrs =
             case onClickPuzzle of
@@ -92,9 +92,8 @@ puzzleCard isLoading onClickPuzzle puzzle =
                     , div
                         [ class "ml-1 inline-flex flex-wrap w-full justify-center items-center pb-2" ]
                         [ div
-                            [ class <|
-                                String.concat [ "px-2 py-1 mt-1 text-sm rounded-full mr-2 ", "bg-" ++ colour ]
-                            , classList [ ( "text-" ++ colour, isLoading ), ( "text-white", not isLoading ) ]
+                            [ class "px-2 py-1 mt-1 text-sm rounded-full mr-2 "
+                            , classList [ ( "text-grey-light bg-grey-light", isLoading ), ( "bg-" ++ colour, not isLoading ), ( "text-white", not isLoading ) ]
                             ]
                             [ text <| Utils.puzzleSetString puzzle.set ]
                         , div
@@ -128,7 +127,23 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzl
         introText =
             case puzzlePageType of
                 ArchivePublic _ ->
-                    div [] []
+                    div []
+                        [ span
+                            [ class "text-xl" ]
+                            [ p
+                                []
+                                [ textWithLoad isLoading "These puzzles have closed." ]
+                            ]
+                        , br
+                            []
+                            []
+                        , p
+                            []
+                            [ textWithLoad isLoading "They now contain both the original puzzle, and our own solution writeup. Click on a puzzle to view it." ]
+                        , br
+                            []
+                            []
+                        ]
 
                 ArchiveUser _ _ ->
                     div []
@@ -156,7 +171,29 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzl
                         ]
 
                 Open _ _ ->
-                    div [] []
+                    div []
+                        [ span
+                            [ class "text-xl" ]
+                            [ p
+                                []
+                                [ textWithLoad isLoading "These puzzles are currently open." ]
+                            ]
+                        , br
+                            []
+                            []
+                        , p
+                            []
+                            [ textWithLoad isLoading "Click on a puzzle to view it. When the puzzle closes, submissions will be locked and the puzzle (and it solution) will be moved to the archive." ]
+                        , br
+                            []
+                            []
+                        , p
+                            []
+                            [ textWithLoad isLoading "Puzzles you haven't solved yet:" ]
+                        , br
+                            []
+                            []
+                        ]
 
         unsolvedPuzzles =
             case puzzlePageType of
@@ -198,7 +235,12 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzl
                         ]
 
                 Open _ _ ->
-                    div [] []
+                    div
+                        [ class "pt-3 pb-2" ]
+                        [ p
+                            []
+                            [ textWithLoad isLoading "Open puzzles which you've already solved:" ]
+                        ]
 
         onClickPuzzleComplete =
             case maybeOnClickPuzzleComplete of
@@ -251,8 +293,8 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzl
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
-                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-teal  border-b-2 border-teal-dark"
-                        , classList [ ( "text-white", not isLoading ), ( "text-teal", isLoading ) ]
+                        [ class "flex items-center  sm:text-xl justify-center px-5 py-3 rounded-l-lg font-black bg-yellow  border-b-2 border-yellow-dark"
+                        , classList [ ( "text-white", not isLoading ), ( "text-yellow", isLoading ) ]
                         ]
                         [ span
                             [ class "fas fa-book-reader" ]
@@ -347,7 +389,7 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                     "red"
 
                 B ->
-                    "teal"
+                    "yellow"
 
                 C ->
                     "green"
@@ -359,7 +401,10 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
             case puzzle.input of
                 Just inputString ->
                     div
-                        [ id "puzzle-input", class "m-4 p-4 border-red-light border-l-4 text-grey-darkest bg-pink-lightest rounded-lg rounded-l-none" ]
+                        [ id "puzzle-input"
+                        , class "m-4 p-4  border-l-4 text-grey-darkest  rounded-lg rounded-l-none"
+                        , classList [ ( " bg-" ++ colour ++ "-lightest border-" ++ colour, True ) ]
+                        ]
                     <|
                         Markdown.toHtml Nothing inputString
 
@@ -375,7 +420,9 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                             [ div
                                 [ class "flex mb-4" ]
                                 [ div
-                                    [ class "flex items-center justify-center h-12 w-12 px-3 py-3 rounded-l font-black bg-red text-grey-lighter border-red-dark border-b-4" ]
+                                    [ class "flex items-center justify-center h-12 w-12 px-3 py-3 rounded-l font-black text-white border-b-4"
+                                    , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
+                                    ]
                                     [ span
                                         [ class "fas fa-lightbulb fa-lg" ]
                                         []
@@ -388,7 +435,10 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                         , div
                             [ id "solution-card", class "bg-white rounded-lg p-2 md:p-8 mb-16 border-b-4 border-grey-lighter" ]
                             [ div
-                                [ id "puzzle-solution", class "mt-2 mx-4 mb-4 md:mb-8 p-2 md:p-4 border-red-light border-l-4 text-grey-darkest text-sm md:text-base bg-pink-lightest rounded-lg rounded-l-none" ]
+                                [ id "puzzle-solution"
+                                , class "mt-2 mx-4 mb-4 md:mb-8 p-2 md:p-4 border-l-4 text-grey-darkest text-sm md:text-base rounded-lg rounded-l-none"
+                                , classList [ ( " bg-" ++ colour ++ "-lightest border-" ++ colour, True ) ]
+                                ]
                                 [ p
                                     []
                                     [ text "The solution is ..." ]

@@ -14,7 +14,6 @@ import Json.Encode as Encode exposing (Value)
 import Markdown
 import Page.Error exposing (..)
 import Page.Nav exposing (..)
-import Page.Puzzle exposing (..)
 import Page.Shared exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Session exposing (Session(..))
