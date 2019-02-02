@@ -45,12 +45,22 @@ type LoginState
 
 init : Session -> ( Model, Cmd Msg )
 init session =
-    ( { session = session
-      , loginState = InputEmail "" NotAsked
-      , navActive = False
-      }
-    , Cmd.none
-    )
+    case session of
+        LoggedIn _ viewer ->
+            ( { session = session
+              , loginState = LoginSuccess viewer
+              , navActive = False
+              }
+            , Cmd.none
+            )
+
+        _ ->
+            ( { session = session
+              , loginState = InputEmail "" NotAsked
+              , navActive = False
+              }
+            , Cmd.none
+            )
 
 
 toSession : Model -> Session
@@ -184,162 +194,150 @@ navMenuLinked model body =
 view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Login"
-    , content = navMenuLinked model <| mainHero model
+    , content = navMenuLinked model <| mainHero model.loginState
     }
 
 
-loggedInPage viewer =
-    div [ class "hero is-fullheight-with-navbar" ]
-        [ div [ class "hero-body" ]
-            [ div [ class "container" ]
-                [ h1 [ class "title" ]
-                    [ text <| "Success! Welcome to the Puzzle Hunt, " ++ Viewer.username viewer ++ "." ]
-                , h2 [ class "subtitle" ]
-                    [ text "You can now access the Puzzle Hunt tab to check out the open puzzles :)" ]
-                , h2 [ class "" ]
-                    [ text "(Or, if you like, "
-                    , a [ Route.href Route.Home ] [ text "click here" ]
-                    , text " for the dashboard."
-                    ]
-                ]
-            ]
-        ]
-
-
-mainHero model =
+mainHero state =
     let
-        mainBody =
-            case ( model.loginState, model.session ) of
-                ( LoginSuccess viewer, _ ) ->
-                    loggedInPage viewer
+        isTokenDisabled =
+            case state of
+                InputToken _ _ _ NotAsked ->
+                    False
 
-                ( _, LoggedIn _ viewer ) ->
-                    loggedInPage viewer
-
-                ( _, _ ) ->
-                    div [ class "hero is-fullheight-with-navbar" ]
-                        [ div [ class "hero-body" ]
-                            [ div [ class "container" ]
-                                [ loginForm model ]
-                            ]
-                        ]
-    in
-    mainBody
-
-
-loginForm model =
-    let
-        loadingState =
-            case model.loginState of
-                InputEmail _ Loading ->
-                    " is-loading "
+                InputToken _ _ _ (Failure e) ->
+                    False
 
                 InputToken _ _ _ Loading ->
-                    " is-loading "
+                    False
 
                 _ ->
-                    ""
+                    True
 
-        tokenField =
-            case model.loginState of
-                InputToken _ (Success _) _ (Success _) ->
-                    loginField "Token" "012345" "text" True <| ChangedLoginToken
+        sendTokenText =
+            case state of
+                InputEmail _ Loading ->
+                    "Loading..."
 
-                InputToken _ (Success _) _ _ ->
-                    loginField "Token" "012345" "text" False <| ChangedLoginToken
-
-                _ ->
-                    loginButton "Token" loadingState "Send Token"
-
-        disabledState =
-            case model.loginState of
                 InputToken _ _ _ _ ->
+                    "Sent!"
+
+                _ ->
+                    "Send Token"
+
+        loginText =
+            case state of
+                InputToken _ _ _ Loading ->
+                    "Loading..."
+
+                _ ->
+                    "Login"
+
+        messageDiv =
+            case state of
+                InputEmail _ (Failure e) ->
+                    div
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ text "We're sorry, there was an issue with sending a token to your email. Maybe you haven't registered? Or a typo?" ]
+
+                InputToken _ _ _ (Failure e) ->
+                    div
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ text "We're sorry, that token didn't work. Is it right? Maybe it's expired? Maybe there was some other error?" ]
+
+                LoginSuccess viewer ->
+                    div
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ text <| "Great, you've logged in successfully! Welcome to the puzzle hunt, " ++ Viewer.username viewer ++ ". "
+                        , text "You can now start "
+                        , a [ Route.href Route.OpenPuzzles, class "no-underline text-blue" ] [ text "tackling the open puzzles" ]
+                        , text " or "
+                        , a [ Route.href Route.Home, class "no-underline text-blue" ] [ text "head to your dashboard!" ]
+                        ]
+
+                _ ->
+                    div [] []
+
+        isFormHidden =
+            case state of
+                LoginSuccess _ ->
                     True
 
                 _ ->
                     False
-
-        fullSubmit =
-            case model.loginState of
-                InputToken _ _ _ (Success _) ->
-                    div [] []
-
-                InputToken _ _ _ _ ->
-                    loginButton "" loadingState "Login"
-
-                _ ->
-                    div [] []
-
-        message =
-            case model.loginState of
-                InputToken _ (Success msgEmail) _ (Success _) ->
-                    div [ class "card-footer has-background-success has-text-white" ] [ p [ class "card-footer-item" ] [ text "You have successfully logged in!" ] ]
-
-                InputEmail _ (Failure error) ->
-                    div [ class "card-footer has-background-info has-text-white" ] [ p [ class "card-footer-item" ] [ text "There was an error with your email." ] ]
-
-                InputToken _ _ _ (Failure error) ->
-                    div [ class "card-footer has-background-info has-text-white" ] [ p [ class "card-footer-item" ] [ text "There was an error with your token." ] ]
-
-                InputToken _ (Success msg) _ NotAsked ->
-                    div [ class "card-footer has-background-success has-text-white" ] [ p [ class "card-footer-item" ] [ text msg ] ]
-
-                _ ->
-                    div [] []
-
-        submitMsg =
-            case model.loginState of
-                InputEmail _ _ ->
-                    ClickedSendEmail
-
-                InputToken _ _ _ _ ->
-                    ClickedSendToken
-
-                LoginSuccess _ ->
-                    ClickedSendToken
     in
-    div [ class "columns is-centered" ]
-        [ div [ class "column is-two-thirds" ]
-            [ div [ class "card" ]
-                [ Html.form
-                    [ class "card-content"
-                    , onSubmit submitMsg
+    div
+        [ class "px-8 bg-grey-lightest" ]
+        [ div
+            [ class "flex flex-wrap h-screen content-center justify-center items-center pt-20 md:pt-12" ]
+            [ div
+                [ class "block md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ div
+                    [ class "inline-flex flex justify-center w-full" ]
+                    [ div
+                        [ class "flex items-center sm:text-xl justify-center sm:h-12 sm:w-10 px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
+                        [ span
+                            [ class "fas fa-sign-in-alt" ]
+                            []
+                        ]
+                    , div
+                        [ class "flex items-center w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ text "User Login" ]
                     ]
-                    [ loginField "Email" "roy.basch@bestmedicalschool.com" "email" disabledState <| ChangedLoginEmail
-                    , tokenField
-                    , fullSubmit
-                    ]
-                , message
-                ]
-            ]
-        ]
-
-
-loginField : String -> String -> String -> Bool -> (String -> Msg) -> Html Msg
-loginField fieldLabel fieldPlaceholder fieldType disabledState fieldOnChange =
-    div [ class "field is-horizontal" ]
-        [ div [ class "field-label is-normal" ]
-            [ label [ class "label" ] [ text fieldLabel ] ]
-        , div [ class "field-body  is-expanded" ]
-            [ div [ class "field" ]
-                [ div [ class "control is-expanded" ]
-                    [ input [ class "input", disabled disabledState, type_ fieldType, placeholder fieldPlaceholder, onInput fieldOnChange ]
+                , div
+                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                    [ p
                         []
-                    ]
-                ]
-            ]
-        ]
-
-
-loginButton labelText loadingState buttonText =
-    div [ class "field is-horizontal" ]
-        [ div [ class "field-label is-normal" ]
-            [ label [ class "label" ] [ text labelText ] ]
-        , div [ class "field-body  is-expanded" ]
-            [ div [ class "field" ]
-                [ div [ class "control is-expanded" ]
-                    [ button [ class <| "button is-info is-fullwidth" ++ loadingState, type_ "submit" ]
-                        [ text buttonText ]
+                        [ text "Input your email first and press  "
+                        , span
+                            [ class "bg-green px-2 py-1 text-xs rounded text-white" ]
+                            [ text "Send Token" ]
+                        , text "."
+                        ]
+                    , br
+                        []
+                        []
+                    , p
+                        []
+                        [ text "A login code will be sent to your email. Input the code, and you're all set to login!" ]
+                    , div
+                        [ class "block w-full p-4 pb-1 mt-1", classList [ ( "hidden", isFormHidden ) ] ]
+                        [ Html.form
+                            [ class "inline-flex w-full", onSubmit ClickedSendToken ]
+                            [ input
+                                [ class "flex-grow my-1 px-4 py-2 rounded-lg  outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest rounded-r-none"
+                                , placeholder "Email"
+                                , onInput ChangedLoginEmail
+                                , classList [ ( "bg-grey-lighter", isTokenDisabled ), ( "bg-grey cursor-not-allowed", not isTokenDisabled ) ]
+                                , disabled (not isTokenDisabled)
+                                , type_ "email"
+                                ]
+                                []
+                            , button
+                                [ class "my-1 px-4 py-2 bg-green text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark active:border-0"
+                                , onClick ClickedSendEmail
+                                ]
+                                [ text sendTokenText ]
+                            ]
+                        , input
+                            [ class "w-full my-1 px-4 py-2 rounded-lg  outline-none text-grey-darkest focus:bg-grey-lightest focus:text-grey-darkest"
+                            , placeholder "Token"
+                            , disabled isTokenDisabled
+                            , classList [ ( "bg-grey cursor-not-allowed", isTokenDisabled ), ( "bg-grey-lighter", not isTokenDisabled ) ]
+                            , onInput ChangedLoginToken
+                            ]
+                            []
+                        ]
+                    , messageDiv
+                    , div
+                        [ class "flex w-full justify-center" ]
+                        [ button
+                            [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                            , type_ "submit"
+                            , onClick ClickedSendToken
+                            ]
+                            [ text loginText ]
+                        ]
                     ]
                 ]
             ]
