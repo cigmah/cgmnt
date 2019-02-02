@@ -154,18 +154,18 @@ view model =
             }
 
         Detail fullPuzzleDataList fullPuzzleData ->
-            { title = "Archive - CIGMAH"
-            , content = mainBody model
+            { title = fullPuzzleData.title ++ " - CIGMAH"
+            , content = mainBody fullPuzzleData
             }
 
         AcceptedFull closedDataWebData ->
-            { title = "Archive - CIGMAH"
+            { title = "My Archive - CIGMAH"
             , content = navMenuLinked model <| bodyFullUser closedDataWebData
             }
 
         AcceptedDetail closedData fullPuzzleData ->
-            { title = "Archive - CIGMAH"
-            , content = mainBody model
+            { title = fullPuzzleData.title ++ " - CIGMAH"
+            , content = mainBody fullPuzzleData
             }
 
 
@@ -181,8 +181,8 @@ isLoading model =
             False
 
 
-mainBody model =
-    div [] []
+mainBody data =
+    viewDetailPuzzle (Closed data) ClickedBackToFull Nothing
 
 
 defaultPuzzleData =
@@ -230,8 +230,3 @@ bodyFullUser webData =
 
         _ ->
             errorPage
-
-
-makePuzzleCards : Model -> Html Msg
-makePuzzleCards model =
-    div [] []

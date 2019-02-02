@@ -12,7 +12,7 @@
 }
 
 .markdown {
-  @apply font-sans
+  line-height: 1.1;
 }
 
 .markdown p {

@@ -431,7 +431,7 @@ themeCard isLoading theme =
                     [ div
                         [ class "flex items-center justify-center px-3 py-1 w-8 md:h-8 rounded-l font-black text-grey-darkest" ]
                         [ span
-                            [ class "fas fa-exclamation-circle" ]
+                            [ class "fas fa-exclamation-circle", classList [ ( "rounded text-grey-light bg-grey-light px-1", isLoading ) ] ]
                             []
                         ]
                     , div
@@ -454,7 +454,7 @@ themeCard isLoading theme =
                     [ div
                         [ class "flex items-center justify-center px-3 py-1 w-8 md:h-8 rounded-l font-black text-grey-darkest" ]
                         [ span
-                            [ class "fas fa-ellipsis-h" ]
+                            [ class "fas fa-ellipsis-h", classList [ ( "rounded text-grey-light bg-grey-light px-1", isLoading ) ] ]
                             []
                         ]
                     , div
@@ -482,11 +482,29 @@ dashboardPage isLoading errorMsg username numSolved points currentThemes nextThe
 
                 Nothing ->
                     div [] []
+
+        currentThemeDiv =
+            case
+                List.filter
+                    (\x ->
+                        if x.themeSet == RTheme then
+                            True
+
+                        else
+                            False
+                    )
+                    currentThemes
+            of
+                [] ->
+                    div [ class "flex flex-inline justify-center w-full m-2 text-sm p-2" ] [ text "No monthly themes are currently open." ]
+
+                t ->
+                    div [] <| List.map (themeCard isLoading) t
     in
     div
         [ class "px-8 bg-grey-lightest" ]
         [ div
-            [ class "flex flex-wrap content-center justify-center items-center pb-12 pt-20" ]
+            [ class "flex flex-wrap content-center justify-center items-center pb-12 pt-16" ]
             [ div
                 [ class "block md:w-3/4 lg:w-2/3" ]
                 [ div
@@ -521,22 +539,11 @@ dashboardPage isLoading errorMsg username numSolved points currentThemes nextThe
                         , br [] []
                         , p
                             []
-                            [ textWithLoad isLoading "The theme(s) that are currently open are:" ]
+                            [ textWithLoad isLoading "The monthly theme(s) that are currently open are:" ]
                         , br
                             []
                             []
-                        , div [] <|
-                            List.map (themeCard isLoading)
-                                (List.filter
-                                    (\x ->
-                                        if x.themeSet == RTheme then
-                                            True
-
-                                        else
-                                            False
-                                    )
-                                    currentThemes
-                                )
+                        , currentThemeDiv
                         , div
                             [ class "pt-3 pb-2" ]
                             [ p
