@@ -257,6 +257,23 @@ mainHero state =
 
                 _ ->
                     False
+
+        onSubmitMessage =
+            case state of
+                InputEmail _ Loading ->
+                    []
+
+                InputEmail _ _ ->
+                    [ onSubmit ClickedSendEmail ]
+
+                InputToken _ _ _ Loading ->
+                    []
+
+                InputToken _ _ _ _ ->
+                    [ onSubmit ClickedSendToken ]
+
+                _ ->
+                    []
     in
     div
         [ class "px-8 bg-grey-lightest" ]
@@ -295,7 +312,7 @@ mainHero state =
                     , div
                         [ class "block w-full p-4 pb-1 mt-1", classList [ ( "hidden", isFormHidden ) ] ]
                         [ Html.form
-                            [ class "inline-flex w-full", onSubmit ClickedSendToken ]
+                            ([ class "inline-flex w-full" ] ++ onSubmitMessage)
                             [ input
                                 [ class "flex-grow my-1 px-4 py-2 rounded-lg  outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest rounded-r-none"
                                 , placeholder "Email"
@@ -306,8 +323,10 @@ mainHero state =
                                 ]
                                 []
                             , button
-                                [ class "my-1 px-4 py-2 bg-green text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark active:border-0"
+                                [ class "my-1 px-4 py-2 text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark "
                                 , onClick ClickedSendEmail
+                                , disabled (not isTokenDisabled)
+                                , classList [ ( "bg-green-dark", not isTokenDisabled ), ( "bg-green active:border-0", isTokenDisabled ) ]
                                 ]
                                 [ text sendTokenText ]
                             ]
@@ -325,7 +344,6 @@ mainHero state =
                         [ class "flex w-full justify-center" ]
                         [ button
                             [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
-                            , type_ "submit"
                             , onClick ClickedSendToken
                             ]
                             [ text loginText ]

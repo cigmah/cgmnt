@@ -69,10 +69,10 @@ decoderDashData =
         (Decode.oneOf [ Decode.field "total" Decode.int, Decode.succeed 0 ])
 
 
-init : Session -> ( Model, Cmd Msg )
-init session =
-    case session of
-        LoggedIn _ viewer ->
+init : Session -> Bool -> ( Model, Cmd Msg )
+init session loggedOut =
+    case ( session, loggedOut ) of
+        ( LoggedIn _ viewer, False ) ->
             ( { state = Dashboard viewer Loading
               , session = session
               , navActive = False
@@ -80,12 +80,28 @@ init session =
             , Api.get "dashboard/" (Just <| Viewer.cred viewer) ReceivedData decoderDashData
             )
 
-        Guest _ ->
+        ( LoggedIn key viewer, True ) ->
+            ( { state = Static defaultContactData NotAsked
+              , session = Guest key
+              , navActive = False
+              }
+            , Cmd.batch [ Api.logout, Route.replaceUrl key Route.Home ]
+            )
+
+        ( Guest _, False ) ->
             ( { state = Static defaultContactData NotAsked
               , session = session
               , navActive = False
               }
             , Cmd.none
+            )
+
+        ( Guest key, True ) ->
+            ( { state = Static defaultContactData NotAsked
+              , session = session
+              , navActive = False
+              }
+            , Route.replaceUrl key Route.Home
             )
 
 
@@ -255,15 +271,15 @@ landingPage contactResponse =
                     div [] []
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
+        [ class "px-8 bg-grey-lightest " ]
         [ div
-            [ class "flex flex-wrap h-screen content-center justify-center items-center pt-8 md:pt-0" ]
+            [ class "flex flex-wrap lg:h-screen content-center justify-center items-center pt-24 lg:pt-0" ]
             [ div
                 [ class "block sm:w-3/4 md:w-2/3 lg:w-1/2" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
-                        [ class "flex items-center  sm:text-xl md:text-3xl justify-center sm:h-12 sm:w-12 md:w-16 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
+                        [ class "flex items-center sm:text-2xl md:text-3xl justify-center  w-16 md:w-16 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
                         [ span
                             [ class "fas fa-code" ]
                             []
@@ -298,7 +314,7 @@ landingPage contactResponse =
                     ]
                 , div
                     [ class "flex w-full justify-center" ]
-                    [ a [ Route.href Route.Register, class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full md:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:bg-red-dark" ]
+                    [ a [ Route.href Route.Register, class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full lg:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:bg-red-dark" ]
                         [ text "Register"
                         ]
                     ]
@@ -365,7 +381,7 @@ landingPage contactResponse =
                 ]
             ]
         , div
-            [ class "lg:flex lg:flex-wrap h-screen content-center items-center lg:p-8" ]
+            [ class "lg:flex lg:flex-wrap lg:h-screen content-center items-center lg:p-8 pb-16 lg:pb-8" ]
             [ div
                 [ class "lg:inline-flex justify-apart w-full pt-8 mb-4 md:px-8 lg:px-0" ]
                 [ div

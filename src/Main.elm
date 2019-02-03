@@ -100,7 +100,7 @@ changeRouteTo routeMaybe model =
             ( NotFound session, Cmd.none )
 
         Just Route.Home ->
-            Home.init session |> updateWith Home GotHomeMsg model
+            Home.init session False |> updateWith Home GotHomeMsg model
 
         Just Route.Archive ->
             Archive.init session |> updateWith Archive GotArchiveMsg model
@@ -127,12 +127,7 @@ changeRouteTo routeMaybe model =
             Submissions.init session |> updateWith Submissions GotSubmissionsMsg model
 
         Just Route.Logout ->
-            case session of
-                LoggedIn key _ ->
-                    ( model, Api.logout )
-
-                Guest _ ->
-                    ( model, Cmd.none )
+            Home.init session True |> updateWith Home GotHomeMsg model
 
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
