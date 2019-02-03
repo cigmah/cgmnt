@@ -51,7 +51,7 @@ puzzleCard isLoading onClickPuzzle puzzle =
         colour =
             case puzzle.set of
                 A ->
-                    "red-light"
+                    "red"
 
                 B ->
                     "yellow"
@@ -71,40 +71,31 @@ puzzleCard isLoading onClickPuzzle puzzle =
                     [ onClick (event puzzle) ]
     in
     div
-        [ class "block w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-3" ]
+        [ class "block w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-3" ]
         [ div
-            ([ class "group w-full rounded-lg cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
+            ([ class "group w-full rounded cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
             [ div
-                [ class "flex flex-col group-hover:opacity-75 items-center align-center justify-center rounded-t-lg" ]
-                [ img
-                    [ class "resize rounded-full h-24 w-24", src puzzle.imagePath ]
-                    []
+                [ class "block w-full h-full rounded-b-lg border-b-4 active:border-t-4 active:border-b-0 active:border-white"
+                , classList [ ( "border-" ++ colour ++ "-dark", not isLoading ), ( "border-grey-light", isLoading ) ]
                 ]
-            , div
-                [ class "inline-flex w-full justify-center" ]
                 [ div
-                    [ class "flex flex-wrap items-center py-4 px-2 rounded-tr text-white" ]
-                    [ div
-                        [ class "px-2 pb-1 pt-0 text-lg w-full rounded-b text-sm text-grey-darkest text-center" ]
-                        [ span [ class "text-sm pr-2" ] [ textWithLoad isLoading <| "№ " ++ String.fromInt puzzle.id ]
-                        , textWithLoad isLoading <| puzzle.title
+                    [ class "flex flex-col group-hover:opacity-75 items-center align-center justify-center rounded-t-lg", classList [ ( "bg-" ++ colour, not isLoading ), ( "bg-grey-lighter", isLoading ) ] ]
+                    [ div [ class "w-full h-32 overflow-hidden rounded-t-lg" ]
+                        [ img
+                            [ class "w-full", src puzzle.imagePath ]
+                            []
                         ]
                     , div
-                        [ class "ml-1 inline-flex flex-wrap w-full justify-center items-center pb-2" ]
-                        [ div
-                            [ class "px-2 py-1 mt-1 text-sm rounded-full mr-2 "
-                            , classList [ ( "text-grey-light bg-grey-light", isLoading ), ( "bg-" ++ colour, not isLoading ), ( "text-white", not isLoading ) ]
-                            ]
-                            [ text <| Utils.puzzleSetString puzzle.set ]
-                        , div
-                            [ class "px-2 py-1 mt-1 text-sm rounded-full bg-grey-light mr-2"
-                            , classList [ ( "text-grey-light", isLoading ), ( "text-grey-darker", not isLoading ) ]
-                            ]
-                            [ text puzzle.theme.theme ]
+                        [ class "w-full p-3"
+                        , classList [ ( "text-white bg-" ++ colour, not isLoading ), ( "bg-grey-light text-grey-light", not isLoading ) ]
                         ]
+                        [ textWithLoad isLoading <| "№ " ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ]
                     , div
-                        [ class "px-2 pb-2 pt-0 text-sm w-full text-center rounded-b text-grey-dark" ]
-                        [ textWithLoad isLoading <| String.concat [ Utils.posixToString puzzle.theme.openDatetime, " - ", Utils.posixToString puzzle.theme.closeDatetime ] ]
+                        [ class "w-full p-1 px-3 text-xs font-semibold"
+                        , classList [ ( "bg-" ++ colour ++ " text-" ++ colour ++ "-lighter", not isLoading ), ( "bg-grey-light text-grey-light", not isLoading ) ]
+                        ]
+                        [ textWithLoad isLoading <| String.concat [ Utils.posixToString puzzle.theme.openDatetime, " - ", Utils.posixToString puzzle.theme.closeDatetime ]
+                        ]
                     ]
                 ]
             ]
