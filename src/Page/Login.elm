@@ -101,19 +101,11 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    let
-        _ =
-            Debug.log "update" msg
-    in
     case ( msg, model.loginState ) of
         ( ChangedLoginEmail str, InputEmail _ (Success _) ) ->
             ( model, Cmd.none )
 
         ( ChangedLoginEmail str, InputEmail _ state ) ->
-            let
-                _ =
-                    Debug.log "test" "LOGED"
-            in
             ( { model | loginState = InputEmail str state }, Cmd.none )
 
         ( ClickedSendEmail, InputEmail email (Success _) ) ->
@@ -237,17 +229,17 @@ mainHero state =
             case state of
                 InputEmail _ (Failure e) ->
                     div
-                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3 mb-3" ]
                         [ text "We're sorry, there was an issue with sending a token to your email. Maybe you haven't registered? Or a typo?" ]
 
                 InputToken _ _ _ (Failure e) ->
                     div
-                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3 mb-3" ]
                         [ text "We're sorry, that token didn't work. Is it right? Maybe it's expired? Maybe there was some other error?" ]
 
                 LoginSuccess viewer ->
                     div
-                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                        [ class "bg-grey-lighter border-green text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3 mb-3" ]
                         [ text <| "Great, you've logged in successfully! Welcome to the puzzle hunt, " ++ Viewer.username viewer ++ ". "
                         , text "You can now start "
                         , a [ Route.href Route.OpenPuzzles, class "no-underline text-blue" ] [ text "tackling the open puzzles" ]

@@ -7020,23 +7020,17 @@ table {
   font-weight: 300;
   font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 1.125rem;
-  margin-bottom: .75rem;
-  margin-top: 1.5rem;
-  border-color: #b8c2cc;
-  border-bottom-width: 2px;
+  margin-top: 2rem;
 }
 
 .markdown h2 {
   font-weight: 300;
   font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  margin-bottom: .5rem;
-  margin-top: 1rem;
-  border-color: #b8c2cc;
-  border-bottom-width: 2px;
+  margin-top: 1.5rem;
 }
 
 .markdown {
-  line-height: 1.1;
+  line-height: 1.4;
 }
 
 .markdown p {
@@ -7045,6 +7039,11 @@ table {
 
 .markdown code {
   margin-top: .75rem;
+}
+
+a {
+  color: #3490dc;
+  text-decoration: none;
 }
 
 * {
