@@ -279,13 +279,11 @@ landingPage contactResponse =
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
-                        [ class "flex items-center sm:text-2xl md:text-3xl justify-center  w-16  md:h-12 md:w-16 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
-                        [ span
-                            [ class "fas fa-code" ]
-                            []
+                        [ class "flex sm:text-2xl md:text-3xl w-12 h-12 md:h-16 md:w-16 rounded-l-lg font-black bg-red-light text-grey-lighter " ]
+                        [ img [ class "resize w-12 h-12 md:w-16 md:h-16 ", src "icon.png" ] []
                         ]
                     , div
-                        [ class "flex items-center  w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg md:text-2xl lg:text-2xl font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ class "flex items-center  w-full p-3 sm:h-12 md:h-16 px-5 flex-grow rounded-r-lg text-grey-darkest sm:text-lg md:text-2xl lg:text-2xl font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
                         [ text "CIGMAH Puzzle Hunt 2019" ]
                     ]
                 , div
@@ -327,7 +325,7 @@ landingPage contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize", src "http://placekitten.com/200/200" ]
+                        [ class "resize", src "https://www.dropbox.com/s/o99i0p36ridyuwh/tile03.png?raw=1" ]
                         []
                     ]
                 , div
@@ -387,7 +385,7 @@ landingPage contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize", src "http://placekitten.com/200/200" ]
+                        [ class "resize", src "https://www.dropbox.com/s/pmi9ab5gayr5wod/tile02.png?raw=1" ]
                         []
                     ]
                 , div

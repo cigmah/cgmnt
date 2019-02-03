@@ -48,10 +48,8 @@ navMenu toggleMsg navActive maybeViewer =
         [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
         , classList [ ( "h-12", not navActive ) ]
         ]
-        [ div [ class "flex items-center align-middle  mr-6 ml-4" ]
-            [ span [ class "font-semibold text-xl " ]
-                [ text "CIGMAH" ]
-            ]
+        [ div [ class "flex items-center align-middle " ]
+            [ img [ class "resize w-10 h-10 py-1 px-1", src "icon_inverted.png" ] [], span [ class "text-bold text-xl mr-6" ] [ text "CIGMAH" ] ]
         , div [ class "block lg:hidden py-2", onClick toggleMsg ]
             [ button [ class "flex focus:outline-none items-center h-full px-4 mr-2 rounded-full bg-grey-lighter text-grey-dark hover:bg-grey-light" ]
                 [ div [ class "py-2" ]
