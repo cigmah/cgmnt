@@ -276,11 +276,11 @@ mainHero state =
                     []
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
+        [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
-            [ class "flex flex-wrap h-screen content-center justify-center items-center pt-20 md:pt-12" ]
+            [ class "flex flex-wrap md:h-screen content-center justify-center items-center pt-16 md:pt-12" ]
             [ div
-                [ class "block md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ class "block w-full md:w-3/4 lg:w-2/3 xl:w-1/2" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
@@ -294,7 +294,7 @@ mainHero state =
                         [ text "User Login" ]
                     ]
                 , div
-                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                    [ class "block px-4 md:w-full my-3 bg-white rounded-lg p-6 text-base border-b-2 border-grey-light" ]
                     [ p
                         []
                         [ text "Input your email first and press  "
@@ -314,7 +314,7 @@ mainHero state =
                         [ Html.form
                             ([ class "inline-flex w-full" ] ++ onSubmitMessage)
                             [ input
-                                [ class "flex-grow my-1 px-4 py-2 rounded-lg  outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest rounded-r-none"
+                                [ class "flex-grow flex-shrink w-auto my-1 pl-3 pr-2 md:px-4 py-2 rounded-lg  outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest rounded-r-none"
                                 , placeholder "Email"
                                 , onInput ChangedLoginEmail
                                 , classList [ ( "bg-grey-lighter", isTokenDisabled ), ( "bg-grey cursor-not-allowed", not isTokenDisabled ) ]
@@ -323,7 +323,7 @@ mainHero state =
                                 ]
                                 []
                             , button
-                                [ class "my-1 px-4 py-2 text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark "
+                                [ class "my-1 px-1 md:px-4 py-2 text-xs md:text-base text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark "
                                 , onClick ClickedSendEmail
                                 , disabled (not isTokenDisabled)
                                 , classList [ ( "bg-green-dark", not isTokenDisabled ), ( "bg-green active:border-0", isTokenDisabled ) ]
@@ -331,7 +331,7 @@ mainHero state =
                                 [ text sendTokenText ]
                             ]
                         , input
-                            [ class "w-full my-1 px-4 py-2 rounded-lg  outline-none text-grey-darkest focus:bg-grey-lightest focus:text-grey-darkest"
+                            [ class "w-full my-1 px-3 md:px-4 py-2 rounded-lg  outline-none text-grey-darkest focus:bg-grey-lightest focus:text-grey-darkest"
                             , placeholder "Token"
                             , disabled isTokenDisabled
                             , classList [ ( "bg-grey cursor-not-allowed", isTokenDisabled ), ( "bg-grey-lighter", not isTokenDisabled ) ]

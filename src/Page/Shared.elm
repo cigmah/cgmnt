@@ -276,7 +276,7 @@ fullPuzzlePage isLoading errorMsg puzzlePageType onClickPuzzle maybeOnClickPuzzl
                     div [] []
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
+        [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
             [ class "mb-4 flex flex-wrap content-center justify-center items-center pt-16" ]
             [ div
@@ -405,7 +405,7 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
         solutionBody =
             case withSolution of
                 True ->
-                    div [ class "pb-4 mt-8" ]
+                    div [ class "md:pb-4 mt-8" ]
                         [ div
                             []
                             [ div
@@ -424,7 +424,7 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                                 ]
                             ]
                         , div
-                            [ id "solution-card", class "bg-white rounded-lg p-2 md:p-8 mb-16 border-b-4 border-grey-lighter" ]
+                            [ id "solution-card", class "bg-white rounded-lg p-2 md:p-8 mb-12 md:mb-16 border-b-4 border-grey-lighter" ]
                             [ div
                                 [ id "puzzle-solution"
                                 , class "mt-2 mx-4 mb-4 md:mb-8 p-2 md:p-4 border-l-4 text-grey-darkest text-sm md:text-base rounded-lg rounded-l-none"

@@ -189,6 +189,32 @@ mainHero state =
                 _ ->
                     False
 
+        usernameColour =
+            case state of
+                NewUser data _ ->
+                    case data.username of
+                        "" ->
+                            "red"
+
+                        _ ->
+                            "green"
+
+                _ ->
+                    "grey"
+
+        emailColour =
+            case state of
+                NewUser data _ ->
+                    case String.contains "@" data.email && String.contains "." data.email of
+                        True ->
+                            "green"
+
+                        False ->
+                            "red"
+
+                _ ->
+                    "grey"
+
         buttonText =
             case state of
                 NewUser _ Loading ->
@@ -198,9 +224,9 @@ mainHero state =
                     "Sign me up!"
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
+        [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
-            [ class "flex flex-wrap h-screen content-center justify-center items-center pt-20 md:pt-12" ]
+            [ class "flex flex-wrap md:h-screen content-center justify-center items-center pt-16 pb-12 md:pb-0 md:pt-20 md:pt-12" ]
             [ Html.form
                 [ class "block md:w-3/4 lg:w-2/3 xl:w-1/2", onSubmit ClickedRegister ]
                 [ div
@@ -239,15 +265,15 @@ mainHero state =
                         []
                         [ text "Once you've registered, you can start logging in immediately. When you login, a short-term code will be sent to your email to confirm your identity. We never share your email, and will only email you to send you login codes." ]
                     , div
-                        [ class "block w-full p-4 pb-1 mt-1", classList [ ( "hidden", hideForm ) ] ]
+                        [ class "block w-full px-1 py-4 md:px-4 pb-1 mt-1", classList [ ( "hidden", hideForm ) ] ]
                         [ input
-                            [ class "w-full my-1 mt-0 px-4 py-2 rounded-lg bg-grey-lighter outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest border-l-2 border-red-lighter rounded-l-none focus:border-red"
+                            [ class <| "w-full my-1 mt-0 px-4 py-2 rounded-lg bg-grey-lighter outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest border-l-2 rounded-l-none border-" ++ usernameColour ++ "-light focus:border-" ++ usernameColour
                             , onInput ChangeRegisterUsername
                             , placeholder "Username"
                             ]
                             []
                         , input
-                            [ class "w-full my-1 px-4 py-2 rounded-lg bg-grey-lighter outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest border-l-2 border-red-lighter rounded-l-none focus:border-red"
+                            [ class <| "w-full my-1 px-4 py-2 rounded-lg bg-grey-lighter outline-none text-grey-darker focus:bg-grey-lightest focus:text-grey-darkest border-l-2 rounded-l-none border-" ++ emailColour ++ "-light focus:border-" ++ emailColour
                             , onInput ChangeRegisterEmail
                             , placeholder "Email"
                             , type_ "email"

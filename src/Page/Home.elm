@@ -271,15 +271,15 @@ landingPage contactResponse =
                     div [] []
     in
     div
-        [ class "px-8 bg-grey-lightest " ]
+        [ class "px-3 md:px-8 bg-grey-lightest " ]
         [ div
-            [ class "flex flex-wrap lg:h-screen content-center justify-center items-center pt-24 lg:pt-0" ]
+            [ class "flex flex-wrap lg:h-screen content-center justify-center items-center pt-16 lg:pt-0" ]
             [ div
                 [ class "block sm:w-3/4 md:w-2/3 lg:w-1/2" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
-                        [ class "flex items-center sm:text-2xl md:text-3xl justify-center  w-16 md:w-16 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
+                        [ class "flex items-center sm:text-2xl md:text-3xl justify-center  w-16  md:h-12 md:w-16 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
                         [ span
                             [ class "fas fa-code" ]
                             []
@@ -335,7 +335,7 @@ landingPage contactResponse =
                     [ div
                         [ class "inline-flex flex justify-center w-full" ]
                         [ div
-                            [ class "flex items-center text-xl justify-center h-12 w-12 py-3 rounded-l-lg font-black bg-teal text-grey-lighter border-b-2 border-teal-dark" ]
+                            [ class "flex items-center text-xl justify-center h-12 w-12 py-3 rounded-l-lg font-black bg-yellow text-grey-lighter border-b-2 border-yellow-dark" ]
                             [ span
                                 [ class "fas fa-info-circle" ]
                                 []

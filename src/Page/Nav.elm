@@ -23,8 +23,9 @@ navMenu toggleMsg navActive maybeViewer =
                     [ ( Route.Home, "Home" )
                     , ( Route.Archive, "Archive" )
                     , ( Route.Leaderboard, "Leaderboard" )
-                    , ( Route.OpenPuzzles, "Puzzles" )
-                    , ( Route.Submissions, "Submissions" )
+                    , ( Route.Resources, "Resources" )
+                    , ( Route.OpenPuzzles, "My Puzzles" )
+                    , ( Route.Submissions, "My Submissions" )
                     ]
 
         user =
@@ -38,13 +39,13 @@ navMenu toggleMsg navActive maybeViewer =
         rightLinks =
             case maybeViewer of
                 Nothing ->
-                    [ ( Route.Login, "Login" ) ]
+                    [ ( Route.Register, "Register" ), ( Route.Login, "Login" ) ]
 
                 Just viewer ->
                     [ ( Route.Logout, "Logout" ) ]
     in
     nav
-        [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest"
+        [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
         , classList [ ( "h-12", not navActive ) ]
         ]
         [ div [ class "flex items-center align-middle  mr-6 ml-4" ]

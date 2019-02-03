@@ -415,7 +415,7 @@ leaderboardTemplate isLoading optionsToShow tableToShow =
                 div [] []
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
+        [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
             [ class "mb-4 flex flex-wrap content-center justify-center items-center pt-16" ]
             [ div
