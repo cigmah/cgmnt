@@ -315,18 +315,19 @@ successScreen selectedPuzzleInfo okSubmitData =
                         , br
                             []
                             []
+                        , br [] []
                         , div
                             [ class "text-lg" ]
                             [ text "Great job!" ]
                         ]
-                    , div
-                        [ class "flex w-full justify-center" ]
-                        [ button
-                            [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
-                            , onClick ClickedBackToFull
-                            ]
-                            [ text "Go Back to Puzzles" ]
+                    ]
+                , div
+                    [ class "flex w-full justify-center" ]
+                    [ button
+                        [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                        , onClick ClickedBackToFull
                         ]
+                        [ text "Go Back to Puzzles" ]
                     ]
                 ]
             ]

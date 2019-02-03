@@ -7346,6 +7346,10 @@ input:focus {
   outline: none !important;
 };
 
+.puzzle-detail {
+  overflow-y: auto;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

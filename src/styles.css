@@ -33,3 +33,8 @@ a {
 input:focus {
   outline:none !important;
 };
+
+
+.puzzle-detail {
+  overflow-y: auto;
+}

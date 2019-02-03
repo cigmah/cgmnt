@@ -71,7 +71,7 @@ puzzleCard isLoading onClickPuzzle puzzle =
                     [ onClick (event puzzle) ]
     in
     div
-        [ class "block w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-3" ]
+        [ class "block w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-3" ]
         [ div
             ([ class "group w-full rounded cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
             [ div
@@ -405,11 +405,11 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
         solutionBody =
             case withSolution of
                 True ->
-                    div []
+                    div [ class "pb-4 mt-8" ]
                         [ div
                             []
                             [ div
-                                [ class "flex mb-4" ]
+                                [ class "flex mb-2" ]
                                 [ div
                                     [ class "flex items-center justify-center h-12 w-12 px-3 py-3 rounded-l font-black text-white border-b-4"
                                     , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
@@ -449,7 +449,8 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                 Just message ->
                     div
                         [ id "message-box"
-                        , class "flex pin-b pin-x h-auto px-4 pt-2 md:px-2 pb-20 fixed bg-grey-light text-grey-darkest justify-center text"
+                        , class "flex pin-b pin-x h-auto px-4 pt-2 md:px-2 fixed bg-grey-light text-grey-darkest justify-center text"
+                        , classList [ ( "pb-20", withSubmissionBox ), ( "pb-4", not withSubmissionBox ) ]
                         , onClick toggleMessage
                         ]
                         [ span
@@ -534,68 +535,72 @@ detailPuzzlePage puzzle onDeselectPuzzle withSolution messageMaybe withSubmissio
                     div [] []
     in
     div
-        [ class "p-3 md:p-8 bg-grey-lightest" ]
+        [ class "bg-grey-lightest h-full " ]
         [ div
-            [ class "flex fixed h-12 pin-t pin-x bg-grey-lightest border-b-2 border-grey-light" ]
+            [ class "flex fixed pin-t pin-x bg-grey-lightest border-b-2 border-grey-lighter" ]
             [ div
-                [ class "flex items-center h-full hover:bg-grey-light" ]
+                [ class "flex h-12 hover:bg-grey-light" ]
                 [ button
-                    [ class "h-full px-6 py-2 uppercase text-sm text-grey-dark outline-none focus:outline-none"
+                    [ class "h-full uppercase px-3 text-sm text-grey-dark outline-none focus:outline-none"
                     , onClick onDeselectPuzzle
                     ]
                     [ text "Back to Puzzles" ]
                 ]
             ]
         , div
-            [ class "container  mx-auto mt-12 mb-24" ]
-            [ div
-                [ class "flex mb-4" ]
+            [ class "puzzle-detail h-full overflow-auto p-2 md:p-3 w-full flex fixed mt-12 mb-24 pb-24" ]
+            [ div [ class "container w-full mx-auto pb-32" ]
                 [ div
-                    [ class "flex items-center text-xl justify-center h-12 w-12 px-3 py-3 rounded-l font-black text-grey-lighter border-b-4"
-                    , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
-                    ]
-                    [ text setSymbol ]
-                , div
-                    [ class "flex items-center h-12 w-full p-3 px-4 rounded-r bg-grey-lighter uppercase text-xl font-bold text-grey-darker border-grey-light border-b-4" ]
-                    [ text puzzle.title ]
-                ]
-            , div
-                [ class "my-3 md:flex flex-wrap " ]
-                [ span
-                    [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
-                    [ text puzzle.theme.theme ]
-                , span
-                    [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
-                    [ text <| String.concat [ Utils.posixToString puzzle.theme.openDatetime, " - ", Utils.posixToString puzzle.theme.closeDatetime ] ]
-                ]
-            , div
-                [ id "puzzle-card", class "markdown bg-white rounded-lg p-2 pb-4 md:p-8 mb-16 border-b-4 border-grey-lighter md:text-base lg:text-lg" ]
-                [ div
-                    [ id "puzzle-body" ]
-                  <|
-                    Markdown.toHtml Nothing puzzle.body
-                , div
-                    [ id "puzzle-example", class "overflow-auto markdown m-1 mt-3 md:m-4 mb-6 p-2 md:p-4 border-grey-light border-l-4 text-grey-darkest bg-grey-lightest rounded-lg rounded-l-none md:text-base" ]
-                  <|
-                    Markdown.toHtml Nothing puzzle.example
-                , inputDiv
-                , div
-                    [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold" ]
-                  <|
-                    Markdown.toHtml Nothing puzzle.statement
-                , div
-                    [ class "flex justify-end" ]
+                    [ class "flex mb-4" ]
                     [ div
-                        [ id "puzzle-references", class "markdown text-right text-grey-dark text-sm md:text-base md:w-1/2" ]
-                      <|
-                        Markdown.toHtml Nothing puzzle.references
+                        [ class "flex items-center text-xl justify-center h-12 w-12 px-3 py-3 rounded-l font-black text-grey-lighter border-b-4"
+                        , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
+                        ]
+                        [ text setSymbol ]
+                    , div
+                        [ class "flex items-center h-12 w-full p-3 px-4 rounded-r bg-grey-lighter uppercase text-xl font-bold text-grey-darker border-grey-light border-b-4" ]
+                        [ text puzzle.title ]
                     ]
-                ]
-            , solutionBody
-            , div
-                []
-                [ messageBody
-                , submissionBox
+                , div
+                    [ class "my-3 md:flex flex-wrap " ]
+                    [ span
+                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
+                        [ text puzzle.theme.theme ]
+                    , span
+                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
+                        [ text <| String.concat [ Utils.posixToString puzzle.theme.openDatetime, " - ", Utils.posixToString puzzle.theme.closeDatetime ] ]
+                    ]
+                , div [ classList [ ( "pb-32", withSubmissionBox ), ( "pb-24", not withSubmissionBox ) ] ]
+                    [ div
+                        [ id "puzzle-card", class "markdown bg-white rounded-lg p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter md:text-base lg:text-lg" ]
+                        [ div
+                            [ id "puzzle-body" ]
+                          <|
+                            Markdown.toHtml Nothing puzzle.body
+                        , div
+                            [ id "puzzle-example", class "overflow-auto markdown m-1 mt-3 md:m-4  p-2  md:p-4 border-grey-light border-l-4 text-grey-darkest bg-grey-lightest rounded-lg rounded-l-none md:text-base" ]
+                          <|
+                            Markdown.toHtml Nothing puzzle.example
+                        , inputDiv
+                        , div
+                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold" ]
+                          <|
+                            Markdown.toHtml Nothing puzzle.statement
+                        , div
+                            [ class "flex justify-end" ]
+                            [ div
+                                [ id "puzzle-references", class "markdown text-right text-grey-dark text-sm md:text-base md:w-1/2" ]
+                              <|
+                                Markdown.toHtml Nothing puzzle.references
+                            ]
+                        ]
+                    , solutionBody
+                    , div
+                        []
+                        [ messageBody
+                        , submissionBox
+                        ]
+                    ]
                 ]
             ]
         ]
