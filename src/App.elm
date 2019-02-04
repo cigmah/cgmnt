@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Navigation
 import Handlers
 import Html exposing (Html, div)
+import Html.Lazy exposing (lazy2)
 import Json.Decode as Decode
 import RemoteData exposing (RemoteData(..), WebData)
 import Requests
@@ -221,4 +222,9 @@ view model =
                 NotFound ->
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
     in
-    { title = title, body = [ body ] }
+    { title = title
+    , body =
+        [ lazy2 Views.Shared.navMenu model.meta.isNavActive model.meta.auth
+        , body
+        ]
+    }

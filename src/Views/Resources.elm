@@ -15,7 +15,7 @@ view : Meta -> ( String, Html Msg )
 view meta =
     let
         body =
-            div [] [ lazy2 navMenu meta.isNavActive meta.auth, viewBody ]
+            div [] [ viewBody ]
     in
     ( "Resources - CIGMAH", body )
 

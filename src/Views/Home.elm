@@ -34,7 +34,7 @@ view meta homeState =
                     notFoundPage
 
         body =
-            div [] [ lazy2 navMenu meta.isNavActive meta.auth, bodyCenter ]
+            div [] [ bodyCenter ]
     in
     ( title, body )
 

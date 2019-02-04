@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPublicPuzzleData, MiniUserPuzzleData, Model, Msg(..), OkSubmitData, Page(..), ProfileData, PublicPuzzleData, PuzzleData, PuzzleDetailData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, UserPuzzleData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -57,20 +57,20 @@ type HomeState
 
 
 type PuzzleListState
-    = ListPublic (WebData (List MiniPublicPuzzleData))
-    | ListUser (WebData (List MiniUserPuzzleData))
+    = ListPublic (WebData (List MiniPuzzleData))
+    | ListUser (WebData (List MiniPuzzleData))
 
 
 type PuzzleDetailState
-    = UserPuzzle PuzzleId (WebData UserPuzzleData)
-    | UnsolvedPuzzleLoaded PuzzleId UserPuzzleData Submission (WebData SubmissionResponseData)
-    | PublicPuzzle PuzzleId (WebData PublicPuzzleData)
+    = UserPuzzle PuzzleId (WebData DetailPuzzleData)
+    | UnsolvedPuzzleLoaded PuzzleId DetailPuzzleData Submission (WebData SubmissionResponseData)
+    | PublicPuzzle PuzzleId (WebData DetailPuzzleData)
 
 
 type LeaderboardState
     = ByTotal (WebData LeaderTotalData)
-    | ByPuzzleNotChosen IsSelectActive (WebData (List MiniPublicPuzzleData))
-    | ByPuzzleChosen IsSelectActive (List MiniPublicPuzzleData) MiniPublicPuzzleData (WebData LeaderPuzzleData)
+    | ByPuzzleNotChosen IsSelectActive (WebData (List MiniPuzzleData))
+    | ByPuzzleChosen IsSelectActive (List MiniPuzzleData) MiniPuzzleData (WebData LeaderPuzzleData)
 
 
 type RegisterState
@@ -183,7 +183,7 @@ type alias ProfileData =
 type alias SubmissionData =
     { id : Int
     , username : String
-    , puzzle : MiniPublicPuzzleData
+    , puzzle : MiniPuzzleData
     , submissionDatetime : Posix
     , submission : String
     , isResponseCorrect : Bool
@@ -234,41 +234,17 @@ type alias PuzzleData a =
     }
 
 
-type alias MiniPublicPuzzleData =
+type alias MiniPuzzleData =
     { id : Int
     , themeTitle : String
     , puzzleSet : PuzzleSet
     , title : String
     , imageLink : String
+    , isSolved : Maybe Bool
     }
 
 
-type alias MiniUserPuzzleData =
-    { id : Int
-    , themeTitle : String
-    , puzzleSet : PuzzleSet
-    , title : String
-    , imageLink : String
-    , isSolved : Bool
-    }
-
-
-type alias PuzzleDetailData a =
-    { a
-        | id : Int
-        , puzzleSet : PuzzleSet
-        , theme : ThemeData
-        , title : String
-        , imageLink : String
-        , body : String
-        , example : String
-        , statement : String
-        , references : String
-        , input : String
-    }
-
-
-type alias UserPuzzleData =
+type alias DetailPuzzleData =
     { id : Int
     , puzzleSet : PuzzleSet
     , theme : ThemeData
@@ -279,23 +255,9 @@ type alias UserPuzzleData =
     , statement : String
     , references : String
     , input : String
-    , isSolved : Bool
+    , isSolved : Maybe Bool
     , answer : Maybe String
     , explanation : Maybe String
-    }
-
-
-type alias PublicPuzzleData =
-    { id : Int
-    , puzzleSet : PuzzleSet
-    , theme : ThemeData
-    , title : String
-    , imageLink : String
-    , body : String
-    , example : String
-    , statement : String
-    , references : String
-    , input : String
     }
 
 
@@ -309,7 +271,7 @@ type alias LeaderPuzzleData =
 
 type alias LeaderPuzzleUnit =
     { username : String
-    , puzzle : MiniPublicPuzzleData
+    , puzzle : MiniPuzzleData
     , submissionDatetime : Posix
     , points : Int
     }
@@ -368,19 +330,19 @@ type Msg
     | HomeClickedSend
     | HomeGotContactResponse (WebData ContactResponseData)
     | HomeGotProfileResponse (WebData ProfileData)
-    | PuzzleListPublicGotResponse (WebData (List MiniPublicPuzzleData))
-    | PuzzleListUserGotResponse (WebData (List MiniUserPuzzleData))
+    | PuzzleListPublicGotResponse (WebData (List MiniPuzzleData))
+    | PuzzleListUserGotResponse (WebData (List MiniPuzzleData))
     | PuzzleListClickedPuzzle PuzzleId
-    | PuzzleDetailGotUser (WebData UserPuzzleData)
+    | PuzzleDetailGotUser (WebData DetailPuzzleData)
     | PuzzleDetailChangedSubmission Submission
     | PuzzleDetailClickedSubmit PuzzleId
     | PuzzleDetailGotSubmissionResponse (WebData SubmissionResponseData)
-    | PuzzleDetailGotPublic (WebData PublicPuzzleData)
+    | PuzzleDetailGotPublic (WebData DetailPuzzleData)
     | LeaderboardClickedByTotal
     | LeaderboardGotByTotal (WebData LeaderTotalData)
     | LeaderboardClickedByPuzzle
-    | LeaderboardGotPuzzleOptions (WebData (List MiniPublicPuzzleData))
-    | LeaderboardClickedPuzzle MiniPublicPuzzleData
+    | LeaderboardGotPuzzleOptions (WebData (List MiniPuzzleData))
+    | LeaderboardClickedPuzzle MiniPuzzleData
     | LeaderboardGotByPuzzle (WebData LeaderPuzzleData)
     | LeaderboardTogglePuzzleOptions
     | RegisterChangedUsername String

@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, errorPage, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, routeHref, userBox)
+module Views.Shared exposing (Colour, errorPage, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -23,9 +23,9 @@ navMenuBase navActive leftLinks userSpan rightLinks =
         [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
         , classList [ ( "h-12", not navActive ) ]
         ]
-        [ div [ class "flex items-center align-middle  mr-6 ml-4" ]
-            [ span [ class "font-semibold text-xl " ]
-                [ text "CIGMAH" ]
+        [ div [ class "flex items-center align-middle" ]
+            [ img [ class "resize w-10 h-10 py-1 px-1", src "icon_inverted.png" ] []
+            , span [ class "text-bold text-xl mr-6" ] [ text "CIGMAH" ]
             ]
         , div [ class "block lg:hidden py-2", onClick ToggledNav ]
             [ button [ class "flex focus:outline-none items-center h-full px-4 mr-2 rounded-full bg-grey-lighter text-grey-dark hover:bg-grey-light" ]
@@ -200,3 +200,23 @@ errorPage errorString =
         (text "Oh no...")
         (text <| "It looks like there was an error. Sorry! Here are some of the details: " ++ errorString)
         (pageButton (ChangedRoute HomeRoute) "pink" (text "Take me back home!"))
+
+
+
+-- Style helpers
+
+
+puzzleColour : PuzzleSet -> String
+puzzleColour puzzleSet =
+    case puzzleSet of
+        AbstractPuzzle ->
+            "red"
+
+        BeginnerPuzzle ->
+            "yellow"
+
+        ChallengePuzzle ->
+            "green"
+
+        MetaPuzzle ->
+            "pink"

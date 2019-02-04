@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderLeaderboardByPuzzle, decoderLeaderboardByTotal, decoderMiniPublicPuzzleData, decoderMiniUserPuzzleData, decoderProfileData, decoderPublicPuzzleData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, decoderUserPuzzleData, encodeContact, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardByTotal, getNoAuth, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardByTotal, getNoAuth, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -118,34 +118,24 @@ decoderPuzzleSet =
             )
 
 
-decoderMiniPublicPuzzleData : Decoder MiniPublicPuzzleData
-decoderMiniPublicPuzzleData =
-    Decode.map5 MiniPublicPuzzleData
+decoderMiniPuzzleData : Decoder MiniPuzzleData
+decoderMiniPuzzleData =
+    Decode.map6 MiniPuzzleData
         (Decode.field "id" Decode.int)
         (Decode.field "theme_title" Decode.string)
         (Decode.field "puzzleSet" decoderPuzzleSet)
         (Decode.field "title" Decode.string)
         (Decode.field "image_link" Decode.string)
-
-
-decoderMiniUserPuzzleData : Decoder MiniUserPuzzleData
-decoderMiniUserPuzzleData =
-    Decode.map6 MiniUserPuzzleData
-        (Decode.field "id" Decode.int)
-        (Decode.field "themeTitle" Decode.string)
-        (Decode.field "puzzleSet" decoderPuzzleSet)
-        (Decode.field "title" Decode.string)
-        (Decode.field "imageLink" Decode.string)
-        (Decode.field "isSolved" Decode.bool)
+        (Decode.maybe (Decode.field "is_solved" Decode.bool))
 
 
 noInputString =
     "There aren't extra materials for this puzzle - you have everything you need!"
 
 
-decoderPublicPuzzleData : Decoder PublicPuzzleData
-decoderPublicPuzzleData =
-    Decode.succeed PublicPuzzleData
+decoderDetailPuzzleData : Decoder DetailPuzzleData
+decoderDetailPuzzleData =
+    Decode.succeed DetailPuzzleData
         |> required "id" Decode.int
         |> required "puzzle_set" decoderPuzzleSet
         |> required "theme" decoderThemeData
@@ -156,22 +146,7 @@ decoderPublicPuzzleData =
         |> required "statement" Decode.string
         |> required "references" Decode.string
         |> optional "input" Decode.string noInputString
-
-
-decoderUserPuzzleData : Decoder UserPuzzleData
-decoderUserPuzzleData =
-    Decode.succeed UserPuzzleData
-        |> required "id" Decode.int
-        |> required "puzzle_set" decoderPuzzleSet
-        |> required "theme" decoderThemeData
-        |> required "title" Decode.string
-        |> required "image_link" Decode.string
-        |> required "body" Decode.string
-        |> required "example" Decode.string
-        |> required "statement" Decode.string
-        |> required "references" Decode.string
-        |> optional "input" Decode.string noInputString
-        |> required "is_solved" Decode.bool
+        |> optional "is_solved" (Decode.maybe Decode.bool) Nothing
         |> optional "answer" (Decode.maybe Decode.string) Nothing
         |> optional "explanation" (Decode.maybe Decode.string) Nothing
 
@@ -181,7 +156,7 @@ decoderSubmissionData =
     Decode.map7 SubmissionData
         (Decode.field "id" Decode.int)
         (Decode.field "user" Decode.string)
-        (Decode.field "puzzle" decoderMiniPublicPuzzleData)
+        (Decode.field "puzzle" decoderMiniPuzzleData)
         (Decode.field "submission_datetime" Iso8601.decoder)
         (Decode.field "submission" Decode.string)
         (Decode.field "is_response_c  orrect" Decode.bool)
@@ -261,7 +236,7 @@ decoderLeaderboardByPuzzle =
     Decode.list
         (Decode.map4 LeaderPuzzleUnit
             (Decode.field "username" Decode.string)
-            (Decode.field "puzzle" decoderMiniPublicPuzzleData)
+            (Decode.field "puzzle" decoderMiniPuzzleData)
             (Decode.field "submission_datetime" Iso8601.decoder)
             (Decode.field "points" Decode.int)
         )
@@ -322,22 +297,22 @@ getProfile authToken =
 
 getPuzzleListPublic : Cmd Msg
 getPuzzleListPublic =
-    getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse (Decode.list decoderMiniPublicPuzzleData)
+    getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse (Decode.list decoderMiniPuzzleData)
 
 
 getPuzzleListUser : AuthToken -> Cmd Msg
 getPuzzleListUser authToken =
-    getWithAuth authToken [ "puzzles" ] PuzzleListUserGotResponse (Decode.list decoderMiniUserPuzzleData)
+    getWithAuth authToken [ "puzzles" ] PuzzleListUserGotResponse (Decode.list decoderMiniPuzzleData)
 
 
 getPuzzleDetailPublic : PuzzleId -> Cmd Msg
 getPuzzleDetailPublic puzzleId =
-    getNoAuth [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotPublic decoderPublicPuzzleData
+    getNoAuth [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotPublic decoderDetailPuzzleData
 
 
 getPuzzleDetailUser : PuzzleId -> AuthToken -> Cmd Msg
 getPuzzleDetailUser puzzleId authToken =
-    getWithAuth authToken [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotUser decoderUserPuzzleData
+    getWithAuth authToken [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotUser decoderDetailPuzzleData
 
 
 postSubmit : AuthToken -> Submission -> PuzzleId -> Cmd Msg
