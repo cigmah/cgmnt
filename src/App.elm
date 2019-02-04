@@ -11,6 +11,7 @@ import Requests
 import Types exposing (..)
 import Url
 import Views.Home
+import Views.PuzzleList
 import Views.Resources
 import Views.Shared
 
@@ -108,8 +109,8 @@ update msg model =
         ( HomeGotProfileResponse profileDataWebData, _ ) ->
             ( model, Cmd.none )
 
-        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic webData) ) ->
+            ( { model | page = PuzzleList <| ListPublic miniPublicPuzzleDataListWebData }, Cmd.none )
 
         ( PuzzleListUserGotResponse miniUserPuzzleDataListWebData, _ ) ->
             ( model, Cmd.none )
@@ -205,7 +206,7 @@ view model =
                     Views.Resources.view model.meta
 
                 PuzzleList puzzleListState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.PuzzleList.view model.meta puzzleListState
 
                 PuzzleDetail puzzleDetailState ->
                     ( "CIGMAH", div [] [] )

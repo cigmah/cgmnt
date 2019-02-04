@@ -22,12 +22,13 @@ view meta =
 
 viewBody =
     pageBase
-        (span [ class "fas fa-table" ] [])
-        False
-        "pink"
-        (text "Resources")
-        (div [ class "markdown" ] <| Markdown.toHtml Nothing content)
-        (div [] [])
+        { iconSpan = span [ class "fas fa-table" ] []
+        , isCentered = False
+        , colour = "pink"
+        , titleSpan = text "Resources"
+        , bodyContent = div [ class "markdown" ] <| Markdown.toHtml Nothing content
+        , outsideMain = div [] []
+        }
 
 
 

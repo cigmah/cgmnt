@@ -122,8 +122,8 @@ decoderMiniPuzzleData : Decoder MiniPuzzleData
 decoderMiniPuzzleData =
     Decode.map6 MiniPuzzleData
         (Decode.field "id" Decode.int)
-        (Decode.field "theme_title" Decode.string)
-        (Decode.field "puzzleSet" decoderPuzzleSet)
+        (Decode.field "theme" Decode.string)
+        (Decode.field "puzzle_set" decoderPuzzleSet)
         (Decode.field "title" Decode.string)
         (Decode.field "image_link" Decode.string)
         (Decode.maybe (Decode.field "is_solved" Decode.bool))

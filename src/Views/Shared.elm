@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, errorPage, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, userBox)
+module Views.Shared exposing (Colour, PageBaseData, errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, textWithLoad, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -139,23 +139,33 @@ pageButton msg colour textSpan =
         ]
 
 
-pageBase : Html Msg -> Bool -> Colour -> Html Msg -> Html Msg -> Html Msg -> Html Msg
-pageBase iconSpan isCentered colour titleSpan bodyContent outsideDiv =
+type alias PageBaseData =
+    { iconSpan : Html Msg
+    , isCentered : Bool
+    , colour : Colour
+    , titleSpan : Html Msg
+    , bodyContent : Html Msg
+    , outsideMain : Html Msg
+    }
+
+
+pageBase : PageBaseData -> Html Msg
+pageBase data =
     let
         hoverClass =
-            "hover:bg-" ++ colour ++ "dark"
+            "hover:bg-" ++ data.colour ++ "dark"
 
         bgClass =
-            "bg-" ++ colour
+            "bg-" ++ data.colour
 
         borderClass =
-            "border-" ++ colour
+            "border-" ++ data.colour
     in
     div
         [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
             [ class "flex flex-wrap content-center justify-center items-center"
-            , classList [ ( "h-screen", isCentered ), ( "mt-16 mb-8", not isCentered ) ]
+            , classList [ ( "h-screen", data.isCentered ), ( "mt-16 mb-8", not data.isCentered ) ]
             ]
             [ div
                 [ class "block md:w-5/6 lg:w-4/5 xl:w-3/4" ]
@@ -165,16 +175,16 @@ pageBase iconSpan isCentered colour titleSpan bodyContent outsideDiv =
                         [ class <| "flex items-center sm:text-xl justify-center sm:h-12 w-auto px-3 py-3 rounded-l-lg font-black text-white border-b-2 "
                         , classList [ ( hoverClass, True ), ( borderClass, True ), ( bgClass, True ) ]
                         ]
-                        [ iconSpan
+                        [ data.iconSpan
                         ]
                     , div
                         [ class "flex items-center w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
-                        [ titleSpan ]
+                        [ data.titleSpan ]
                     ]
                 , div
                     [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
-                    [ bodyContent ]
-                , outsideDiv
+                    [ data.bodyContent ]
+                , data.outsideMain
                 ]
             ]
         ]
@@ -183,23 +193,25 @@ pageBase iconSpan isCentered colour titleSpan bodyContent outsideDiv =
 notFoundPage : Html Msg
 notFoundPage =
     pageBase
-        (text "...")
-        True
-        "red"
-        (text "Whoops!")
-        (text "It looks like this page wasn't found. Sorry! If you think this was an error, please let us know and we'll be onto it!")
-        (pageButton (ChangedRoute HomeRoute) "red" (text "Take me back home!"))
+        { iconSpan = text "..."
+        , isCentered = True
+        , colour = "red"
+        , titleSpan = text "Whoops!"
+        , bodyContent = text "It looks like this page wasn't found. Sorry! If you think this was an error, please let us know and we'll be onto it!"
+        , outsideMain = pageButton (ChangedRoute HomeRoute) "red" (text "Take me back home!")
+        }
 
 
 errorPage : String -> Html Msg
 errorPage errorString =
     pageBase
-        (text "...")
-        True
-        "pink"
-        (text "Oh no...")
-        (text <| "It looks like there was an error. Sorry! Here are some of the details: " ++ errorString)
-        (pageButton (ChangedRoute HomeRoute) "pink" (text "Take me back home!"))
+        { iconSpan = text "..."
+        , isCentered = True
+        , colour = "pink"
+        , titleSpan = text "Oh no..."
+        , bodyContent = text <| "It looks like there was an error. Sorry! Here are some of the details: " ++ errorString
+        , outsideMain = pageButton (ChangedRoute HomeRoute) "pink" (text "Take me back home!")
+        }
 
 
 
@@ -220,3 +232,27 @@ puzzleColour puzzleSet =
 
         MetaPuzzle ->
             "pink"
+
+
+
+-- Loading Helpers
+
+
+textWithLoad : Bool -> String -> Html Msg
+textWithLoad isLoading str =
+    case isLoading of
+        True ->
+            span [ class "text-grey-lighter bg-grey-lighter rounded" ] [ text str ]
+
+        False ->
+            text str
+
+
+loremIpsum =
+    """ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+"""
