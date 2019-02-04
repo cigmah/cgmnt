@@ -1,5 +1,6 @@
-port module Handlers exposing (credsToUser, fromUrl, init, intDeltaString, logout, monthToString, parser, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, logout, monthToString, parser, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
 
+import Browser
 import Browser.Navigation as Navigation
 import Html.Attributes as Attr
 import Html.Events exposing (custom)
@@ -226,8 +227,7 @@ replaceUrl key route =
 
 fromUrl : Url.Url -> Maybe Route
 fromUrl url =
-    { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
-        |> Parser.parse parser
+    { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing } |> Parser.parse parser
 
 
 credsToUser : Credentials -> UserData
@@ -308,3 +308,49 @@ init valueDecode url key =
             Decode.decodeValue Requests.decoderCredentials valueDecode |> Result.toMaybe
     in
     routeInit credentialsMaybe route key
+
+
+
+-- Handlers
+
+
+clickedLink model urlRequest =
+    case urlRequest of
+        Browser.Internal url ->
+            case url.fragment of
+                Nothing ->
+                    ( model, Cmd.none )
+
+                Just _ ->
+                    ( model, Navigation.pushUrl model.meta.key <| Url.toString url )
+
+        Browser.External href ->
+            ( model, Navigation.load href )
+
+
+changedUrl : Meta -> Url.Url -> ( Model, Cmd Msg )
+changedUrl meta url =
+    let
+        maybeCredentials =
+            case meta.auth of
+                User credentials ->
+                    Just credentials
+
+                Public ->
+                    Nothing
+    in
+    routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key
+
+
+changedRoute : Meta -> Route -> ( Model, Cmd Msg )
+changedRoute meta route =
+    let
+        maybeCredentials =
+            case meta.auth of
+                User credentials ->
+                    Just credentials
+
+                Public ->
+                    Nothing
+    in
+    routeInit maybeCredentials route meta.key

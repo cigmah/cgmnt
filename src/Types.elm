@@ -359,7 +359,7 @@ type Msg
     = Ignored
     | ClickedLink Browser.UrlRequest
     | ChangedUrl Url.Url
-    | ChangedRoute (Maybe Route)
+    | ChangedRoute Route
     | ToggledNav
     | HomeChangedName String
     | HomeChangedEmail String

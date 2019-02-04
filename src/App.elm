@@ -5,6 +5,8 @@ import Browser.Navigation as Navigation
 import Handlers
 import Html exposing (Html, div)
 import Json.Decode as Decode
+import RemoteData exposing (RemoteData(..), WebData)
+import Requests
 import Types exposing (..)
 import Url
 import Views.Home
@@ -22,39 +24,83 @@ subscriptions model =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case ( msg, model ) of
+    case ( msg, model.page ) of
         ( Ignored, _ ) ->
             ( model, Cmd.none )
 
         ( ClickedLink urlRequestBrowser, _ ) ->
-            ( model, Cmd.none )
+            Handlers.clickedLink model urlRequestBrowser
 
-        ( ChangedUrl urlUrl, _ ) ->
-            ( model, Cmd.none )
+        ( ChangedUrl url, _ ) ->
+            Handlers.changedUrl model.meta url
 
-        ( ChangedRoute routeMaybe, _ ) ->
-            ( model, Cmd.none )
+        ( ChangedRoute route, _ ) ->
+            Handlers.changedRoute model.meta route
 
         ( ToggledNav, _ ) ->
-            ( model, Cmd.none )
+            let
+                oldMeta =
+                    model.meta
+            in
+            ( { model | meta = { oldMeta | isNavActive = not oldMeta.isNavActive } }, Cmd.none )
 
-        ( HomeChangedName string, _ ) ->
-            ( model, Cmd.none )
+        ( HomeChangedName string, Home (HomePublic contactData webData) ) ->
+            case webData of
+                Success _ ->
+                    ( model, Cmd.none )
 
-        ( HomeChangedEmail string, _ ) ->
-            ( model, Cmd.none )
+                Loading ->
+                    ( model, Cmd.none )
 
-        ( HomeChangedSubject string, _ ) ->
-            ( model, Cmd.none )
+                _ ->
+                    ( { model | page = Home <| HomePublic { contactData | name = string } webData }, Cmd.none )
 
-        ( HomeChangedBody string, _ ) ->
-            ( model, Cmd.none )
+        ( HomeChangedEmail string, Home (HomePublic contactData webData) ) ->
+            case webData of
+                Success _ ->
+                    ( model, Cmd.none )
 
-        ( HomeClickedSend, _ ) ->
-            ( model, Cmd.none )
+                Loading ->
+                    ( model, Cmd.none )
 
-        ( HomeGotContactResponse contactResponseDataWebData, _ ) ->
-            ( model, Cmd.none )
+                _ ->
+                    ( { model | page = Home <| HomePublic { contactData | email = string } webData }, Cmd.none )
+
+        ( HomeChangedSubject string, Home (HomePublic contactData webData) ) ->
+            case webData of
+                Success _ ->
+                    ( model, Cmd.none )
+
+                Loading ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( { model | page = Home <| HomePublic { contactData | subject = string } webData }, Cmd.none )
+
+        ( HomeChangedBody string, Home (HomePublic contactData webData) ) ->
+            case webData of
+                Success _ ->
+                    ( model, Cmd.none )
+
+                Loading ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( { model | page = Home <| HomePublic { contactData | body = string } webData }, Cmd.none )
+
+        ( HomeClickedSend, Home (HomePublic contactData webData) ) ->
+            case webData of
+                Success _ ->
+                    ( model, Cmd.none )
+
+                Loading ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( { model | page = Home <| HomePublic contactData Loading }, Requests.postContact contactData )
+
+        ( HomeGotContactResponse contactResponseDataWebData, Home (HomePublic contactData webData) ) ->
+            ( { model | page = Home <| HomePublic contactData contactResponseDataWebData }, Cmd.none )
 
         ( HomeGotProfileResponse profileDataWebData, _ ) ->
             ( model, Cmd.none )
@@ -138,6 +184,9 @@ update msg model =
             ( model, Cmd.none )
 
         ( LoginGotLoginResponse credentialsWebData, _ ) ->
+            ( model, Cmd.none )
+
+        ( _, _ ) ->
             ( model, Cmd.none )
 
 
