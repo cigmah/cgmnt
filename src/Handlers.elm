@@ -219,12 +219,6 @@ parser =
         ]
 
 
-
---href : Route -> Attribute msg
---href targetRoute =
---    Attr.href (routeToString targetRoute)
-
-
 replaceUrl : Navigation.Key -> Route -> Cmd msg
 replaceUrl key route =
     Navigation.replaceUrl key (routeToString route)

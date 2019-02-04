@@ -7,6 +7,7 @@ import Html exposing (Html, div)
 import Json.Decode as Decode
 import Types exposing (..)
 import Url
+import Views.Home
 
 
 init : Decode.Value -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
@@ -146,7 +147,7 @@ view model =
         ( title, body ) =
             case model.page of
                 Home homeState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.Home.view model.meta homeState
 
                 Resources ->
                     ( "CIGMAH", div [] [] )
