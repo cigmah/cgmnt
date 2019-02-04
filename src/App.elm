@@ -115,8 +115,8 @@ update msg model =
         ( PuzzleListUserGotResponse miniUserPuzzleDataListWebData, _ ) ->
             ( model, Cmd.none )
 
-        ( PuzzleListClickedPuzzle puzzleId, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleListClickedPuzzle puzzleId, PuzzleList _ ) ->
+            Handlers.changedRoute model.meta (PuzzleDetailRoute puzzleId)
 
         ( PuzzleDetailGotUser userPuzzleDataWebData, _ ) ->
             ( model, Cmd.none )
@@ -130,8 +130,8 @@ update msg model =
         ( PuzzleDetailGotSubmissionResponse submissionResponseDataWebData, _ ) ->
             ( model, Cmd.none )
 
-        ( PuzzleDetailGotPublic publicPuzzleDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleDetailGotPublic publicPuzzleDataWebData, PuzzleDetail (PublicPuzzle puzzleId Loading) ) ->
+            ( { model | page = PuzzleDetail <| PublicPuzzle puzzleId publicPuzzleDataWebData }, Cmd.none )
 
         ( LeaderboardClickedByTotal, _ ) ->
             ( model, Cmd.none )

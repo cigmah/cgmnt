@@ -188,7 +188,7 @@ decoderThemeData =
             )
         )
         (Decode.field "tagline" Decode.string)
-        (Decode.field "openDatetime" Iso8601.decoder)
+        (Decode.field "open_datetime" Iso8601.decoder)
 
 
 decoderProfileData : Decoder ProfileData
