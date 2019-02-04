@@ -65,11 +65,19 @@ puzzleCard isLoading onClickPuzzle puzzle =
 
                 False ->
                     [ onClick (onClickPuzzle puzzle.id) ]
+
+        opacityClass =
+            case mapSolvedToBool puzzle.isSolved of
+                True ->
+                    " opacity-25 "
+
+                False ->
+                    " opacity-100 "
     in
     div
         [ class "block w-full h-full w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 xl:w-1/5 p-1" ]
         [ div
-            ([ class "group w-full  rounded cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
+            ([ class <| "group w-full  rounded cursor-pointer active:border-b-0 " ++ opacityClass ] ++ onClickPuzzleAttrs)
             [ div
                 [ class "block w-full h-full rounded-b-lg border-b-4 active:border-t-4 active:border-b-0 active:border-white"
                 , classList [ ( "border-" ++ colour ++ "-dark", not isLoading ), ( "border-grey-light", isLoading ) ]
