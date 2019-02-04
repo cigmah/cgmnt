@@ -352,5 +352,8 @@ changedRoute meta route =
 
                 Public ->
                     Nothing
+
+        ( model, cmd ) =
+            routeInit maybeCredentials route meta.key
     in
-    routeInit maybeCredentials route meta.key
+    ( model, Cmd.batch [ cmd, Navigation.replaceUrl meta.key <| routeToString route ] )

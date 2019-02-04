@@ -139,8 +139,8 @@ pageButton msg colour textSpan =
         ]
 
 
-pageBase : Html Msg -> Colour -> Html Msg -> Html Msg -> Html Msg -> Html Msg
-pageBase iconSpan colour titleSpan bodyContent outsideDiv =
+pageBase : Html Msg -> Bool -> Colour -> Html Msg -> Html Msg -> Html Msg -> Html Msg
+pageBase iconSpan isCentered colour titleSpan bodyContent outsideDiv =
     let
         hoverClass =
             "hover:bg-" ++ colour ++ "dark"
@@ -154,9 +154,11 @@ pageBase iconSpan colour titleSpan bodyContent outsideDiv =
     div
         [ class "px-2 md:px-8 bg-grey-lightest" ]
         [ div
-            [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
+            [ class "flex flex-wrap content-center justify-center items-center"
+            , classList [ ( "h-screen", isCentered ), ( "mt-16 mb-8", not isCentered ) ]
+            ]
             [ div
-                [ class "block md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ class "block md:w-5/6 lg:w-4/5 xl:w-3/4" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
@@ -171,9 +173,8 @@ pageBase iconSpan colour titleSpan bodyContent outsideDiv =
                     ]
                 , div
                     [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
-                    [ bodyContent
-                    , outsideDiv
-                    ]
+                    [ bodyContent ]
+                , outsideDiv
                 ]
             ]
         ]
@@ -183,17 +184,19 @@ notFoundPage : Html Msg
 notFoundPage =
     pageBase
         (text "...")
+        True
         "red"
         (text "Whoops!")
         (text "It looks like this page wasn't found. Sorry! If you think this was an error, please let us know and we'll be onto it!")
-        (pageButton Ignored "red" (text "Take me back home!"))
+        (pageButton (ChangedRoute HomeRoute) "red" (text "Take me back home!"))
 
 
 errorPage : String -> Html Msg
 errorPage errorString =
     pageBase
         (text "...")
+        True
         "pink"
         (text "Oh no...")
         (text <| "It looks like there was an error. Sorry! Here are some of the details: " ++ errorString)
-        (pageButton Ignored "pink" (text "Take me back home!"))
+        (pageButton (ChangedRoute HomeRoute) "pink" (text "Take me back home!"))

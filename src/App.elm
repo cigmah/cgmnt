@@ -10,6 +10,8 @@ import Requests
 import Types exposing (..)
 import Url
 import Views.Home
+import Views.Resources
+import Views.Shared
 
 
 init : Decode.Value -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
@@ -199,7 +201,7 @@ view model =
                     Views.Home.view model.meta homeState
 
                 Resources ->
-                    ( "CIGMAH", div [] [] )
+                    Views.Resources.view model.meta
 
                 PuzzleList puzzleListState ->
                     ( "CIGMAH", div [] [] )
@@ -217,6 +219,6 @@ view model =
                     ( "CIGMAH", div [] [] )
 
                 NotFound ->
-                    ( "CIGMAH", div [] [] )
+                    ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
     in
     { title = title, body = [ body ] }
