@@ -327,7 +327,7 @@ getLeaderboardByTotal =
 
 getLeaderboardByPuzzle : PuzzleId -> Cmd Msg
 getLeaderboardByPuzzle puzzleId =
-    getNoAuth [ "leaderboard", String.fromInt puzzleId ] LeaderboardGotByPuzzle decoderLeaderboardByPuzzle
+    getNoAuth [ "leaderboard", "puzzle", String.fromInt puzzleId ] LeaderboardGotByPuzzle decoderLeaderboardByPuzzle
 
 
 postRegister : UserData -> Cmd Msg

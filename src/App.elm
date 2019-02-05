@@ -11,6 +11,7 @@ import Requests
 import Types exposing (..)
 import Url
 import Views.Home
+import Views.Leaderboard
 import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Resources
@@ -137,26 +138,32 @@ update msg model =
         ( PuzzleDetailGotPublic publicPuzzleDataWebData, PuzzleDetail (PublicPuzzle puzzleId Loading) ) ->
             ( { model | page = PuzzleDetail <| PublicPuzzle puzzleId publicPuzzleDataWebData }, Cmd.none )
 
-        ( LeaderboardClickedByTotal, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardClickedByTotal, Leaderboard _ ) ->
+            ( { model | page = Leaderboard (ByTotal Loading) }, Requests.getLeaderboardByTotal )
 
-        ( LeaderboardGotByTotal leaderTotalDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardGotByTotal leaderTotalDataWebData, Leaderboard (ByTotal webData) ) ->
+            ( { model | page = Leaderboard (ByTotal leaderTotalDataWebData) }, Cmd.none )
 
-        ( LeaderboardClickedByPuzzle, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardClickedByPuzzle, Leaderboard _ ) ->
+            ( { model | page = Leaderboard (ByPuzzleNotChosen False Loading) }, Requests.getPuzzleListPublic )
 
-        ( LeaderboardGotPuzzleOptions miniPublicPuzzleDataListWebData, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, Leaderboard (ByPuzzleNotChosen isSelectActive Loading) ) ->
+            ( { model | page = Leaderboard (ByPuzzleNotChosen False miniPublicPuzzleDataListWebData) }, Cmd.none )
 
-        ( LeaderboardClickedPuzzle puzzleOption, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardClickedPuzzle puzzleOption, Leaderboard (ByPuzzleNotChosen _ (Success data)) ) ->
+            ( { model | page = Leaderboard (ByPuzzleChosen False data puzzleOption Loading) }, Requests.getLeaderboardByPuzzle puzzleOption.id )
 
-        ( LeaderboardGotByPuzzle leaderPuzzleDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardClickedPuzzle puzzleOption, Leaderboard (ByPuzzleChosen _ data _ _) ) ->
+            ( { model | page = Leaderboard (ByPuzzleChosen False data puzzleOption Loading) }, Requests.getLeaderboardByPuzzle puzzleOption.id )
 
-        ( LeaderboardTogglePuzzleOptions, _ ) ->
-            ( model, Cmd.none )
+        ( LeaderboardGotByPuzzle leaderPuzzleDataWebData, Leaderboard (ByPuzzleChosen isSelectActive data puzzleOption Loading) ) ->
+            ( { model | page = Leaderboard (ByPuzzleChosen isSelectActive data puzzleOption leaderPuzzleDataWebData) }, Cmd.none )
+
+        ( LeaderboardTogglePuzzleOptions, Leaderboard (ByPuzzleNotChosen isSelectActive webData) ) ->
+            ( { model | page = Leaderboard (ByPuzzleNotChosen (not isSelectActive) webData) }, Cmd.none )
+
+        ( LeaderboardTogglePuzzleOptions, Leaderboard (ByPuzzleChosen isSelectActive data chosenPuzzle webData) ) ->
+            ( { model | page = Leaderboard (ByPuzzleChosen (not isSelectActive) data chosenPuzzle webData) }, Cmd.none )
 
         ( RegisterChangedUsername string, _ ) ->
             ( model, Cmd.none )
@@ -216,7 +223,7 @@ view model =
                     Views.PuzzleDetail.view model.meta puzzleDetailState
 
                 Leaderboard leaderboardState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.Leaderboard.view model.meta leaderboardState
 
                 Register registerState ->
                     ( "CIGMAH", div [] [] )

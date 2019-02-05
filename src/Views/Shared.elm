@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, PageBaseData, errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, textWithLoad, userBox)
+module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, tableCell, tableRow, textWithLoad, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -256,3 +256,47 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
 dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 sunt in culpa qui officia deserunt mollit anim id est laborum.
 """
+
+
+
+--- TABLES
+
+
+tableCell : String -> String -> Bool -> Html Msg
+tableCell widthStr str isHeader =
+    if isHeader then
+        th
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+    else
+        td
+            [ class <| "p-1 py-2" ++ widthStr ]
+            [ text str ]
+
+
+type TableSize
+    = ThinTable
+    | WideTable
+
+
+tableRow : TableSize -> Bool -> List String -> Html Msg
+tableRow tableSize isHeader strList =
+    let
+        widthList =
+            case tableSize of
+                ThinTable ->
+                    [ "w-1/5", "w-2/5", "w-1/5" ]
+
+                WideTable ->
+                    [ "w-1/5", "w-1/5", "w-1/5", "w-1/5", "w-1/5" ]
+    in
+    let
+        classes =
+            if isHeader then
+                "w-full bg-grey-light text-sm text-grey-darker"
+
+            else
+                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
+    in
+    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) widthList strList
