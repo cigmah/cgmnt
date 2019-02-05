@@ -106,6 +106,15 @@ landingPage contactData contactResponse =
                         ]
 
                 _ ->
+                    let
+                        buttonString =
+                            case contactResponse of
+                                Loading ->
+                                    "Sending..."
+
+                                _ ->
+                                    "Send"
+                    in
                     Html.form
                         [ class "block w-full p-4", onSubmit HomeClickedSend ]
                         [ input
@@ -137,7 +146,7 @@ landingPage contactData contactResponse =
                             [ class "flex w-full justify-center my-1" ]
                             [ button
                                 [ class "px-3 py-2 bg-grey-light mt-2 rounded-full border-b-4 border-grey w-full text-grey-darkest active:border-0 outline-none focus:outline-none active:outline-none hover:mt-0 hover:border-b-8" ]
-                                [ text "Send" ]
+                                [ text buttonString ]
                             ]
                         ]
 
