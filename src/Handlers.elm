@@ -1,4 +1,4 @@
-port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, logout, monthToString, parser, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -7,6 +7,7 @@ import Html.Events exposing (custom)
 import Http
 import Iso8601
 import Json.Decode as Decode
+import Json.Encode as Encode
 import RemoteData exposing (RemoteData(..), WebData)
 import Requests
 import Time exposing (Month(..), Posix, millisToPosix, posixToMillis)
@@ -20,6 +21,11 @@ import Url.Parser as Parser exposing ((</>), Parser)
 
 
 port storeCache : Maybe Decode.Value -> Cmd msg
+
+
+login : Credentials -> Cmd Msg
+login credentials =
+    storeCache <| Just (Requests.encodeCredentials credentials)
 
 
 logout : Cmd Msg
@@ -305,7 +311,10 @@ init valueDecode url key =
             Maybe.withDefault NotFoundRoute <| fromUrl url
 
         credentialsMaybe =
-            Decode.decodeValue Requests.decoderCredentials valueDecode |> Result.toMaybe
+            valueDecode
+                |> Decode.decodeValue Decode.string
+                |> Result.andThen (Decode.decodeString Requests.decoderCredentials)
+                |> Result.toMaybe
     in
     routeInit credentialsMaybe route key
 

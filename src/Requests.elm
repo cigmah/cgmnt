@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardByTotal, getNoAuth, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardByTotal, getNoAuth, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -48,7 +48,7 @@ encodeContact v =
 
 encodeSubmission : Submission -> Encode.Value
 encodeSubmission v =
-    Encode.string v
+    Encode.object [ ( "submission", Encode.string v ) ]
 
 
 encodeRegister : UserData -> Encode.Value
@@ -61,14 +61,25 @@ encodeRegister v =
         ]
 
 
+encodeCredentials : Credentials -> Encode.Value
+encodeCredentials v =
+    Encode.object
+        [ ( "username", Encode.string v.username )
+        , ( "email", Encode.string v.email )
+        , ( "first_name", Encode.string v.firstName )
+        , ( "last_name", Encode.string v.lastName )
+        , ( "token", Encode.string v.token )
+        ]
+
+
 encodeEmail : Email -> Encode.Value
 encodeEmail v =
-    Encode.string v
+    Encode.object [ ( "email", Encode.string v ) ]
 
 
 encodeToken : Token -> Encode.Value
 encodeToken v =
-    Encode.string v
+    Encode.object [ ( "token", Encode.string v ) ]
 
 
 decoderContactResponseData : Decoder ContactResponseData

@@ -38,7 +38,7 @@ registerPage state =
                 NewUser _ (Success _) ->
                     div
                         [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
-                        [ text "Registration was successful! Head over to the login tab to start logging in." ]
+                        [ text "Registration was successful! Head over to the", span [ routeHref LoginRoute ] [ text "login tab" ], text "to start logging in!" ]
 
                 NewUser _ (Failure e) ->
                     div

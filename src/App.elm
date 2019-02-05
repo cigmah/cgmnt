@@ -12,6 +12,7 @@ import Types exposing (..)
 import Url
 import Views.Home
 import Views.Leaderboard
+import Views.Login
 import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Register
@@ -187,23 +188,45 @@ update msg model =
         ( RegisterGotResponse registerResponseDataWebData, Register (NewUser userData Loading) ) ->
             ( { model | page = Register (NewUser userData registerResponseDataWebData) }, Cmd.none )
 
-        ( LoginChangedEmail string, _ ) ->
+        ( LoginChangedEmail string, Login (InputEmail email webData) ) ->
+            ( { model | page = Login (InputEmail string webData) }, Cmd.none )
+
+        ( LoginClickedSendEmail, Login (InputEmail email webData) ) ->
+            ( { model | page = Login (InputEmail email Loading) }, Requests.postSendEmail email )
+
+        ( LoginGotSendEmailResponse responseData, Login (InputEmail email Loading) ) ->
+            case responseData of
+                Success message ->
+                    ( { model | page = Login (InputToken email message "" NotAsked) }, Cmd.none )
+
+                _ ->
+                    ( { model | page = Login (InputEmail email responseData) }, Cmd.none )
+
+        ( LoginChangedToken string, Login (InputToken email data token webData) ) ->
+            ( { model | page = Login (InputToken email data string webData) }, Cmd.none )
+
+        ( LoginClickedLogin, Login (InputToken email data token Loading) ) ->
             ( model, Cmd.none )
 
-        ( LoginClickedSendEmail, _ ) ->
-            ( model, Cmd.none )
+        ( LoginClickedLogin, Login (InputToken email data token webData) ) ->
+            ( { model | page = Login (InputToken email data token Loading) }, Requests.postLogin token )
 
-        ( LoginGotSendEmailResponse sendEmailResponseDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( LoginGotLoginResponse credentialsWebData, Login (InputToken email data token Loading) ) ->
+            case credentialsWebData of
+                Success credentials ->
+                    let
+                        meta =
+                            model.meta
+                    in
+                    ( { model
+                        | meta = { meta | auth = User credentials }
+                        , page = Login (InputToken email data token credentialsWebData)
+                      }
+                    , Handlers.login credentials
+                    )
 
-        ( LoginChangedToken string, _ ) ->
-            ( model, Cmd.none )
-
-        ( LoginClickedLogin, _ ) ->
-            ( model, Cmd.none )
-
-        ( LoginGotLoginResponse credentialsWebData, _ ) ->
-            ( model, Cmd.none )
+                _ ->
+                    ( { model | page = Login (InputToken email data token credentialsWebData) }, Cmd.none )
 
         ( _, _ ) ->
             ( model, Cmd.none )
@@ -233,7 +256,7 @@ view model =
                     Views.Register.view model.meta registerState
 
                 Login loginState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.Login.view model.meta loginState
 
                 NotFound ->
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
