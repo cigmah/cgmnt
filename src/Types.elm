@@ -271,7 +271,7 @@ type alias LeaderPuzzleData =
 
 type alias LeaderPuzzleUnit =
     { username : String
-    , puzzle : MiniPuzzleData
+    , puzzle : String
     , submissionDatetime : Posix
     , points : Int
     }
@@ -299,7 +299,7 @@ type SubmissionResponseData
 type alias OkSubmitData =
     { id : Int
     , submission : String
-    , isCorrect : Bool
+    , isResponseCorrect : Bool
     , points : Int
     }
 

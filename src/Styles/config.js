@@ -917,7 +917,7 @@ module.exports = {
     opacity: ['responsive', 'hover', 'group-hover'],
     outline: ['focus'],
     overflow: ['responsive'],
-    padding: ['responsive', 'active', 'hover'],
+    padding: ['responsive', 'active', 'hover', 'group-hover'],
     pointerEvents: ['responsive'],
     position: ['responsive'],
     resize: ['responsive'],

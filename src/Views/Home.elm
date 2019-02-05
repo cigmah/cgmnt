@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
+import Time
 import Types exposing (..)
 import Views.Shared exposing (..)
 
@@ -20,7 +21,10 @@ view meta homeState =
         bodyCenter =
             case ( meta.auth, homeState ) of
                 ( User credentials, HomeUser userData Loading ) ->
-                    div [] []
+                    dashboardPage
+                        True
+                        "Lorem"
+                        defaultProfileData
 
                 ( User credentials, HomeUser userData (Failure e) ) ->
                     errorPage "Placeholder."
@@ -41,6 +45,21 @@ view meta homeState =
             div [] [ bodyCenter ]
     in
     ( title, body )
+
+
+defaultProfileData =
+    { submissions = []
+    , solvedImages = [ "", "" ]
+    , numSolved = 0
+    , points = 0
+    , next =
+        { id = 0
+        , theme = "Lorem Ipsum"
+        , themeSet = RegularTheme
+        , tagline = String.slice 0 30 loremIpsum
+        , openDatetime = Time.millisToPosix 0
+        }
+    }
 
 
 themeCard : Bool -> ThemeData -> Html Msg
@@ -301,7 +320,7 @@ landingPage contactData contactResponse =
 
 miniPuzzleBadge : String -> Html Msg
 miniPuzzleBadge imageLink =
-    div [ class "flex p-2 w-32 h-32" ]
+    div [ class "flex p-2 w-16 h-16" ]
         [ div [ class "block rounded-lg" ]
             [ img [ class "resize overflow-hidden ", src imageLink ] []
             ]
@@ -381,7 +400,7 @@ dashboardPage isLoading username profileData =
                     "Woohoo! You've solved one puzzle now - and even earned " ++ String.fromInt points ++ " points! "
 
                 ( _, _ ) ->
-                    "Great work! You've solved " ++ String.fromInt numSolved ++ " and earned " ++ String.fromInt points ++ " !"
+                    "Brilliant work! You've solved " ++ String.fromInt numSolved ++ " puzzles and earned " ++ String.fromInt points ++ " points !"
 
         solvedPuzzles =
             case numSolved of
@@ -389,7 +408,7 @@ dashboardPage isLoading username profileData =
                     div [] []
 
                 _ ->
-                    solvedImages solvedImagesList
+                    div [] [ text "You've completed the following puzzles: ", solvedImages solvedImagesList ]
 
         submissionsDiv =
             case List.length submissions of
@@ -407,7 +426,7 @@ dashboardPage isLoading username profileData =
         [ div
             [ class "flex flex-wrap content-center justify-center items-center pb-12 pt-16" ]
             [ div
-                [ class "block" ]
+                [ class "block w-full md:w-5/6 lg:w-4/5" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
@@ -444,17 +463,17 @@ dashboardPage isLoading username profileData =
                     , br [] []
                     , themeCard isLoading nextTheme
                     , br [] []
-                    , div
-                        [ class "flex w-full justify-center" ]
-                        [ a [ routeHref PuzzleListRoute, class "w-full" ]
-                            [ button
-                                [ class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full active:border-b-0 active:border-t-4  outline-none focus:outline-none active:outline-none hover:bg-red"
-                                , classList [ ( "text-white", not isLoading ), ( "text-red-light", isLoading ) ]
-                                ]
-                                [ text "Take me to the open puzzles!" ]
-                            ]
-                        ]
-                    , br [] []
+
+                    --                    , div
+                    --                        [ class "flex w-full justify-center" ]
+                    --                        [ a [ routeHref PuzzleListRoute, class "w-full md:w-1/2 lg:w-1/3" ]
+                    --                            [ button
+                    --                                [ class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full active:border-b-0 active:border-t-4  outline-none focus:outline-none active:outline-none hover:bg-red"
+                    --                                , classList [ ( "text-white", not isLoading ), ( "text-red-light", isLoading ) ]
+                    --                                ]
+                    --                                [ text "Take me to the open puzzles!" ]
+                    --                            ]
+                    --                        ]
                     , solvedPuzzles
                     , br [] []
                     , submissionsDiv

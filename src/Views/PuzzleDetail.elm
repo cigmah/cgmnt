@@ -36,7 +36,54 @@ view meta puzzleDetailState =
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
 
                 ( User credentials, UserPuzzle puzzleId webData ) ->
-                    errorPage ""
+                    case webData of
+                        Loading ->
+                            detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
+
+                        Success puzzle ->
+                            detailPuzzlePage puzzle (Just "Well done! You've solved this puzle.") False False
+
+                        Failure e ->
+                            errorPage ""
+
+                        NotAsked ->
+                            errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
+
+                ( User credentials, UnsolvedPuzzleLoaded puzzleId data submission webData ) ->
+                    case webData of
+                        NotAsked ->
+                            detailPuzzlePage data Nothing False False
+
+                        Loading ->
+                            detailPuzzlePage data Nothing False True
+
+                        Failure e ->
+                            detailPuzzlePage data (Just "Hm. It seems there was an error. Let us know!") False False
+
+                        Success submissionResponse ->
+                            case submissionResponse of
+                                OkSubmit okSubmitData ->
+                                    case okSubmitData.isResponseCorrect of
+                                        True ->
+                                            successScreen data okSubmitData
+
+                                        False ->
+                                            detailPuzzlePage data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False False
+
+                                TooSoonSubmit tooSoonSubmitData ->
+                                    let
+                                        messageString =
+                                            String.concat
+                                                [ "You submitted your last submission (at "
+                                                , Handlers.posixToString tooSoonSubmitData.last
+                                                , ", attempt no. "
+                                                , String.fromInt tooSoonSubmitData.attempts
+                                                , ") too recently. You can next submit at "
+                                                , Handlers.posixToString tooSoonSubmitData.next
+                                                , "."
+                                                ]
+                                    in
+                                    detailPuzzlePage data (Just messageString) False False
 
                 ( _, _ ) ->
                     notFoundPage
@@ -124,7 +171,7 @@ messageBox bottomPadding message =
     in
     div
         [ id "message-box"
-        , class <| "flex pin-b pin-x h-auto px-4 pt-2 md:px-2 fixed bg-grey-light text-grey-darkest justify-center text" ++ bottomPaddingClass
+        , class <| "flex pin-b pin-x h-auto px-4 pt-4 md:px-2 fixed bg-grey-light text-grey-darkest justify-center text " ++ bottomPaddingClass
         , onClick ToggledMessage
         ]
         [ span
@@ -205,8 +252,16 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                     WithoutSubmissionBox
 
         messageBody =
+            let
+                _ =
+                    Debug.log "message" maybeMessage
+            in
             case maybeMessage of
                 Just message ->
+                    let
+                        _ =
+                            Debug.log "RENDERED" "MESAGE BODY"
+                    in
                     messageBox paddingSize message
 
                 Nothing ->
@@ -304,6 +359,56 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                         []
                         [ messageBody
                         , submissionBox
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+
+successScreen : DetailPuzzleData -> OkSubmitData -> Html Msg
+successScreen puzzle okSubmitData =
+    div
+        [ class "px-8 bg-grey-lightest" ]
+        [ div
+            [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
+            [ div
+                [ class "flex-col-reverse items-center justify-center flex md:flex-col md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ div [] [ img [ src puzzle.imageLink, class "resize rounded-lg w-full " ] [] ]
+                , div [ class "mb-4 md:mt-4 md:mb-0" ]
+                    [ div
+                        [ class "inline-flex flex justify-center w-full" ]
+                        [ div
+                            [ class "flex items-center sm:text-xl justify-center sm:h-12 sm:w-10 px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
+                            [ span
+                                [ class "fas fa-glass-cheers" ]
+                                []
+                            ]
+                        , div
+                            [ class "flex items-center w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                            [ text "Congratulations!" ]
+                        ]
+                    , div
+                        [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
+                        [ div
+                            [ class "text-lg" ]
+                            [ text <| String.concat [ "You completed ", puzzle.title, " and earned ", String.fromInt okSubmitData.points, " points!" ]
+                            , br
+                                []
+                                []
+                            , br [] []
+                            , div
+                                [ class "text-lg" ]
+                                [ text "Great job!" ]
+                            ]
+                        ]
+                    , div
+                        [ class "flex w-full justify-center" ]
+                        [ button
+                            [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                            , onClick (ChangedRoute PuzzleListRoute)
+                            ]
+                            [ text "Go Back to Puzzles" ]
                         ]
                     ]
                 ]

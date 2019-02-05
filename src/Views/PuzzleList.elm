@@ -34,7 +34,18 @@ view meta puzzleListState =
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
 
                 ( User credentials, ListUser webData ) ->
-                    div [] []
+                    case webData of
+                        Loading ->
+                            puzzleListPage True Nothing (List.repeat 5 defaultPuzzleData) (\x -> Ignored)
+
+                        Success puzzles ->
+                            puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
+
+                        Failure e ->
+                            errorPage ""
+
+                        NotAsked ->
+                            errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
 
                 ( _, _ ) ->
                     notFoundPage
@@ -66,6 +77,19 @@ puzzleCard isLoading onClickPuzzle puzzle =
                 False ->
                     [ onClick (onClickPuzzle puzzle.id) ]
 
+        completedOverlay =
+            case mapSolvedToBool puzzle.isSolved of
+                True ->
+                    div [ class "relative w-full" ]
+                        [ div [ class "absolute w-full pt-1 group-hover:pt-0" ]
+                            [ div [ class "flex justify-center align-center items-center w-full " ]
+                                [ div [ class "px-3 py-2 bg-black text-bold text-white rounded-t-lg text-center w-full" ] [ text "COMPLETE!" ] ]
+                            ]
+                        ]
+
+                False ->
+                    div [] []
+
         opacityClass =
             case mapSolvedToBool puzzle.isSolved of
                 True ->
@@ -77,9 +101,10 @@ puzzleCard isLoading onClickPuzzle puzzle =
     div
         [ class "block w-full h-full w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 xl:w-1/5 p-1" ]
         [ div
-            ([ class <| "w-full rounded cursor-pointer active:border-b-0 " ++ opacityClass ] ++ onClickPuzzleAttrs)
-            [ div
-                [ class "block w-full h-full rounded-b-lg border-b-4 pt-1 active:border-t-4 active:border-b-0 active:border-white hover:pt-0 hover:border-b-8"
+            ([ class <| "group w-full rounded cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
+            [ completedOverlay
+            , div
+                [ class "block w-full h-full rounded-b-lg border-b-4 pt-1 active:border-t-4 active:border-b-0 active:border-white group-hover:pt-0 group-hover:border-b-8"
                 , classList [ ( "border-" ++ colour ++ "-dark", not isLoading ), ( "border-grey-light", isLoading ) ]
                 ]
                 [ div

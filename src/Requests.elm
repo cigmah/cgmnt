@@ -166,11 +166,11 @@ decoderSubmissionData : Decoder SubmissionData
 decoderSubmissionData =
     Decode.map7 SubmissionData
         (Decode.field "id" Decode.int)
-        (Decode.field "user" Decode.string)
+        (Decode.at [ "user", "username" ] Decode.string)
         (Decode.field "puzzle" decoderMiniPuzzleData)
         (Decode.field "submission_datetime" Iso8601.decoder)
         (Decode.field "submission" Decode.string)
-        (Decode.field "is_response_c  orrect" Decode.bool)
+        (Decode.field "is_response_correct" Decode.bool)
         (Decode.field "points" Decode.int)
 
 
@@ -219,7 +219,7 @@ decoderSubmissionResponse =
             OkSubmitData
             (Decode.field "id" Decode.int)
             (Decode.field "submission" Decode.string)
-            (Decode.field "is_correct" Decode.bool)
+            (Decode.field "is_response_correct" Decode.bool)
             (Decode.field "points" Decode.int)
 
 
@@ -227,10 +227,10 @@ decoderTooSoonSubmit : Decoder TooSoonSubmitData
 decoderTooSoonSubmit =
     Decode.map5 TooSoonSubmitData
         (Decode.field "message" Decode.string)
-        (Decode.field "attempts" Decode.int)
-        (Decode.field "last" Iso8601.decoder)
-        (Decode.field "wait" Decode.int)
-        (Decode.field "next" Iso8601.decoder)
+        (Decode.field "num_attempts" Decode.int)
+        (Decode.field "last_submission" Iso8601.decoder)
+        (Decode.field "wait_time_seconds" Decode.int)
+        (Decode.field "next_allowed" Iso8601.decoder)
 
 
 decoderLeaderboardByTotal : Decoder LeaderTotalData
@@ -247,7 +247,7 @@ decoderLeaderboardByPuzzle =
     Decode.list
         (Decode.map4 LeaderPuzzleUnit
             (Decode.field "username" Decode.string)
-            (Decode.field "puzzle" decoderMiniPuzzleData)
+            (Decode.field "puzzle" Decode.string)
             (Decode.field "submission_datetime" Iso8601.decoder)
             (Decode.field "points" Decode.int)
         )

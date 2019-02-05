@@ -5,6 +5,7 @@ import Browser.Navigation as Navigation
 import Handlers
 import Html exposing (Html, div)
 import Html.Lazy exposing (lazy2)
+import Http exposing (Error(..))
 import Json.Decode as Decode
 import RemoteData exposing (RemoteData(..), WebData)
 import Requests
@@ -52,7 +53,10 @@ update msg model =
             in
             ( { model | meta = { oldMeta | isNavActive = not oldMeta.isNavActive } }, Cmd.none )
 
-        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Failure e)) ) ->
+        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Failure _)) ) ->
+            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
+
+        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Success _)) ) ->
             ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
 
         ( HomeChangedName string, Home (HomePublic contactData webData) ) ->
@@ -119,23 +123,60 @@ update msg model =
         ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic webData) ) ->
             ( { model | page = PuzzleList <| ListPublic miniPublicPuzzleDataListWebData }, Cmd.none )
 
-        ( PuzzleListUserGotResponse miniUserPuzzleDataListWebData, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleListUserGotResponse miniPuzzleDataListWebData, _ ) ->
+            ( { model | page = PuzzleList <| ListUser miniPuzzleDataListWebData }, Cmd.none )
 
         ( PuzzleListClickedPuzzle puzzleId, PuzzleList _ ) ->
             Handlers.changedRoute model.meta (PuzzleDetailRoute puzzleId)
 
-        ( PuzzleDetailGotUser userPuzzleDataWebData, _ ) ->
+        ( PuzzleDetailGotUser webData, PuzzleDetail (UserPuzzle puzzleId Loading) ) ->
+            case webData of
+                Success puzzle ->
+                    case puzzle.isSolved of
+                        Just False ->
+                            ( { model | page = PuzzleDetail <| UnsolvedPuzzleLoaded puzzleId puzzle "" NotAsked }, Cmd.none )
+
+                        _ ->
+                            ( { model | page = PuzzleDetail <| UserPuzzle puzzleId webData }, Cmd.none )
+
+                _ ->
+                    ( { model | page = PuzzleDetail <| UserPuzzle puzzleId webData }, Cmd.none )
+
+        ( PuzzleDetailChangedSubmission submission, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle _ webData) ) ->
+            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission webData) }, Cmd.none )
+
+        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail (UnsolvedPuzzleLoaded _ _ _ Loading) ) ->
             ( model, Cmd.none )
 
-        ( PuzzleDetailChangedSubmission submission, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail (UnsolvedPuzzleLoaded puzzleIdSame puzzle submission webData) ) ->
+            case model.meta.auth of
+                User credentials ->
+                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission Loading) }, Requests.postSubmit credentials.token submission puzzleId )
 
-        ( PuzzleDetailClickedSubmit puzzleId, _ ) ->
-            ( model, Cmd.none )
+                Public ->
+                    ( model, Cmd.none )
 
-        ( PuzzleDetailGotSubmissionResponse submissionResponseDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( PuzzleDetailGotSubmissionResponse webData, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission Loading) ) ->
+            case webData of
+                Failure (BadStatus e) ->
+                    case e.status.code of
+                        412 ->
+                            let
+                                decodedErrorData =
+                                    Decode.decodeString Requests.decoderTooSoonSubmit e.body
+                            in
+                            case decodedErrorData of
+                                Ok tooSoonData ->
+                                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission (Success (TooSoonSubmit tooSoonData))) }, Cmd.none )
+
+                                Err _ ->
+                                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
+
+                        _ ->
+                            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
+
+                _ ->
+                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
 
         ( PuzzleDetailGotPublic publicPuzzleDataWebData, PuzzleDetail (PublicPuzzle puzzleId Loading) ) ->
             ( { model | page = PuzzleDetail <| PublicPuzzle puzzleId publicPuzzleDataWebData }, Cmd.none )
