@@ -1,6 +1,7 @@
 import { Elm } from './Main.elm';
 import "./Styles/main.css";
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
+unregister();
 
 var storageKey = "puzzlehunt_cache"
 
