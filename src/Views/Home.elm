@@ -88,7 +88,7 @@ landingPage contactData contactResponse =
                         , div
                             [ class "flex w-full justify-center my-1" ]
                             [ button
-                                [ class "px-3 py-2 bg-grey-light rounded-full border-b-2 border-grey w-full text-grey-darkest active:border-0 outline-none focus:outline-none active:outline-none hover:bg-grey hover:border-grey-dark" ]
+                                [ class "px-3 py-2 bg-grey-light mt-2 rounded-full border-b-4 border-grey w-full text-grey-darkest active:border-0 outline-none focus:outline-none active:outline-none hover:mt-0 hover:border-b-8" ]
                                 [ text "Send" ]
                             ]
                         ]
@@ -148,7 +148,7 @@ landingPage contactData contactResponse =
                     ]
                 , div
                     [ class "flex w-full justify-center" ]
-                    [ a [ routeHref RegisterRoute, class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full lg:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:bg-red-dark" ]
+                    [ a [ routeHref RegisterRoute, class "px-3 pb-2 pt-2 mt-2 bg-red-light rounded-full border-b-4 border-red w-full lg:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-8 hover:mt-0 " ]
                         [ text "Register"
                         ]
                     ]

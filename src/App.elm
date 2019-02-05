@@ -11,6 +11,7 @@ import Requests
 import Types exposing (..)
 import Url
 import Views.Home
+import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Resources
 import Views.Shared
@@ -47,6 +48,9 @@ update msg model =
                     model.meta
             in
             ( { model | meta = { oldMeta | isNavActive = not oldMeta.isNavActive } }, Cmd.none )
+
+        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Failure e)) ) ->
+            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
 
         ( HomeChangedName string, Home (HomePublic contactData webData) ) ->
             case webData of
@@ -209,7 +213,7 @@ view model =
                     Views.PuzzleList.view model.meta puzzleListState
 
                 PuzzleDetail puzzleDetailState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.PuzzleDetail.view model.meta puzzleDetailState
 
                 Leaderboard leaderboardState ->
                     ( "CIGMAH", div [] [] )
@@ -222,10 +226,18 @@ view model =
 
                 NotFound ->
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
+
+        navMenu =
+            case model.page of
+                PuzzleDetail puzzleDetailState ->
+                    div [] []
+
+                _ ->
+                    lazy2 Views.Shared.navMenu model.meta.isNavActive model.meta.auth
     in
     { title = title
     , body =
-        [ lazy2 Views.Shared.navMenu model.meta.isNavActive model.meta.auth
+        [ navMenu
         , body
         ]
     }

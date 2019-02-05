@@ -323,6 +323,7 @@ type Msg
     | ChangedUrl Url.Url
     | ChangedRoute Route
     | ToggledNav
+    | ToggledMessage
     | HomeChangedName String
     | HomeChangedEmail String
     | HomeChangedSubject String

@@ -2869,6 +2869,206 @@ table {
   border-bottom-left-radius: 9999px;
 }
 
+.active\:rounded-none:active {
+  border-radius: 0;
+}
+
+.active\:rounded-sm:active {
+  border-radius: .125rem;
+}
+
+.active\:rounded:active {
+  border-radius: .25rem;
+}
+
+.active\:rounded-lg:active {
+  border-radius: .5rem;
+}
+
+.active\:rounded-full:active {
+  border-radius: 9999px;
+}
+
+.active\:rounded-t-none:active {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.active\:rounded-r-none:active {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.active\:rounded-b-none:active {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.active\:rounded-l-none:active {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.active\:rounded-t-sm:active {
+  border-top-left-radius: .125rem;
+  border-top-right-radius: .125rem;
+}
+
+.active\:rounded-r-sm:active {
+  border-top-right-radius: .125rem;
+  border-bottom-right-radius: .125rem;
+}
+
+.active\:rounded-b-sm:active {
+  border-bottom-right-radius: .125rem;
+  border-bottom-left-radius: .125rem;
+}
+
+.active\:rounded-l-sm:active {
+  border-top-left-radius: .125rem;
+  border-bottom-left-radius: .125rem;
+}
+
+.active\:rounded-t:active {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+}
+
+.active\:rounded-r:active {
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.active\:rounded-b:active {
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.active\:rounded-l:active {
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.active\:rounded-t-lg:active {
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+
+.active\:rounded-r-lg:active {
+  border-top-right-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+}
+
+.active\:rounded-b-lg:active {
+  border-bottom-right-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+}
+
+.active\:rounded-l-lg:active {
+  border-top-left-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+}
+
+.active\:rounded-t-full:active {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+.active\:rounded-r-full:active {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+.active\:rounded-b-full:active {
+  border-bottom-right-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+}
+
+.active\:rounded-l-full:active {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+}
+
+.active\:rounded-tl-none:active {
+  border-top-left-radius: 0;
+}
+
+.active\:rounded-tr-none:active {
+  border-top-right-radius: 0;
+}
+
+.active\:rounded-br-none:active {
+  border-bottom-right-radius: 0;
+}
+
+.active\:rounded-bl-none:active {
+  border-bottom-left-radius: 0;
+}
+
+.active\:rounded-tl-sm:active {
+  border-top-left-radius: .125rem;
+}
+
+.active\:rounded-tr-sm:active {
+  border-top-right-radius: .125rem;
+}
+
+.active\:rounded-br-sm:active {
+  border-bottom-right-radius: .125rem;
+}
+
+.active\:rounded-bl-sm:active {
+  border-bottom-left-radius: .125rem;
+}
+
+.active\:rounded-tl:active {
+  border-top-left-radius: .25rem;
+}
+
+.active\:rounded-tr:active {
+  border-top-right-radius: .25rem;
+}
+
+.active\:rounded-br:active {
+  border-bottom-right-radius: .25rem;
+}
+
+.active\:rounded-bl:active {
+  border-bottom-left-radius: .25rem;
+}
+
+.active\:rounded-tl-lg:active {
+  border-top-left-radius: .5rem;
+}
+
+.active\:rounded-tr-lg:active {
+  border-top-right-radius: .5rem;
+}
+
+.active\:rounded-br-lg:active {
+  border-bottom-right-radius: .5rem;
+}
+
+.active\:rounded-bl-lg:active {
+  border-bottom-left-radius: .5rem;
+}
+
+.active\:rounded-tl-full:active {
+  border-top-left-radius: 9999px;
+}
+
+.active\:rounded-tr-full:active {
+  border-top-right-radius: 9999px;
+}
+
+.active\:rounded-br-full:active {
+  border-bottom-right-radius: 9999px;
+}
+
+.active\:rounded-bl-full:active {
+  border-bottom-left-radius: 9999px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -5830,6 +6030,456 @@ table {
 }
 
 .active\:pl-px:active {
+  padding-left: 1px;
+}
+
+.hover\:p-0:hover {
+  padding: 0;
+}
+
+.hover\:p-1:hover {
+  padding: .25rem;
+}
+
+.hover\:p-2:hover {
+  padding: .5rem;
+}
+
+.hover\:p-3:hover {
+  padding: .75rem;
+}
+
+.hover\:p-4:hover {
+  padding: 1rem;
+}
+
+.hover\:p-5:hover {
+  padding: 1.25rem;
+}
+
+.hover\:p-6:hover {
+  padding: 1.5rem;
+}
+
+.hover\:p-8:hover {
+  padding: 2rem;
+}
+
+.hover\:p-10:hover {
+  padding: 2.5rem;
+}
+
+.hover\:p-12:hover {
+  padding: 3rem;
+}
+
+.hover\:p-16:hover {
+  padding: 4rem;
+}
+
+.hover\:p-20:hover {
+  padding: 5rem;
+}
+
+.hover\:p-24:hover {
+  padding: 6rem;
+}
+
+.hover\:p-32:hover {
+  padding: 8rem;
+}
+
+.hover\:p-px:hover {
+  padding: 1px;
+}
+
+.hover\:py-0:hover {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hover\:px-0:hover {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.hover\:py-1:hover {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+.hover\:px-1:hover {
+  padding-left: .25rem;
+  padding-right: .25rem;
+}
+
+.hover\:py-2:hover {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.hover\:px-2:hover {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.hover\:py-3:hover {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+
+.hover\:px-3:hover {
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+
+.hover\:py-4:hover {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.hover\:px-4:hover {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.hover\:py-5:hover {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.hover\:px-5:hover {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.hover\:py-6:hover {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.hover\:px-6:hover {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.hover\:py-8:hover {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.hover\:px-8:hover {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.hover\:py-10:hover {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.hover\:px-10:hover {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.hover\:py-12:hover {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.hover\:px-12:hover {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.hover\:py-16:hover {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.hover\:px-16:hover {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.hover\:py-20:hover {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.hover\:px-20:hover {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.hover\:py-24:hover {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.hover\:px-24:hover {
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+.hover\:py-32:hover {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.hover\:px-32:hover {
+  padding-left: 8rem;
+  padding-right: 8rem;
+}
+
+.hover\:py-px:hover {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.hover\:px-px:hover {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.hover\:pt-0:hover {
+  padding-top: 0;
+}
+
+.hover\:pr-0:hover {
+  padding-right: 0;
+}
+
+.hover\:pb-0:hover {
+  padding-bottom: 0;
+}
+
+.hover\:pl-0:hover {
+  padding-left: 0;
+}
+
+.hover\:pt-1:hover {
+  padding-top: .25rem;
+}
+
+.hover\:pr-1:hover {
+  padding-right: .25rem;
+}
+
+.hover\:pb-1:hover {
+  padding-bottom: .25rem;
+}
+
+.hover\:pl-1:hover {
+  padding-left: .25rem;
+}
+
+.hover\:pt-2:hover {
+  padding-top: .5rem;
+}
+
+.hover\:pr-2:hover {
+  padding-right: .5rem;
+}
+
+.hover\:pb-2:hover {
+  padding-bottom: .5rem;
+}
+
+.hover\:pl-2:hover {
+  padding-left: .5rem;
+}
+
+.hover\:pt-3:hover {
+  padding-top: .75rem;
+}
+
+.hover\:pr-3:hover {
+  padding-right: .75rem;
+}
+
+.hover\:pb-3:hover {
+  padding-bottom: .75rem;
+}
+
+.hover\:pl-3:hover {
+  padding-left: .75rem;
+}
+
+.hover\:pt-4:hover {
+  padding-top: 1rem;
+}
+
+.hover\:pr-4:hover {
+  padding-right: 1rem;
+}
+
+.hover\:pb-4:hover {
+  padding-bottom: 1rem;
+}
+
+.hover\:pl-4:hover {
+  padding-left: 1rem;
+}
+
+.hover\:pt-5:hover {
+  padding-top: 1.25rem;
+}
+
+.hover\:pr-5:hover {
+  padding-right: 1.25rem;
+}
+
+.hover\:pb-5:hover {
+  padding-bottom: 1.25rem;
+}
+
+.hover\:pl-5:hover {
+  padding-left: 1.25rem;
+}
+
+.hover\:pt-6:hover {
+  padding-top: 1.5rem;
+}
+
+.hover\:pr-6:hover {
+  padding-right: 1.5rem;
+}
+
+.hover\:pb-6:hover {
+  padding-bottom: 1.5rem;
+}
+
+.hover\:pl-6:hover {
+  padding-left: 1.5rem;
+}
+
+.hover\:pt-8:hover {
+  padding-top: 2rem;
+}
+
+.hover\:pr-8:hover {
+  padding-right: 2rem;
+}
+
+.hover\:pb-8:hover {
+  padding-bottom: 2rem;
+}
+
+.hover\:pl-8:hover {
+  padding-left: 2rem;
+}
+
+.hover\:pt-10:hover {
+  padding-top: 2.5rem;
+}
+
+.hover\:pr-10:hover {
+  padding-right: 2.5rem;
+}
+
+.hover\:pb-10:hover {
+  padding-bottom: 2.5rem;
+}
+
+.hover\:pl-10:hover {
+  padding-left: 2.5rem;
+}
+
+.hover\:pt-12:hover {
+  padding-top: 3rem;
+}
+
+.hover\:pr-12:hover {
+  padding-right: 3rem;
+}
+
+.hover\:pb-12:hover {
+  padding-bottom: 3rem;
+}
+
+.hover\:pl-12:hover {
+  padding-left: 3rem;
+}
+
+.hover\:pt-16:hover {
+  padding-top: 4rem;
+}
+
+.hover\:pr-16:hover {
+  padding-right: 4rem;
+}
+
+.hover\:pb-16:hover {
+  padding-bottom: 4rem;
+}
+
+.hover\:pl-16:hover {
+  padding-left: 4rem;
+}
+
+.hover\:pt-20:hover {
+  padding-top: 5rem;
+}
+
+.hover\:pr-20:hover {
+  padding-right: 5rem;
+}
+
+.hover\:pb-20:hover {
+  padding-bottom: 5rem;
+}
+
+.hover\:pl-20:hover {
+  padding-left: 5rem;
+}
+
+.hover\:pt-24:hover {
+  padding-top: 6rem;
+}
+
+.hover\:pr-24:hover {
+  padding-right: 6rem;
+}
+
+.hover\:pb-24:hover {
+  padding-bottom: 6rem;
+}
+
+.hover\:pl-24:hover {
+  padding-left: 6rem;
+}
+
+.hover\:pt-32:hover {
+  padding-top: 8rem;
+}
+
+.hover\:pr-32:hover {
+  padding-right: 8rem;
+}
+
+.hover\:pb-32:hover {
+  padding-bottom: 8rem;
+}
+
+.hover\:pl-32:hover {
+  padding-left: 8rem;
+}
+
+.hover\:pt-px:hover {
+  padding-top: 1px;
+}
+
+.hover\:pr-px:hover {
+  padding-right: 1px;
+}
+
+.hover\:pb-px:hover {
+  padding-bottom: 1px;
+}
+
+.hover\:pl-px:hover {
   padding-left: 1px;
 }
 
@@ -9682,6 +10332,206 @@ input:focus {
     border-bottom-left-radius: 9999px;
   }
 
+  .sm\:active\:rounded-none:active {
+    border-radius: 0;
+  }
+
+  .sm\:active\:rounded-sm:active {
+    border-radius: .125rem;
+  }
+
+  .sm\:active\:rounded:active {
+    border-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-lg:active {
+    border-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-full:active {
+    border-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-t-none:active {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .sm\:active\:rounded-r-none:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .sm\:active\:rounded-b-none:active {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .sm\:active\:rounded-l-none:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .sm\:active\:rounded-t-sm:active {
+    border-top-left-radius: .125rem;
+    border-top-right-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-r-sm:active {
+    border-top-right-radius: .125rem;
+    border-bottom-right-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-b-sm:active {
+    border-bottom-right-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-l-sm:active {
+    border-top-left-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-t:active {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-r:active {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-b:active {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-l:active {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-t-lg:active {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-r-lg:active {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-b-lg:active {
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-l-lg:active {
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-t-full:active {
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-r-full:active {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-b-full:active {
+    border-bottom-right-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-l-full:active {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-tl-none:active {
+    border-top-left-radius: 0;
+  }
+
+  .sm\:active\:rounded-tr-none:active {
+    border-top-right-radius: 0;
+  }
+
+  .sm\:active\:rounded-br-none:active {
+    border-bottom-right-radius: 0;
+  }
+
+  .sm\:active\:rounded-bl-none:active {
+    border-bottom-left-radius: 0;
+  }
+
+  .sm\:active\:rounded-tl-sm:active {
+    border-top-left-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-tr-sm:active {
+    border-top-right-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-br-sm:active {
+    border-bottom-right-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-bl-sm:active {
+    border-bottom-left-radius: .125rem;
+  }
+
+  .sm\:active\:rounded-tl:active {
+    border-top-left-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-tr:active {
+    border-top-right-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-br:active {
+    border-bottom-right-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-bl:active {
+    border-bottom-left-radius: .25rem;
+  }
+
+  .sm\:active\:rounded-tl-lg:active {
+    border-top-left-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-tr-lg:active {
+    border-top-right-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-br-lg:active {
+    border-bottom-right-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-bl-lg:active {
+    border-bottom-left-radius: .5rem;
+  }
+
+  .sm\:active\:rounded-tl-full:active {
+    border-top-left-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-tr-full:active {
+    border-top-right-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-br-full:active {
+    border-bottom-right-radius: 9999px;
+  }
+
+  .sm\:active\:rounded-bl-full:active {
+    border-bottom-left-radius: 9999px;
+  }
+
   .sm\:border-solid {
     border-style: solid;
   }
@@ -12635,6 +13485,456 @@ input:focus {
   }
 
   .sm\:active\:pl-px:active {
+    padding-left: 1px;
+  }
+
+  .sm\:hover\:p-0:hover {
+    padding: 0;
+  }
+
+  .sm\:hover\:p-1:hover {
+    padding: .25rem;
+  }
+
+  .sm\:hover\:p-2:hover {
+    padding: .5rem;
+  }
+
+  .sm\:hover\:p-3:hover {
+    padding: .75rem;
+  }
+
+  .sm\:hover\:p-4:hover {
+    padding: 1rem;
+  }
+
+  .sm\:hover\:p-5:hover {
+    padding: 1.25rem;
+  }
+
+  .sm\:hover\:p-6:hover {
+    padding: 1.5rem;
+  }
+
+  .sm\:hover\:p-8:hover {
+    padding: 2rem;
+  }
+
+  .sm\:hover\:p-10:hover {
+    padding: 2.5rem;
+  }
+
+  .sm\:hover\:p-12:hover {
+    padding: 3rem;
+  }
+
+  .sm\:hover\:p-16:hover {
+    padding: 4rem;
+  }
+
+  .sm\:hover\:p-20:hover {
+    padding: 5rem;
+  }
+
+  .sm\:hover\:p-24:hover {
+    padding: 6rem;
+  }
+
+  .sm\:hover\:p-32:hover {
+    padding: 8rem;
+  }
+
+  .sm\:hover\:p-px:hover {
+    padding: 1px;
+  }
+
+  .sm\:hover\:py-0:hover {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .sm\:hover\:px-0:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .sm\:hover\:py-1:hover {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .sm\:hover\:px-1:hover {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .sm\:hover\:py-2:hover {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .sm\:hover\:px-2:hover {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .sm\:hover\:py-3:hover {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .sm\:hover\:px-3:hover {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .sm\:hover\:py-4:hover {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .sm\:hover\:px-4:hover {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .sm\:hover\:py-5:hover {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .sm\:hover\:px-5:hover {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .sm\:hover\:py-6:hover {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .sm\:hover\:px-6:hover {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .sm\:hover\:py-8:hover {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .sm\:hover\:px-8:hover {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sm\:hover\:py-10:hover {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .sm\:hover\:px-10:hover {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .sm\:hover\:py-12:hover {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .sm\:hover\:px-12:hover {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .sm\:hover\:py-16:hover {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .sm\:hover\:px-16:hover {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .sm\:hover\:py-20:hover {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .sm\:hover\:px-20:hover {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .sm\:hover\:py-24:hover {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .sm\:hover\:px-24:hover {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .sm\:hover\:py-32:hover {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .sm\:hover\:px-32:hover {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .sm\:hover\:py-px:hover {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .sm\:hover\:px-px:hover {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .sm\:hover\:pt-0:hover {
+    padding-top: 0;
+  }
+
+  .sm\:hover\:pr-0:hover {
+    padding-right: 0;
+  }
+
+  .sm\:hover\:pb-0:hover {
+    padding-bottom: 0;
+  }
+
+  .sm\:hover\:pl-0:hover {
+    padding-left: 0;
+  }
+
+  .sm\:hover\:pt-1:hover {
+    padding-top: .25rem;
+  }
+
+  .sm\:hover\:pr-1:hover {
+    padding-right: .25rem;
+  }
+
+  .sm\:hover\:pb-1:hover {
+    padding-bottom: .25rem;
+  }
+
+  .sm\:hover\:pl-1:hover {
+    padding-left: .25rem;
+  }
+
+  .sm\:hover\:pt-2:hover {
+    padding-top: .5rem;
+  }
+
+  .sm\:hover\:pr-2:hover {
+    padding-right: .5rem;
+  }
+
+  .sm\:hover\:pb-2:hover {
+    padding-bottom: .5rem;
+  }
+
+  .sm\:hover\:pl-2:hover {
+    padding-left: .5rem;
+  }
+
+  .sm\:hover\:pt-3:hover {
+    padding-top: .75rem;
+  }
+
+  .sm\:hover\:pr-3:hover {
+    padding-right: .75rem;
+  }
+
+  .sm\:hover\:pb-3:hover {
+    padding-bottom: .75rem;
+  }
+
+  .sm\:hover\:pl-3:hover {
+    padding-left: .75rem;
+  }
+
+  .sm\:hover\:pt-4:hover {
+    padding-top: 1rem;
+  }
+
+  .sm\:hover\:pr-4:hover {
+    padding-right: 1rem;
+  }
+
+  .sm\:hover\:pb-4:hover {
+    padding-bottom: 1rem;
+  }
+
+  .sm\:hover\:pl-4:hover {
+    padding-left: 1rem;
+  }
+
+  .sm\:hover\:pt-5:hover {
+    padding-top: 1.25rem;
+  }
+
+  .sm\:hover\:pr-5:hover {
+    padding-right: 1.25rem;
+  }
+
+  .sm\:hover\:pb-5:hover {
+    padding-bottom: 1.25rem;
+  }
+
+  .sm\:hover\:pl-5:hover {
+    padding-left: 1.25rem;
+  }
+
+  .sm\:hover\:pt-6:hover {
+    padding-top: 1.5rem;
+  }
+
+  .sm\:hover\:pr-6:hover {
+    padding-right: 1.5rem;
+  }
+
+  .sm\:hover\:pb-6:hover {
+    padding-bottom: 1.5rem;
+  }
+
+  .sm\:hover\:pl-6:hover {
+    padding-left: 1.5rem;
+  }
+
+  .sm\:hover\:pt-8:hover {
+    padding-top: 2rem;
+  }
+
+  .sm\:hover\:pr-8:hover {
+    padding-right: 2rem;
+  }
+
+  .sm\:hover\:pb-8:hover {
+    padding-bottom: 2rem;
+  }
+
+  .sm\:hover\:pl-8:hover {
+    padding-left: 2rem;
+  }
+
+  .sm\:hover\:pt-10:hover {
+    padding-top: 2.5rem;
+  }
+
+  .sm\:hover\:pr-10:hover {
+    padding-right: 2.5rem;
+  }
+
+  .sm\:hover\:pb-10:hover {
+    padding-bottom: 2.5rem;
+  }
+
+  .sm\:hover\:pl-10:hover {
+    padding-left: 2.5rem;
+  }
+
+  .sm\:hover\:pt-12:hover {
+    padding-top: 3rem;
+  }
+
+  .sm\:hover\:pr-12:hover {
+    padding-right: 3rem;
+  }
+
+  .sm\:hover\:pb-12:hover {
+    padding-bottom: 3rem;
+  }
+
+  .sm\:hover\:pl-12:hover {
+    padding-left: 3rem;
+  }
+
+  .sm\:hover\:pt-16:hover {
+    padding-top: 4rem;
+  }
+
+  .sm\:hover\:pr-16:hover {
+    padding-right: 4rem;
+  }
+
+  .sm\:hover\:pb-16:hover {
+    padding-bottom: 4rem;
+  }
+
+  .sm\:hover\:pl-16:hover {
+    padding-left: 4rem;
+  }
+
+  .sm\:hover\:pt-20:hover {
+    padding-top: 5rem;
+  }
+
+  .sm\:hover\:pr-20:hover {
+    padding-right: 5rem;
+  }
+
+  .sm\:hover\:pb-20:hover {
+    padding-bottom: 5rem;
+  }
+
+  .sm\:hover\:pl-20:hover {
+    padding-left: 5rem;
+  }
+
+  .sm\:hover\:pt-24:hover {
+    padding-top: 6rem;
+  }
+
+  .sm\:hover\:pr-24:hover {
+    padding-right: 6rem;
+  }
+
+  .sm\:hover\:pb-24:hover {
+    padding-bottom: 6rem;
+  }
+
+  .sm\:hover\:pl-24:hover {
+    padding-left: 6rem;
+  }
+
+  .sm\:hover\:pt-32:hover {
+    padding-top: 8rem;
+  }
+
+  .sm\:hover\:pr-32:hover {
+    padding-right: 8rem;
+  }
+
+  .sm\:hover\:pb-32:hover {
+    padding-bottom: 8rem;
+  }
+
+  .sm\:hover\:pl-32:hover {
+    padding-left: 8rem;
+  }
+
+  .sm\:hover\:pt-px:hover {
+    padding-top: 1px;
+  }
+
+  .sm\:hover\:pr-px:hover {
+    padding-right: 1px;
+  }
+
+  .sm\:hover\:pb-px:hover {
+    padding-bottom: 1px;
+  }
+
+  .sm\:hover\:pl-px:hover {
     padding-left: 1px;
   }
 
@@ -16438,6 +17738,206 @@ input:focus {
     border-bottom-left-radius: 9999px;
   }
 
+  .md\:active\:rounded-none:active {
+    border-radius: 0;
+  }
+
+  .md\:active\:rounded-sm:active {
+    border-radius: .125rem;
+  }
+
+  .md\:active\:rounded:active {
+    border-radius: .25rem;
+  }
+
+  .md\:active\:rounded-lg:active {
+    border-radius: .5rem;
+  }
+
+  .md\:active\:rounded-full:active {
+    border-radius: 9999px;
+  }
+
+  .md\:active\:rounded-t-none:active {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .md\:active\:rounded-r-none:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .md\:active\:rounded-b-none:active {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .md\:active\:rounded-l-none:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .md\:active\:rounded-t-sm:active {
+    border-top-left-radius: .125rem;
+    border-top-right-radius: .125rem;
+  }
+
+  .md\:active\:rounded-r-sm:active {
+    border-top-right-radius: .125rem;
+    border-bottom-right-radius: .125rem;
+  }
+
+  .md\:active\:rounded-b-sm:active {
+    border-bottom-right-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .md\:active\:rounded-l-sm:active {
+    border-top-left-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .md\:active\:rounded-t:active {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  .md\:active\:rounded-r:active {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+
+  .md\:active\:rounded-b:active {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .md\:active\:rounded-l:active {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .md\:active\:rounded-t-lg:active {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+
+  .md\:active\:rounded-r-lg:active {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+  }
+
+  .md\:active\:rounded-b-lg:active {
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .md\:active\:rounded-l-lg:active {
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .md\:active\:rounded-t-full:active {
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
+  }
+
+  .md\:active\:rounded-r-full:active {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+  }
+
+  .md\:active\:rounded-b-full:active {
+    border-bottom-right-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .md\:active\:rounded-l-full:active {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .md\:active\:rounded-tl-none:active {
+    border-top-left-radius: 0;
+  }
+
+  .md\:active\:rounded-tr-none:active {
+    border-top-right-radius: 0;
+  }
+
+  .md\:active\:rounded-br-none:active {
+    border-bottom-right-radius: 0;
+  }
+
+  .md\:active\:rounded-bl-none:active {
+    border-bottom-left-radius: 0;
+  }
+
+  .md\:active\:rounded-tl-sm:active {
+    border-top-left-radius: .125rem;
+  }
+
+  .md\:active\:rounded-tr-sm:active {
+    border-top-right-radius: .125rem;
+  }
+
+  .md\:active\:rounded-br-sm:active {
+    border-bottom-right-radius: .125rem;
+  }
+
+  .md\:active\:rounded-bl-sm:active {
+    border-bottom-left-radius: .125rem;
+  }
+
+  .md\:active\:rounded-tl:active {
+    border-top-left-radius: .25rem;
+  }
+
+  .md\:active\:rounded-tr:active {
+    border-top-right-radius: .25rem;
+  }
+
+  .md\:active\:rounded-br:active {
+    border-bottom-right-radius: .25rem;
+  }
+
+  .md\:active\:rounded-bl:active {
+    border-bottom-left-radius: .25rem;
+  }
+
+  .md\:active\:rounded-tl-lg:active {
+    border-top-left-radius: .5rem;
+  }
+
+  .md\:active\:rounded-tr-lg:active {
+    border-top-right-radius: .5rem;
+  }
+
+  .md\:active\:rounded-br-lg:active {
+    border-bottom-right-radius: .5rem;
+  }
+
+  .md\:active\:rounded-bl-lg:active {
+    border-bottom-left-radius: .5rem;
+  }
+
+  .md\:active\:rounded-tl-full:active {
+    border-top-left-radius: 9999px;
+  }
+
+  .md\:active\:rounded-tr-full:active {
+    border-top-right-radius: 9999px;
+  }
+
+  .md\:active\:rounded-br-full:active {
+    border-bottom-right-radius: 9999px;
+  }
+
+  .md\:active\:rounded-bl-full:active {
+    border-bottom-left-radius: 9999px;
+  }
+
   .md\:border-solid {
     border-style: solid;
   }
@@ -19391,6 +20891,456 @@ input:focus {
   }
 
   .md\:active\:pl-px:active {
+    padding-left: 1px;
+  }
+
+  .md\:hover\:p-0:hover {
+    padding: 0;
+  }
+
+  .md\:hover\:p-1:hover {
+    padding: .25rem;
+  }
+
+  .md\:hover\:p-2:hover {
+    padding: .5rem;
+  }
+
+  .md\:hover\:p-3:hover {
+    padding: .75rem;
+  }
+
+  .md\:hover\:p-4:hover {
+    padding: 1rem;
+  }
+
+  .md\:hover\:p-5:hover {
+    padding: 1.25rem;
+  }
+
+  .md\:hover\:p-6:hover {
+    padding: 1.5rem;
+  }
+
+  .md\:hover\:p-8:hover {
+    padding: 2rem;
+  }
+
+  .md\:hover\:p-10:hover {
+    padding: 2.5rem;
+  }
+
+  .md\:hover\:p-12:hover {
+    padding: 3rem;
+  }
+
+  .md\:hover\:p-16:hover {
+    padding: 4rem;
+  }
+
+  .md\:hover\:p-20:hover {
+    padding: 5rem;
+  }
+
+  .md\:hover\:p-24:hover {
+    padding: 6rem;
+  }
+
+  .md\:hover\:p-32:hover {
+    padding: 8rem;
+  }
+
+  .md\:hover\:p-px:hover {
+    padding: 1px;
+  }
+
+  .md\:hover\:py-0:hover {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .md\:hover\:px-0:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .md\:hover\:py-1:hover {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .md\:hover\:px-1:hover {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .md\:hover\:py-2:hover {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .md\:hover\:px-2:hover {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .md\:hover\:py-3:hover {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .md\:hover\:px-3:hover {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .md\:hover\:py-4:hover {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .md\:hover\:px-4:hover {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:hover\:py-5:hover {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .md\:hover\:px-5:hover {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .md\:hover\:py-6:hover {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .md\:hover\:px-6:hover {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .md\:hover\:py-8:hover {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .md\:hover\:px-8:hover {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .md\:hover\:py-10:hover {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:hover\:px-10:hover {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .md\:hover\:py-12:hover {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .md\:hover\:px-12:hover {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .md\:hover\:py-16:hover {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .md\:hover\:px-16:hover {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .md\:hover\:py-20:hover {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .md\:hover\:px-20:hover {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .md\:hover\:py-24:hover {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .md\:hover\:px-24:hover {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .md\:hover\:py-32:hover {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .md\:hover\:px-32:hover {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .md\:hover\:py-px:hover {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .md\:hover\:px-px:hover {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .md\:hover\:pt-0:hover {
+    padding-top: 0;
+  }
+
+  .md\:hover\:pr-0:hover {
+    padding-right: 0;
+  }
+
+  .md\:hover\:pb-0:hover {
+    padding-bottom: 0;
+  }
+
+  .md\:hover\:pl-0:hover {
+    padding-left: 0;
+  }
+
+  .md\:hover\:pt-1:hover {
+    padding-top: .25rem;
+  }
+
+  .md\:hover\:pr-1:hover {
+    padding-right: .25rem;
+  }
+
+  .md\:hover\:pb-1:hover {
+    padding-bottom: .25rem;
+  }
+
+  .md\:hover\:pl-1:hover {
+    padding-left: .25rem;
+  }
+
+  .md\:hover\:pt-2:hover {
+    padding-top: .5rem;
+  }
+
+  .md\:hover\:pr-2:hover {
+    padding-right: .5rem;
+  }
+
+  .md\:hover\:pb-2:hover {
+    padding-bottom: .5rem;
+  }
+
+  .md\:hover\:pl-2:hover {
+    padding-left: .5rem;
+  }
+
+  .md\:hover\:pt-3:hover {
+    padding-top: .75rem;
+  }
+
+  .md\:hover\:pr-3:hover {
+    padding-right: .75rem;
+  }
+
+  .md\:hover\:pb-3:hover {
+    padding-bottom: .75rem;
+  }
+
+  .md\:hover\:pl-3:hover {
+    padding-left: .75rem;
+  }
+
+  .md\:hover\:pt-4:hover {
+    padding-top: 1rem;
+  }
+
+  .md\:hover\:pr-4:hover {
+    padding-right: 1rem;
+  }
+
+  .md\:hover\:pb-4:hover {
+    padding-bottom: 1rem;
+  }
+
+  .md\:hover\:pl-4:hover {
+    padding-left: 1rem;
+  }
+
+  .md\:hover\:pt-5:hover {
+    padding-top: 1.25rem;
+  }
+
+  .md\:hover\:pr-5:hover {
+    padding-right: 1.25rem;
+  }
+
+  .md\:hover\:pb-5:hover {
+    padding-bottom: 1.25rem;
+  }
+
+  .md\:hover\:pl-5:hover {
+    padding-left: 1.25rem;
+  }
+
+  .md\:hover\:pt-6:hover {
+    padding-top: 1.5rem;
+  }
+
+  .md\:hover\:pr-6:hover {
+    padding-right: 1.5rem;
+  }
+
+  .md\:hover\:pb-6:hover {
+    padding-bottom: 1.5rem;
+  }
+
+  .md\:hover\:pl-6:hover {
+    padding-left: 1.5rem;
+  }
+
+  .md\:hover\:pt-8:hover {
+    padding-top: 2rem;
+  }
+
+  .md\:hover\:pr-8:hover {
+    padding-right: 2rem;
+  }
+
+  .md\:hover\:pb-8:hover {
+    padding-bottom: 2rem;
+  }
+
+  .md\:hover\:pl-8:hover {
+    padding-left: 2rem;
+  }
+
+  .md\:hover\:pt-10:hover {
+    padding-top: 2.5rem;
+  }
+
+  .md\:hover\:pr-10:hover {
+    padding-right: 2.5rem;
+  }
+
+  .md\:hover\:pb-10:hover {
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:hover\:pl-10:hover {
+    padding-left: 2.5rem;
+  }
+
+  .md\:hover\:pt-12:hover {
+    padding-top: 3rem;
+  }
+
+  .md\:hover\:pr-12:hover {
+    padding-right: 3rem;
+  }
+
+  .md\:hover\:pb-12:hover {
+    padding-bottom: 3rem;
+  }
+
+  .md\:hover\:pl-12:hover {
+    padding-left: 3rem;
+  }
+
+  .md\:hover\:pt-16:hover {
+    padding-top: 4rem;
+  }
+
+  .md\:hover\:pr-16:hover {
+    padding-right: 4rem;
+  }
+
+  .md\:hover\:pb-16:hover {
+    padding-bottom: 4rem;
+  }
+
+  .md\:hover\:pl-16:hover {
+    padding-left: 4rem;
+  }
+
+  .md\:hover\:pt-20:hover {
+    padding-top: 5rem;
+  }
+
+  .md\:hover\:pr-20:hover {
+    padding-right: 5rem;
+  }
+
+  .md\:hover\:pb-20:hover {
+    padding-bottom: 5rem;
+  }
+
+  .md\:hover\:pl-20:hover {
+    padding-left: 5rem;
+  }
+
+  .md\:hover\:pt-24:hover {
+    padding-top: 6rem;
+  }
+
+  .md\:hover\:pr-24:hover {
+    padding-right: 6rem;
+  }
+
+  .md\:hover\:pb-24:hover {
+    padding-bottom: 6rem;
+  }
+
+  .md\:hover\:pl-24:hover {
+    padding-left: 6rem;
+  }
+
+  .md\:hover\:pt-32:hover {
+    padding-top: 8rem;
+  }
+
+  .md\:hover\:pr-32:hover {
+    padding-right: 8rem;
+  }
+
+  .md\:hover\:pb-32:hover {
+    padding-bottom: 8rem;
+  }
+
+  .md\:hover\:pl-32:hover {
+    padding-left: 8rem;
+  }
+
+  .md\:hover\:pt-px:hover {
+    padding-top: 1px;
+  }
+
+  .md\:hover\:pr-px:hover {
+    padding-right: 1px;
+  }
+
+  .md\:hover\:pb-px:hover {
+    padding-bottom: 1px;
+  }
+
+  .md\:hover\:pl-px:hover {
     padding-left: 1px;
   }
 
@@ -23194,6 +25144,206 @@ input:focus {
     border-bottom-left-radius: 9999px;
   }
 
+  .lg\:active\:rounded-none:active {
+    border-radius: 0;
+  }
+
+  .lg\:active\:rounded-sm:active {
+    border-radius: .125rem;
+  }
+
+  .lg\:active\:rounded:active {
+    border-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-lg:active {
+    border-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-full:active {
+    border-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-t-none:active {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .lg\:active\:rounded-r-none:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .lg\:active\:rounded-b-none:active {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .lg\:active\:rounded-l-none:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .lg\:active\:rounded-t-sm:active {
+    border-top-left-radius: .125rem;
+    border-top-right-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-r-sm:active {
+    border-top-right-radius: .125rem;
+    border-bottom-right-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-b-sm:active {
+    border-bottom-right-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-l-sm:active {
+    border-top-left-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-t:active {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-r:active {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-b:active {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-l:active {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-t-lg:active {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-r-lg:active {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-b-lg:active {
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-l-lg:active {
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-t-full:active {
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-r-full:active {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-b-full:active {
+    border-bottom-right-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-l-full:active {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-tl-none:active {
+    border-top-left-radius: 0;
+  }
+
+  .lg\:active\:rounded-tr-none:active {
+    border-top-right-radius: 0;
+  }
+
+  .lg\:active\:rounded-br-none:active {
+    border-bottom-right-radius: 0;
+  }
+
+  .lg\:active\:rounded-bl-none:active {
+    border-bottom-left-radius: 0;
+  }
+
+  .lg\:active\:rounded-tl-sm:active {
+    border-top-left-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-tr-sm:active {
+    border-top-right-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-br-sm:active {
+    border-bottom-right-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-bl-sm:active {
+    border-bottom-left-radius: .125rem;
+  }
+
+  .lg\:active\:rounded-tl:active {
+    border-top-left-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-tr:active {
+    border-top-right-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-br:active {
+    border-bottom-right-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-bl:active {
+    border-bottom-left-radius: .25rem;
+  }
+
+  .lg\:active\:rounded-tl-lg:active {
+    border-top-left-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-tr-lg:active {
+    border-top-right-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-br-lg:active {
+    border-bottom-right-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-bl-lg:active {
+    border-bottom-left-radius: .5rem;
+  }
+
+  .lg\:active\:rounded-tl-full:active {
+    border-top-left-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-tr-full:active {
+    border-top-right-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-br-full:active {
+    border-bottom-right-radius: 9999px;
+  }
+
+  .lg\:active\:rounded-bl-full:active {
+    border-bottom-left-radius: 9999px;
+  }
+
   .lg\:border-solid {
     border-style: solid;
   }
@@ -26147,6 +28297,456 @@ input:focus {
   }
 
   .lg\:active\:pl-px:active {
+    padding-left: 1px;
+  }
+
+  .lg\:hover\:p-0:hover {
+    padding: 0;
+  }
+
+  .lg\:hover\:p-1:hover {
+    padding: .25rem;
+  }
+
+  .lg\:hover\:p-2:hover {
+    padding: .5rem;
+  }
+
+  .lg\:hover\:p-3:hover {
+    padding: .75rem;
+  }
+
+  .lg\:hover\:p-4:hover {
+    padding: 1rem;
+  }
+
+  .lg\:hover\:p-5:hover {
+    padding: 1.25rem;
+  }
+
+  .lg\:hover\:p-6:hover {
+    padding: 1.5rem;
+  }
+
+  .lg\:hover\:p-8:hover {
+    padding: 2rem;
+  }
+
+  .lg\:hover\:p-10:hover {
+    padding: 2.5rem;
+  }
+
+  .lg\:hover\:p-12:hover {
+    padding: 3rem;
+  }
+
+  .lg\:hover\:p-16:hover {
+    padding: 4rem;
+  }
+
+  .lg\:hover\:p-20:hover {
+    padding: 5rem;
+  }
+
+  .lg\:hover\:p-24:hover {
+    padding: 6rem;
+  }
+
+  .lg\:hover\:p-32:hover {
+    padding: 8rem;
+  }
+
+  .lg\:hover\:p-px:hover {
+    padding: 1px;
+  }
+
+  .lg\:hover\:py-0:hover {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .lg\:hover\:px-0:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .lg\:hover\:py-1:hover {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .lg\:hover\:px-1:hover {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .lg\:hover\:py-2:hover {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .lg\:hover\:px-2:hover {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .lg\:hover\:py-3:hover {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .lg\:hover\:px-3:hover {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .lg\:hover\:py-4:hover {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .lg\:hover\:px-4:hover {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .lg\:hover\:py-5:hover {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .lg\:hover\:px-5:hover {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .lg\:hover\:py-6:hover {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .lg\:hover\:px-6:hover {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .lg\:hover\:py-8:hover {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .lg\:hover\:px-8:hover {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .lg\:hover\:py-10:hover {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .lg\:hover\:px-10:hover {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .lg\:hover\:py-12:hover {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .lg\:hover\:px-12:hover {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .lg\:hover\:py-16:hover {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .lg\:hover\:px-16:hover {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .lg\:hover\:py-20:hover {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .lg\:hover\:px-20:hover {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .lg\:hover\:py-24:hover {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .lg\:hover\:px-24:hover {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .lg\:hover\:py-32:hover {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .lg\:hover\:px-32:hover {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .lg\:hover\:py-px:hover {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .lg\:hover\:px-px:hover {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .lg\:hover\:pt-0:hover {
+    padding-top: 0;
+  }
+
+  .lg\:hover\:pr-0:hover {
+    padding-right: 0;
+  }
+
+  .lg\:hover\:pb-0:hover {
+    padding-bottom: 0;
+  }
+
+  .lg\:hover\:pl-0:hover {
+    padding-left: 0;
+  }
+
+  .lg\:hover\:pt-1:hover {
+    padding-top: .25rem;
+  }
+
+  .lg\:hover\:pr-1:hover {
+    padding-right: .25rem;
+  }
+
+  .lg\:hover\:pb-1:hover {
+    padding-bottom: .25rem;
+  }
+
+  .lg\:hover\:pl-1:hover {
+    padding-left: .25rem;
+  }
+
+  .lg\:hover\:pt-2:hover {
+    padding-top: .5rem;
+  }
+
+  .lg\:hover\:pr-2:hover {
+    padding-right: .5rem;
+  }
+
+  .lg\:hover\:pb-2:hover {
+    padding-bottom: .5rem;
+  }
+
+  .lg\:hover\:pl-2:hover {
+    padding-left: .5rem;
+  }
+
+  .lg\:hover\:pt-3:hover {
+    padding-top: .75rem;
+  }
+
+  .lg\:hover\:pr-3:hover {
+    padding-right: .75rem;
+  }
+
+  .lg\:hover\:pb-3:hover {
+    padding-bottom: .75rem;
+  }
+
+  .lg\:hover\:pl-3:hover {
+    padding-left: .75rem;
+  }
+
+  .lg\:hover\:pt-4:hover {
+    padding-top: 1rem;
+  }
+
+  .lg\:hover\:pr-4:hover {
+    padding-right: 1rem;
+  }
+
+  .lg\:hover\:pb-4:hover {
+    padding-bottom: 1rem;
+  }
+
+  .lg\:hover\:pl-4:hover {
+    padding-left: 1rem;
+  }
+
+  .lg\:hover\:pt-5:hover {
+    padding-top: 1.25rem;
+  }
+
+  .lg\:hover\:pr-5:hover {
+    padding-right: 1.25rem;
+  }
+
+  .lg\:hover\:pb-5:hover {
+    padding-bottom: 1.25rem;
+  }
+
+  .lg\:hover\:pl-5:hover {
+    padding-left: 1.25rem;
+  }
+
+  .lg\:hover\:pt-6:hover {
+    padding-top: 1.5rem;
+  }
+
+  .lg\:hover\:pr-6:hover {
+    padding-right: 1.5rem;
+  }
+
+  .lg\:hover\:pb-6:hover {
+    padding-bottom: 1.5rem;
+  }
+
+  .lg\:hover\:pl-6:hover {
+    padding-left: 1.5rem;
+  }
+
+  .lg\:hover\:pt-8:hover {
+    padding-top: 2rem;
+  }
+
+  .lg\:hover\:pr-8:hover {
+    padding-right: 2rem;
+  }
+
+  .lg\:hover\:pb-8:hover {
+    padding-bottom: 2rem;
+  }
+
+  .lg\:hover\:pl-8:hover {
+    padding-left: 2rem;
+  }
+
+  .lg\:hover\:pt-10:hover {
+    padding-top: 2.5rem;
+  }
+
+  .lg\:hover\:pr-10:hover {
+    padding-right: 2.5rem;
+  }
+
+  .lg\:hover\:pb-10:hover {
+    padding-bottom: 2.5rem;
+  }
+
+  .lg\:hover\:pl-10:hover {
+    padding-left: 2.5rem;
+  }
+
+  .lg\:hover\:pt-12:hover {
+    padding-top: 3rem;
+  }
+
+  .lg\:hover\:pr-12:hover {
+    padding-right: 3rem;
+  }
+
+  .lg\:hover\:pb-12:hover {
+    padding-bottom: 3rem;
+  }
+
+  .lg\:hover\:pl-12:hover {
+    padding-left: 3rem;
+  }
+
+  .lg\:hover\:pt-16:hover {
+    padding-top: 4rem;
+  }
+
+  .lg\:hover\:pr-16:hover {
+    padding-right: 4rem;
+  }
+
+  .lg\:hover\:pb-16:hover {
+    padding-bottom: 4rem;
+  }
+
+  .lg\:hover\:pl-16:hover {
+    padding-left: 4rem;
+  }
+
+  .lg\:hover\:pt-20:hover {
+    padding-top: 5rem;
+  }
+
+  .lg\:hover\:pr-20:hover {
+    padding-right: 5rem;
+  }
+
+  .lg\:hover\:pb-20:hover {
+    padding-bottom: 5rem;
+  }
+
+  .lg\:hover\:pl-20:hover {
+    padding-left: 5rem;
+  }
+
+  .lg\:hover\:pt-24:hover {
+    padding-top: 6rem;
+  }
+
+  .lg\:hover\:pr-24:hover {
+    padding-right: 6rem;
+  }
+
+  .lg\:hover\:pb-24:hover {
+    padding-bottom: 6rem;
+  }
+
+  .lg\:hover\:pl-24:hover {
+    padding-left: 6rem;
+  }
+
+  .lg\:hover\:pt-32:hover {
+    padding-top: 8rem;
+  }
+
+  .lg\:hover\:pr-32:hover {
+    padding-right: 8rem;
+  }
+
+  .lg\:hover\:pb-32:hover {
+    padding-bottom: 8rem;
+  }
+
+  .lg\:hover\:pl-32:hover {
+    padding-left: 8rem;
+  }
+
+  .lg\:hover\:pt-px:hover {
+    padding-top: 1px;
+  }
+
+  .lg\:hover\:pr-px:hover {
+    padding-right: 1px;
+  }
+
+  .lg\:hover\:pb-px:hover {
+    padding-bottom: 1px;
+  }
+
+  .lg\:hover\:pl-px:hover {
     padding-left: 1px;
   }
 
@@ -29950,6 +32550,206 @@ input:focus {
     border-bottom-left-radius: 9999px;
   }
 
+  .xl\:active\:rounded-none:active {
+    border-radius: 0;
+  }
+
+  .xl\:active\:rounded-sm:active {
+    border-radius: .125rem;
+  }
+
+  .xl\:active\:rounded:active {
+    border-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-lg:active {
+    border-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-full:active {
+    border-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-t-none:active {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .xl\:active\:rounded-r-none:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .xl\:active\:rounded-b-none:active {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .xl\:active\:rounded-l-none:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .xl\:active\:rounded-t-sm:active {
+    border-top-left-radius: .125rem;
+    border-top-right-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-r-sm:active {
+    border-top-right-radius: .125rem;
+    border-bottom-right-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-b-sm:active {
+    border-bottom-right-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-l-sm:active {
+    border-top-left-radius: .125rem;
+    border-bottom-left-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-t:active {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-r:active {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-b:active {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-l:active {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-t-lg:active {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-r-lg:active {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-b-lg:active {
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-l-lg:active {
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-t-full:active {
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-r-full:active {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-b-full:active {
+    border-bottom-right-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-l-full:active {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-tl-none:active {
+    border-top-left-radius: 0;
+  }
+
+  .xl\:active\:rounded-tr-none:active {
+    border-top-right-radius: 0;
+  }
+
+  .xl\:active\:rounded-br-none:active {
+    border-bottom-right-radius: 0;
+  }
+
+  .xl\:active\:rounded-bl-none:active {
+    border-bottom-left-radius: 0;
+  }
+
+  .xl\:active\:rounded-tl-sm:active {
+    border-top-left-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-tr-sm:active {
+    border-top-right-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-br-sm:active {
+    border-bottom-right-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-bl-sm:active {
+    border-bottom-left-radius: .125rem;
+  }
+
+  .xl\:active\:rounded-tl:active {
+    border-top-left-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-tr:active {
+    border-top-right-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-br:active {
+    border-bottom-right-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-bl:active {
+    border-bottom-left-radius: .25rem;
+  }
+
+  .xl\:active\:rounded-tl-lg:active {
+    border-top-left-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-tr-lg:active {
+    border-top-right-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-br-lg:active {
+    border-bottom-right-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-bl-lg:active {
+    border-bottom-left-radius: .5rem;
+  }
+
+  .xl\:active\:rounded-tl-full:active {
+    border-top-left-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-tr-full:active {
+    border-top-right-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-br-full:active {
+    border-bottom-right-radius: 9999px;
+  }
+
+  .xl\:active\:rounded-bl-full:active {
+    border-bottom-left-radius: 9999px;
+  }
+
   .xl\:border-solid {
     border-style: solid;
   }
@@ -32903,6 +35703,456 @@ input:focus {
   }
 
   .xl\:active\:pl-px:active {
+    padding-left: 1px;
+  }
+
+  .xl\:hover\:p-0:hover {
+    padding: 0;
+  }
+
+  .xl\:hover\:p-1:hover {
+    padding: .25rem;
+  }
+
+  .xl\:hover\:p-2:hover {
+    padding: .5rem;
+  }
+
+  .xl\:hover\:p-3:hover {
+    padding: .75rem;
+  }
+
+  .xl\:hover\:p-4:hover {
+    padding: 1rem;
+  }
+
+  .xl\:hover\:p-5:hover {
+    padding: 1.25rem;
+  }
+
+  .xl\:hover\:p-6:hover {
+    padding: 1.5rem;
+  }
+
+  .xl\:hover\:p-8:hover {
+    padding: 2rem;
+  }
+
+  .xl\:hover\:p-10:hover {
+    padding: 2.5rem;
+  }
+
+  .xl\:hover\:p-12:hover {
+    padding: 3rem;
+  }
+
+  .xl\:hover\:p-16:hover {
+    padding: 4rem;
+  }
+
+  .xl\:hover\:p-20:hover {
+    padding: 5rem;
+  }
+
+  .xl\:hover\:p-24:hover {
+    padding: 6rem;
+  }
+
+  .xl\:hover\:p-32:hover {
+    padding: 8rem;
+  }
+
+  .xl\:hover\:p-px:hover {
+    padding: 1px;
+  }
+
+  .xl\:hover\:py-0:hover {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .xl\:hover\:px-0:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .xl\:hover\:py-1:hover {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .xl\:hover\:px-1:hover {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+
+  .xl\:hover\:py-2:hover {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .xl\:hover\:px-2:hover {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  .xl\:hover\:py-3:hover {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .xl\:hover\:px-3:hover {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  .xl\:hover\:py-4:hover {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .xl\:hover\:px-4:hover {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .xl\:hover\:py-5:hover {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .xl\:hover\:px-5:hover {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .xl\:hover\:py-6:hover {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .xl\:hover\:px-6:hover {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .xl\:hover\:py-8:hover {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .xl\:hover\:px-8:hover {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .xl\:hover\:py-10:hover {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .xl\:hover\:px-10:hover {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .xl\:hover\:py-12:hover {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .xl\:hover\:px-12:hover {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .xl\:hover\:py-16:hover {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .xl\:hover\:px-16:hover {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .xl\:hover\:py-20:hover {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .xl\:hover\:px-20:hover {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .xl\:hover\:py-24:hover {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .xl\:hover\:px-24:hover {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .xl\:hover\:py-32:hover {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  .xl\:hover\:px-32:hover {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  .xl\:hover\:py-px:hover {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .xl\:hover\:px-px:hover {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .xl\:hover\:pt-0:hover {
+    padding-top: 0;
+  }
+
+  .xl\:hover\:pr-0:hover {
+    padding-right: 0;
+  }
+
+  .xl\:hover\:pb-0:hover {
+    padding-bottom: 0;
+  }
+
+  .xl\:hover\:pl-0:hover {
+    padding-left: 0;
+  }
+
+  .xl\:hover\:pt-1:hover {
+    padding-top: .25rem;
+  }
+
+  .xl\:hover\:pr-1:hover {
+    padding-right: .25rem;
+  }
+
+  .xl\:hover\:pb-1:hover {
+    padding-bottom: .25rem;
+  }
+
+  .xl\:hover\:pl-1:hover {
+    padding-left: .25rem;
+  }
+
+  .xl\:hover\:pt-2:hover {
+    padding-top: .5rem;
+  }
+
+  .xl\:hover\:pr-2:hover {
+    padding-right: .5rem;
+  }
+
+  .xl\:hover\:pb-2:hover {
+    padding-bottom: .5rem;
+  }
+
+  .xl\:hover\:pl-2:hover {
+    padding-left: .5rem;
+  }
+
+  .xl\:hover\:pt-3:hover {
+    padding-top: .75rem;
+  }
+
+  .xl\:hover\:pr-3:hover {
+    padding-right: .75rem;
+  }
+
+  .xl\:hover\:pb-3:hover {
+    padding-bottom: .75rem;
+  }
+
+  .xl\:hover\:pl-3:hover {
+    padding-left: .75rem;
+  }
+
+  .xl\:hover\:pt-4:hover {
+    padding-top: 1rem;
+  }
+
+  .xl\:hover\:pr-4:hover {
+    padding-right: 1rem;
+  }
+
+  .xl\:hover\:pb-4:hover {
+    padding-bottom: 1rem;
+  }
+
+  .xl\:hover\:pl-4:hover {
+    padding-left: 1rem;
+  }
+
+  .xl\:hover\:pt-5:hover {
+    padding-top: 1.25rem;
+  }
+
+  .xl\:hover\:pr-5:hover {
+    padding-right: 1.25rem;
+  }
+
+  .xl\:hover\:pb-5:hover {
+    padding-bottom: 1.25rem;
+  }
+
+  .xl\:hover\:pl-5:hover {
+    padding-left: 1.25rem;
+  }
+
+  .xl\:hover\:pt-6:hover {
+    padding-top: 1.5rem;
+  }
+
+  .xl\:hover\:pr-6:hover {
+    padding-right: 1.5rem;
+  }
+
+  .xl\:hover\:pb-6:hover {
+    padding-bottom: 1.5rem;
+  }
+
+  .xl\:hover\:pl-6:hover {
+    padding-left: 1.5rem;
+  }
+
+  .xl\:hover\:pt-8:hover {
+    padding-top: 2rem;
+  }
+
+  .xl\:hover\:pr-8:hover {
+    padding-right: 2rem;
+  }
+
+  .xl\:hover\:pb-8:hover {
+    padding-bottom: 2rem;
+  }
+
+  .xl\:hover\:pl-8:hover {
+    padding-left: 2rem;
+  }
+
+  .xl\:hover\:pt-10:hover {
+    padding-top: 2.5rem;
+  }
+
+  .xl\:hover\:pr-10:hover {
+    padding-right: 2.5rem;
+  }
+
+  .xl\:hover\:pb-10:hover {
+    padding-bottom: 2.5rem;
+  }
+
+  .xl\:hover\:pl-10:hover {
+    padding-left: 2.5rem;
+  }
+
+  .xl\:hover\:pt-12:hover {
+    padding-top: 3rem;
+  }
+
+  .xl\:hover\:pr-12:hover {
+    padding-right: 3rem;
+  }
+
+  .xl\:hover\:pb-12:hover {
+    padding-bottom: 3rem;
+  }
+
+  .xl\:hover\:pl-12:hover {
+    padding-left: 3rem;
+  }
+
+  .xl\:hover\:pt-16:hover {
+    padding-top: 4rem;
+  }
+
+  .xl\:hover\:pr-16:hover {
+    padding-right: 4rem;
+  }
+
+  .xl\:hover\:pb-16:hover {
+    padding-bottom: 4rem;
+  }
+
+  .xl\:hover\:pl-16:hover {
+    padding-left: 4rem;
+  }
+
+  .xl\:hover\:pt-20:hover {
+    padding-top: 5rem;
+  }
+
+  .xl\:hover\:pr-20:hover {
+    padding-right: 5rem;
+  }
+
+  .xl\:hover\:pb-20:hover {
+    padding-bottom: 5rem;
+  }
+
+  .xl\:hover\:pl-20:hover {
+    padding-left: 5rem;
+  }
+
+  .xl\:hover\:pt-24:hover {
+    padding-top: 6rem;
+  }
+
+  .xl\:hover\:pr-24:hover {
+    padding-right: 6rem;
+  }
+
+  .xl\:hover\:pb-24:hover {
+    padding-bottom: 6rem;
+  }
+
+  .xl\:hover\:pl-24:hover {
+    padding-left: 6rem;
+  }
+
+  .xl\:hover\:pt-32:hover {
+    padding-top: 8rem;
+  }
+
+  .xl\:hover\:pr-32:hover {
+    padding-right: 8rem;
+  }
+
+  .xl\:hover\:pb-32:hover {
+    padding-bottom: 8rem;
+  }
+
+  .xl\:hover\:pl-32:hover {
+    padding-left: 8rem;
+  }
+
+  .xl\:hover\:pt-px:hover {
+    padding-top: 1px;
+  }
+
+  .xl\:hover\:pr-px:hover {
+    padding-right: 1px;
+  }
+
+  .xl\:hover\:pb-px:hover {
+    padding-bottom: 1px;
+  }
+
+  .xl\:hover\:pl-px:hover {
     padding-left: 1px;
   }
 
