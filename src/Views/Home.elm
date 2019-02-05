@@ -1,6 +1,7 @@
 module Views.Home exposing (view)
 
 import Browser
+import Handlers
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -25,7 +26,10 @@ view meta homeState =
                     errorPage "Placeholder."
 
                 ( User credentials, HomeUser userData (Success profileData) ) ->
-                    notFoundPage
+                    dashboardPage
+                        False
+                        credentials.username
+                        profileData
 
                 ( Public, HomePublic contactData webData ) ->
                     landingPage contactData webData
@@ -37,6 +41,31 @@ view meta homeState =
             div [] [ bodyCenter ]
     in
     ( title, body )
+
+
+themeCard : Bool -> ThemeData -> Html Msg
+themeCard isLoading theme =
+    div
+        [ class "theme-card block mb-2" ]
+        [ div
+            [ class "inline-flex w-full" ]
+            [ div
+                [ class "flex items-center justify-center px-3 py-1 w-8 md:h-8 rounded-l font-black text-grey-darkest" ]
+                [ span
+                    [ class "fas fa-arrow-right", classList [ ( "rounded text-grey-light bg-grey-light px-1", isLoading ) ] ]
+                    []
+                ]
+            , div
+                [ class "flex items-center w-full py-1 px-2 md:h-8 rounded-tr text-grey-darkest flex-grow" ]
+                [ textWithLoad isLoading theme.theme ]
+            ]
+        , div
+            [ class "px-2 pb-2 pt-0 text-sm ml-8 rounded-b text-grey-darkest" ]
+            [ textWithLoad isLoading theme.tagline ]
+        , div
+            [ class "px-2 pb-2 pt-0 text-xs ml-8 rounded-b text-grey-dark" ]
+            [ textWithLoad isLoading <| String.concat [ "Opens ", Handlers.posixToString theme.openDatetime, "." ] ]
+        ]
 
 
 landingPage contactData contactResponse =
@@ -267,4 +296,169 @@ landingPage contactData contactResponse =
                 ]
             ]
         , errorDiv
+        ]
+
+
+miniPuzzleBadge : String -> Html Msg
+miniPuzzleBadge imageLink =
+    div [ class "flex p-2 w-32 h-32" ]
+        [ div [ class "block rounded-lg" ]
+            [ img [ class "resize overflow-hidden ", src imageLink ] []
+            ]
+        ]
+
+
+solvedImages : List String -> Html Msg
+solvedImages images =
+    div []
+        [ div [ class "flex flex-wrap" ] <| List.map miniPuzzleBadge images ]
+
+
+submissionsTable : List SubmissionData -> Html Msg
+submissionsTable data =
+    tableMaker [ "Puzzle", "Time", "Submission", "Correct", "Points" ] data
+
+
+tableRowExtended isHeader strList =
+    let
+        classes =
+            if isHeader then
+                "w-full bg-grey-light text-sm text-grey-darker"
+
+            else
+                "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
+    in
+    tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) (List.repeat 5 "w-auto") strList
+
+
+tableMaker : List String -> List SubmissionData -> Html Msg
+tableMaker headerList unitList =
+    let
+        isCorrectString a =
+            if a then
+                "✓"
+
+            else
+                "x"
+    in
+    div
+        [ id "table-block", class "block py-2" ]
+        [ table
+            [ class "w-full" ]
+          <|
+            tableRowExtended True headerList
+                :: List.map (\x -> tableRowExtended False [ x.puzzle.title, Handlers.posixToString x.submissionDatetime, x.submission, isCorrectString x.isResponseCorrect, String.fromInt x.points ]) unitList
+        ]
+
+
+dashboardPage : Bool -> String -> ProfileData -> Html Msg
+dashboardPage isLoading username profileData =
+    let
+        solvedImagesList =
+            profileData.solvedImages
+
+        numSolved =
+            profileData.numSolved
+
+        points =
+            profileData.points
+
+        nextTheme =
+            profileData.next
+
+        submissions =
+            profileData.submissions
+
+        startMessage =
+            case ( numSolved, points ) of
+                ( 0, 0 ) ->
+                    "We're stoked that you're here! Start solving puzzles on the puzzle tab and add some new knowledge to your toolkit :)"
+
+                ( 1, 0 ) ->
+                    "Amazing stuff! You've solved one puzzle - keep it up! No points yet, but you know what they say - it's not about the points, it's about the journey. Or something like that."
+
+                ( 1, _ ) ->
+                    "Woohoo! You've solved one puzzle now - and even earned " ++ String.fromInt points ++ " points! "
+
+                ( _, _ ) ->
+                    "Great work! You've solved " ++ String.fromInt numSolved ++ " and earned " ++ String.fromInt points ++ " !"
+
+        solvedPuzzles =
+            case numSolved of
+                0 ->
+                    div [] []
+
+                _ ->
+                    solvedImages solvedImagesList
+
+        submissionsDiv =
+            case List.length submissions of
+                0 ->
+                    div [] []
+
+                _ ->
+                    div [ class "m-1" ]
+                        [ text "Here are your most recent submissions:"
+                        , submissionsTable submissions
+                        ]
+    in
+    div
+        [ class "px-2 bg-grey-lightest" ]
+        [ div
+            [ class "flex flex-wrap content-center justify-center items-center pb-12 pt-16" ]
+            [ div
+                [ class "block" ]
+                [ div
+                    [ class "inline-flex flex justify-center w-full" ]
+                    [ div
+                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-red-light text-grey-lighter border-b-2 border-red" ]
+                        [ span
+                            [ classList [ ( "fas fa-chart-line", not isLoading ) ] ]
+                            []
+                        ]
+                    , div
+                        [ class "flex items-center w-full p-3 px-5 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
+                        [ textWithLoad isLoading "Home" ]
+                    ]
+                , div
+                    [ class "block w-full my-3 bg-white rounded-lg p-6 pb-2 w-full text-base border-b-2 border-grey-light" ]
+                    [ span
+                        [ class "text-xl" ]
+                        [ p
+                            []
+                            [ textWithLoad isLoading <| String.concat [ "Welcome, ", username, "!" ] ]
+                        ]
+                    , br
+                        []
+                        []
+                    , p
+                        []
+                        [ textWithLoad isLoading startMessage ]
+                    , br
+                        []
+                        []
+                    , br [] []
+                    , p
+                        []
+                        [ textWithLoad isLoading "The next theme that'll open is:" ]
+                    , br [] []
+                    , themeCard isLoading nextTheme
+                    , br [] []
+                    , div
+                        [ class "flex w-full justify-center" ]
+                        [ a [ routeHref PuzzleListRoute, class "w-full" ]
+                            [ button
+                                [ class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red w-full active:border-b-0 active:border-t-4  outline-none focus:outline-none active:outline-none hover:bg-red"
+                                , classList [ ( "text-white", not isLoading ), ( "text-red-light", isLoading ) ]
+                                ]
+                                [ text "Take me to the open puzzles!" ]
+                            ]
+                        ]
+                    , br [] []
+                    , solvedPuzzles
+                    , br [] []
+                    , submissionsDiv
+                    ]
+                ]
+            ]
         ]

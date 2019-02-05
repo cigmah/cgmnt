@@ -113,8 +113,8 @@ update msg model =
         ( HomeGotContactResponse contactResponseDataWebData, Home (HomePublic contactData webData) ) ->
             ( { model | page = Home <| HomePublic contactData contactResponseDataWebData }, Cmd.none )
 
-        ( HomeGotProfileResponse profileDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( HomeGotProfileResponse profileDataWebData, Home (HomeUser userData Loading) ) ->
+            ( { model | page = Home (HomeUser userData profileDataWebData) }, Cmd.none )
 
         ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic webData) ) ->
             ( { model | page = PuzzleList <| ListPublic miniPublicPuzzleDataListWebData }, Cmd.none )
