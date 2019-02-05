@@ -22,7 +22,7 @@ view meta puzzleListState =
                 ( Public, ListPublic webData ) ->
                     case webData of
                         Loading ->
-                            puzzleListPage True Nothing (List.repeat 4 defaultPuzzleData) (\x -> Ignored)
+                            puzzleListPage True Nothing (List.repeat 5 defaultPuzzleData) (\x -> Ignored)
 
                         Success puzzles ->
                             puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle

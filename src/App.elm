@@ -14,6 +14,7 @@ import Views.Home
 import Views.Leaderboard
 import Views.PuzzleDetail
 import Views.PuzzleList
+import Views.Register
 import Views.Resources
 import Views.Shared
 
@@ -165,23 +166,26 @@ update msg model =
         ( LeaderboardTogglePuzzleOptions, Leaderboard (ByPuzzleChosen isSelectActive data chosenPuzzle webData) ) ->
             ( { model | page = Leaderboard (ByPuzzleChosen (not isSelectActive) data chosenPuzzle webData) }, Cmd.none )
 
-        ( RegisterChangedUsername string, _ ) ->
+        ( RegisterChangedUsername string, Register (NewUser userData webData) ) ->
+            ( { model | page = Register (NewUser { userData | username = string } webData) }, Cmd.none )
+
+        ( RegisterChangedEmail string, Register (NewUser userData webData) ) ->
+            ( { model | page = Register (NewUser { userData | email = string } webData) }, Cmd.none )
+
+        ( RegisterChangedFirstName string, Register (NewUser userData webData) ) ->
+            ( { model | page = Register (NewUser { userData | firstName = string } webData) }, Cmd.none )
+
+        ( RegisterChangedLastName string, Register (NewUser userData webData) ) ->
+            ( { model | page = Register (NewUser { userData | lastName = string } webData) }, Cmd.none )
+
+        ( RegisterClicked, Register (NewUser userData Loading) ) ->
             ( model, Cmd.none )
 
-        ( RegisterChangedEmail string, _ ) ->
-            ( model, Cmd.none )
+        ( RegisterClicked, Register (NewUser userData _) ) ->
+            ( { model | page = Register (NewUser userData Loading) }, Requests.postRegister userData )
 
-        ( RegisterChangedFirstName string, _ ) ->
-            ( model, Cmd.none )
-
-        ( RegisterChangedLastName string, _ ) ->
-            ( model, Cmd.none )
-
-        ( RegisterClicked string, _ ) ->
-            ( model, Cmd.none )
-
-        ( RegisterGotResponse registerResponseDataWebData, _ ) ->
-            ( model, Cmd.none )
+        ( RegisterGotResponse registerResponseDataWebData, Register (NewUser userData Loading) ) ->
+            ( { model | page = Register (NewUser userData registerResponseDataWebData) }, Cmd.none )
 
         ( LoginChangedEmail string, _ ) ->
             ( model, Cmd.none )
@@ -226,7 +230,7 @@ view model =
                     Views.Leaderboard.view model.meta leaderboardState
 
                 Register registerState ->
-                    ( "CIGMAH", div [] [] )
+                    Views.Register.view model.meta registerState
 
                 Login loginState ->
                     ( "CIGMAH", div [] [] )

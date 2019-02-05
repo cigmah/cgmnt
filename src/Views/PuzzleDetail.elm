@@ -174,7 +174,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
         colour =
             case isLoading of
                 True ->
-                    "grey-lighter"
+                    "grey"
 
                 False ->
                     puzzleColour puzzle.puzzleSet
@@ -258,7 +258,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                         [ class "flex items-center text-xl justify-center h-12 w-12 rounded-l font-black text-grey-lighter border-b-4"
                         , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
                         ]
-                        [ img [ class "resize h-full w-full overflow-hidden", src puzzle.imageLink ] [] ]
+                        [ img [ class "resize h-full w-full overflow-hidden", src puzzle.imageLink, classList [ ( "hidden", isLoading ) ] ] [] ]
                     , div
                         [ class "flex items-center h-12 w-full p-3 px-4 rounded-r bg-grey-lighter uppercase text-xl font-bold text-grey-darker border-grey-light border-b-4" ]
                         [ textWithLoad isLoading puzzle.title ]
@@ -274,7 +274,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                     ]
                 , div [ class pagePadding ]
                     [ div
-                        [ id "puzzle-card", class "markdown rounded-lg p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter md:text-base lg:text-lg" ]
+                        [ id "puzzle-card", class "markdown rounded-lg p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter bg-white md:text-base lg:text-lg" ]
                         [ div
                             [ id "puzzle-body", classList [ ( "rounded-lg bg-grey-light text-grey-light", isLoading ) ] ]
                           <|

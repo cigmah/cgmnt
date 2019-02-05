@@ -244,12 +244,12 @@ decoderLeaderboardByPuzzle =
 
 decoderRegisterResponse : Decoder RegisterResponseData
 decoderRegisterResponse =
-    Decode.string
+    Decode.succeed "Thanks for registering for the 2019 Puzzle Hunt - you can try logging in now, just head over to the login tab!"
 
 
 decoderSendEmailResponse : Decoder SendEmailResponseData
 decoderSendEmailResponse =
-    Decode.string
+    Decode.succeed "Email sent!"
 
 
 

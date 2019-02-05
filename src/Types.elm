@@ -350,7 +350,7 @@ type Msg
     | RegisterChangedEmail String
     | RegisterChangedFirstName String
     | RegisterChangedLastName String
-    | RegisterClicked String
+    | RegisterClicked
     | RegisterGotResponse (WebData RegisterResponseData)
     | LoginChangedEmail String
     | LoginClickedSendEmail
