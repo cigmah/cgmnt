@@ -14,6 +14,7 @@ import Url
 import Views.Home
 import Views.Leaderboard
 import Views.Login
+import Views.Logout
 import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Register
@@ -298,6 +299,9 @@ view model =
 
                 Login loginState ->
                     Views.Login.view model.meta loginState
+
+                Logout ->
+                    Views.Logout.view model.meta
 
                 NotFound ->
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )

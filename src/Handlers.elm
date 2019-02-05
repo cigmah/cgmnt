@@ -274,7 +274,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| Login (InputEmail "" NotAsked), Cmd.none )
 
         ( Nothing, LogoutRoute ) ->
-            ( makeModel <| Home (HomePublic defaultContactData NotAsked), Cmd.none )
+            ( makeModel <| Home (HomePublic defaultContactData NotAsked), Navigation.replaceUrl meta.key <| routeToString HomeRoute )
 
         ( Just credentials, HomeRoute ) ->
             ( makeModel <| Home (HomeUser (credsToUser credentials) Loading), Requests.getProfile credentials.token )
@@ -295,7 +295,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| Login AlreadyLoggedIn, Cmd.none )
 
         ( Just credentials, LogoutRoute ) ->
-            ( makeModel <| Home (HomePublic defaultContactData NotAsked), logout )
+            ( { meta = { meta | auth = Public }, page = Logout }, logout )
 
         ( _, ResourcesRoute ) ->
             ( makeModel <| Resources, Cmd.none )
@@ -365,4 +365,4 @@ changedRoute meta route =
         ( model, cmd ) =
             routeInit maybeCredentials route meta.key
     in
-    ( model, Cmd.batch [ cmd, Navigation.replaceUrl meta.key <| routeToString route ] )
+    ( model, Cmd.batch [ cmd, Navigation.pushUrl meta.key <| routeToString route ] )

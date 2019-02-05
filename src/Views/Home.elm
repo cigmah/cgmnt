@@ -321,8 +321,8 @@ landingPage contactData contactResponse =
 miniPuzzleBadge : String -> Html Msg
 miniPuzzleBadge imageLink =
     div [ class "flex p-2 w-16 h-16" ]
-        [ div [ class "block rounded-lg" ]
-            [ img [ class "resize overflow-hidden ", src imageLink ] []
+        [ div [ class "block rounded-lg w-full h-full bg-grey-lighter" ]
+            [ img [ class "resize overflow-hidden", src imageLink ] []
             ]
         ]
 

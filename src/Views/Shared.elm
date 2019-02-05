@@ -214,6 +214,18 @@ errorPage errorString =
         }
 
 
+logoutPage : Html Msg
+logoutPage =
+    pageBase
+        { iconSpan = text "..."
+        , isCentered = True
+        , colour = "green"
+        , titleSpan = text "Bye!"
+        , bodyContent = text "Thanks for participating! You've successfully logged out now."
+        , outsideMain = pageButton (ChangedRoute HomeRoute) "green" (text "Take me back home!")
+        }
+
+
 
 -- Style helpers
 

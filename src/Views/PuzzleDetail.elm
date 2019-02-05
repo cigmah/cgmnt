@@ -27,7 +27,7 @@ view meta puzzleDetailState =
                             detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle Nothing False False
+                            detailPuzzlePage puzzle (Just "Login to submit your answer and reveal the solution!") False False
 
                         Failure e ->
                             errorPage ""
@@ -281,7 +281,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                     "pb-32"
 
                 WithoutSubmissionBox ->
-                    "pb-24"
+                    "pb-32"
 
         borderBoxInput =
             case isLoading of
@@ -368,13 +368,30 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
 
 successScreen : DetailPuzzleData -> OkSubmitData -> Html Msg
 successScreen puzzle okSubmitData =
+    let
+        message =
+            case okSubmitData.points of
+                0 ->
+                    [ text "You completed "
+                    , span [ class "italics" ] [ text puzzle.title ]
+                    , text "! No points were awarded, but who needs points when you have skills ;)"
+                    ]
+
+                _ ->
+                    [ text "You completed "
+                    , span [ class "italic" ] [ text puzzle.title ]
+                    , text " and earned "
+                    , span [ class "text-bold" ] [ text <| String.fromInt okSubmitData.points ]
+                    , text " points!"
+                    ]
+    in
     div
         [ class "px-8 bg-grey-lightest" ]
         [ div
             [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
             [ div
-                [ class "flex-col-reverse items-center justify-center flex md:flex-col md:w-3/4 lg:w-2/3 xl:w-1/2" ]
-                [ div [] [ img [ src puzzle.imageLink, class "resize rounded-lg w-full " ] [] ]
+                [ class "flex-col-reverse h-full items-center justify-center flex md:flex-col md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ div [] [ img [ src puzzle.imageLink, class "resize rounded-lg h-64 w-64 bg-grey" ] [] ]
                 , div [ class "mb-4 md:mt-4 md:mb-0" ]
                     [ div
                         [ class "inline-flex flex justify-center w-full" ]
@@ -392,15 +409,14 @@ successScreen puzzle okSubmitData =
                         [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
                         [ div
                             [ class "text-lg" ]
-                            [ text <| String.concat [ "You completed ", puzzle.title, " and earned ", String.fromInt okSubmitData.points, " points!" ]
-                            , br
-                                []
-                                []
-                            , br [] []
-                            , div
-                                [ class "text-lg" ]
-                                [ text "Great job!" ]
-                            ]
+                            message
+                        , br
+                            []
+                            []
+                        , br [] []
+                        , div
+                            [ class "text-lg" ]
+                            [ text "Great job!" ]
                         ]
                     , div
                         [ class "flex w-full justify-center" ]

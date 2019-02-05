@@ -138,20 +138,22 @@ loginPage state =
                     ]
                 , div
                     [ class "block px-4 md:w-full my-3 bg-white rounded-lg p-6 text-base border-b-2 border-grey-light" ]
-                    [ p
-                        []
-                        [ text "Input your email first and press  "
-                        , span
-                            [ class "bg-green px-2 py-1 text-xs rounded text-white" ]
-                            [ text "Send Token" ]
-                        , text "."
+                    [ div [ classList [ ( "hidden", isFormHidden ) ] ]
+                        [ p
+                            []
+                            [ text "Input your email first and press  "
+                            , span
+                                [ class "bg-green px-2 py-1 text-xs rounded text-white" ]
+                                [ text "Send Token" ]
+                            , text "."
+                            ]
+                        , br
+                            []
+                            []
+                        , p
+                            []
+                            [ text "A login code will be sent to your email. Input the code, and you're all set to login!" ]
                         ]
-                    , br
-                        []
-                        []
-                    , p
-                        []
-                        [ text "A login code will be sent to your email. Input the code, and you're all set to login!" ]
                     , div
                         [ class "block w-full p-4 pb-1 mt-1", classList [ ( "hidden", isFormHidden ) ] ]
                         [ Html.form

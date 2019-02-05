@@ -32,6 +32,7 @@ type Page
     | Leaderboard LeaderboardState
     | Register RegisterState
     | Login LoginState
+    | Logout
     | NotFound
 
 
