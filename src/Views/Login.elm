@@ -24,8 +24,8 @@ view meta loginState =
                 ( Public, InputToken email sendEmailResponseData token credentialsWebData ) ->
                     loginPage loginState
 
-                ( User credentials, AlreadyLoggedIn ) ->
-                    notFoundPage
+                ( User credentials, _ ) ->
+                    loginPage (InputToken "" "" "" (Success credentials))
 
                 ( _, _ ) ->
                     notFoundPage
@@ -182,7 +182,6 @@ loginPage state =
                                 , onInput LoginChangedToken
                                 ]
                                 []
-                            , messageDiv
                             , div
                                 [ class "flex w-full justify-center" ]
                                 [ button
@@ -194,6 +193,7 @@ loginPage state =
                                 ]
                             ]
                         ]
+                    , messageDiv
                     ]
                 ]
             ]
