@@ -252,10 +252,6 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                     WithoutSubmissionBox
 
         messageBody =
-            let
-                _ =
-                    Debug.log "message" maybeMessage
-            in
             case maybeMessage of
                 Just message ->
                     let
