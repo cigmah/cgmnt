@@ -4,16 +4,6 @@ import { unregister } from './registerServiceWorker';
 
 unregister();
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function (registrations) {
-    if (registrations.length) {
-      for(let registration of registrations) {
-        registration.unregister();
-      }
-    }
-  });
-}
-
 var storageKey = "puzzlehunt_cache"
 
 var app = Elm.Main.init({
