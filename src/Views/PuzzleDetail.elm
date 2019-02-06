@@ -254,10 +254,6 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
         messageBody =
             case maybeMessage of
                 Just message ->
-                    let
-                        _ =
-                            Debug.log "RENDERED" "MESAGE BODY"
-                    in
                     messageBox paddingSize message
 
                 Nothing ->
