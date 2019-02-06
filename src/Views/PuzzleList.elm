@@ -163,7 +163,12 @@ puzzleListPage isLoading errorMsg puzzles onClickPuzzle =
                     div [] []
 
         puzzlesDiv =
-            div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
+            case List.length puzzles of
+                0 ->
+                    div [] [ text "There aren't any open puzzles yet...but stay tuned :)" ]
+
+                _ ->
+                    div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
     in
     pageBase
         { iconSpan = span [ class "fas fa-book-reader" ] []

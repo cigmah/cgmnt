@@ -50,10 +50,10 @@ for styling.
 
 You will need to have Node installed to build the styles.
 
-To build the styles, navigate to the `src` directory and run:
+To build the styles, navigate to the `src/Styles/` directory and run:
 
 ```
-npx tailwind build styles.css -c ./tailwind.js -o main.css
+npx tailwind build custom.css -c ./config.js -o main.css
 ```
 
 # Structure
@@ -62,15 +62,13 @@ Here's a simple structure hierarchy, starting from most low-level to most high-l
 
 ```
 
-Content
 Types
-    -> Msg
-        -> Functions
-            -> Update
-            -> View
-            -> Subscriptions
-                -> Main
+    -> Requests
+        -> Handlers
+            -> Views
+                -> App
+                    -> Main
 
 ```
 
-Nothing should be importing anything to the left of it.
+Nothing should be importing anything to the right of it.
