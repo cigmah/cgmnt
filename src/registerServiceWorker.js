@@ -1,5 +1,6 @@
 self.addEventListener('install', () => {
   self.skipWaiting();
+  window.location.reload();
 
 });
 
