@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
 import Views.Shared exposing (..)
@@ -41,9 +42,28 @@ registerPage state =
                         [ text "Registration was successful! Head over to the ", a [ routeHref LoginRoute ] [ text "login tab" ], text " to start logging in!" ]
 
                 NewUser _ (Failure e) ->
-                    div
-                        [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
-                        [ text "It seems like there was an error...sorry about that. Let us know!" ]
+                    case e of
+                        BadStatus errorData ->
+                            case errorData.status.code of
+                                400 ->
+                                    div
+                                        [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                                        [ text "There was a problem with that username or email - either they were invalid (make sure there are no spaces!) or they're taken. Either way, you'll have to change one or both of them (sorry!)" ]
+
+                                code ->
+                                    div
+                                        [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                                        [ text <| "It seems like there was an error...sorry about that. Let us know! To help us, let us know that the status code was " ++ String.fromInt code ]
+
+                        NetworkError ->
+                            div
+                                [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                                [ text "There was something wrong with the network. Is your internet working?" ]
+
+                        _ ->
+                            div
+                                [ class "bg-grey-lighter border-red text-grey-darkest border-l-2 rounded rounded-l-none p-4 mt-3" ]
+                                [ text "It seems like there was an error...sorry about that. Let us know!" ]
 
                 AlreadyUser ->
                     div
@@ -72,7 +92,12 @@ registerPage state =
                             "red"
 
                         _ ->
-                            "green"
+                            case String.contains " " data.username of
+                                True ->
+                                    "red"
+
+                                False ->
+                                    "green"
 
                 _ ->
                     "grey"

@@ -202,6 +202,8 @@ landingPage contactData contactResponse =
                     , p
                         []
                         [ text "Every month, we offer the fastest solver a $25 gift card or a $50 donation on their behalf to a nominated charity. At the end of September, the participant with the most total points will also win a prize!" ]
+                    , br [] []
+                    , p [] [ text "If you'd like regular updates, please join our ", a [ href "http://facebook.com/groups/cigmah/" ] [ text "Facebook group" ], text "." ]
                     ]
                 , div
                     [ class "flex w-full justify-center" ]
