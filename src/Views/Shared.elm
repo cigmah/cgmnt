@@ -20,7 +20,8 @@ routeHref targetRoute =
 navMenuBase : Bool -> List ( Route, String ) -> Html msg -> List ( Route, String ) -> Html Msg
 navMenuBase navActive leftLinks userSpan rightLinks =
     nav
-        [ class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
+        [ id "navbar"
+        , class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
         , classList [ ( "h-12", not navActive ) ]
         ]
         [ div [ class "flex items-center align-middle" ]

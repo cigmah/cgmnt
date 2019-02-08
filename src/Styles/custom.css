@@ -38,3 +38,7 @@ input:focus {
 .puzzle-detail {
   overflow-y: auto;
 }
+
+#navbar {
+  z-index: 1;
+}

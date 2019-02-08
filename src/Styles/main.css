@@ -7058,6 +7058,10 @@ input:focus {
   overflow-y: auto;
 }
 
+#navbar {
+  z-index: 1;
+}
+
 @media (min-width: 576px) {
   .sm\:appearance-none {
     -webkit-appearance: none;

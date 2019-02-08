@@ -22,10 +22,18 @@ view meta puzzleListState =
                 ( Public, ListPublic webData ) ->
                     case webData of
                         Loading ->
-                            puzzleListPage True Nothing (List.repeat 5 defaultPuzzleData) (\x -> Ignored)
+                            puzzleListPage True Nothing (List.repeat 25 defaultPuzzleData) (\x -> Ignored)
 
                         Success puzzles ->
-                            puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
+                            if List.length puzzles < 25 then
+                                let
+                                    numRepeats =
+                                        25 - List.length puzzles
+                                in
+                                puzzleListPage False Nothing (puzzles ++ List.repeat numRepeats defaultPuzzleData) PuzzleListClickedPuzzle
+
+                            else
+                                puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
 
                         Failure e ->
                             errorPage ""
@@ -36,10 +44,18 @@ view meta puzzleListState =
                 ( User credentials, ListUser webData ) ->
                     case webData of
                         Loading ->
-                            puzzleListPage True Nothing (List.repeat 5 defaultPuzzleData) (\x -> Ignored)
+                            puzzleListPage True Nothing (List.repeat 25 defaultPuzzleData) (\x -> Ignored)
 
                         Success puzzles ->
-                            puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
+                            if List.length puzzles < 25 then
+                                let
+                                    numRepeats =
+                                        25 - List.length puzzles
+                                in
+                                puzzleListPage False Nothing (puzzles ++ List.repeat numRepeats defaultPuzzleData) PuzzleListClickedPuzzle
+
+                            else
+                                puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
 
                         Failure e ->
                             errorPage ""
@@ -63,11 +79,39 @@ defaultPuzzleData =
     }
 
 
+overlayDiv textString bgClass hasHover =
+    div [ class "relative w-full" ]
+        [ div [ class "absolute w-full pt-1", classList [ ( "group-hover:pt-0", hasHover ) ] ]
+            [ div [ class "flex justify-center align-center items-center w-full " ]
+                [ div [ class <| "px-3 py-2 text-bold text-white rounded-t-lg text-center w-full " ++ bgClass ] [ text textString ] ]
+            ]
+        ]
+
+
 puzzleCard : Bool -> (PuzzleId -> Msg) -> MiniPuzzleData -> Html Msg
-puzzleCard isLoading onClickPuzzle puzzle =
+puzzleCard loadState onClickPuzzle puzzle =
     let
+        isLoading =
+            case loadState of
+                True ->
+                    True
+
+                False ->
+                    case puzzle.themeTitle of
+                        "Lorem ipsum" ->
+                            -- bit of a hack to differentiate non-open puzzles...
+                            True
+
+                        _ ->
+                            False
+
         colour =
-            puzzleColour puzzle.puzzleSet
+            case isLoading of
+                True ->
+                    "grey"
+
+                _ ->
+                    puzzleColour puzzle.puzzleSet
 
         onClickPuzzleAttrs =
             case isLoading of
@@ -77,18 +121,18 @@ puzzleCard isLoading onClickPuzzle puzzle =
                 False ->
                     [ onClick (onClickPuzzle puzzle.id) ]
 
-        completedOverlay =
+        overlay =
             case mapSolvedToBool puzzle.isSolved of
                 True ->
-                    div [ class "relative w-full" ]
-                        [ div [ class "absolute w-full pt-1 group-hover:pt-0" ]
-                            [ div [ class "flex justify-center align-center items-center w-full " ]
-                                [ div [ class "px-3 py-2 bg-black text-bold text-white rounded-t-lg text-center w-full" ] [ text "COMPLETE!" ] ]
-                            ]
-                        ]
+                    overlayDiv "COMPLETED!" "bg-black" True
 
                 False ->
-                    div [] []
+                    case ( isLoading, loadState ) of
+                        ( True, False ) ->
+                            overlayDiv "UNRELEASED" "bg-grey" False
+
+                        _ ->
+                            div [] []
 
         opacityClass =
             case mapSolvedToBool puzzle.isSolved of
@@ -97,15 +141,27 @@ puzzleCard isLoading onClickPuzzle puzzle =
 
                 False ->
                     " opacity-100 "
+
+        bottomText =
+            case isLoading of
+                True ->
+                    ""
+
+                False ->
+                    "№ " ++ String.fromInt puzzle.id ++ " " ++ puzzle.title
     in
     div
         [ class "block w-full h-full w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 xl:w-1/5 p-1" ]
         [ div
-            ([ class <| "group w-full rounded cursor-pointer active:border-b-0 " ] ++ onClickPuzzleAttrs)
-            [ completedOverlay
+            ([ class <| "group w-full rounded active:border-b-0 ", classList [ ( "cursor-pointer", not isLoading ) ] ] ++ onClickPuzzleAttrs)
+            [ overlay
             , div
-                [ class "block w-full h-full rounded-b-lg border-b-4 pt-1 active:border-t-4 active:border-b-0 active:border-white group-hover:pt-0 group-hover:border-b-8"
-                , classList [ ( "border-" ++ colour ++ "-dark", not isLoading ), ( "border-grey-light", isLoading ) ]
+                [ class "block w-full h-full rounded-b-lg border-b-4 pt-1 "
+                , classList
+                    [ ( "border-" ++ colour ++ "-dark", not isLoading )
+                    , ( "active:border-t-4 active:border-b-0 active:border-white group-hover:pt-0 group-hover:border-b-8", not isLoading )
+                    , ( "border-grey", isLoading )
+                    ]
                 ]
                 [ div
                     [ class "flex h-full flex-col items-center align-center justify-center rounded-t-lg", classList [ ( "bg-" ++ colour, not isLoading ), ( "bg-grey-light", isLoading ) ] ]
@@ -116,9 +172,9 @@ puzzleCard isLoading onClickPuzzle puzzle =
                         ]
                     , div
                         [ class "w-full h-full flex-grow p-3 text-sm text-center"
-                        , classList [ ( "text-white bg-" ++ colour, not isLoading ), ( "bg-grey-lighter text-grey rounded", not isLoading ) ]
+                        , classList [ ( "text-white bg-" ++ colour, not isLoading ), ( "bg-grey text-grey rounded", isLoading ) ]
                         ]
-                        [ textWithLoad isLoading <| "№ " ++ String.fromInt puzzle.id ++ " " ++ puzzle.title ]
+                        [ text bottomText ]
                     ]
                 ]
             ]
@@ -168,7 +224,44 @@ puzzleListPage isLoading errorMsg puzzles onClickPuzzle =
                     div [] [ text "There aren't any open puzzles yet...but stay tuned :)" ]
 
                 _ ->
-                    div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
+                    div [ class "block" ]
+                        [ div [ class "py-2" ]
+                            [ div [ class "pb-2" ] [ textWithLoad isLoading "Here's the colour coding for the puzzles:" ]
+                            , div [ class "py-1" ]
+                                [ span
+                                    [ class "px-2 rounded "
+                                    , classList [ ( "bg-pink text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
+                                    ]
+                                    [ text "Meta" ]
+                                , textWithLoad isLoading " - The puzzle about all the puzzles!"
+                                ]
+                            , div [ class "py-1" ]
+                                [ span
+                                    [ class " px-2 rounded"
+                                    , classList [ ( "bg-red text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
+                                    ]
+                                    [ text "Abstract" ]
+                                , textWithLoad isLoading " - Puzzles which don't require any explicit coding, but do require a logical mindset and some medical knowledge."
+                                ]
+                            , div [ class "py-1" ]
+                                [ span
+                                    [ class " px-2 rounded"
+                                    , classList [ ( "bg-yellow text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
+                                    ]
+                                    [ text "Beginner" ]
+                                , textWithLoad isLoading " - Puzzles for coding beginners with fill-in-the-blank Python tutorials included."
+                                ]
+                            , div [ class "py-1" ]
+                                [ span
+                                    [ class " px-2 rounded"
+                                    , classList [ ( "bg-green text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
+                                    ]
+                                    [ text "Challenge" ]
+                                , textWithLoad isLoading " - Puzzles for experienced coders and not the faint of heart!"
+                                ]
+                            ]
+                        , div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles
+                        ]
     in
     pageBase
         { iconSpan = span [ class "fas fa-book-reader" ] []
