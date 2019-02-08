@@ -117,7 +117,7 @@ borderBox : Html Msg -> String -> Html Msg
 borderBox content colour =
     div
         [ id "puzzle-input"
-        , class "m-4 p-4  border-l-4 text-grey-darkest  rounded-lg rounded-l-none"
+        , class "m-4 p-4 pt-2 border-l-4 text-grey-darkest rounded-lg rounded-l-none"
         , classList [ ( " bg-" ++ colour ++ "-lightest border-" ++ colour, True ) ]
         ]
         [ content ]
@@ -328,7 +328,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                             Markdown.toHtml Nothing puzzle.body
                         , div
                             [ id "puzzle-example"
-                            , class "overflow-auto markdown m-1 mt-3 md:m-4  p-2 md:p-4 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
+                            , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
                             , classList [ ( "bg-grey-lightest text-grey-lightest rounded-lg", isLoading ), ( "bg-grey-lightest text-grey-darkest ", not isLoading ) ]
                             ]
                           <|
