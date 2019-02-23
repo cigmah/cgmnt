@@ -228,35 +228,19 @@ puzzleListPage isLoading errorMsg puzzles onClickPuzzle =
                         [ div [ class "py-2" ]
                             [ div [ class "pb-2" ] [ textWithLoad isLoading "Here's the colour coding for the puzzles:" ]
                             , div [ class "py-1" ]
-                                [ span
-                                    [ class "px-2 rounded "
-                                    , classList [ ( "bg-pink text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
-                                    ]
-                                    [ text "Meta" ]
+                                [ puzzleSetSpan isLoading MetaPuzzle
                                 , textWithLoad isLoading " - The puzzle about all the puzzles!"
                                 ]
                             , div [ class "py-1" ]
-                                [ span
-                                    [ class " px-2 rounded"
-                                    , classList [ ( "bg-red text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
-                                    ]
-                                    [ text "Abstract" ]
+                                [ puzzleSetSpan isLoading AbstractPuzzle
                                 , textWithLoad isLoading " - Puzzles which don't require any explicit coding, but do require a logical mindset and some medical knowledge."
                                 ]
                             , div [ class "py-1" ]
-                                [ span
-                                    [ class " px-2 rounded"
-                                    , classList [ ( "bg-yellow text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
-                                    ]
-                                    [ text "Beginner" ]
+                                [ puzzleSetSpan isLoading BeginnerPuzzle
                                 , textWithLoad isLoading " - Puzzles for coding beginners with fill-in-the-blank Python tutorials included."
                                 ]
                             , div [ class "py-1" ]
-                                [ span
-                                    [ class " px-2 rounded"
-                                    , classList [ ( "bg-green text-white", not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
-                                    ]
-                                    [ text "Challenge" ]
+                                [ puzzleSetSpan isLoading ChallengePuzzle
                                 , textWithLoad isLoading " - Puzzles for experienced coders and not the faint of heart!"
                                 ]
                             ]

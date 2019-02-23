@@ -164,7 +164,7 @@ leaderboardTemplate isLoading optionsToShow tableToShow =
             div
                 [ id "leader-button", class "block p-1 md:w-1/3" ]
                 [ button
-                    [ class "rounded-lg px-3 py-2 bg-green border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark active:border-b-0 w-full"
+                    [ class "rounded-lg px-3 py-2 bg-green border-b-2 border-green-dark focus:outline-none outline-none hover:border-b-4 active:border-b-0 w-full"
                     , classList [ ( "text-white", not isLoading ), ( "text-green hover:text-green-dark", isLoading ) ]
                     , onClick clickEvent
                     ]

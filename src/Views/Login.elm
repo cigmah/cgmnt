@@ -169,7 +169,7 @@ loginPage state =
                                     ]
                                     []
                                 , button
-                                    [ class "my-1 px-1 md:px-4 py-2 text-xs md:text-base text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:bg-green-dark "
+                                    [ class "my-1 px-1 md:px-4 py-2 text-xs md:text-base text-white rounded rounded-l-none border-b-2 border-green-dark focus:outline-none outline-none hover:border-b-4 "
                                     , onClick LoginClickedLogin
                                     , disabled (not isTokenDisabled)
                                     , classList [ ( "bg-green-dark", not isTokenDisabled ), ( "bg-green active:border-0", isTokenDisabled ) ]
@@ -187,7 +187,7 @@ loginPage state =
                             , div
                                 [ class "flex w-full justify-center" ]
                                 [ button
-                                    [ class "px-3 py-2 mt-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                                    [ class "px-3 py-2 mt-2 bg-green rounded-lg border-b-2 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-4"
                                     , onClick LoginClickedLogin
                                     , classList [ ( "hidden", isFormHidden ) ]
                                     ]

@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, routeHref, tableCell, tableRow, textWithLoad, userBox)
+module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, puzzleSetSpan, routeHref, tableCell, tableRow, textWithLoad, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -303,3 +303,11 @@ tableRow tableSize isHeader strList =
                 "w-full bg-grey-lightest text-center hover:bg-grey-lighter text-grey-darkest"
     in
     tr [ class classes ] <| List.map2 (\x y -> tableCell x y isHeader) widthList strList
+
+
+puzzleSetSpan isLoading puzzleSet =
+    span
+        [ class "px-2 rounded "
+        , classList [ ( "text-white text-sm bg-" ++ puzzleColour puzzleSet, not isLoading ), ( "bg-grey-light text-grey-light", isLoading ) ]
+        ]
+        [ text <| Handlers.puzzleSetString puzzleSet ]

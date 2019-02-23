@@ -145,7 +145,7 @@ landingPage contactData contactResponse =
                         , div
                             [ class "flex w-full justify-center my-1" ]
                             [ button
-                                [ class "px-3 py-2 bg-grey-light mt-2 rounded-full border-b-4 border-grey w-full text-grey-darkest active:border-0 outline-none focus:outline-none active:outline-none hover:mt-0 hover:border-b-8" ]
+                                [ class "px-3 py-2 bg-grey-light mt-2 rounded-lg border-b-2 border-grey w-full text-grey-darkest active:border-0 outline-none focus:outline-none active:outline-none hover:mt-0 hover:border-b-4" ]
                                 [ text buttonString ]
                             ]
                         ]
@@ -183,31 +183,33 @@ landingPage contactData contactResponse =
                     [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
                     [ p
                         []
-                        [ text "The Coding Interest Group in Medicine and Healthcare is running a free puzzle hunt for biomedical and medical students interested in learning how to program." ]
+                        [ text "The ", a [ href "https://cigmah.github.io" ] [ text "Coding Interest Group in Medicine and Healthcare" ], text " is running a free puzzle hunt for biomedical and medical students interested in learning how to program." ]
                     , br
                         []
                         []
                     , p
                         []
-                        [ text "We'll post three puzzles every month merging medicine (both bench and clinical!) and computer science from March to September." ]
+                        [ text "We post three puzzles on the second Saturday of each month merging medicine (both bench and clinical!) and computer science from March to September." ]
+                    , br [] []
+                    , p [] [ text "Puzzles come in ", puzzleSetSpan False AbstractPuzzle, text ", ", puzzleSetSpan False BeginnerPuzzle, text ", and ", puzzleSetSpan False ChallengePuzzle, text " flavours, so there's something for everyone regarless of prior coding experience." ]
                     , br
                         []
                         []
                     , p
                         []
-                        [ text "We'll also link to interactive Jupyter notebooks to help beginners go step-by-step through one puzzle a month in Python as a fill-in-the-blank style tutorial." ]
+                        [ text "Our ", puzzleSetSpan False BeginnerPuzzle, text " puzzles come with Jupyter notebooks to help beginners go step-by-step through one puzzle a month in Python as a fill-in-the-blank style tutorial. " ]
                     , br
                         []
                         []
                     , p
                         []
-                        [ text "Every month, we offer the fastest solver a $25 gift card or a $50 donation on their behalf to a nominated charity. At the end of September, the participant with the most total points will also win a prize!" ]
+                        [ text "The puzzle hunt runs from March 9th to September 30th. We award prizes to the fastest solver of each puzzle, and four total prizes at the end of the puzzle hunt." ]
                     , br [] []
                     , p [] [ text "If you'd like regular updates, please join our ", a [ href "http://facebook.com/groups/cigmah/" ] [ text "Facebook group" ], text "." ]
                     ]
                 , div
                     [ class "flex w-full justify-center" ]
-                    [ a [ routeHref RegisterRoute, class "px-3 pb-2 pt-2 mt-2 bg-red-light rounded-full border-b-4 border-red w-full lg:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-8 hover:mt-0 " ]
+                    [ a [ routeHref RegisterRoute, class "px-3 pb-2 pt-2 mt-2 bg-red rounded-lg border-b-2 border-red-dark w-full lg:w-1/2 text-white text-center no-underline  active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-4 hover:mt-0 " ]
                         [ text "Register"
                         ]
                     ]
@@ -241,7 +243,7 @@ landingPage contactData contactResponse =
                         [ class "w-full p-6 bg-white border-b-2 border-grey-light rounded-lg text-base" ]
                         [ p
                             []
-                            [ text "CIGMAH is a coding interest group mostly made up of pre-medical and medical students. We're all trying to pick up some extra skills to help us as future doctors." ]
+                            [ text "CIGMAH is a coding interest group at Monash University mostly made up of pre-medical and medical students. We're all trying to pick up some extra skills to help us as future doctors." ]
                         , br
                             []
                             []

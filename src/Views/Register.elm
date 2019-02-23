@@ -121,7 +121,7 @@ registerPage state =
                     "Loading..."
 
                 _ ->
-                    "Sign me up!"
+                    "Submit"
     in
     div
         [ class "px-2 md:px-8 bg-grey-lightest" ]
@@ -206,7 +206,7 @@ registerPage state =
                 , div
                     [ class "flex w-full justify-center", classList [ ( "hidden invisible", hideForm ) ] ]
                     [ button
-                        [ class "px-3 py-2 bg-red-light rounded-full border-b-4 border-red-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-red-dark"
+                        [ class "px-3 py-2 bg-red rounded-lg border-b-2 border-red-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-4"
                         ]
                         [ text buttonText ]
                     ]
