@@ -191,7 +191,7 @@ decoderDetailPuzzleData =
         |> required "example" Decode.string
         |> required "statement" Decode.string
         |> required "references" Decode.string
-        |> optional "input" Decode.string noInputString
+        |> optional "puzzle_input" Decode.string noInputString
         |> optional "is_solved" (Decode.maybe Decode.bool) Nothing
         |> optional "answer" (Decode.maybe Decode.string) Nothing
         |> optional "explanation" (Decode.maybe Decode.string) Nothing

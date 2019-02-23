@@ -49,7 +49,7 @@ prizesLoading =
         , isCentered = False
         , colour = "grey"
         , titleSpan = span [] []
-        , bodyContent = div [] [ span [ class "text-grey-light bg-grey-light rounded" ] [ text <| loremIpsum ], br [] [], span [ class "text-grey-light bg-grey-light rounded" ] [ text <| loremIpsum ], br [] [], div [ class "mt-4 rounded h-32 w-full bg-grey-lighter" ] [] ]
+        , bodyContent = div [] [ span [ class "text-grey-lighter bg-grey-lighter rounded-lg" ] [ text <| loremIpsum ], br [] [], span [ class "text-grey-lighter bg-grey-lighter rounded-lg" ] [ text <| loremIpsum ], br [] [], div [ class "mt-4 rounded h-32 w-full bg-grey-light" ] [] ]
         , outsideMain = div [] []
         }
 
@@ -57,20 +57,39 @@ prizesLoading =
 markdownContent =
     """
 
-We offer two broad types of prizes - Puzzle Prizes and Total Prizes.
+We offer two broad types of prizes - Puzzle Prizes and Total Prizes. If you are awarded a prize, we will liaise with you via email, so please ensure your email is valid when you register.
+
+<br>
 
 Puzzle Prizes are awarded to the first solver of each puzzle (except for the first three puzzles i.e. the three sample puzzles).
 
+As Puzzle Prizes, we offer a choice of either:
+
+<br>
+
+  - A $10 Gift Card to any store of your choice, subject to approval. We are open to any stores that will provide $10 gift cards, for example Coles Group and Myer Gift Cards or JB Hi-Fi. Unfortunately, we cannot offer cash prizes for the Puzzle Prizes.
+  - A $15 donation on the prizewinner's behalf to a charity of your choice. If you permit us to do so, we will also record the charity that you chose along with your username on this page. We would like to encourage participants to share causes they are passionate about and hope efforts in the puzzle hunt can go towards places in need.
+
+A single participant cannot win more than one Puzzle Prize a month.
+
+<br>
+
 Total Prizes are awarded at the end of the puzzle hunt to the participants with the greatest total amount of points in one of four categories:
 
-  1. Grand total
-  2. Challenge set total
-  3. Beginner set total
-  4. Abstract set total
+<br>
+
+1. Grand prize, for the participant with the most total points
+2. Challenge prize for the participant with the most total points of puzzles in the Challenge set
+3. Beginner prize for the participant with the most total points of puzzles in the Beginner set
+4. Abstract prize for the participant with the most total points of puzzles in the Abstract set.
 
 We award the prizes in that order, and each prize must go to a different participant.
 
+The Total Prizes are currently unannounced.
+
 You can see the current log of prizewinners below.
+
+<br>
 
 """
 
@@ -86,7 +105,7 @@ prizesContent data =
 
 prizesTable : PrizeData -> Html Msg
 prizesTable data =
-    tableMaker [ "Awarded", "User", "Prize", "Notes" ] data
+    tableMaker [ "Awarded Month", "User", "Prize", "Notes" ] data
 
 
 tableRowExtended isHeader strList =

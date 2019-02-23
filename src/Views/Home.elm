@@ -191,13 +191,13 @@ landingPage contactData contactResponse =
                         []
                         [ text "We post three puzzles on the second Saturday of each month merging medicine (both bench and clinical!) and computer science from March to September." ]
                     , br [] []
-                    , p [] [ text "Puzzles come in ", puzzleSetSpan False AbstractPuzzle, text ", ", puzzleSetSpan False BeginnerPuzzle, text ", and ", puzzleSetSpan False ChallengePuzzle, text " flavours, so there's something for everyone regarless of prior coding experience." ]
+                    , p [] [ text "Puzzles come in Abstract, Beginner and Challenge flavours, so there's something for everyone regardless of prior coding experience." ]
                     , br
                         []
                         []
                     , p
                         []
-                        [ text "Our ", puzzleSetSpan False BeginnerPuzzle, text " puzzles come with Jupyter notebooks to help beginners go step-by-step through one puzzle a month in Python as a fill-in-the-blank style tutorial. " ]
+                        [ text "Our Beginner puzzles come with Jupyter notebooks to help beginners go step-by-step through one puzzle a month in Python as a fill-in-the-blank style tutorial. " ]
                     , br
                         []
                         []

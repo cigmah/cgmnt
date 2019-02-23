@@ -122,23 +122,22 @@ type alias Colour =
 pageButton : Msg -> Colour -> Html Msg -> Html Msg
 pageButton msg colour textSpan =
     let
-        hoverClass =
-            "hover:bg-" ++ colour ++ "dark"
-
         bgClass =
             "bg-" ++ colour
 
         borderClass =
-            "border-" ++ colour
+            "border-" ++ colour ++ "-dark"
     in
     div
         [ class "flex w-full justify-center" ]
-        [ button
-            [ class "px-3 py-2 rounded-full border-b-4 w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none "
-            , classList [ ( hoverClass, True ), ( bgClass, True ), ( borderClass, True ) ]
-            , onClick msg
+        [ div [ class "border-t-2 border-grey-lightest active:border-t-4 hover:border-t-0 w-full flex items-center justify-center" ]
+            [ button
+                [ class "px-3 py-2 rounded-lg border-b-2 w-full md:w-1/2 text-white active:border-b-0 hover:border-b-4 outline-none focus:outline-none active:outline-none "
+                , classList [ ( bgClass, True ), ( borderClass, True ) ]
+                , onClick msg
+                ]
+                [ textSpan ]
             ]
-            [ textSpan ]
         ]
 
 

@@ -156,7 +156,12 @@ update msg model =
         ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail (UnsolvedPuzzleLoaded puzzleIdSame puzzle submission webData) ) ->
             case model.meta.auth of
                 User credentials ->
-                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission Loading) }, Requests.postSubmit credentials.token submission puzzleId )
+                    case submission of
+                        "" ->
+                            ( model, Cmd.none )
+
+                        _ ->
+                            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission Loading) }, Requests.postSubmit credentials.token submission puzzleId )
 
                 Public ->
                     ( model, Cmd.none )

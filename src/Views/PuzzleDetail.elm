@@ -205,12 +205,14 @@ submissionInput puzzleId isLoading =
                 , classList [ ( "bg-grey", isLoading ), ( "bg-grey-light", not isLoading ) ]
                 ]
                 []
-            , button
-                [ class "px-4 py-2 rounded-r-full bg-grey outline-none border-b-2 border-grey-dark focus:outline-none hover:bg-grey-dark active:bg-grey-darker active:border-grey-darker text-grey-darker hover:text-grey-light active:border-b-0"
-                , onClick (PuzzleDetailClickedSubmit puzzleId)
-                , type_ "submit"
+            , div [ class "border-t-2 border-grey-lighter hover:border-t-0 active:border-t-4" ]
+                [ button
+                    [ class "px-4 py-2 rounded-r-full bg-grey outline-none border-b-2 border-grey-dark focus:outline-none hover:border-b-4 active:border-grey-darker text-grey-darker  active:border-b-0"
+                    , onClick (PuzzleDetailClickedSubmit puzzleId)
+                    , type_ "submit"
+                    ]
+                    [ text submitText ]
                 ]
-                [ text submitText ]
             ]
         ]
 
@@ -382,7 +384,7 @@ successScreen puzzle okSubmitData =
         [ div
             [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
             [ div
-                [ class "flex-col-reverse h-full items-center justify-center flex md:flex-col md:w-3/4 lg:w-2/3 xl:w-1/2" ]
+                [ class "flex-col-reverse h-full items-center justify-center flex md:flex-col md:w-4/5 lg:w-3/4 xl:w-2/3" ]
                 [ div [] [ img [ src puzzle.imageLink, class "resize rounded-lg h-64 w-64 bg-grey" ] [] ]
                 , div [ class "mb-4 md:mt-4 md:mb-0" ]
                     [ div
@@ -413,7 +415,7 @@ successScreen puzzle okSubmitData =
                     , div
                         [ class "flex w-full justify-center" ]
                         [ button
-                            [ class "px-3 py-2 bg-green rounded-full border-b-4 border-green-dark w-full md:w-1/2 text-white active:border-0 outline-none focus:outline-none active:outline-none hover:bg-green-dark"
+                            [ class "px-3 py-2 bg-green rounded-lg border-b-2 border-green-dark w-full text-white active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-4"
                             , onClick (ChangedRoute PuzzleListRoute)
                             ]
                             [ text "Go Back to Puzzles" ]

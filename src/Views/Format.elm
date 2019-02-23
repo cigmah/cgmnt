@@ -22,7 +22,7 @@ view meta =
 
 viewBody =
     pageBase
-        { iconSpan = span [ class "fas fa-table" ] []
+        { iconSpan = span [ class "fas fa-info-circle" ] []
         , isCentered = False
         , colour = "pink"
         , titleSpan = text "Format"
@@ -38,34 +38,56 @@ viewBody =
 content =
     """
 
-Here's a few Format to get you started!
 
-# Tools
+The puzzle hunt will run from March 9th to September 30th and consists of 25 puzzles - 1 meta puzzle and 24 regular puzzles.
 
-If you're just getting started, we would recommend installing Anaconda first and having a play in Jupyter (a notebook in your browser where you can run code and see the output immediately).
+# The Puzzles
 
-<br>
+(Graphic with four puzzle tiles, point beneath and coding/medical knowledge)
 
-- [Anaconda](https://www.anaconda.com/distribution/) - a wheels-included distribution of Python which has everything you need to start using Python for data (and other!) science. Comes with [Jupyter](https://jupyter.org), an interactive notebook that lets you code and iterate quickly by running code and printing the output in your browser.
-- [Atom](https://atom.io), [Visual Studio Code](https://code.visualstudio.com) etc - extensible code editors with plugins to make your life easier. If you don't mind a learning curve, try [Emacs](https://www.gnu.org/software/emacs/) or [Vim](https://www.vim.org), or combine the two with [Spacemacs](http://spacemacs.org) or [Doom Emacs](https://github.com/hlissner/doom-emacs). Emacs also comes with [org-mode](https://orgmode.org),
-  a task and note management system like Workflowy with superpowers.
-- [Git](https://git-scm.com) - a widely used tool for version control so you don't have to track progress by e.g. renaming your documents with a date or "v2" at the front. Often associated with [GitHub](https://github.com), an online repository to host your work and collaborate.
+The meta puzzle and the first three regular puzzles are released approximately three weeks before the start of the puzzle hunt.
 
-# Languages We Use for the CIGMAH Puzzle Hunt
+  - The meta puzzle "frames" the stroyline of the puzzle hunt and relies on information from all of the other puzzles.
+  - The first three regular puzzles are there to help participants understand the flow of the puzzle hunt - these do not contribute to scores or prizes and the solution is immediately available.
 
-We're happy to answer any questions you have about our setup, or if you're interested in learning how it came to be!
+All regular puzzles are classified as Abstract, Beginner or Challenge.
 
-<br>
+- Abstract puzzles do not require any explicit coding to solve, and are the most "puzzle-like." Most often, they are in the form of graphics, audio, videos, mini games or text which require some element of medical or biomedical knowledge to complete. Often, these puzzles are created with code and we reveal the code used to make them on completion of the puzzle.
+- Beginner puzzles are intended to help beginner coders learn coding skills. Each beginner puzzle is written with objectives and a medical context in mind. We provide Jupyter notebooks which walk through the puzzle in a fill-in-the-blank style to help beginners get started.
+- Challenge puzzles, like beginner puzzles, are written with an objective and medical context in mind; however, these generally cover more advanced concepts and we do not provide a walkthrough for these puzzles.
 
-- [Python](https://www.python.org) - a popular general-purpose programming language. We use it with the web framework [Django](https://www.djangoproject.com), which provides a bunch of tools to start building a web backend in Python.
-- [Elm](https://elm-lang.org) - a pure, functional language that compiles to JavaScript. We use it for the frontend (i.e. what you're seeing right now!) to handle all the interaction with our Python backend, and also handle things like click events, text inputs, rendering and navigation.
+# Submissions and Points
 
-# Coding Practice
+All puzzles are accessible without logging in. If you would like to participate, then you may register and start logging in immediately. Registration is free and requires only a username and email. We only use your email to send you a login token.
 
-<br>
+A submission box will be available for puzzles once logged in. You can simply enter your answer and submit.
 
-- [Advent of Code](https://adventofcode.com) - A 25-day coding challenge that runs through Christmas.
-- [Project Euler](https://projecteuler.net) - A large collection of coding problems with a broad range of difficulty, often with a mathematical slant.
-- [Rosalind](http://rosalind.info/problems/locations/) - A bioinformatics-focused platform for learning how to code.
-- [HackerRank](https://www.hackerrank.com), [Codeforces](https://codeforces.com), [Codechef](https://www.codechef.com) etc. - programming competitions, often algorithm-focused.
+
+## Correct Submissions
+
+If the answer is correct, you will be awarded points based on the puzzle and how many participants have solved it before you. Puzzles are worth a base amount of 100 points; the first solver is awarded 100 points, the second solver is awarded 99 points and so on. The 100th solver and beyond will be awarded zero points (but the puzzle will still be marked as complete).
+
+The Challenge puzzles are worth double points (i.e. the first solver is awarded 200 points, the second 198 points), and the meta puzzle is worth quadruple points.
+
+## Incorrect Submissions
+
+If a submission is incorrect, a message will show above the submission box indicating as such.
+
+There is no point penalty for an incorrect submission, but you will have to wait a short period of time before submitting again. This starts at 1 minute and increases exponentially for every incorrect submission. There is no penalty for trying to submit during the cooloff period - your answers will simply not be read and you will be told when you can next submit.
+
+# Prizes
+
+We award a Puzzle Prize for the first solver of each puzzle (except the first three regular puzzles), ad four Total Prizes:
+
+1. Grand prize, for the participant with the most total points
+2. Challenge prize for the participant with the most total points of puzzles in the Challenge set
+3. Beginner prize for the participant with the most total points of puzzles in the Beginner set
+4. Abstract prize for the participant with the most total points of puzzles in the Abstract set.
+
+The four total prizes are awarded in that order, and must go to four unique participants.
+
+Puzzle Prizes are open to all. We can only award the Total Prizes to students in Victoria. A valid student ID card or other proof of enrolment will be required for collection. For more information and a list of prize winners, please see the Prizes tab.
+
+Prizes will be announced at the beginning of October.
+
 """
