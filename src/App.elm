@@ -11,6 +11,7 @@ import RemoteData exposing (RemoteData(..), WebData)
 import Requests
 import Types exposing (..)
 import Url
+import Views.Format
 import Views.Home
 import Views.Leaderboard
 import Views.Login
@@ -18,7 +19,6 @@ import Views.Logout
 import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Register
-import Views.Resources
 import Views.Shared
 
 
@@ -282,8 +282,8 @@ view model =
                 Home homeState ->
                     Views.Home.view model.meta homeState
 
-                Resources ->
-                    Views.Resources.view model.meta
+                Format ->
+                    Views.Format.view model.meta
 
                 PuzzleList puzzleListState ->
                     Views.PuzzleList.view model.meta puzzleListState

@@ -185,7 +185,7 @@ routeToString route =
                 HomeRoute ->
                     []
 
-                ResourcesRoute ->
+                FormatRoute ->
                     [ "resources" ]
 
                 PuzzleListRoute ->
@@ -216,7 +216,7 @@ parser : Parser (Route -> a) a
 parser =
     Parser.oneOf
         [ Parser.map HomeRoute Parser.top
-        , Parser.map ResourcesRoute <| Parser.s "resources"
+        , Parser.map FormatRoute <| Parser.s "resources"
         , Parser.map PuzzleListRoute <| Parser.s "puzzles"
         , Parser.map PuzzleDetailRoute <| Parser.s "puzzles" </> Parser.int
         , Parser.map LeaderboardRoute <| Parser.s "leaderboard"
@@ -297,8 +297,8 @@ routeInit credentialsMaybe route key =
         ( Just credentials, LogoutRoute ) ->
             ( { meta = { meta | auth = Public }, page = Logout }, logout )
 
-        ( _, ResourcesRoute ) ->
-            ( makeModel <| Resources, Cmd.none )
+        ( _, FormatRoute ) ->
+            ( makeModel <| Format, Cmd.none )
 
         ( _, NotFoundRoute ) ->
             ( makeModel <| NotFound, Cmd.none )

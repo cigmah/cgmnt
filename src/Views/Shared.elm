@@ -64,7 +64,7 @@ navMenuWithAuth navActive credentials =
     let
         leftLinks =
             [ ( HomeRoute, "Home" )
-            , ( ResourcesRoute, "Resources" )
+            , ( FormatRoute, "Format" )
             , ( PuzzleListRoute, "Puzzles" )
             , ( LeaderboardRoute, "Leaderboard" )
             ]
@@ -83,7 +83,7 @@ navMenuWithoutAuth navActive =
     let
         leftLinks =
             [ ( HomeRoute, "Home" )
-            , ( ResourcesRoute, "Resources" )
+            , ( FormatRoute, "Format" )
             , ( PuzzleListRoute, "Puzzles" )
             , ( LeaderboardRoute, "Leaderboard" )
             ]

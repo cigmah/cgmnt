@@ -1,4 +1,4 @@
-module Views.Resources exposing (view)
+module Views.Format exposing (view)
 
 import Browser
 import Html exposing (..)
@@ -17,7 +17,7 @@ view meta =
         body =
             div [] [ viewBody ]
     in
-    ( "Resources - CIGMAH", body )
+    ( "Format - CIGMAH", body )
 
 
 viewBody =
@@ -25,7 +25,7 @@ viewBody =
         { iconSpan = span [ class "fas fa-table" ] []
         , isCentered = False
         , colour = "pink"
-        , titleSpan = text "Resources"
+        , titleSpan = text "Format"
         , bodyContent = div [ class "markdown" ] <| Markdown.toHtml Nothing content
         , outsideMain = div [] []
         }
@@ -38,7 +38,7 @@ viewBody =
 content =
     """
 
-Here's a few resources to get you started!
+Here's a few Format to get you started!
 
 # Tools
 
