@@ -15,7 +15,7 @@ git checkout develop
 
 All development takes place on the `develop` branch.
 
-To deploy, first merge and build the app in the `master` branch:
+To deploy, first merge and build the app in the `gh-pages` branch:
 
 ``` sh
 git checkout gh-pages
