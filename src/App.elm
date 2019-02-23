@@ -206,8 +206,26 @@ update msg model =
         ( LeaderboardTogglePuzzleOptions, Leaderboard (ByPuzzleNotChosen isSelectActive webData) ) ->
             ( { model | page = Leaderboard (ByPuzzleNotChosen (not isSelectActive) webData) }, Cmd.none )
 
+        ( LeaderboardClickedBySet, Leaderboard _ ) ->
+            ( { model | page = Leaderboard (BySetNotChosen False) }, Cmd.none )
+
+        ( LeaderboardClickedSet puzzleSet, Leaderboard _ ) ->
+            ( { model | page = Leaderboard (BySetChosen False puzzleSet Loading) }, Requests.getLeaderboardBySet puzzleSet )
+
+        ( LeaderboardGotBySet webData, Leaderboard (BySetChosen isSelectActive puzzleSet (Success _)) ) ->
+            ( model, Cmd.none )
+
+        ( LeaderboardGotBySet webData, Leaderboard (BySetChosen isSelectActive puzzleSet _) ) ->
+            ( { model | page = Leaderboard (BySetChosen False puzzleSet webData) }, Cmd.none )
+
         ( LeaderboardTogglePuzzleOptions, Leaderboard (ByPuzzleChosen isSelectActive data chosenPuzzle webData) ) ->
             ( { model | page = Leaderboard (ByPuzzleChosen (not isSelectActive) data chosenPuzzle webData) }, Cmd.none )
+
+        ( LeaderboardToggleSetOptions, Leaderboard (BySetChosen isSelectActive puzzleSet webData) ) ->
+            ( { model | page = Leaderboard (BySetChosen (not isSelectActive) puzzleSet webData) }, Cmd.none )
+
+        ( LeaderboardToggleSetOptions, Leaderboard (BySetNotChosen isSelectActive) ) ->
+            ( { model | page = Leaderboard (BySetNotChosen (not isSelectActive)) }, Cmd.none )
 
         ( RegisterChangedUsername string, Register (NewUser userData webData) ) ->
             ( { model | page = Register (NewUser { userData | username = string } webData) }, Cmd.none )

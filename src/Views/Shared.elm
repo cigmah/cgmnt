@@ -287,7 +287,7 @@ tableRow tableSize isHeader strList =
         widthList =
             case tableSize of
                 ThinTable ->
-                    [ "w-1/5", "w-2/5", "w-1/5" ]
+                    [ "w-1/5", "w-2/5", "w-1/5", "w-1/5" ]
 
                 WideTable ->
                     [ "w-1/5", "w-1/5", "w-1/5", "w-1/5", "w-1/5" ]

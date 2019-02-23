@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardByTotal, getNoAuth, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -104,6 +104,41 @@ decoderCredentials =
         (Decode.field "first_name" Decode.string)
         (Decode.field "last_name" Decode.string)
         (Decode.field "token" Decode.string)
+
+
+decoderPrizeData : Decoder PrizeData
+decoderPrizeData =
+    Decode.list
+        (Decode.map4 Prize
+            (Decode.field "username" Decode.string)
+            (Decode.field "prize_type"
+                (Decode.string
+                    |> Decode.andThen
+                        (\string ->
+                            case string of
+                                "A" ->
+                                    Decode.succeed AbstractPrize
+
+                                "B" ->
+                                    Decode.succeed BeginnerPrize
+
+                                "C" ->
+                                    Decode.succeed ChallengePrize
+
+                                "P" ->
+                                    Decode.succeed PuzzlePrize
+
+                                "G" ->
+                                    Decode.succeed GrandPrize
+
+                                _ ->
+                                    Decode.fail "Invalid PrizeType"
+                        )
+                )
+            )
+            (Decode.field "awarded_datetime" Iso8601.decoder)
+            (Decode.field "note" Decode.string)
+        )
 
 
 decoderPuzzleSet : Decoder PuzzleSet
@@ -253,6 +288,16 @@ decoderLeaderboardByPuzzle =
         )
 
 
+decoderLeaderboardBySet : Decoder LeaderSetData
+decoderLeaderboardBySet =
+    Decode.list
+        (Decode.map3 LeaderSetUnit
+            (Decode.field "puzzle_set" decoderPuzzleSet)
+            (Decode.field "username" Decode.string)
+            (Decode.field "total" Decode.int)
+        )
+
+
 decoderRegisterResponse : Decoder RegisterResponseData
 decoderRegisterResponse =
     Decode.succeed "Thanks for registering for the 2019 Puzzle Hunt - you can try logging in now, just head over to the login tab!"
@@ -306,6 +351,11 @@ getProfile authToken =
     getWithAuth authToken [ "profile" ] HomeGotProfileResponse decoderProfileData
 
 
+getPrizeList : Cmd Msg
+getPrizeList =
+    getNoAuth [ "prizes" ] PrizesGotResponse decoderPrizeData
+
+
 getPuzzleListPublic : Cmd Msg
 getPuzzleListPublic =
     getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse (Decode.list decoderMiniPuzzleData)
@@ -339,6 +389,26 @@ getLeaderboardByTotal =
 getLeaderboardByPuzzle : PuzzleId -> Cmd Msg
 getLeaderboardByPuzzle puzzleId =
     getNoAuth [ "leaderboard", "puzzle", String.fromInt puzzleId ] LeaderboardGotByPuzzle decoderLeaderboardByPuzzle
+
+
+getLeaderboardBySet : PuzzleSet -> Cmd Msg
+getLeaderboardBySet puzzleSet =
+    let
+        setString =
+            case puzzleSet of
+                AbstractPuzzle ->
+                    "A"
+
+                BeginnerPuzzle ->
+                    "B"
+
+                ChallengePuzzle ->
+                    "C"
+
+                MetaPuzzle ->
+                    "M"
+    in
+    getNoAuth [ "leaderboard", "set", setString ] LeaderboardGotBySet decoderLeaderboardBySet
 
 
 postRegister : UserData -> Cmd Msg

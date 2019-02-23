@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -70,6 +70,8 @@ type PuzzleDetailState
 
 type LeaderboardState
     = ByTotal (WebData LeaderTotalData)
+    | BySetNotChosen IsSelectActive
+    | BySetChosen IsSelectActive PuzzleSet (WebData LeaderSetData)
     | ByPuzzleNotChosen IsSelectActive (WebData (List MiniPuzzleData))
     | ByPuzzleChosen IsSelectActive (List MiniPuzzleData) MiniPuzzleData (WebData LeaderPuzzleData)
 
@@ -193,6 +195,30 @@ type alias SubmissionData =
 
 
 
+-- PRIZES
+
+
+type PrizeType
+    = AbstractPrize
+    | BeginnerPrize
+    | ChallengePrize
+    | PuzzlePrize
+    | GrandPrize
+
+
+type alias Prize =
+    { username : String
+    , prizeType : PrizeType
+    , awardedDatetime : Time.Posix
+    , note : String
+    }
+
+
+type alias PrizeData =
+    List Prize
+
+
+
 -- THEME
 
 
@@ -288,6 +314,17 @@ type alias LeaderTotalUnit =
     }
 
 
+type alias LeaderSetData =
+    List LeaderSetUnit
+
+
+type alias LeaderSetUnit =
+    { puzzleSet : PuzzleSet
+    , username : String
+    , total : Int
+    }
+
+
 
 -- SUBMISSIONS
 
@@ -332,6 +369,7 @@ type Msg
     | HomeClickedSend
     | HomeGotContactResponse (WebData ContactResponseData)
     | HomeGotProfileResponse (WebData ProfileData)
+    | PrizesGotResponse (WebData PrizeData)
     | PuzzleListPublicGotResponse (WebData (List MiniPuzzleData))
     | PuzzleListUserGotResponse (WebData (List MiniPuzzleData))
     | PuzzleListClickedPuzzle PuzzleId
@@ -342,11 +380,15 @@ type Msg
     | PuzzleDetailGotPublic (WebData DetailPuzzleData)
     | LeaderboardClickedByTotal
     | LeaderboardGotByTotal (WebData LeaderTotalData)
+    | LeaderboardClickedBySet
+    | LeaderboardClickedSet PuzzleSet
+    | LeaderboardGotBySet (WebData LeaderSetData)
     | LeaderboardClickedByPuzzle
     | LeaderboardGotPuzzleOptions (WebData (List MiniPuzzleData))
     | LeaderboardClickedPuzzle MiniPuzzleData
     | LeaderboardGotByPuzzle (WebData LeaderPuzzleData)
     | LeaderboardTogglePuzzleOptions
+    | LeaderboardToggleSetOptions
     | RegisterChangedUsername String
     | RegisterChangedEmail String
     | RegisterChangedFirstName String
