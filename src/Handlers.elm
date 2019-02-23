@@ -1,4 +1,4 @@
-port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -129,6 +129,18 @@ posixToString time =
     monthToString month ++ " " ++ day ++ " " ++ hour ++ ":" ++ minute
 
 
+posixToMonth : Posix -> String
+posixToMonth time =
+    let
+        zone =
+            Time.customZone (11 * 60) []
+
+        month =
+            Time.toMonth zone time
+    in
+    monthToString month
+
+
 monthToString : Month -> String
 monthToString month =
     case month of
@@ -188,6 +200,9 @@ routeToString route =
                 FormatRoute ->
                     [ "resources" ]
 
+                PrizesRoute ->
+                    [ "prizes" ]
+
                 PuzzleListRoute ->
                     [ "puzzles" ]
 
@@ -217,6 +232,7 @@ parser =
     Parser.oneOf
         [ Parser.map HomeRoute Parser.top
         , Parser.map FormatRoute <| Parser.s "resources"
+        , Parser.map PrizesRoute <| Parser.s "prizes"
         , Parser.map PuzzleListRoute <| Parser.s "puzzles"
         , Parser.map PuzzleDetailRoute <| Parser.s "puzzles" </> Parser.int
         , Parser.map LeaderboardRoute <| Parser.s "leaderboard"
@@ -299,6 +315,9 @@ routeInit credentialsMaybe route key =
 
         ( _, FormatRoute ) ->
             ( makeModel <| Format, Cmd.none )
+
+        ( _, PrizesRoute ) ->
+            ( makeModel <| Prizes Loading, Requests.getPrizeList )
 
         ( _, NotFoundRoute ) ->
             ( makeModel <| NotFound, Cmd.none )

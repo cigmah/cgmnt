@@ -27,6 +27,7 @@ type alias Meta =
 type Page
     = Home HomeState
     | Format
+    | Prizes (WebData PrizeData)
     | PuzzleList PuzzleListState
     | PuzzleDetail PuzzleDetailState
     | Leaderboard LeaderboardState
@@ -39,6 +40,7 @@ type Page
 type Route
     = HomeRoute
     | FormatRoute
+    | PrizesRoute
     | PuzzleListRoute
     | PuzzleDetailRoute PuzzleId
     | LeaderboardRoute

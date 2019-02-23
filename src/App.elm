@@ -16,6 +16,7 @@ import Views.Home
 import Views.Leaderboard
 import Views.Login
 import Views.Logout
+import Views.Prizes
 import Views.PuzzleDetail
 import Views.PuzzleList
 import Views.Register
@@ -120,6 +121,9 @@ update msg model =
 
         ( HomeGotProfileResponse profileDataWebData, Home (HomeUser userData Loading) ) ->
             ( { model | page = Home (HomeUser userData profileDataWebData) }, Cmd.none )
+
+        ( PrizesGotResponse webData, Prizes Loading ) ->
+            ( { model | page = Prizes webData }, Cmd.none )
 
         ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic webData) ) ->
             ( { model | page = PuzzleList <| ListPublic miniPublicPuzzleDataListWebData }, Cmd.none )
@@ -302,6 +306,9 @@ view model =
 
                 Format ->
                     Views.Format.view model.meta
+
+                Prizes webData ->
+                    Views.Prizes.view model.meta webData
 
                 PuzzleList puzzleListState ->
                     Views.PuzzleList.view model.meta puzzleListState

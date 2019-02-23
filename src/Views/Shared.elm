@@ -65,6 +65,7 @@ navMenuWithAuth navActive credentials =
         leftLinks =
             [ ( HomeRoute, "Home" )
             , ( FormatRoute, "Format" )
+            , ( PrizesRoute, "Prizes" )
             , ( PuzzleListRoute, "Puzzles" )
             , ( LeaderboardRoute, "Leaderboard" )
             ]
@@ -84,6 +85,7 @@ navMenuWithoutAuth navActive =
         leftLinks =
             [ ( HomeRoute, "Home" )
             , ( FormatRoute, "Format" )
+            , ( PrizesRoute, "Prizes" )
             , ( PuzzleListRoute, "Puzzles" )
             , ( LeaderboardRoute, "Leaderboard" )
             ]
