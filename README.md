@@ -18,7 +18,7 @@ All development takes place on the `develop` branch.
 To deploy, first merge and build the app in the `master` branch:
 
 ``` sh
-git checkout master
+git checkout gh-pages
 git merge develop
 elm-app build
 ```
@@ -33,7 +33,7 @@ git commit -m "[Commit message]"
 Then, to deploy to GitHub pages:
 
 ``` sh
-git subtree push --prefix build origin master
+git subtree push --prefix build origin gh-pages
 ```
 
 After you are done, make sure you go back to the `develop` branch to make
