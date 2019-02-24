@@ -151,7 +151,7 @@ puzzleCard loadState onClickPuzzle puzzle =
                     "№ " ++ String.fromInt puzzle.id ++ " " ++ puzzle.title
     in
     div
-        [ class "block w-full flex-grow h-full w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 xl:w-1/5 p-1" ]
+        [ class "block w-full  h-full w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/4 xl:w-1/5 p-1" ]
         [ div
             ([ class <| "group w-full rounded active:border-b-0 ", classList [ ( "cursor-pointer", not isLoading ) ] ] ++ onClickPuzzleAttrs)
             [ overlay
