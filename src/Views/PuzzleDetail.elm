@@ -328,6 +328,11 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                             [ id "puzzle-body", classList [ ( "rounded-lg bg-grey-light text-grey-light", isLoading ) ] ]
                           <|
                             Markdown.toHtml Nothing puzzle.body
+                        , borderBox (div [ class "markdown" ] borderBoxInput) colour
+                        , div
+                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
+                          <|
+                            Markdown.toHtml Nothing puzzle.statement
                         , div
                             [ id "puzzle-example"
                             , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
@@ -335,11 +340,6 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                             ]
                           <|
                             Markdown.toHtml Nothing puzzle.example
-                        , borderBox (div [ class "markdown" ] borderBoxInput) colour
-                        , div
-                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.statement
                         , div
                             [ class "flex justify-end" ]
                             [ div
