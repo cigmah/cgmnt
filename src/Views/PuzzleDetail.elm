@@ -335,7 +335,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                             ]
                           <|
                             Markdown.toHtml Nothing puzzle.example
-                        , borderBox (div [ class "markdown text-sm" ] borderBoxInput) colour
+                        , borderBox (div [ class "markdown" ] borderBoxInput) colour
                         , div
                             [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
                           <|
