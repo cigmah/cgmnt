@@ -7037,8 +7037,41 @@ table {
   margin-top: .75rem;
 }
 
-.markdown code {
+.markdown pre {
   margin-top: .75rem;
+  padding: .75rem;
+  font-size: .75rem;
+  background-color: #f8fafc;
+  color: #3d4852;
+  border-radius: .25rem;
+}
+
+.markdown p code {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  padding-left: .25rem;
+  padding-right: .25rem;
+  font-size: .75rem;
+  background-color: #f1f5f8;
+  color: #3d4852;
+  border-radius: .25rem;
+}
+
+.markdown img {
+  display: block;
+  background: white;
+  margin: 1em auto;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.markdown blockquote {
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: .9em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 a {
