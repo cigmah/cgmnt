@@ -347,7 +347,7 @@ clickedLink model urlRequest =
         Browser.Internal url ->
             case url.fragment of
                 Nothing ->
-                    ( model, Cmd.none )
+                    ( model, Navigation.load <| Url.toString url )
 
                 Just _ ->
                     ( model, Navigation.pushUrl model.meta.key <| Url.toString url )

@@ -19,9 +19,32 @@
   @apply mt-3
 }
 
-.markdown code {
-  @apply mt-3
+.markdown pre {
+  @apply mt-3 p-3 text-xs bg-grey-lightest text-grey-darkest rounded
 }
+
+.markdown p code {
+  @apply  py-1 px-1 text-xs bg-grey-lighter text-grey-darkest rounded
+}
+
+.markdown img {
+  display: block;
+  background: white;
+  margin: 1em auto;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 4px;
+
+}
+
+.markdown blockquote {
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 0.9em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 
 a {
   @apply text-blue no-underline
