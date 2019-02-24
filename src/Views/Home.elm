@@ -168,7 +168,7 @@ landingPage contactData contactResponse =
         [ div
             [ class "flex flex-wrap lg:h-screen content-center justify-center items-center pt-16 lg:pt-0" ]
             [ div
-                [ class "block sm:w-3/4 md:w-2/3 lg:w-1/2" ]
+                [ class "block sm:w-4/5 md:w-3/4 lg:w-2/3" ]
                 [ div
                     [ class "inline-flex flex justify-center w-full" ]
                     [ div
