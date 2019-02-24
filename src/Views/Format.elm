@@ -41,11 +41,11 @@ content =
 
 The puzzle hunt will run from March 9th to September 30th and consists of 25 puzzles - 1 meta puzzle and 24 regular puzzles.
 
+![Puzzle Hunt Format](https://www.dropbox.com/s/tkr4m6s4n55nttv/format.png?raw=1)
+
 # The Puzzles
 
-(Graphic with four puzzle tiles, point beneath and coding/medical knowledge)
-
-The meta puzzle and the first three regular puzzles are released approximately three weeks before the start of the puzzle hunt.
+The meta puzzle and the first three regular puzzles are released approximately two weeks before the start of the puzzle hunt.
 
   - The meta puzzle "frames" the stroyline of the puzzle hunt and relies on information from all of the other puzzles.
   - The first three regular puzzles are there to help participants understand the flow of the puzzle hunt - these do not contribute to scores or prizes and the solution is immediately available.

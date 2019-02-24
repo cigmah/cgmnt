@@ -189,7 +189,7 @@ landingPage contactData contactResponse =
                         []
                     , p
                         []
-                        [ text "We post three puzzles on the second Saturday of each month merging medicine (both bench and clinical!) and computer science from March to September." ]
+                        [ text "We post three puzzles on the first or second Saturday of each month merging medicine (both bench and clinical!) and computer science from March to September." ]
                     , br [] []
                     , p [] [ text "Puzzles come in Abstract, Beginner and Challenge flavours, so there's something for everyone regardless of prior coding experience." ]
                     , br
@@ -222,7 +222,7 @@ landingPage contactData contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize", src "https://www.dropbox.com/s/o99i0p36ridyuwh/tile03.png?raw=1" ]
+                        [ class "resize w-64 h-64", src "https://www.dropbox.com/s/pbd50o2kmzzhtgb/allpuzzles.png?raw=1" ]
                         []
                     ]
                 , div
