@@ -125,10 +125,10 @@ update msg model =
         ( PrizesGotResponse webData, Prizes Loading ) ->
             ( { model | page = Prizes webData }, Cmd.none )
 
-        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic webData) ) ->
+        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, PuzzleList (ListPublic Loading) ) ->
             ( { model | page = PuzzleList <| ListPublic miniPublicPuzzleDataListWebData }, Cmd.none )
 
-        ( PuzzleListUserGotResponse miniPuzzleDataListWebData, _ ) ->
+        ( PuzzleListUserGotResponse miniPuzzleDataListWebData, PuzzleList (ListUser Loading) ) ->
             ( { model | page = PuzzleList <| ListUser miniPuzzleDataListWebData }, Cmd.none )
 
         ( PuzzleListClickedPuzzle puzzleId, PuzzleList _ ) ->
