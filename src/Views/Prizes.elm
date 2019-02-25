@@ -54,7 +54,7 @@ prizesLoading =
         }
 
 
-markdownContent =
+bodyContent =
     """
 
 The total worth of our prizes is **$520**, which is distributed through 26 prizes. We offer two broad types of prizes - Puzzle Prizes and Total Prizes. If you are awarded a prize, we will liaise with you via email, so please ensure your email is valid when you register.
@@ -102,7 +102,7 @@ prizesContent : PrizeData -> Html Msg
 prizesContent data =
     div []
         [ div [ class "markdown" ] <|
-            Markdown.toHtml Nothing markdownContent
+            Markdown.toHtml Nothing bodyContent
         , prizesTable data
         ]
 
