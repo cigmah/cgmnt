@@ -195,7 +195,7 @@ leaderboardTemplate isLoading optionsToShow tableToShow =
                     [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
                     [ p
                         []
-                        [ textWithLoad isLoading "You can choose to view the total leaderboard, or a per-puzzle leaderboard." ]
+                        [ textWithLoad isLoading "You can choose to view the total leaderboard, a leaderboard per set (i.e. Abstract, Beginner or Challenge), or a per-puzzle leaderboard." ]
                     , br
                         []
                         []

@@ -41,7 +41,7 @@ content =
 
 The puzzle hunt will run from March 9th to September 30th and consists of 25 puzzles - 1 meta puzzle and 24 regular puzzles.
 
-![Puzzle Hunt Format](https://www.dropbox.com/s/tkr4m6s4n55nttv/format.png?raw=1)
+![Puzzle Hunt Format](https://lh3.googleusercontent.com/ZayZqzbL3zcPUnVWNhSWv0FbMklFuHRDz3An184JpQzp5MRoHJnNqnE0r5WDJtwyIzABpkWuMyYbFzDTG2frRpfTCIdYmdSnfySOi7hhEwCOpgIR4bSMGJaE8OdXsH0eNf99NzlV=w1200)
 
 # The Puzzles
 

@@ -163,7 +163,7 @@ registerPage state =
                         []
                     , p
                         []
-                        [ text "Once you've registered, you can start logging in immediately. When you login, a short-term code will be sent to your email to confirm your identity. We never share your email, and will only email you to send you login codes." ]
+                        [ text "Once you've registered, you can start logging in immediately. When you login, a short-term code will be sent to your email to confirm your identity. We never share your email, and will only email you to send you login codes and liaise with you if you are awarded a prize." ]
                     , div
                         [ class "block w-full px-1 py-4 md:px-4 pb-1 mt-1", classList [ ( "hidden", hideForm ) ] ]
                         [ input

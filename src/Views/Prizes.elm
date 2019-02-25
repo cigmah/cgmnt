@@ -57,35 +57,39 @@ prizesLoading =
 markdownContent =
     """
 
-We offer two broad types of prizes - Puzzle Prizes and Total Prizes. If you are awarded a prize, we will liaise with you via email, so please ensure your email is valid when you register.
+The total worth of our prizes is **$520**, which is distributed through 26 prizes. We offer two broad types of prizes - Puzzle Prizes and Total Prizes. If you are awarded a prize, we will liaise with you via email, so please ensure your email is valid when you register.
 
 <br>
 
-Puzzle Prizes are awarded to the first solver of each puzzle (except for the first three puzzles i.e. the three sample puzzles).
+For all prizes, prizewinners have a choice of either:
 
-As Puzzle Prizes, we offer a choice of either:
+1. A gift card of the prize's value to any store of your choice, subject to approval. We are open to any stores that will provide gift cards of the prize's value, for example Coles Group and Myer Gift Cards or JB Hi-Fi. **We can only offer gift cards to participants in Australia** and these will generally be sent by Australia Post or via email for digital gift cards.
+2. A donation of the prize's value on the prizewinner's behalf to a nominated charity. If you permit us to do so, we will also record the charity you chose on this page. We would like to encourage participants to share causes they are passionate about.
 
-<br>
+We do not offer prizes in cash.
 
-  - A $10 Gift Card to any store of your choice, subject to approval. We are open to any stores that will provide $10 gift cards, for example Coles Group and Myer Gift Cards or JB Hi-Fi. Unfortunately, we cannot offer cash prizes for the Puzzle Prizes.
-  - A $15 donation on the prizewinner's behalf to a charity of your choice. If you permit us to do so, we will also record the charity that you chose along with your username on this page. We would like to encourage participants to share causes they are passionate about and hope efforts in the puzzle hunt can go towards places in need.
-
-A single participant cannot win more than one Puzzle Prize a month.
+If a participant declines a prize, it will be awarded to the next participant who fulfils the prize criteria.
 
 <br>
 
-Total Prizes are awarded at the end of the puzzle hunt to the participants with the greatest total amount of points in one of four categories:
+Puzzle Prizes are awarded to the first solver of each puzzle (except for the first three sample puzzles). There are **22 Puzzle Prizes** available (21 regular, 1 meta).
+
+Puzzle prizes are worth **$10**. We release three regular puzzles a month for seven months, and a single participant cannot win more than one of the three Puzzle Prizes a month (if a single participant is the fastest solver for more than one of the three puzzles per month, the other prize/s will be awarded to the next fastest solver/s). The Puzzle Prize for the meta puzzle can be awarded to the fastest solver at any time, regardless of whether they have already won a Puzzle Prize that month.
 
 <br>
 
-1. Grand prize, for the participant with the most total points
-2. Challenge prize for the participant with the most total points of puzzles in the Challenge set
-3. Beginner prize for the participant with the most total points of puzzles in the Beginner set
-4. Abstract prize for the participant with the most total points of puzzles in the Abstract set.
+Total Prizes are awarded at the end of the puzzle hunt to the participants with the greatest total amount of points in one of **4 categories**:
 
-We award the prizes in that order, and each prize must go to a different participant.
+<br>
 
-The Total Prizes are currently unannounced.
+1. Grand Prize (worth **$150**), for the participant with the most total points
+2. Challenge Prize (worth **$50**) for the participant with the most total points of puzzles in the Challenge set
+3. Beginner Prize (worth **$50**) for the participant with the most total points of puzzles in the Beginner set
+4. Abstract Prize (worth **$50**) for the participant with the most total points of puzzles in the Abstract set.
+
+We award the prizes in that order, and each Total Prize must go to a different participant.
+
+<br>
 
 You can see the current log of prizewinners below.
 
