@@ -86,7 +86,7 @@ We award a Puzzle Prize for the first solver of each puzzle (except the first th
 
 The four total prizes are awarded in that order, and must go to four unique participants.
 
-Puzzle Prizes are open to all. We can only award the Total Prizes to students in Victoria. A valid student ID card or other proof of enrolment will be required for collection. For more information and a list of prize winners, please see the Prizes tab.
+For more information and a list of prize winners, please see the Prizes tab.
 
 Prizes will be announced at the beginning of October.
 
