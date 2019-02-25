@@ -222,7 +222,7 @@ landingPage contactData contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize w-64 h-64", src "https://www.dropbox.com/s/pbd50o2kmzzhtgb/allpuzzles.png?raw=1" ]
+                        [ class "resize w-64 h-64", src "https://lh3.googleusercontent.com/_X5sDHV5vI_9uj7ihy_xWPyB3SmlvJxbGaCU8Ba8AmzNUKwAjqlkZBTkzr2B95PGRWHAx9Uv64paWqi5lQJh5K9jwwOlsyP94Cic8Unh8WWsofQtstQc7xvnATSvH8LxB6ZkTPp5=w800" ]
                         []
                     ]
                 , div
@@ -282,7 +282,7 @@ landingPage contactData contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize", src "https://www.dropbox.com/s/pmi9ab5gayr5wod/tile02.png?raw=1" ]
+                        [ class "resize", src "https://lh3.googleusercontent.com/QvjwSUr9VHS99cMlvOa6R88uhknEfq4i9iYXZmBfDNL64MJXJP9BpN0Gy1JpfK1Uj3jnGmAR5LTDGUC2lnTVaK7SRZii7BT_TEZtmnFcxzMS45gw8R0Y8NHQTqfnJ9-NRsyRBp1a=w800" ]
                         []
                     ]
                 , div
