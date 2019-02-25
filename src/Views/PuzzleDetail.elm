@@ -41,7 +41,7 @@ view meta puzzleDetailState =
                             detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Well done! You've solved this puzle.") False False
+                            detailPuzzlePage puzzle (Just "Well done! You've solved this puzzle.") False False
 
                         Failure e ->
                             errorPage ""
