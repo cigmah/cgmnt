@@ -11,6 +11,14 @@
   @apply font-light font-sans mt-6
 }
 
+.markdown h3 {
+  @apply font-light font-sans mt-4
+}
+
+.markdown h4 {
+  @apply font-light font-sans mt-2
+}
+
 .markdown {
   line-height: 1.4;
 }

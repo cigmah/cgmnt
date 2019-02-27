@@ -237,7 +237,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                         , titleSpan = text "Solution"
                         , content =
                             div []
-                                [ borderBox (div [ class "markdown" ] [text "The answer is ", span [class "font-bold"] [text answer], text "."] colour
+                                [ borderBox (div [ class "markdown" ] [ text "The answer is ", span [ class "font-bold" ] [ text answer ], text "." ]) colour
                                 , div [ class "markdown" ] <| Markdown.toHtml Nothing explanation
                                 ]
                         }
