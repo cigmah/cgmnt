@@ -4,7 +4,7 @@
 
 
 .markdown h1 {
-  @apply font-light font-sans text-lg mt-8
+  @apply font-light font-sans mt-8
 }
 
 .markdown h2 {
