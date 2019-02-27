@@ -1,4 +1,4 @@
-port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -31,6 +31,9 @@ login credentials =
 logout : Cmd Msg
 logout =
     storeCache Nothing
+
+
+port portChangedRoute : () -> Cmd msg
 
 
 
@@ -334,8 +337,11 @@ init valueDecode url key =
                 |> Decode.decodeValue Decode.string
                 |> Result.andThen (Decode.decodeString Requests.decoderCredentials)
                 |> Result.toMaybe
+
+        ( model, cmd ) =
+            routeInit credentialsMaybe route key
     in
-    routeInit credentialsMaybe route key
+    ( model, Cmd.batch [ cmd, portChangedRoute () ] )
 
 
 
@@ -353,7 +359,7 @@ clickedLink model urlRequest =
                     ( model, Navigation.pushUrl model.meta.key <| Url.toString url )
 
         Browser.External href ->
-            ( model, Navigation.load href )
+            ( model, Cmd.batch [ Navigation.load href, portChangedRoute () ] )
 
 
 changedUrl : Meta -> Url.Url -> ( Model, Cmd Msg )
@@ -366,8 +372,11 @@ changedUrl meta url =
 
                 Public ->
                     Nothing
+
+        ( model, cmd ) =
+            routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key
     in
-    routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key
+    ( model, Cmd.batch [ cmd, portChangedRoute () ] )
 
 
 changedRoute : Meta -> Route -> ( Model, Cmd Msg )
@@ -384,4 +393,4 @@ changedRoute meta route =
         ( model, cmd ) =
             routeInit maybeCredentials route meta.key
     in
-    ( model, Cmd.batch [ cmd, Navigation.pushUrl meta.key <| routeToString route ] )
+    ( model, Cmd.batch [ cmd, Navigation.pushUrl meta.key <| routeToString route, portChangedRoute () ] )

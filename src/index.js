@@ -14,11 +14,6 @@ var app = Elm.Main.init({
   flags: localStorage.getItem(storageKey)
 });
 
-
-setTimeout(function() {
-          hljs.initHighlighting();
-        }, 2000);
-
 app.ports.storeCache.subscribe(function(data) {
   if (data == "") {
     localStorage.removeItem(storageKey)
@@ -26,4 +21,11 @@ app.ports.storeCache.subscribe(function(data) {
     localStorage.setItem(storageKey, JSON.stringify(data))
   }
 
+})
+
+app.ports.portChangedRoute.subscribe(function() {
+  setTimeout(function() {
+    hljs.initHighlighting.called = false;
+    hljs.initHighlighting();
+        }, 1000);
 })
