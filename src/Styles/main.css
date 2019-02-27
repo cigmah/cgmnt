@@ -7016,6 +7016,14 @@ table {
   width: 100vw;
 }
 
+*:not(code) {
+  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
+}
+
+code span {
+  font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+}
+
 .markdown h1 {
   font-weight: 300;
   font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -7053,8 +7061,8 @@ table {
   padding: .75rem;
   font-size: .75rem;
   background-color: #f8fafc;
-  color: #3d4852;
   border-radius: .25rem;
+  overflow: auto;
 }
 
 .markdown p code {
@@ -7064,8 +7072,26 @@ table {
   padding-right: .25rem;
   font-size: .75rem;
   background-color: #f1f5f8;
-  color: #3d4852;
   border-radius: .25rem;
+  overflow: auto;
+}
+
+.markdown td {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.markdown th {
+  background-color: #f8fafc;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  color: #3d4852;
+  text-align: left;
+}
+
+.markdown table {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
 }
 
 .markdown img {
@@ -7088,10 +7114,6 @@ table {
 a {
   color: #3490dc;
   text-decoration: none;
-}
-
-* {
-  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
 }
 
 input:focus {
