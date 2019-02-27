@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 
+*:not(code) {
+  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
+}
+
+code span {
+  @apply font-mono
+}
+
 .markdown h1 {
   @apply font-light font-sans mt-8
 }
@@ -28,12 +36,27 @@
 }
 
 .markdown pre {
-  @apply mt-3 p-3 text-xs bg-grey-lightest text-grey-darkest rounded
+  @apply mt-3 p-3 text-xs bg-grey-lightest rounded overflow-auto
 }
 
 .markdown p code {
-  @apply  py-1 px-1 text-xs bg-grey-lighter text-grey-darkest rounded
+  @apply  py-1 px-1 text-xs bg-grey-lighter rounded overflow-auto
 }
+
+.markdown td {
+  @apply px-2
+}
+
+.markdown th {
+  @apply bg-grey-lightest px-2 text-grey-darkest text-left
+}
+
+.markdown table {
+  @apply my-2
+}
+
+
+
 
 .markdown img {
   display: block;
@@ -54,11 +77,9 @@
 }
 
 
+
 a {
   @apply text-blue no-underline
-}
-* {
-  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
 }
 
 input:focus {
