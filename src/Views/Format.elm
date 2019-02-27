@@ -58,7 +58,7 @@ All regular puzzles are classified as Abstract, Beginner or Challenge.
 
 # Submissions and Points
 
-All puzzles are accessible without logging in. If you would like to participate, then you may register and start logging in immediately. Registration is free and requires only a username and email. We only use your email to send you a login token.
+All puzzles are accessible without logging in. If you would like to participate, then you may register and start logging in immediately. Registration is free and requires only a username and email. We only use your email to send you a login token and liaise with you if you win a prize.
 
 A submission box will be available for puzzles once logged in. You can simply enter your answer and submit.
 
@@ -77,7 +77,7 @@ There is no point penalty for an incorrect submission, but you will have to wait
 
 # Prizes
 
-We award a Puzzle Prize for the first solver of each puzzle (except the first three regular puzzles), ad four Total Prizes:
+We award a Puzzle Prize for the first solver of each puzzle (except the first three regular puzzles), and four Total Prizes:
 
 1. Grand prize, for the participant with the most total points
 2. Challenge prize for the participant with the most total points of puzzles in the Challenge set
