@@ -166,12 +166,14 @@ puzzleCard loadState onClickPuzzle puzzle =
                 [ div
                     [ class "flex h-full flex-col items-center align-center justify-center rounded-t-lg", classList [ ( "bg-" ++ colour, not isLoading ), ( "bg-grey-light", isLoading ) ] ]
                     [ div [ class "w-full h-32 overflow-hidden rounded-t-lg" ]
-                        [ img
-                            [ class "w-full", src puzzle.imageLink ]
-                            []
+                        [ div [ class "w-full flex align-center items-center justify-center" ]
+                            [ img
+                                [ class "h-32", src puzzle.imageLink ]
+                                []
+                            ]
                         ]
                     , div
-                        [ class "w-full flex-grow items-center justify-center flex px-1 h-10 text-sm text-center"
+                        [ class "w-full flex-grow items-center justify-center flex px-1 h-8 text-sm text-center"
                         , classList [ ( "text-white bg-" ++ colour, not isLoading ), ( "bg-grey text-grey rounded", isLoading ) ]
                         ]
                         [ text bottomText ]
