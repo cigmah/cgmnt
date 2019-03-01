@@ -17,7 +17,7 @@ routeHref targetRoute =
 -- Navmenu
 
 
-navMenuBase : Bool -> List ( Route, String ) -> Html msg -> List ( Route, String ) -> Html Msg
+navMenuBase : Bool -> List ( Route, String ) -> Html Msg -> List ( Route, String ) -> Html Msg
 navMenuBase navActive leftLinks userSpan rightLinks =
     nav
         [ id "navbar"
@@ -43,7 +43,7 @@ navMenuBase navActive leftLinks userSpan rightLinks =
             [ class "w-full h-full flex-grow bg-primary lg:bg-primary lg:flex lg:w-auto"
             , classList [ ( "block", navActive ), ( "hidden", not navActive ) ]
             ]
-            [ div [ class "text-sm h-full lg:text-right lg:flex-grow" ] <| List.map navLink rightLinks
+            [ div [ class "text-sm h-full lg:text-right lg:flex-grow" ] <| userSpan :: List.map navLink rightLinks
             ]
         ]
 
