@@ -222,7 +222,7 @@ landingPage contactData contactResponse =
                 [ div
                     [ class "flex self-center flex-none lg:w-1/2 justify-center p-8 " ]
                     [ img
-                        [ class "resize w-64 h-64", src "https://lh3.googleusercontent.com/_X5sDHV5vI_9uj7ihy_xWPyB3SmlvJxbGaCU8Ba8AmzNUKwAjqlkZBTkzr2B95PGRWHAx9Uv64paWqi5lQJh5K9jwwOlsyP94Cic8Unh8WWsofQtstQc7xvnATSvH8LxB6ZkTPp5=w800" ]
+                        [ class "resize w-64 h-64", src "https://lh3.googleusercontent.com/Dsc5AZdfMxBMXgKl9BGIRFCiquLJgnRq72wyb-Z_z-Ngjce7v8BbdIQLS1-ViNLCqApwCtvKZKshSSKmMtQBNHPzcUVfnJTRK02YIKjwJG3PyTzT9jTHkxqMbnmVraBRGOsWtbmCeA=w800" ]
                         []
                     ]
                 , div
