@@ -83,7 +83,7 @@ themeCard isLoading theme =
             [ textWithLoad isLoading theme.tagline ]
         , div
             [ class "px-2 pb-2 pt-0 text-xs ml-8 rounded-b text-grey-dark" ]
-            [ textWithLoad isLoading <| String.concat [ "Opens ", Handlers.posixToString theme.openDatetime, "." ] ]
+            [ textWithLoad isLoading <| String.concat [ "Opens ", Handlers.posixToString theme.openDatetime, " AEDT (GMT+11)." ] ]
         ]
 
 
@@ -413,7 +413,7 @@ dashboardPage isLoading username profileData =
                     "Woohoo! You've solved one puzzle now - and even earned " ++ String.fromInt points ++ " points! "
 
                 ( _, _ ) ->
-                    "Brilliant work! You've solved " ++ String.fromInt numSolved ++ " puzzles and earned " ++ String.fromInt points ++ " points !"
+                    "Brilliant work! You've solved " ++ String.fromInt numSolved ++ " puzzles and earned " ++ String.fromInt points ++ " points!"
 
         solvedPuzzles =
             case numSolved of
