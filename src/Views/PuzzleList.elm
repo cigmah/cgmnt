@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
 import Views.Shared exposing (..)
@@ -36,7 +37,15 @@ view meta puzzleListState =
                                 puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -58,7 +67,15 @@ view meta puzzleListState =
                                 puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -243,7 +260,7 @@ puzzleListPage isLoading errorMsg puzzles onClickPuzzle =
                                 ]
                             , div [ class "py-1" ]
                                 [ puzzleSetSpan isLoading ChallengePuzzle
-                                , textWithLoad isLoading " - Puzzles for experienced coders and not the faint of heart!"
+                                , textWithLoad isLoading " - Puzzles which require some more involved programming."
                                 ]
                             ]
                         , div [ class "flex flex-wrap" ] <| List.map (puzzleCard isLoading onClickPuzzle) puzzles

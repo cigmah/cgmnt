@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import Time
@@ -30,7 +31,15 @@ view meta puzzleDetailState =
                             detailPuzzlePage puzzle (Just "Login to submit your answer and reveal the solution!") False False
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -44,7 +53,15 @@ view meta puzzleDetailState =
                             detailPuzzlePage puzzle (Just "Well done! You've solved this puzzle.") False False
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -333,6 +350,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                             [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
                           <|
                             Markdown.toHtml Nothing puzzle.statement
+                        , div [ id "puzzle-submission-note", class "markdown text-sm text-grey-darker text-center ml-2" ] [ textWithLoad isLoading "Note: we remove whitespace and punctuation, and convert all letters to lowercase from both your submission and our answer before comparing them (so they're processed in exactly the same way, in such a way that we accept solutions which are 'near' our answer but differ only in whitespace/punctuation/capitalisation), but we still recommend following our formatting specification in each puzzle to best guarantee that your solution is marked correctly." ]
                         , div
                             [ id "puzzle-example"
                             , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"

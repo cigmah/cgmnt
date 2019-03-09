@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
@@ -26,8 +27,19 @@ view meta webData =
                 Success data ->
                     prizesBody data
 
-                _ ->
-                    errorPage ""
+                Failure e ->
+                    case e of
+                        BadStatus metadata ->
+                            errorPage metadata.body
+
+                        NetworkError ->
+                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                        _ ->
+                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
+
+                NotAsked ->
+                    errorPage "The request didn't go through - try refreshing!"
     in
     ( title, body )
 
