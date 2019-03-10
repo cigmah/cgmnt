@@ -86,7 +86,7 @@ If a participant declines a prize, it will be awarded to the next participant wh
 
 Puzzle Prizes are awarded to the first solver of each puzzle (except for the first three sample puzzles). There are **22 Puzzle Prizes** available (21 regular, 1 meta).
 
-Puzzle prizes are worth **$10**. We release three regular puzzles a month for seven months, and a single participant cannot win more than one of the three Puzzle Prizes a month (if a single participant is the fastest solver for more than one of the three puzzles per month, the other prize/s will be awarded to the next fastest solver/s). The Puzzle Prize for the meta puzzle can be awarded to the fastest solver at any time, regardless of whether they have already won a Puzzle Prize that month.
+Puzzle prizes are worth **$10**. We release three regular puzzles a month for seven months, and a single participant cannot win more than one of the three Puzzle Prizes a month (puzzle prizes are awarded in the same order as the total prizes i.e. Challenge, Beginner, Abstract - if a single participant is the fastest solver for more than one of the three puzzles per month, the other prize/s will be awarded to the next fastest solver/s). The Puzzle Prize for the meta puzzle can be awarded to the fastest solver at any time, regardless of whether they have already won a Puzzle Prize that month.
 
 <br>
 
