@@ -55,11 +55,11 @@ update msg model =
             in
             ( { model | meta = { oldMeta | isNavActive = not oldMeta.isNavActive } }, Cmd.none )
 
-        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Failure _)) ) ->
-            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
+        ( ToggledMessage, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId detailData submission (Failure _)) ) ->
+            ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
 
-        ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Success _)) ) ->
-            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
+        ( ToggledMessage, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId detailData submission (Success _)) ) ->
+            ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
 
         ( HomeChangedName string, Home (HomePublic contactData webData) ) ->
             case webData of
@@ -134,26 +134,26 @@ update msg model =
         ( PuzzleListClickedPuzzle puzzleId, PuzzleList _ ) ->
             Handlers.changedRoute model.meta (PuzzleDetailRoute puzzleId)
 
-        ( PuzzleDetailGotUser webData, PuzzleDetail (UserPuzzle puzzleId Loading) ) ->
+        ( PuzzleDetailGotUser webData, PuzzleDetail puzzleShow (UserPuzzle puzzleId Loading) ) ->
             case webData of
                 Success puzzle ->
                     case puzzle.isSolved of
                         Just False ->
-                            ( { model | page = PuzzleDetail <| UnsolvedPuzzleLoaded puzzleId puzzle "" NotAsked }, Cmd.none )
+                            ( { model | page = PuzzleDetail puzzleShow <| UnsolvedPuzzleLoaded puzzleId puzzle "" NotAsked }, Cmd.none )
 
                         _ ->
-                            ( { model | page = PuzzleDetail <| UserPuzzle puzzleId webData }, Cmd.none )
+                            ( { model | page = PuzzleDetail puzzleShow <| UserPuzzle puzzleId webData }, Cmd.none )
 
                 _ ->
-                    ( { model | page = PuzzleDetail <| UserPuzzle puzzleId webData }, Cmd.none )
+                    ( { model | page = PuzzleDetail puzzleShow <| UserPuzzle puzzleId webData }, Cmd.none )
 
-        ( PuzzleDetailChangedSubmission submission, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle _ webData) ) ->
-            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission webData) }, Cmd.none )
+        ( PuzzleDetailChangedSubmission submission, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId puzzle _ webData) ) ->
+            ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId puzzle submission webData) }, Cmd.none )
 
-        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail (UnsolvedPuzzleLoaded _ _ _ Loading) ) ->
+        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded _ _ _ Loading) ) ->
             ( model, Cmd.none )
 
-        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail (UnsolvedPuzzleLoaded puzzleIdSame puzzle submission webData) ) ->
+        ( PuzzleDetailClickedSubmit puzzleId, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleIdSame puzzle submission webData) ) ->
             case model.meta.auth of
                 User credentials ->
                     case submission of
@@ -161,12 +161,12 @@ update msg model =
                             ( model, Cmd.none )
 
                         _ ->
-                            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId puzzle submission Loading) }, Requests.postSubmit credentials.token submission puzzleId )
+                            ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId puzzle submission Loading) }, Requests.postSubmit credentials.token submission puzzleId )
 
                 Public ->
                     ( model, Cmd.none )
 
-        ( PuzzleDetailGotSubmissionResponse webData, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission Loading) ) ->
+        ( PuzzleDetailGotSubmissionResponse webData, PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId data submission Loading) ) ->
             case webData of
                 Failure (BadStatus e) ->
                     case e.status.code of
@@ -177,19 +177,27 @@ update msg model =
                             in
                             case decodedErrorData of
                                 Ok tooSoonData ->
-                                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission (Success (TooSoonSubmit tooSoonData))) }, Cmd.none )
+                                    ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId data submission (Success (TooSoonSubmit tooSoonData))) }, Cmd.none )
 
                                 Err _ ->
-                                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
+                                    ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
 
                         _ ->
-                            ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
+                            ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
 
                 _ ->
-                    ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
+                    ( { model | page = PuzzleDetail puzzleShow (UnsolvedPuzzleLoaded puzzleId data submission webData) }, Cmd.none )
 
-        ( PuzzleDetailGotPublic publicPuzzleDataWebData, PuzzleDetail (PublicPuzzle puzzleId Loading) ) ->
-            ( { model | page = PuzzleDetail <| PublicPuzzle puzzleId publicPuzzleDataWebData }, Cmd.none )
+        ( PuzzleDetailGotPublic publicPuzzleDataWebData, PuzzleDetail puzzleShow (PublicPuzzle puzzleId Loading) ) ->
+            ( { model | page = PuzzleDetail puzzleShow <| PublicPuzzle puzzleId publicPuzzleDataWebData }, Cmd.none )
+
+        ( PuzzleDetailTogglePuzzleShow, PuzzleDetail puzzleShow puzzleDetailState ) ->
+            case puzzleShow of
+                Video ->
+                    ( { model | page = PuzzleDetail Text puzzleDetailState }, Cmd.none )
+
+                Text ->
+                    ( { model | page = PuzzleDetail Video puzzleDetailState }, Cmd.none )
 
         ( LeaderboardClickedByTotal, Leaderboard _ ) ->
             ( { model | page = Leaderboard (ByTotal Loading) }, Requests.getLeaderboardByTotal )
@@ -318,8 +326,8 @@ view model =
                 PuzzleList puzzleListState ->
                     Views.PuzzleList.view model.meta puzzleListState
 
-                PuzzleDetail puzzleDetailState ->
-                    Views.PuzzleDetail.view model.meta puzzleDetailState
+                PuzzleDetail puzzleShow puzzleDetailState ->
+                    Views.PuzzleDetail.view model.meta puzzleShow puzzleDetailState
 
                 Leaderboard leaderboardState ->
                     Views.Leaderboard.view model.meta leaderboardState
@@ -338,7 +346,7 @@ view model =
 
         navMenu =
             case model.page of
-                PuzzleDetail puzzleDetailState ->
+                PuzzleDetail _ _ ->
                     div [] []
 
                 _ ->

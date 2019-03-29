@@ -281,7 +281,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| PuzzleList (ListPublic Loading), Requests.getPuzzleListPublic )
 
         ( Nothing, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail (PublicPuzzle puzzleId Loading), Requests.getPuzzleDetailPublic puzzleId )
+            ( makeModel <| PuzzleDetail Video (PublicPuzzle puzzleId Loading), Requests.getPuzzleDetailPublic puzzleId )
 
         ( Nothing, LeaderboardRoute ) ->
             ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )
@@ -302,7 +302,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| PuzzleList (ListUser Loading), Requests.getPuzzleListUser credentials.token )
 
         ( Just credentials, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail (UserPuzzle puzzleId Loading), Requests.getPuzzleDetailUser puzzleId credentials.token )
+            ( makeModel <| PuzzleDetail Video (UserPuzzle puzzleId Loading), Requests.getPuzzleDetailUser puzzleId credentials.token )
 
         ( Just credentials, LeaderboardRoute ) ->
             ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )

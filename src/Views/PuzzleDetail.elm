@@ -14,8 +14,8 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> PuzzleDetailState -> ( String, Html Msg )
-view meta puzzleDetailState =
+view : Meta -> PuzzleShow -> PuzzleDetailState -> ( String, Html Msg )
+view meta puzzleShow puzzleDetailState =
     let
         title =
             "Puzzles - CIGMAH"
@@ -25,10 +25,10 @@ view meta puzzleDetailState =
                 ( Public, PublicPuzzle puzzleId webData ) ->
                     case webData of
                         Loading ->
-                            detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
+                            detailPuzzlePage puzzleShow (defaultPuzzleData Nothing) Nothing True False
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Login to submit your answer and reveal the solution!") False False
+                            detailPuzzlePage puzzleShow puzzle (Just "Login to submit your answer and reveal the solution!") False False
 
                         Failure e ->
                             case e of
@@ -47,10 +47,10 @@ view meta puzzleDetailState =
                 ( User credentials, UserPuzzle puzzleId webData ) ->
                     case webData of
                         Loading ->
-                            detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
+                            detailPuzzlePage puzzleShow (defaultPuzzleData Nothing) Nothing True False
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Well done! You've solved this puzzle.") False False
+                            detailPuzzlePage puzzleShow puzzle (Just "Well done! You've solved this puzzle.") False False
 
                         Failure e ->
                             case e of
@@ -69,13 +69,13 @@ view meta puzzleDetailState =
                 ( User credentials, UnsolvedPuzzleLoaded puzzleId data submission webData ) ->
                     case webData of
                         NotAsked ->
-                            detailPuzzlePage data Nothing False False
+                            detailPuzzlePage puzzleShow data Nothing False False
 
                         Loading ->
-                            detailPuzzlePage data Nothing False True
+                            detailPuzzlePage puzzleShow data Nothing False True
 
                         Failure e ->
-                            detailPuzzlePage data (Just "Hm. It seems there was an error. Let us know!") False False
+                            detailPuzzlePage puzzleShow data (Just "Hm. It seems there was an error. Let us know!") False False
 
                         Success submissionResponse ->
                             case submissionResponse of
@@ -85,7 +85,7 @@ view meta puzzleDetailState =
                                             successScreen data okSubmitData
 
                                         False ->
-                                            detailPuzzlePage data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False False
+                                            detailPuzzlePage puzzleShow data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False False
 
                                 TooSoonSubmit tooSoonSubmitData ->
                                     let
@@ -100,7 +100,7 @@ view meta puzzleDetailState =
                                                 , "."
                                                 ]
                                     in
-                                    detailPuzzlePage data (Just messageString) False False
+                                    detailPuzzlePage puzzleShow data (Just messageString) False False
 
                 ( _, _ ) ->
                     notFoundPage
@@ -114,6 +114,7 @@ defaultPuzzleData isSolved =
     , puzzleSet = AbstractPuzzle
     , theme = { id = 0, theme = "Lorem Ipsum", themeSet = RegularTheme, tagline = "", openDatetime = Time.millisToPosix 0 }
     , title = "Lorem Ipsum"
+    , videoLink = Nothing
     , imageLink = ""
     , body = String.slice 0 100 loremIpsum
     , example = String.slice 0 100 loremIpsum
@@ -234,8 +235,8 @@ submissionInput puzzleId isLoading =
         ]
 
 
-detailPuzzlePage : DetailPuzzleData -> Maybe Message -> Bool -> Bool -> Html Msg
-detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
+detailPuzzlePage : PuzzleShow -> DetailPuzzleData -> Maybe Message -> Bool -> Bool -> Html Msg
+detailPuzzlePage puzzleShow puzzle maybeMessage isLoading isInputLoading =
     let
         colour =
             case isLoading of
@@ -301,6 +302,66 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
 
                 False ->
                     Markdown.toHtml Nothing puzzle.input
+
+        puzzleShowElements =
+            case puzzleShow of
+                Text ->
+                    let
+                        onClickVideoAttr =
+                            [ onClick PuzzleDetailTogglePuzzleShow ]
+
+                        onClickTextAttr =
+                            []
+
+                        puzzleExampleDiv =
+                            div
+                                [ id "puzzle-example"
+                                , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
+                                , classList [ ( "bg-grey-lightest text-grey-lightest rounded-lg", isLoading ), ( "bg-grey-lightest text-grey-darkest ", not isLoading ) ]
+                                ]
+                            <|
+                                Markdown.toHtml Nothing puzzle.example
+
+                        puzzleBodyDiv =
+                            div
+                                [ id "puzzle-body", classList [ ( "rounded-lg bg-grey-light text-grey-light", isLoading ) ] ]
+                            <|
+                                Markdown.toHtml Nothing puzzle.body
+                    in
+                    { onClickVideo = onClickVideoAttr
+                    , onClickText = onClickTextAttr
+                    , puzzleExample = puzzleExampleDiv
+                    , puzzleBody = puzzleBodyDiv
+                    }
+
+                Video ->
+                    let
+                        onClickVideoAttr =
+                            []
+
+                        onClickTextAttr =
+                            [ onClick PuzzleDetailTogglePuzzleShow ]
+
+                        puzzleExampleDiv =
+                            div [] []
+
+                        puzzleBodyDiv =
+                            case puzzle.videoLink of
+                                Nothing ->
+                                    div [ class "text-center py-3 px-1" ] [ textWithLoad isLoading <| "We're still getting the video for this puzzle ready while we're transitioning - please use the text version in the meantime!" ]
+
+                                Just videoLink ->
+                                    div [ class "flex items-center justify-center align-center" ]
+                                        [ iframe
+                                            [ width 560, height 315, src videoLink, attribute "allowfullscreen" "" ]
+                                            []
+                                        ]
+                    in
+                    { onClickVideo = onClickVideoAttr
+                    , onClickText = onClickTextAttr
+                    , puzzleExample = puzzleExampleDiv
+                    , puzzleBody = puzzleBodyDiv
+                    }
     in
     div
         [ class "bg-grey-lightest h-full z-50" ]
@@ -332,32 +393,39 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
                 , div
                     [ class "my-3 md:flex flex-wrap " ]
                     [ span
-                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
+                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey-dark font-semibold" ]
                         [ textWithLoad isLoading puzzle.theme.theme ]
                     , span
-                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
+                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey-dark font-semibold" ]
                         [ textWithLoad isLoading <| Handlers.posixToString puzzle.theme.openDatetime ]
                     ]
                 , div [ class pagePadding ]
-                    [ div
-                        [ id "puzzle-card", class "markdown rounded-lg p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter bg-white md:text-base lg:text-lg" ]
+                    [ div [ class "flex bg-white" ]
                         [ div
-                            [ id "puzzle-body", classList [ ( "rounded-lg bg-grey-light text-grey-light", isLoading ) ] ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.body
+                            ([ class "w-1/2 text-center px-2 py-3 rounded-tl-lg font-bold cursor-pointer text-grey-dark"
+                             , classList [ ( "bg-grey-light", puzzleShow == Text ) ]
+                             ]
+                                ++ puzzleShowElements.onClickVideo
+                            )
+                            [ text "VIDEO" ]
+                        , div
+                            ([ class "w-1/2 text-center px-2 py-3 rounded-tr-lg font-bold cursor-pointer text-grey-dark"
+                             , classList [ ( "bg-grey-light", puzzleShow == Video ) ]
+                             ]
+                                ++ puzzleShowElements.onClickText
+                            )
+                            [ text "TEXT" ]
+                        ]
+                    , div
+                        [ id "puzzle-card", class "markdown rounded-lg rounded-tr-none rounded-tl-none p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter bg-white md:text-base lg:text-lg" ]
+                        [ puzzleShowElements.puzzleBody
                         , borderBox (div [ class "markdown" ] borderBoxInput) colour
                         , div
-                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
+                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-4 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
                           <|
                             Markdown.toHtml Nothing puzzle.statement
-                        , div [ id "puzzle-submission-note", class "markdown text-sm text-grey-darker text-center ml-2" ] [ textWithLoad isLoading "Note: we remove whitespace and punctuation, and convert all letters to lowercase from both your submission and our answer before comparing them (so they're processed in exactly the same way, in such a way that we accept solutions which are 'near' our answer but differ only in whitespace/punctuation/capitalisation), but we still recommend following our formatting specification in each puzzle to best guarantee that your solution is marked correctly." ]
-                        , div
-                            [ id "puzzle-example"
-                            , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
-                            , classList [ ( "bg-grey-lightest text-grey-lightest rounded-lg", isLoading ), ( "bg-grey-lightest text-grey-darkest ", not isLoading ) ]
-                            ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.example
+                        , div [ id "puzzle-submission-note", class "markdown text-sm text-grey-darker text-center ml-2 pb-8" ] [ textWithLoad isLoading "Note: we remove whitespace and punctuation, and convert all letters to lowercase from both your submission and our answer before comparing them (so they're processed in exactly the same way, in such a way that we accept solutions which are 'near' our answer but differ only in whitespace/punctuation/capitalisation), but we still recommend following our formatting specification in each puzzle to best guarantee that your solution is marked correctly." ]
+                        , puzzleShowElements.puzzleExample
                         , div
                             [ class "flex justify-end" ]
                             [ div

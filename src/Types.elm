@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), PuzzleShow(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -29,7 +29,7 @@ type Page
     | Format
     | Prizes (WebData PrizeData)
     | PuzzleList PuzzleListState
-    | PuzzleDetail PuzzleDetailState
+    | PuzzleDetail PuzzleShow PuzzleDetailState
     | Leaderboard LeaderboardState
     | Register RegisterState
     | Login LoginState
@@ -278,6 +278,7 @@ type alias DetailPuzzleData =
     , puzzleSet : PuzzleSet
     , theme : ThemeData
     , title : String
+    , videoLink : Maybe String
     , imageLink : String
     , body : String
     , example : String
@@ -288,6 +289,11 @@ type alias DetailPuzzleData =
     , answer : Maybe String
     , explanation : Maybe String
     }
+
+
+type PuzzleShow
+    = Video
+    | Text
 
 
 
@@ -380,6 +386,7 @@ type Msg
     | PuzzleDetailClickedSubmit PuzzleId
     | PuzzleDetailGotSubmissionResponse (WebData SubmissionResponseData)
     | PuzzleDetailGotPublic (WebData DetailPuzzleData)
+    | PuzzleDetailTogglePuzzleShow
     | LeaderboardClickedByTotal
     | LeaderboardGotByTotal (WebData LeaderTotalData)
     | LeaderboardClickedBySet
