@@ -111,8 +111,14 @@ puzzleSetString set =
 posixToString : Posix -> String
 posixToString time =
     let
+        aedt =
+            11 * 60
+
+        aest =
+            { start = 25909380, offset = 10 * 60 }
+
         zone =
-            Time.customZone (11 * 60) []
+            Time.customZone aedt [ aest ]
 
         year =
             Time.toYear zone time

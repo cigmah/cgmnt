@@ -92,7 +92,7 @@ themeCard isLoading theme =
             [ textWithLoad isLoading theme.tagline ]
         , div
             [ class "px-2 pb-2 pt-0 text-xs ml-8 rounded-b text-grey-dark" ]
-            [ textWithLoad isLoading <| String.concat [ "Opens ", Handlers.posixToString theme.openDatetime, " AEDT (GMT+11)." ] ]
+            [ textWithLoad isLoading <| String.concat [ "Opens ", Handlers.posixToString theme.openDatetime, " AEST (GMT+10)." ] ]
         ]
 
 
