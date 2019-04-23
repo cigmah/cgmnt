@@ -7,7 +7,7 @@ This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/
 If you would like to contribute, clone this project and change to the `develop` branch.
 
 ``` sh
-git clone https://github.com/cigmah/cigmah.github.io.git cigmah.github.io
+git clone https://github.com/cigmah/cgmnt.git cgmnt
 git checkout develop
 ```
 
