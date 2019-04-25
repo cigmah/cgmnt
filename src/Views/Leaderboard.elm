@@ -27,7 +27,7 @@ view meta leaderboardState =
                             leaderboardByTotal data
 
                         Loading ->
-                            leaderboardLoading
+                            loadingPage
 
                         Failure e ->
                             case e of
@@ -53,7 +53,7 @@ view meta leaderboardState =
                             leaderboardByPuzzle data isSelectActive Nothing Nothing
 
                         Loading ->
-                            leaderboardLoading
+                            loadingPage
 
                         Failure e ->
                             case e of
@@ -79,7 +79,7 @@ view meta leaderboardState =
                             leaderboardByPuzzle miniPuzzleDataList isSelectActive (Just miniPuzzleData) (Just data)
 
                         Loading ->
-                            leaderboardLoading
+                            loadingPage
 
                         Failure e ->
                             case e of
@@ -112,7 +112,7 @@ view meta leaderboardState =
                             leaderboardBySet isSelectActive (Just puzzleSet) (Just data)
 
                         Loading ->
-                            leaderboardLoading
+                            loadingPage
 
                         Failure e ->
                             case e of
@@ -200,155 +200,144 @@ tableMakerSet headerList unitList =
         ]
 
 
-leaderboardTemplate isLoading optionsToShow tableToShow =
-    let
-        leaderButton clickEvent buttonText =
-            div
-                [ id "leader-button", class "block p-1 md:w-1/3" ]
-                [ button
-                    [ class "rounded-lg px-3 py-2 bg-green border-b-2 border-green-dark focus:outline-none outline-none hover:border-b-4 active:border-b-0 w-full"
-                    , classList [ ( "text-white", not isLoading ), ( "text-green hover:text-green-dark", isLoading ) ]
-                    , onClick clickEvent
-                    ]
-                    [ text buttonText ]
+makeOption : Msg -> String -> List (Html Msg)
+makeOption clickEvent option =
+    [ span [ class "option", onClick clickEvent ] [ text option ], br [] [] ]
+
+
+makeTotalRow : Int -> LeaderTotalUnit -> Html Msg
+makeTotalRow rank data =
+    tr []
+        [ td [ class "lessen" ] [ text <| String.fromInt rank ]
+        , td [ class "strengthen" ] [ text data.username ]
+        , td [ class "lessen" ] [ text "[", text <| String.fromInt data.total, text "]" ]
+        ]
+
+
+leaderboardByTotal data =
+    div [ class "main" ]
+        [ div [ class "container" ]
+            [ span [ class "lessen" ]
+                [ text "?- top10("
+                , span [ class "toggler", onClick LeaderboardClickedByPuzzle ] [ text "total" ]
+                , text ")"
                 ]
-    in
-    div
-        [ class "px-2 md:px-8 bg-grey-lightest" ]
-        [ div
-            [ class "mb-4 flex flex-wrap content-center justify-center items-center pt-16" ]
-            [ div
-                [ class "block md:w-5/6 lg:w-4/5 xl:w-3/4" ]
-                [ div
-                    [ class "inline-flex flex justify-center w-full" ]
-                    [ div
-                        [ class "flex items-center  sm:text-xl justify-center  px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark"
-                        , classList [ ( "text-green", isLoading ), ( "text-white", not isLoading ) ]
-                        ]
-                        [ span
-                            [ class "fas fa-table" ]
-                            []
-                        ]
-                    , div
-                        [ class "flex items-center  w-full p-3 px-5 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
-                        [ textWithLoad isLoading "Leaderboard" ]
-                    ]
-                , div
-                    [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
-                    [ p
-                        []
-                        [ textWithLoad isLoading "You can choose to view the total leaderboard, a leaderboard per set (i.e. Abstract, Beginner or Challenge), or a per-puzzle leaderboard." ]
-                    , br
-                        []
-                        []
-                    , div
-                        [ id "leader-options", class "block my-1 w-full" ]
-                        [ div
-                            [ class "inline-flex flex:wrap w-full justify-center items-center" ]
-                            [ leaderButton LeaderboardClickedByTotal "Total"
-                            , leaderButton LeaderboardClickedBySet "By Set"
-                            , leaderButton LeaderboardClickedByPuzzle "By Puzzle"
-                            ]
-                        , optionsToShow
-                        , tableToShow
-                        ]
-                    ]
-                ]
+            , div
+                [ class "leaderboard" ]
+                [ table [] <| List.map2 makeTotalRow (List.range 1 10) data ]
             ]
         ]
 
 
-leaderboardLoading =
-    leaderboardTemplate True (div [] []) (div [ class "block my-2 bg-grey-lightest rounded-lg h-64" ] [])
+titleCondense title =
+    String.replace " " "" title
 
 
-leaderboardByTotal leaderUnits =
-    leaderboardTemplate False (div [] []) (tableMakerTotal [ "Rank", "Username", "Points" ] leaderUnits)
+makePuzzleRow rank unit =
+    tr []
+        [ td [ class "lessen" ] [ text <| String.fromInt rank ]
+        , td [ class "strengthen" ] [ text unit.username ]
+        , td [ class "lessen" ] [ text "[", text <| Handlers.posixToString unit.submissionDatetime, text "]" ]
+        ]
+
+
+makePuzzleOption puzzle =
+    makeOption (LeaderboardClickedPuzzle puzzle) puzzle.title
 
 
 leaderboardByPuzzle puzzleOptions isOptionsVisible maybeSelectedPuzzle maybeLeaderPuzzleUnits =
     let
-        puzzleOptionSelector =
-            let
-                selectorText =
-                    case maybeSelectedPuzzle of
-                        Nothing ->
-                            "Select a puzzle..."
+        optionsDiv =
+            if isOptionsVisible then
+                div [ class "options" ] <|
+                    List.concat (List.map makePuzzleOption puzzleOptions)
 
-                        Just puzzle ->
-                            String.concat [ "№ ", String.fromInt puzzle.id, " ", puzzle.title ]
-            in
-            div
-                [ class "flex-col w-full mb-3 mt-2" ]
-                [ div
-                    [ class "flex justify-between px-6 py-2 rounded-t-lg border-grey border-b-2 bg-grey-light text-grey-darker hover:bg-grey-light cursor-pointer active:border-b-0"
-                    , onClick LeaderboardTogglePuzzleOptions
-                    ]
-                    [ div
-                        []
-                        [ text selectorText ]
-                    , div
-                        []
-                        [ span
-                            [ class "fas fa-caret-down text-grey-dark text-right" ]
-                            []
-                        ]
-                    ]
-                , div [ classList [ ( "hidden", not isOptionsVisible ) ] ] <| List.map (\x -> puzzleOptionDiv x) puzzleOptions
-                ]
+            else
+                br [] []
 
-        leaderTable =
+        puzzleSelection =
+            case maybeSelectedPuzzle of
+                Nothing ->
+                    "<SELECT>"
+
+                Just puzzle ->
+                    titleCondense puzzle.title
+
+        leaderboard =
             case maybeLeaderPuzzleUnits of
                 Just units ->
-                    tableMakerPuzzle [ "Rank", "Username", "Correct Submission" ] units
+                    div [ class "leaderboard" ]
+                        [ table [] <| List.map2 makePuzzleRow (List.range 1 10) units ]
 
                 Nothing ->
-                    div [] []
+                    br [] []
     in
-    leaderboardTemplate False puzzleOptionSelector leaderTable
+    div [ class "main" ]
+        [ div [ class "container" ]
+            [ span [ class "lessen" ]
+                [ text "?- top10("
+                , span [ class "toggler", onClick LeaderboardClickedBySet ] [ text "puzzle" ]
+                , span [ class "toggler", onClick LeaderboardTogglePuzzleOptions ] [ text puzzleSelection ]
+                , text ")"
+                ]
+            , optionsDiv
+            , leaderboard
+            ]
+        ]
+
+
+makeSetRow rank unit =
+    tr []
+        [ td [ class "lessen" ] [ text <| String.fromInt rank ]
+        , td [ class "strengthen" ] [ text unit.username ]
+        , td [ class "lessen" ] [ text "[", text <| String.fromInt unit.total, text "]" ]
+        ]
+
+
+makeSetOption setOption =
+    makeOption (LeaderboardClickedSet setOption) (Handlers.puzzleSetString setOption)
 
 
 leaderboardBySet : Bool -> Maybe PuzzleSet -> Maybe LeaderSetData -> Html Msg
 leaderboardBySet isOptionsVisible maybeSelectedSet maybeLeaderSetUnits =
     let
-        setOptionSelector =
-            let
-                selectorText =
-                    case maybeSelectedSet of
-                        Nothing ->
-                            "Select a puzzle set..."
+        setOptions =
+            [ AbstractPuzzle, BeginnerPuzzle, ChallengePuzzle ]
 
-                        Just set ->
-                            Handlers.puzzleSetString set
+        optionsDiv =
+            if isOptionsVisible then
+                div [ class "options" ] <|
+                    List.concat (List.map makeSetOption setOptions)
 
-                setOptions =
-                    [ AbstractPuzzle, BeginnerPuzzle, ChallengePuzzle ]
-            in
-            div
-                [ class "flex-col w-full mb-3 mt-2" ]
-                [ div
-                    [ class "flex justify-between px-6 py-2 rounded-t-lg border-grey border-b-2 bg-grey-light text-grey-darker hover:bg-grey-light cursor-pointer active:border-b-0"
-                    , onClick LeaderboardToggleSetOptions
-                    ]
-                    [ div
-                        []
-                        [ text selectorText ]
-                    , div
-                        []
-                        [ span
-                            [ class "fas fa-caret-down text-grey-dark text-right" ]
-                            []
-                        ]
-                    ]
-                , div [ classList [ ( "hidden", not isOptionsVisible ) ] ] <| List.map (\x -> setOptionDiv x) setOptions
-                ]
+            else
+                br [] []
 
-        leaderTable =
+        setSelection =
+            case maybeSelectedSet of
+                Nothing ->
+                    "<SELECT>"
+
+                Just set ->
+                    titleCondense <| Handlers.puzzleSetString set
+
+        leaderboard =
             case maybeLeaderSetUnits of
                 Just units ->
-                    tableMakerSet [ "Rank", "Puzzle Set", "Username", "Total" ] units
+                    div [ class "leaderboard" ]
+                        [ table [] <| List.map2 makeSetRow (List.range 1 10) units ]
 
                 Nothing ->
-                    div [] []
+                    br [] []
     in
-    leaderboardTemplate False setOptionSelector leaderTable
+    div [ class "main" ]
+        [ div [ class "container" ]
+            [ span [ class "lessen" ]
+                [ text "?- top10("
+                , span [ class "toggler", onClick LeaderboardClickedByTotal ] [ text "set" ]
+                , span [ class "toggler", onClick LeaderboardToggleSetOptions ] [ text setSelection ]
+                , text ")"
+                ]
+            , optionsDiv
+            , leaderboard
+            ]
+        ]
