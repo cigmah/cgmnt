@@ -1,0 +1,13 @@
+  <div class="nav">
+    <a href="https://google.com"><b>cigmah</b></a>
+    <a href="https://google.com">info</a>
+    <a href="https://google.com">puzzles</a>
+    <a href="https://google.com">leaderboard</a>
+    <a href="https://google.com">prizes</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <a href class="active"="https://google.com">register</a>
+    <a href="https://google.com">login</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <span class="theme-switch">lighten</a>
+    </div>
+  </div>
