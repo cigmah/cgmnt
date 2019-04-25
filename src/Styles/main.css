@@ -16,12 +16,13 @@
 :root {
     --background:#f2f6f7;
     --background-inactive:#dee6ea;
+    --background-puzzle: #fefefe;
     --foreground:#262828;
     --foreground-inactive:#a6b2b2;
     --foreground-lessen:#a6b2b2;
 }
-*/
 
+*/
 
 * {
     font-family:"VT323", "Monaco", "Lucida Sans Typewriter", monospace;
@@ -82,7 +83,7 @@ body {
 }
 
 .tagline {
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: var(--foreground-);
 }
 
@@ -91,11 +92,6 @@ body {
 }
 
 b {
-  color: var(--colour-emphasis);
-}
-
-
-strong {
   color: var(--colour-emphasis);
 }
 
@@ -414,12 +410,10 @@ button:disabled {
   border-bottom: 1px solid var(--background-inactive);
 }
 
-/*
 .puzzle-body * {
   font-family: sans-serif;
+  line-height: 1.4;
 }
-*/
-
 
 pre {
   font-size: 0.9em;
@@ -427,6 +421,12 @@ pre {
   margin-bottom: 1em;
   padding-left: 2em;
   overflow: auto;
+  font-family: "VT323", monospace !important;
+}
+
+
+code {
+  font-family: "VT323", monospace !important;
 }
 
 .puzzle-statement {
@@ -443,8 +443,7 @@ pre {
   border: 1px dotted var(--foreground-lessen);
   color: var(--foreground-lessen);
   border-radius: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
 }
 
 .puzzle-padder {
@@ -475,10 +474,7 @@ pre {
 }
 
 .puzzle-input {
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  text-align: center;
+  padding: 20px;
   background: var(--background-inactive);
   border-radius: 5px;
 }
@@ -492,6 +488,24 @@ pre {
 
 .puzzle-references * {
   font-family: "VT323", monospace;
+}
+
+.puzzle-solution {
+  padding-bottom: 2em;
+}
+
+.puzzle-answer {
+  text-align: center;
+  margin: auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  display: block;
+  background: var(--background-inactive);
+  font-weight: bold;
+  padding: 1em;
+  width: 50%;
+  overflow: auto;
+  border-radius: 5px;
 }
 
 

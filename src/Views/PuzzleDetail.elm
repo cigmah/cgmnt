@@ -198,8 +198,7 @@ detailPuzzlePage puzzle maybeMessage isInputLoading =
             case ( puzzle.isSolved, puzzle.answer, puzzle.explanation ) of
                 ( Just True, Just answer, Just explanation ) ->
                     div [ class "puzzle-solution" ]
-                        [ h1 [] [ text "Solution" ]
-                        , div [ class "puzzle-answer" ] [ text answer ]
+                        [ div [ class "puzzle-answer" ] [ text answer ]
                         , div [ class "puzzle-explanation" ] <| Markdown.toHtml Nothing explanation
                         ]
 
@@ -263,6 +262,7 @@ detailPuzzlePage puzzle maybeMessage isInputLoading =
                         , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
                         , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
                         , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                        , solutionBody
                         ]
                     ]
                 , div [ class "puzzle-bottom" ]
