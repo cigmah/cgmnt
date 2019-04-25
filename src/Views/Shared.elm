@@ -221,7 +221,13 @@ puzzleLoadingPage =
     div [ class "main" ]
         [ div [ class "puzzle-container" ]
             [ div [ class "puzzle" ]
-                [ div [ style "display" "flex", style "justify-content" "center", style "align-content" "center", style "align-items" "center", style "height" "100%" ]
+                [ div
+                    [ style "display" "flex"
+                    , style "justify-content" "center"
+                    , style "align-content" "center"
+                    , style "align-items" "center"
+                    , style "height" "100%"
+                    ]
                     [ div [ class "loading-container" ]
                         [ div [ class "loader" ] []
                         ]
@@ -233,26 +239,22 @@ puzzleLoadingPage =
 
 notFoundPage : Html Msg
 notFoundPage =
-    pageBase
-        { iconSpan = text "..."
-        , isCentered = True
-        , colour = "red"
-        , titleSpan = text "Whoops!"
-        , bodyContent = text "It looks like this page wasn't found. Sorry! If you think this was an error, please let us know and we'll be onto it!"
-        , outsideMain = pageButton (ChangedRoute HomeRoute) "red" (text "Take me back home!")
-        }
+    div [ class "main" ]
+        [ div [ class "loading-container" ]
+            [ text "That page wasn't found."
+            ]
+        ]
 
 
 errorPage : String -> Html Msg
 errorPage errorString =
-    pageBase
-        { iconSpan = text "..."
-        , isCentered = True
-        , colour = "pink"
-        , titleSpan = text "Oh no..."
-        , bodyContent = text <| "It looks like there was an error. Sorry! Here are some of the details: " ++ errorString
-        , outsideMain = pageButton (ChangedRoute HomeRoute) "pink" (text "Take me back home!")
-        }
+    div [ class "main" ]
+        [ div [ class "loading-container", style "max-width" "600px" ]
+            [ text "There was an error. Here's what we know."
+            , br [] []
+            , text errorString
+            ]
+        ]
 
 
 
