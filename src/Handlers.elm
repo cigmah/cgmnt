@@ -317,7 +317,7 @@ routeInit credentialsMaybe route key =
     in
     case ( credentialsMaybe, route ) of
         ( Nothing, HomeRoute ) ->
-            ( makeModel <| Home (HomePublic defaultContactData NotAsked), Cmd.none )
+            ( makeModel <| Home HomePublic, Cmd.none )
 
         ( Nothing, PuzzleListRoute ) ->
             ( makeModel <| PuzzleList (ListPublic Loading), Requests.getPuzzleListPublic )
@@ -335,7 +335,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| Login (InputEmail "" NotAsked), Cmd.none )
 
         ( Nothing, LogoutRoute ) ->
-            ( makeModel <| Home (HomePublic defaultContactData NotAsked), Navigation.replaceUrl meta.key <| routeToString HomeRoute )
+            ( makeModel <| Home HomePublic, Navigation.replaceUrl meta.key <| routeToString HomeRoute )
 
         ( Just credentials, HomeRoute ) ->
             ( makeModel <| Home (HomeUser (credsToUser credentials) Loading), Requests.getProfile credentials.token )

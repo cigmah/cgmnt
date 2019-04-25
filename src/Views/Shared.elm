@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, puzzleSetSpan, routeHref, tableCell, tableRow, textWithLoad, userBox)
+module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loadingPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, puzzleSetSpan, routeHref, tableCell, tableRow, textWithLoad, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -203,6 +203,15 @@ pageBase data =
                     [ data.bodyContent ]
                 , data.outsideMain
                 ]
+            ]
+        ]
+
+
+loadingPage : Html Msg
+loadingPage =
+    div [ class "main" ]
+        [ div [ class "loading-container" ]
+            [ div [ class "loader" ] []
             ]
         ]
 

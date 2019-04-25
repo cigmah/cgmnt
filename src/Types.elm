@@ -55,7 +55,7 @@ type Route
 
 
 type HomeState
-    = HomePublic ContactData (WebData ContactResponseData)
+    = HomePublic
     | HomeUser UserData (WebData ProfileData)
 
 
@@ -368,12 +368,6 @@ type Msg
     | ChangedRoute Route
     | ToggledNav
     | ToggledMessage
-    | HomeChangedName String
-    | HomeChangedEmail String
-    | HomeChangedSubject String
-    | HomeChangedBody String
-    | HomeClickedSend
-    | HomeGotContactResponse (WebData ContactResponseData)
     | HomeGotProfileResponse (WebData ProfileData)
     | PrizesGotResponse (WebData PrizeData)
     | PuzzleListPublicGotResponse (WebData (List MiniPuzzleData))

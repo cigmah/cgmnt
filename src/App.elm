@@ -61,64 +61,6 @@ update msg model =
         ( ToggledMessage, PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission (Success _)) ) ->
             ( { model | page = PuzzleDetail (UnsolvedPuzzleLoaded puzzleId detailData submission NotAsked) }, Cmd.none )
 
-        ( HomeChangedName string, Home (HomePublic contactData webData) ) ->
-            case webData of
-                Success _ ->
-                    ( model, Cmd.none )
-
-                Loading ->
-                    ( model, Cmd.none )
-
-                _ ->
-                    ( { model | page = Home <| HomePublic { contactData | name = string } webData }, Cmd.none )
-
-        ( HomeChangedEmail string, Home (HomePublic contactData webData) ) ->
-            case webData of
-                Success _ ->
-                    ( model, Cmd.none )
-
-                Loading ->
-                    ( model, Cmd.none )
-
-                _ ->
-                    ( { model | page = Home <| HomePublic { contactData | email = string } webData }, Cmd.none )
-
-        ( HomeChangedSubject string, Home (HomePublic contactData webData) ) ->
-            case webData of
-                Success _ ->
-                    ( model, Cmd.none )
-
-                Loading ->
-                    ( model, Cmd.none )
-
-                _ ->
-                    ( { model | page = Home <| HomePublic { contactData | subject = string } webData }, Cmd.none )
-
-        ( HomeChangedBody string, Home (HomePublic contactData webData) ) ->
-            case webData of
-                Success _ ->
-                    ( model, Cmd.none )
-
-                Loading ->
-                    ( model, Cmd.none )
-
-                _ ->
-                    ( { model | page = Home <| HomePublic { contactData | body = string } webData }, Cmd.none )
-
-        ( HomeClickedSend, Home (HomePublic contactData webData) ) ->
-            case webData of
-                Success _ ->
-                    ( model, Cmd.none )
-
-                Loading ->
-                    ( model, Cmd.none )
-
-                _ ->
-                    ( { model | page = Home <| HomePublic contactData Loading }, Requests.postContact contactData )
-
-        ( HomeGotContactResponse contactResponseDataWebData, Home (HomePublic contactData webData) ) ->
-            ( { model | page = Home <| HomePublic contactData contactResponseDataWebData }, Cmd.none )
-
         ( HomeGotProfileResponse profileDataWebData, Home (HomeUser userData Loading) ) ->
             ( { model | page = Home (HomeUser userData profileDataWebData) }, Cmd.none )
 

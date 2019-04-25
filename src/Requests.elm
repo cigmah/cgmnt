@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderContactResponseData, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeContact, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzlePageData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -36,16 +36,6 @@ authConfig token =
 -- Encoders
 
 
-encodeContact : ContactData -> Encode.Value
-encodeContact v =
-    Encode.object
-        [ ( "name", Encode.string v.name )
-        , ( "email", Encode.string v.email )
-        , ( "subject", Encode.string v.subject )
-        , ( "body", Encode.string v.body )
-        ]
-
-
 encodeSubmission : Submission -> Encode.Value
 encodeSubmission v =
     Encode.object [ ( "submission", Encode.string v ) ]
@@ -80,11 +70,6 @@ encodeEmail v =
 encodeToken : Token -> Encode.Value
 encodeToken v =
     Encode.object [ ( "token", Encode.string v ) ]
-
-
-decoderContactResponseData : Decoder ContactResponseData
-decoderContactResponseData =
-    Decode.succeed "Thanks for your message! We'll get back to you as soon as we can."
 
 
 decoderUserData : Decoder UserData
@@ -344,11 +329,6 @@ postWithAuth authToken stringList function aDecoder valueDecode =
 
 
 -- Requests
-
-
-postContact : ContactData -> Cmd Msg
-postContact contactData =
-    postNoAuth [ "message" ] HomeGotContactResponse decoderContactResponseData (encodeContact contactData)
 
 
 getProfile : AuthToken -> Cmd Msg
