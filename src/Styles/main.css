@@ -7016,8 +7016,8 @@ table {
   width: 100vw;
 }
 
-*:not(code) {
-  font-family: 'Nunito', 'Roboto', 'Helvetica', 'Corbel', arial, sans-serif;
+* {
+  font-family: 'Space Mono', 'Roboto Mono', monospace;
 }
 
 code span {
