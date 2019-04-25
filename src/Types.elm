@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzlePageData, PuzzleSet(..), PuzzleShow(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ColourTheme(..), ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzlePageData, PuzzleSet(..), PuzzleShow(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -21,7 +21,13 @@ type alias Meta =
     { isNavActive : Bool
     , key : Navigation.Key
     , auth : Auth
+    , colourTheme : ColourTheme
     }
+
+
+type ColourTheme
+    = Light
+    | Dark
 
 
 type Page
@@ -371,6 +377,7 @@ type Msg
     = Ignored
     | ClickedLink Browser.UrlRequest
     | ChangedUrl Url.Url
+    | ToggledTheme
     | ChangedRoute Route
     | ToggledNav
     | ToggledMessage
@@ -428,6 +435,7 @@ defaultMeta key maybeCredentials =
     { isNavActive = False
     , key = key
     , auth = auth
+    , colourTheme = Dark
     }
 
 

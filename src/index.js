@@ -29,3 +29,25 @@ app.ports.portChangedRoute.subscribe(function() {
     hljs.initHighlighting();
         }, 1000);
 })
+
+app.ports.themeLight.subscribe(function(isLight) {
+  if (isLight) {
+    document.documentElement.style.setProperty('--background', '#f2f6f7');
+    document.documentElement.style.setProperty('--background-inactive', '#eff2f7');
+    document.documentElement.style.setProperty('--background-puzzle', '#fefefe');
+    document.documentElement.style.setProperty('--foreground', '#262828');
+    document.documentElement.style.setProperty('--foreground-inactive', '#a6b2b2');
+    document.documentElement.style.setProperty('--foreground-lessen', '#a6b2b2');
+    document.documentElement.style.setProperty('--colour-emphasis', '#111111');
+  }
+  else {
+    document.documentElement.style.setProperty('--background', '#2c3030');
+    document.documentElement.style.setProperty('--background-inactive', '#1d2120');
+    document.documentElement.style.setProperty('--background-puzzle', '#272b2b');
+    document.documentElement.style.setProperty('--foreground', '#a9adad');
+    document.documentElement.style.setProperty('--foreground-inactive', '#5d6060');
+    document.documentElement.style.setProperty('--foreground-lessen', '#7c8282');
+    document.documentElement.style.setProperty('--colour-emphasis', '#eeeeee');
+
+  }
+})

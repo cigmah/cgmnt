@@ -4,7 +4,7 @@ import Browser
 import Browser.Navigation as Navigation
 import Handlers
 import Html exposing (Html, div)
-import Html.Lazy exposing (lazy3)
+import Html.Lazy exposing (lazy4)
 import Http exposing (Error(..))
 import Json.Decode as Decode
 import RemoteData exposing (RemoteData(..), WebData)
@@ -38,6 +38,21 @@ update msg model =
     case ( msg, model.page ) of
         ( Ignored, _ ) ->
             ( model, Cmd.none )
+
+        ( ToggledTheme, _ ) ->
+            let
+                oldMeta =
+                    model.meta
+
+                ( newColourTheme, themeLight ) =
+                    case oldMeta.colourTheme of
+                        Light ->
+                            ( Dark, False )
+
+                        Dark ->
+                            ( Light, True )
+            in
+            ( { model | meta = { oldMeta | colourTheme = newColourTheme } }, Handlers.themeLight themeLight )
 
         ( ClickedLink urlRequestBrowser, _ ) ->
             Handlers.clickedLink model urlRequestBrowser
@@ -287,7 +302,7 @@ view model =
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
 
         navMenu =
-            lazy3 Views.Shared.navMenu model.meta.isNavActive model.meta.auth model.page
+            lazy4 Views.Shared.navMenu model.meta.isNavActive model.meta.auth model.page model.meta.colourTheme
     in
     { title = title
     , body =

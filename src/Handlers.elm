@@ -1,4 +1,4 @@
-port module Handlers exposing (PageActive, changedRoute, changedUrl, clickedLink, credsToUser, defaultPageActive, fromUrl, init, intDeltaString, login, logout, monthToString, pageActive, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (PageActive, changedRoute, changedUrl, clickedLink, credsToUser, defaultPageActive, fromUrl, init, intDeltaString, login, logout, monthToString, pageActive, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, themeLight, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -34,6 +34,9 @@ logout =
 
 
 port portChangedRoute : () -> Cmd msg
+
+
+port themeLight : Bool -> Cmd msg
 
 
 

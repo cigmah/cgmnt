@@ -17,8 +17,17 @@ routeHref targetRoute =
 -- Navmenu
 
 
-navMenuBase : Bool -> List ( Route, String, Bool ) -> Html Msg -> List ( Route, String, Bool ) -> Html Msg
-navMenuBase navActive leftLinks userSpan rightLinks =
+colourThemeToToggleString colourTheme =
+    case colourTheme of
+        Dark ->
+            "lighten"
+
+        Light ->
+            "darken"
+
+
+navMenuBase : Bool -> List ( Route, String, Bool ) -> Html Msg -> List ( Route, String, Bool ) -> ColourTheme -> Html Msg
+navMenuBase navActive leftLinks userSpan rightLinks colourTheme =
     nav
         [ class "nav" ]
     <|
@@ -38,8 +47,8 @@ navMenuBase navActive leftLinks userSpan rightLinks =
                     ]
                     [ text "|" ]
               , span
-                    [ class "theme-switch" ]
-                    [ text "lighten" ]
+                    [ class "theme-switch", onClick ToggledTheme ]
+                    [ text <| colourThemeToToggleString colourTheme ]
               ]
             ]
 
@@ -70,8 +79,8 @@ userBox name =
         [ text name ]
 
 
-navMenuWithAuth : Bool -> Credentials -> Page -> Html Msg
-navMenuWithAuth navActive credentials page =
+navMenuWithAuth : Bool -> Credentials -> Page -> ColourTheme -> Html Msg
+navMenuWithAuth navActive credentials page colourTheme =
     let
         active =
             Handlers.pageActive page
@@ -89,11 +98,11 @@ navMenuWithAuth navActive credentials page =
         rightLinks =
             [ ( LogoutRoute, "logout", False ) ]
     in
-    navMenuBase navActive leftLinks userSpan rightLinks
+    navMenuBase navActive leftLinks userSpan rightLinks colourTheme
 
 
-navMenuWithoutAuth : Bool -> Page -> Html Msg
-navMenuWithoutAuth navActive page =
+navMenuWithoutAuth : Bool -> Page -> ColourTheme -> Html Msg
+navMenuWithoutAuth navActive page colourTheme =
     let
         active =
             Handlers.pageActive page
@@ -113,17 +122,17 @@ navMenuWithoutAuth navActive page =
             , ( LoginRoute, "login", active.login )
             ]
     in
-    navMenuBase navActive leftLinks userSpan rightLinks
+    navMenuBase navActive leftLinks userSpan rightLinks colourTheme
 
 
-navMenu : Bool -> Auth -> Page -> Html Msg
-navMenu navActive auth page =
+navMenu : Bool -> Auth -> Page -> ColourTheme -> Html Msg
+navMenu navActive auth page colourTheme =
     case auth of
         User credentials ->
-            navMenuWithAuth navActive credentials page
+            navMenuWithAuth navActive credentials page colourTheme
 
         Public ->
-            navMenuWithoutAuth navActive page
+            navMenuWithoutAuth navActive page colourTheme
 
 
 
@@ -241,7 +250,7 @@ notFoundPage : Html Msg
 notFoundPage =
     div [ class "main" ]
         [ div [ class "loading-container" ]
-            [ text "That page wasn't found."
+            [ text "that page wasn't found."
             ]
         ]
 

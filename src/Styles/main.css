@@ -452,6 +452,7 @@ button:disabled {
 .puzzle-body * {
   font-family: sans-serif;
   line-height: 1.4;
+  font-size: 0.95em;
 }
 
 .puzzle-video {
