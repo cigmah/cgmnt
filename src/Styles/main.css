@@ -285,14 +285,32 @@ input {
   width: 100%;
 }
 
+.register-list {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 form {
   width: 100%;
 }
 
-form input {
-  width: 100%;
+.hide {
+  display:none;
 }
 
+form input {
+  width: 100%;
+  font-size: 1.1em;
+}
+
+form button {
+  font-size: 1.1em;
+  margin-bottom: 1em;
+}
+
+.register.message {
+  max-width: 300px;
+}
 
 button {
   display: block;
