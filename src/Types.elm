@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzlePageData, PuzzleSet(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -178,10 +178,8 @@ type alias ContactData =
 
 type alias ProfileData =
     { submissions : List SubmissionData
-    , solvedImages : List String
     , numSolved : Int
     , points : Int
-    , next : ThemeData
     }
 
 
@@ -260,6 +258,12 @@ type alias PuzzleData a =
         , puzzleSet : String
         , title : String
         , imageLink : String
+    }
+
+
+type alias PuzzlePageData =
+    { puzzles : List MiniPuzzleData
+    , next : ThemeData
     }
 
 

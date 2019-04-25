@@ -175,6 +175,13 @@ decoderMiniPuzzleData =
         (Decode.maybe (Decode.field "is_solved" Decode.bool))
 
 
+decoderPuzzlePageData : Decoder PuzzlePageData
+decoderPuzzlePageData =
+    Decode.map2 PuzzlePageData
+        (Decode.field "puzzles" (Decode.list decoderMiniPuzzleData))
+        (Decode.field "next" decoderThemeData)
+
+
 noInputString =
     "There aren't extra materials for this puzzle - you have everything you need!"
 
@@ -239,12 +246,10 @@ decoderThemeData =
 
 decoderProfileData : Decoder ProfileData
 decoderProfileData =
-    Decode.map5 ProfileData
+    Decode.map3 ProfileData
         (Decode.field "submissions" (Decode.list decoderSubmissionData))
-        (Decode.field "solved_images" (Decode.list Decode.string))
         (Decode.field "num_solved" Decode.int)
         (Decode.field "points" Decode.int)
-        (Decode.field "next" decoderThemeData)
 
 
 decoderSubmissionResponse : Decoder SubmissionResponseData

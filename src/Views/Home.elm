@@ -49,16 +49,8 @@ view meta homeState =
 
 defaultProfileData =
     { submissions = []
-    , solvedImages = [ "", "" ]
     , numSolved = 0
     , points = 0
-    , next =
-        { id = 0
-        , theme = "Lorem Ipsum"
-        , themeSet = RegularTheme
-        , tagline = String.slice 0 30 loremIpsum
-        , openDatetime = Time.millisToPosix 0
-        }
     }
 
 
@@ -340,12 +332,6 @@ miniPuzzleBadge imageLink =
         ]
 
 
-solvedImages : List String -> Html Msg
-solvedImages images =
-    div []
-        [ div [ class "flex flex-wrap" ] <| List.map miniPuzzleBadge images ]
-
-
 submissionsTable : List SubmissionData -> Html Msg
 submissionsTable data =
     tableMaker [ "Puzzle", "Time", "Submission", "Correct", "Points" ] data
@@ -386,17 +372,11 @@ tableMaker headerList unitList =
 dashboardPage : Bool -> String -> ProfileData -> Html Msg
 dashboardPage isLoading username profileData =
     let
-        solvedImagesList =
-            profileData.solvedImages
-
         numSolved =
             profileData.numSolved
 
         points =
             profileData.points
-
-        nextTheme =
-            profileData.next
 
         submissions =
             profileData.submissions
@@ -414,14 +394,6 @@ dashboardPage isLoading username profileData =
 
                 ( _, _ ) ->
                     "Brilliant work! You've solved " ++ String.fromInt numSolved ++ " puzzles and earned " ++ String.fromInt points ++ " points!"
-
-        solvedPuzzles =
-            case numSolved of
-                0 ->
-                    div [] []
-
-                _ ->
-                    div [] [ text "You've completed the following puzzles: ", solvedImages solvedImagesList ]
 
         submissionsDiv =
             case List.length submissions of
@@ -474,7 +446,6 @@ dashboardPage isLoading username profileData =
                         []
                         [ textWithLoad isLoading "The next theme that'll open is:" ]
                     , br [] []
-                    , themeCard isLoading nextTheme
                     , br [] []
 
                     --                    , div
@@ -487,7 +458,6 @@ dashboardPage isLoading username profileData =
                     --                                [ text "Take me to the open puzzles!" ]
                     --                            ]
                     --                        ]
-                    , solvedPuzzles
                     , br [] []
                     , submissionsDiv
                     ]

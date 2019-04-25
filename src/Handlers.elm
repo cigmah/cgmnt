@@ -1,4 +1,4 @@
-port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
+port module Handlers exposing (PageActive, changedRoute, changedUrl, clickedLink, credsToUser, defaultPageActive, fromUrl, init, intDeltaString, login, logout, monthToString, pageActive, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -190,6 +190,48 @@ safeOnSubmit message =
 
 
 -- Routing
+
+
+type alias PageActive =
+    { home : Bool
+    , puzzles : Bool
+    , leaderboard : Bool
+    , prizes : Bool
+    , register : Bool
+    , login : Bool
+    }
+
+
+defaultPageActive =
+    { home = False, puzzles = False, leaderboard = False, prizes = False, register = False, login = False }
+
+
+pageActive : Page -> PageActive
+pageActive page =
+    case page of
+        Home _ ->
+            { defaultPageActive | home = True }
+
+        PuzzleList _ ->
+            { defaultPageActive | puzzles = True }
+
+        PuzzleDetail _ ->
+            { defaultPageActive | puzzles = True }
+
+        Leaderboard _ ->
+            { defaultPageActive | leaderboard = True }
+
+        Prizes _ ->
+            { defaultPageActive | prizes = True }
+
+        Register _ ->
+            { defaultPageActive | register = True }
+
+        Login _ ->
+            { defaultPageActive | login = True }
+
+        _ ->
+            defaultPageActive
 
 
 routeToString : Route -> String

@@ -4,7 +4,7 @@ import Browser
 import Browser.Navigation as Navigation
 import Handlers
 import Html exposing (Html, div)
-import Html.Lazy exposing (lazy2)
+import Html.Lazy exposing (lazy3)
 import Http exposing (Error(..))
 import Json.Decode as Decode
 import RemoteData exposing (RemoteData(..), WebData)
@@ -337,12 +337,7 @@ view model =
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
 
         navMenu =
-            case model.page of
-                PuzzleDetail puzzleDetailState ->
-                    div [] []
-
-                _ ->
-                    lazy2 Views.Shared.navMenu model.meta.isNavActive model.meta.auth
+            lazy3 Views.Shared.navMenu model.meta.isNavActive model.meta.auth model.page
     in
     { title = title
     , body =

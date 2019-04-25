@@ -17,98 +17,113 @@ routeHref targetRoute =
 -- Navmenu
 
 
-navMenuBase : Bool -> List ( Route, String ) -> Html Msg -> List ( Route, String ) -> Html Msg
+navMenuBase : Bool -> List ( Route, String, Bool ) -> Html Msg -> List ( Route, String, Bool ) -> Html Msg
 navMenuBase navActive leftLinks userSpan rightLinks =
     nav
-        [ id "navbar"
-        , class "flex h-auto items-center pin-t pin-x w-screen fixed border-b-2 border-grey-lighter justify-between text-grey-darker flex-wrap bg-grey-lightest z-50"
-        , classList [ ( "h-12", not navActive ) ]
-        ]
-        [ div [ class "flex items-center align-middle" ]
-            [ img [ class "resize w-10 h-10 py-1 px-1", src "icon_inverted.png" ] []
-            , span [ class "text-bold text-xl mr-6" ] [ text "CIGMAH" ]
+        [ class "nav" ]
+    <|
+        List.concat
+            [ List.map navLink leftLinks
+            , [ span
+                    [ style "padding-right" "1em"
+                    , style "color" "var(--foreground-inactive)"
+                    ]
+                    [ text "|" ]
+              ]
+            , [ userSpan ]
+            , List.map navLink rightLinks
+            , [ span
+                    [ style "padding-right" "1em"
+                    , style "color" "var(--foreground-inactive)"
+                    ]
+                    [ text "|" ]
+              , span
+                    [ class "theme-switch" ]
+                    [ text "lighten" ]
+              ]
             ]
-        , div [ class "block lg:hidden py-2", onClick ToggledNav ]
-            [ button [ class "flex focus:outline-none items-center h-full px-4 mr-2 rounded-full bg-grey-lighter text-grey-dark hover:bg-grey-light" ]
-                [ div [ class "py-2" ]
-                    [ text "Menu" ]
+
+
+navLink : ( Route, String, Bool ) -> Html Msg
+navLink ( route, name, active ) =
+    let
+        extraStyles =
+            if active then
+                [ style "color" "var(--foreground)"
+                , style "font-weight" "bold"
                 ]
-            ]
-        , div [ class "w-full h-full bg-primary lg:flex lg:items-center lg:w-auto lg:bg-primary", classList [ ( "block", navActive ), ( "hidden", not navActive ) ] ]
-            [ div [ class "text-sm h-full items-center lg:flex-grow" ] <|
-                List.map navLink
-                    leftLinks
-            ]
-        , div
-            [ class "w-full h-full flex-grow bg-primary lg:bg-primary lg:flex lg:w-auto"
-            , classList [ ( "block", navActive ), ( "hidden", not navActive ) ]
-            ]
-            [ div [ class "text-sm h-full lg:text-right lg:flex-grow" ] <| userSpan :: List.map navLink rightLinks
-            ]
-        ]
 
-
-navLink : ( Route, String ) -> Html Msg
-navLink ( route, name ) =
-    a [ routeHref route, class "font-normal font-sans text-base text-grey-dark block h-full lg:inline-block hover:bg-grey-lighter hover:text-grey-darker lg:mt-0 lg:mb-0 px-4 py-4 lg:py-4 lg:text-center no-underline mr-4" ]
-        [ span [] [ text name ] ]
+            else
+                []
+    in
+    a
+        (routeHref route :: extraStyles)
+        [ text name ]
 
 
 userBox name =
-    p [ class "font-normal font-sans text-base text-grey-darker font-semibold lock h-full lg:inline-block pl-4 lg:mt-0 lg:mb-0 lg:px-6 py-4 lg:py-4 lg:text-center mr-0 lg:mr-4" ]
-        [ span [] [ text name ] ]
+    span
+        [ style "padding-right" "1em"
+        , style "color" "var(--foreground)"
+        , style "font-weight" "bold"
+        ]
+        [ text name ]
 
 
-navMenuWithAuth : Bool -> Credentials -> Html Msg
-navMenuWithAuth navActive credentials =
+navMenuWithAuth : Bool -> Credentials -> Page -> Html Msg
+navMenuWithAuth navActive credentials page =
     let
+        active =
+            Handlers.pageActive page
+
         leftLinks =
-            [ ( HomeRoute, "Home" )
-            , ( FormatRoute, "Format" )
-            , ( PrizesRoute, "Prizes" )
-            , ( PuzzleListRoute, "Puzzles" )
-            , ( LeaderboardRoute, "Leaderboard" )
+            [ ( HomeRoute, "info", active.home )
+            , ( PuzzleListRoute, "puzzles", active.puzzles )
+            , ( LeaderboardRoute, "leaderboard", active.leaderboard )
+            , ( PrizesRoute, "prizes", active.prizes )
             ]
 
         userSpan =
             userBox credentials.username
 
         rightLinks =
-            [ ( LogoutRoute, "Logout" ) ]
+            [ ( LogoutRoute, "logout", False ) ]
     in
     navMenuBase navActive leftLinks userSpan rightLinks
 
 
-navMenuWithoutAuth : Bool -> Html Msg
-navMenuWithoutAuth navActive =
+navMenuWithoutAuth : Bool -> Page -> Html Msg
+navMenuWithoutAuth navActive page =
     let
+        active =
+            Handlers.pageActive page
+
         leftLinks =
-            [ ( HomeRoute, "Home" )
-            , ( FormatRoute, "Format" )
-            , ( PrizesRoute, "Prizes" )
-            , ( PuzzleListRoute, "Puzzles" )
-            , ( LeaderboardRoute, "Leaderboard" )
+            [ ( HomeRoute, "info", active.home )
+            , ( PuzzleListRoute, "puzzles", active.puzzles )
+            , ( LeaderboardRoute, "leaderboard", active.leaderboard )
+            , ( PrizesRoute, "prizes", active.prizes )
             ]
 
         userSpan =
             span [] []
 
         rightLinks =
-            [ ( RegisterRoute, "Register" )
-            , ( LoginRoute, "Login" )
+            [ ( RegisterRoute, "register", active.register )
+            , ( LoginRoute, "login", active.login )
             ]
     in
     navMenuBase navActive leftLinks userSpan rightLinks
 
 
-navMenu : Bool -> Auth -> Html Msg
-navMenu navActive auth =
+navMenu : Bool -> Auth -> Page -> Html Msg
+navMenu navActive auth page =
     case auth of
         User credentials ->
-            navMenuWithAuth navActive credentials
+            navMenuWithAuth navActive credentials page
 
         Public ->
-            navMenuWithoutAuth navActive
+            navMenuWithoutAuth navActive page
 
 
 
