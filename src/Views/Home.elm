@@ -115,26 +115,26 @@ dashboardPage isLoading username profileData =
             [ p []
                 [ span
                     [ class "lessen" ]
-                    [ text "?- greeting(me)" ]
+                    [ text "?- greeting(user)" ]
                 , br [] []
                 , text "Welcome, "
                 , b [] [ text username ]
                 , text "."
                 , br [] []
                 , br [] []
-                , span [ class "lessen" ] [ text "?- numsolved(me)" ]
+                , span [ class "lessen" ] [ text "?- numsolved(user)" ]
                 , br [] []
                 , b [] [ text numSolved ]
                 , text " puzzles solved."
                 , br [] []
                 , br [] []
-                , span [ class "lessen" ] [ text "?- numpoints(me)" ]
+                , span [ class "lessen" ] [ text "?- numpoints(user)" ]
                 , br [] []
                 , b [] [ text points ]
                 , text " points."
                 , br [] []
                 , br [] []
-                , span [ class "lessen" ] [ text "?- tenrecent(me)" ]
+                , span [ class "lessen" ] [ text "?- tenrecent(user)" ]
                 , br [] []
                 , table [] <|
                     List.map submissionToRow profileData.submissions
