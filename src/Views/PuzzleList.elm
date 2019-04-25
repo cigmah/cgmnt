@@ -55,22 +55,12 @@ view meta puzzleListState =
 
 puzzleCard : MiniPuzzleData -> Html Msg
 puzzleCard puzzle =
-    let
-        overlay =
-            case mapSolvedToBool puzzle.isSolved of
-                True ->
-                    div [ class "puzzle-overlay" ] []
-
-                False ->
-                    div [] []
-    in
     div
         [ class "item"
         , title <| String.fromInt puzzle.id ++ ". " ++ puzzle.title
         , onClick <| PuzzleListClickedPuzzle puzzle.id
         ]
-        [ overlay
-        , img [ src puzzle.imageLink ] []
+        [ img [ src puzzle.imageLink, classList [ ( "half-opacity", mapSolvedToBool puzzle.isSolved ) ] ] []
         ]
 
 
