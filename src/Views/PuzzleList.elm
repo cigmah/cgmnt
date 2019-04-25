@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
 import Views.Shared exposing (..)
@@ -28,7 +29,15 @@ view meta puzzleListState =
                             puzzleListPage puzzlePageData PuzzleListClickedPuzzle
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -42,7 +51,15 @@ view meta puzzleListState =
                             puzzleListPage puzzlePageData PuzzleListClickedPuzzle
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"

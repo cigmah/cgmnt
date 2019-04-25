@@ -403,16 +403,37 @@ button:disabled {
 }
 
 .puzzle-body {
-  height: 82%;
+  max-height: 82%;
   overflow: auto;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid var(--background-inactive);
+
 }
 
 .puzzle-body * {
   font-family: sans-serif;
   line-height: 1.4;
+}
+
+.puzzle-video {
+  width: 384px;
+  height: 216px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.puzzle-video-placeholder {
+  width: 364px;
+  height: 196px;
+  margin: auto;
+  background: var(--background-inactive);
+  text-align: center;
+  color: var(--foreground);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
 }
 
 pre {
@@ -430,11 +451,11 @@ code {
 }
 
 .puzzle-statement {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: bold;
   text-align: center;
-  margin-top: 2em;
-  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
   border-radius: 5px;
   color: var(--colour-emphasis);
 }
@@ -454,6 +475,7 @@ code {
 .puzzle-bottom {
   padding-top: 10px;
   padding-bottom: 10px;
+  border-top: 1px solid var(--background-inactive);
 }
 
 .puzzle button {
@@ -474,13 +496,16 @@ code {
 }
 
 .puzzle-input {
-  padding: 20px;
+  padding-top: 5px;
+  padding-bottom:5px;
+  padding-left: 20px;
+  padding-right: 20px;
   background: var(--background-inactive);
   border-radius: 5px;
 }
 
 .puzzle-references {
-  padding-top: 1em;
+  padding-top: 0.5em;
   padding-bottom: 1em;
   color: var(--foreground-lessen);
   text-align: right;
@@ -515,19 +540,39 @@ code {
   justify-content: center;
   align-content: center;
   align-items: center;
-  max-width: 50%;
+  max-width: 20em;
 }
 
 .submission-container input {
   flex-grow: 1;
-  min-width: 4em;
-  font-size: 1em;
+  min-width: 2em;
+  font-size: 1.3em;
+  text-align: center;
 }
 
 .submission-container button {
   background: var(--background-puzzle);
   padding-left: 20px;
   padding-right: 20px;
+  font-size: 1.3em;
+}
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-image img {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+  margin-bottom: 1em;
+}
+
+.success-button {
+  margin-top: 0.3em;
+  font-size: 1.5em;
 }
 
 /* LISTS */
@@ -585,6 +630,17 @@ ul {
 
   .puzzle-container {
     margin: 0px;
+  }
+
+  .puzzle-video {
+    width: 196px;
+    height: 108px;
+  }
+
+  .puzzle-video-placeholder {
+    width: 176px;
+    height: 88px;
+    font-size: 0.8em;
   }
 
   td {

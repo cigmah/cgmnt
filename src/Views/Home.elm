@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import RemoteData exposing (RemoteData(..), WebData)
 import Time
 import Types exposing (..)
@@ -24,7 +25,15 @@ view meta homeState =
                     loadingPage
 
                 ( User credentials, HomeUser userData (Failure e) ) ->
-                    errorPage "Placeholder."
+                    case e of
+                        BadStatus metadata ->
+                            errorPage metadata.body
+
+                        NetworkError ->
+                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                        _ ->
+                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                 ( User credentials, HomeUser userData (Success profileData) ) ->
                     dashboardPage

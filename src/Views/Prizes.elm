@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import Types exposing (..)
@@ -26,8 +27,19 @@ view meta webData =
                 Success data ->
                     prizesBody data
 
-                _ ->
-                    errorPage ""
+                Failure e ->
+                    case e of
+                        BadStatus metadata ->
+                            errorPage metadata.body
+
+                        NetworkError ->
+                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                        _ ->
+                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
+
+                NotAsked ->
+                    errorPage "The request didn't go through - try refreshing!"
     in
     ( title, body )
 
@@ -74,7 +86,7 @@ If a participant declines a prize, it will be awarded to the next participant wh
 
 Puzzle Prizes are awarded to the first solver of each puzzle (except for the first three sample puzzles). There are **22 Puzzle Prizes** available (21 regular, 1 meta).
 
-Puzzle prizes are worth **$10**. We release three regular puzzles a month for seven months, and a single participant cannot win more than one of the three Puzzle Prizes a month (if a single participant is the fastest solver for more than one of the three puzzles per month, the other prize/s will be awarded to the next fastest solver/s). The Puzzle Prize for the meta puzzle can be awarded to the fastest solver at any time, regardless of whether they have already won a Puzzle Prize that month.
+Puzzle prizes are worth **$10**. We release three regular puzzles a month for seven months, and a single participant cannot win more than one of the three Puzzle Prizes a month (puzzle prizes are awarded in the same order as the total prizes i.e. Challenge, Beginner, Abstract - if a single participant is the fastest solver for more than one of the three puzzles per month, the other prize/s will be awarded to the next fastest solver/s). The Puzzle Prize for the meta puzzle can be awarded to the fastest solver at any time, regardless of whether they have already won a Puzzle Prize that month.
 
 <br>
 

@@ -176,6 +176,20 @@ noInputString =
     "There aren't extra materials for this puzzle - you have everything you need!"
 
 
+decoderVideoLink : Decoder (Maybe String)
+decoderVideoLink =
+    Decode.string
+        |> Decode.andThen
+            (\string ->
+                case string of
+                    "" ->
+                        Decode.succeed Nothing
+
+                    link ->
+                        Decode.succeed (Just link)
+            )
+
+
 decoderDetailPuzzleData : Decoder DetailPuzzleData
 decoderDetailPuzzleData =
     Decode.succeed DetailPuzzleData
@@ -183,6 +197,7 @@ decoderDetailPuzzleData =
         |> required "puzzle_set" decoderPuzzleSet
         |> required "theme" decoderThemeData
         |> required "title" Decode.string
+        |> required "video_link" decoderVideoLink
         |> required "image_link" Decode.string
         |> required "body" Decode.string
         |> required "example" Decode.string

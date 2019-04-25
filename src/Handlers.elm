@@ -111,8 +111,14 @@ puzzleSetString set =
 posixToString : Posix -> String
 posixToString time =
     let
+        aedt =
+            11 * 60
+
+        aest =
+            { start = 25909380, offset = 10 * 60 }
+
         zone =
-            Time.customZone (11 * 60) []
+            Time.customZone aedt [ aest ]
 
         year =
             Time.toYear zone time
@@ -215,7 +221,7 @@ pageActive page =
         PuzzleList _ ->
             { defaultPageActive | puzzles = True }
 
-        PuzzleDetail _ ->
+        PuzzleDetail _ _ ->
             { defaultPageActive | puzzles = True }
 
         Leaderboard _ ->
@@ -323,7 +329,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| PuzzleList (ListPublic Loading), Requests.getPuzzleListPublic )
 
         ( Nothing, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail (PublicPuzzle puzzleId Loading), Requests.getPuzzleDetailPublic puzzleId )
+            ( makeModel <| PuzzleDetail Video (PublicPuzzle puzzleId Loading), Requests.getPuzzleDetailPublic puzzleId )
 
         ( Nothing, LeaderboardRoute ) ->
             ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )
@@ -344,7 +350,7 @@ routeInit credentialsMaybe route key =
             ( makeModel <| PuzzleList (ListUser Loading), Requests.getPuzzleListUser credentials.token )
 
         ( Just credentials, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail (UserPuzzle puzzleId Loading), Requests.getPuzzleDetailUser puzzleId credentials.token )
+            ( makeModel <| PuzzleDetail Video (UserPuzzle puzzleId Loading), Requests.getPuzzleDetailUser puzzleId credentials.token )
 
         ( Just credentials, LeaderboardRoute ) ->
             ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )

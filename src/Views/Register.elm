@@ -26,7 +26,7 @@ view meta registerState =
                     registerPage registerState
 
                 ( _, _ ) ->
-                    errorPage ""
+                    errorPage "Sorry, it looks like we don't have any extra info on this!"
     in
     ( title, body )
 

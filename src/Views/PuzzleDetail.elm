@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.Lazy exposing (..)
+import Http exposing (Error(..))
 import Markdown
 import RemoteData exposing (RemoteData(..), WebData)
 import Time
@@ -13,8 +14,8 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> PuzzleDetailState -> ( String, Html Msg )
-view meta puzzleDetailState =
+view : Meta -> PuzzleShow -> PuzzleDetailState -> ( String, Html Msg )
+view meta puzzleShow puzzleDetailState =
     let
         title =
             "Puzzles - CIGMAH"
@@ -27,10 +28,18 @@ view meta puzzleDetailState =
                             puzzleLoadingPage
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Login to submit.") False
+                            detailPuzzlePage puzzleShow puzzle (Just "Login to submit your answer.") False
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -41,10 +50,18 @@ view meta puzzleDetailState =
                             puzzleLoadingPage
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle Nothing False
+                            detailPuzzlePage puzzleShow puzzle Nothing False
 
                         Failure e ->
-                            errorPage ""
+                            case e of
+                                BadStatus metadata ->
+                                    errorPage metadata.body
+
+                                NetworkError ->
+                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
+
+                                _ ->
+                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
 
                         NotAsked ->
                             errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
@@ -52,13 +69,13 @@ view meta puzzleDetailState =
                 ( User credentials, UnsolvedPuzzleLoaded puzzleId data submission webData ) ->
                     case webData of
                         NotAsked ->
-                            detailPuzzlePage data Nothing False
+                            detailPuzzlePage puzzleShow data Nothing False
 
                         Loading ->
-                            detailPuzzlePage data Nothing True
+                            detailPuzzlePage puzzleShow data Nothing True
 
                         Failure e ->
-                            detailPuzzlePage data (Just "Hm. It seems there was an error. Let us know!") False
+                            detailPuzzlePage puzzleShow data (Just "Hm. It seems there was an error. Let us know!") False
 
                         Success submissionResponse ->
                             case submissionResponse of
@@ -68,7 +85,7 @@ view meta puzzleDetailState =
                                             successScreen data okSubmitData
 
                                         False ->
-                                            detailPuzzlePage data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False
+                                            detailPuzzlePage puzzleShow data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False
 
                                 TooSoonSubmit tooSoonSubmitData ->
                                     let
@@ -83,7 +100,7 @@ view meta puzzleDetailState =
                                                 , "."
                                                 ]
                                     in
-                                    detailPuzzlePage data (Just messageString) False
+                                    detailPuzzlePage puzzleShow data (Just messageString) False
 
                 ( _, _ ) ->
                     notFoundPage
@@ -91,66 +108,8 @@ view meta puzzleDetailState =
     ( title, body )
 
 
-defaultPuzzleData : Maybe Bool -> DetailPuzzleData
-defaultPuzzleData isSolved =
-    { id = 0
-    , puzzleSet = AbstractPuzzle
-    , theme = { id = 0, theme = "Lorem Ipsum", themeSet = RegularTheme, tagline = "", openDatetime = Time.millisToPosix 0 }
-    , title = "Lorem Ipsum"
-    , imageLink = ""
-    , body = String.slice 0 100 loremIpsum
-    , example = String.slice 0 100 loremIpsum
-    , statement = String.slice 0 30 loremIpsum
-    , references = String.slice 0 30 loremIpsum
-    , input = String.slice 0 30 loremIpsum
-    , isSolved = isSolved
-    , answer = Nothing
-    , explanation = Nothing
-    }
-
-
 type alias Message =
     String
-
-
-borderBox : Html Msg -> String -> Html Msg
-borderBox content colour =
-    div
-        [ id "puzzle-input"
-        , class "m-4 p-4 pt-2 border-l-4 text-grey-darkest rounded-lg rounded-l-none"
-        , classList [ ( " bg-" ++ colour ++ "-lightest border-" ++ colour, True ) ]
-        ]
-        [ content ]
-
-
-type alias CardBodyData =
-    { iconSpan : Html Msg
-    , colour : String
-    , titleSpan : Html Msg
-    , content : Html Msg
-    }
-
-
-cardBody : CardBodyData -> Html Msg
-cardBody data =
-    div [ class "md:pb-4 mt-8" ]
-        [ div
-            [ class "flex mb-2" ]
-            [ div
-                [ class "flex items-center justify-center h-12 w-12 px-3 py-3 rounded-l font-black text-white border-b-4"
-                , classList [ ( " bg-" ++ data.colour ++ " border-" ++ data.colour ++ "-dark ", True ) ]
-                ]
-                [ data.iconSpan
-                ]
-            , div
-                [ class "flex items-center h-12 w-full p-3 px-4 rounded-r bg-grey-lighter uppercase text-xl font-bold text-grey-darker border-grey-light border-b-4" ]
-                [ data.titleSpan ]
-            ]
-        , div
-            [ class "bg-white rounded-lg p-2 md:p-8 mb-12 md:mb-16 border-b-4 border-grey-lighter" ]
-            [ data.content
-            ]
-        ]
 
 
 type PaddingSize
@@ -191,19 +150,26 @@ submissionInput puzzleId isLoading =
         ]
 
 
-detailPuzzlePage : DetailPuzzleData -> Maybe Message -> Bool -> Html Msg
-detailPuzzlePage puzzle maybeMessage isInputLoading =
+detailPuzzlePage : PuzzleShow -> DetailPuzzleData -> Maybe Message -> Bool -> Html Msg
+detailPuzzlePage puzzleShow puzzle maybeMessage isInputLoading =
     let
-        solutionBody =
+        ( solutionBody, puzzleBottom ) =
             case ( puzzle.isSolved, puzzle.answer, puzzle.explanation ) of
                 ( Just True, Just answer, Just explanation ) ->
-                    div [ class "puzzle-solution" ]
+                    ( div [ class "puzzle-solution" ]
                         [ div [ class "puzzle-answer" ] [ text answer ]
                         , div [ class "puzzle-explanation" ] <| Markdown.toHtml Nothing explanation
                         ]
+                    , div [] []
+                    )
 
                 ( _, _, _ ) ->
-                    div [] []
+                    ( div [] []
+                    , div [ class "puzzle-bottom" ]
+                        [ messageBody
+                        , submissionBox
+                        ]
+                    )
 
         paddingSize =
             case puzzle.isSolved of
@@ -228,6 +194,38 @@ detailPuzzlePage puzzle maybeMessage isInputLoading =
 
                 WithoutSubmissionBox ->
                     div [] []
+
+        ( puzzleBody, toggleText ) =
+            case puzzleShow of
+                Video ->
+                    let
+                        videoDiv =
+                            case puzzle.videoLink of
+                                Just videoLink ->
+                                    div [ class "puzzle-video" ] [ iframe [ width 384, height 216, src videoLink ] [] ]
+
+                                Nothing ->
+                                    div [ class "puzzle-video-placeholder" ] [ text "We're still making the video for this puzzle while we're transitioning the site design. Please use the text-only version in the meantime." ]
+                    in
+                    ( [ videoDiv
+                      , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
+                      , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                      , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                      , solutionBody
+                      ]
+                    , "TEXT-ONLY VERSION"
+                    )
+
+                Text ->
+                    ( [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
+                      , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
+                      , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                      , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
+                      , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                      , solutionBody
+                      ]
+                    , "VIDEO VERSION"
+                    )
     in
     div
         [ class "main" ]
@@ -239,7 +237,7 @@ detailPuzzlePage puzzle maybeMessage isInputLoading =
                             [ b [] [ text puzzle.title ]
                             ]
                         , div [ class "right" ]
-                            [ button [ style "margin-right" "1em" ] [ text "TEXT" ]
+                            [ button [ style "margin-right" "1em", onClick PuzzleDetailTogglePuzzleShow ] [ text toggleText ]
                             , div [ class "button-container", onClick (ChangedRoute PuzzleListRoute) ]
                                 [ button []
                                     [ b [] [ text "✕" ]
@@ -256,19 +254,9 @@ detailPuzzlePage puzzle maybeMessage isInputLoading =
                         ]
                     ]
                 , div [ class "puzzle-body" ]
-                    [ div [ class "puzzle-padder" ]
-                        [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
-                        , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
-                        , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
-                        , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
-                        , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
-                        , solutionBody
-                        ]
+                    [ div [ class "puzzle-padder" ] puzzleBody
                     ]
-                , div [ class "puzzle-bottom" ]
-                    [ messageBody
-                    , submissionBox
-                    ]
+                , puzzleBottom
                 ]
             ]
         ]
@@ -280,61 +268,21 @@ successScreen puzzle okSubmitData =
         message =
             case okSubmitData.points of
                 0 ->
-                    [ text "You completed "
-                    , span [ class "italics" ] [ text puzzle.title ]
-                    , text "! No points were awarded, but who needs points when you have skills ;)"
-                    ]
+                    [ text "Kudos." ]
 
                 _ ->
-                    [ text "You completed "
-                    , span [ class "italic" ] [ text puzzle.title ]
-                    , text " and earned "
-                    , span [ class "text-bold" ] [ text <| String.fromInt okSubmitData.points ]
-                    , text " points!"
+                    [ text "Congrats. "
+                    , b [] [ text <| String.fromInt okSubmitData.points ]
+                    , text " points awarded."
                     ]
     in
     div
-        [ class "px-8 bg-grey-lightest" ]
-        [ div
-            [ class "flex flex-wrap h-screen content-center justify-center items-center" ]
-            [ div
-                [ class "flex-col-reverse h-full items-center justify-center flex md:flex-col md:w-4/5 lg:w-3/4 xl:w-2/3" ]
-                [ div [] [ img [ src puzzle.imageLink, class "resize rounded-lg h-64 w-64 bg-grey" ] [] ]
-                , div [ class "mb-4 md:mt-4 md:mb-0" ]
-                    [ div
-                        [ class "inline-flex flex justify-center w-full" ]
-                        [ div
-                            [ class "flex items-center sm:text-xl justify-center sm:h-12 sm:w-10 px-5 py-3 rounded-l-lg font-black bg-green text-grey-lighter border-b-2 border-green-dark" ]
-                            [ span
-                                [ class "fas fa-glass-cheers" ]
-                                []
-                            ]
-                        , div
-                            [ class "flex items-center w-full p-3 px-5 sm:h-12 rounded-r-lg text-grey-darkest sm:text-lg font-bold uppercase bg-grey-lighter border-b-2 border-grey" ]
-                            [ text "Congratulations!" ]
-                        ]
-                    , div
-                        [ class "block w-full my-3 bg-white rounded-lg p-6 w-full text-base border-b-2 border-grey-light" ]
-                        [ div
-                            [ class "text-lg" ]
-                            message
-                        , br
-                            []
-                            []
-                        , br [] []
-                        , div
-                            [ class "text-lg" ]
-                            [ text "Great job!" ]
-                        ]
-                    , div
-                        [ class "flex w-full justify-center" ]
-                        [ button
-                            [ class "px-3 py-2 bg-green rounded-lg border-b-2 border-green-dark w-full text-white active:border-0 outline-none focus:outline-none active:outline-none hover:border-b-4"
-                            , onClick (ChangedRoute PuzzleListRoute)
-                            ]
-                            [ text "Go Back to Puzzles" ]
-                        ]
-                    ]
+        [ class "main" ]
+        [ div [ class "container" ]
+            [ div [ class "success-container" ]
+                [ div [ class "success-image" ] [ img [ src puzzle.imageLink ] [] ]
+                , div [ class "success-message" ] message
+                , button [ class "success-button", onClick (ChangedRoute PuzzleListRoute) ] [ text "Return" ]
                 ]
             ]
         ]
