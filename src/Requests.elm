@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzlePageData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzleList, decoderPuzzlePageData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListPublicforLeaderboard, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -165,6 +165,11 @@ decoderPuzzlePageData =
     Decode.map2 PuzzlePageData
         (Decode.field "puzzles" (Decode.list decoderMiniPuzzleData))
         (Decode.field "next" decoderThemeData)
+
+
+decoderPuzzleList : Decoder (List MiniPuzzleData)
+decoderPuzzleList =
+    Decode.field "puzzles" (Decode.list decoderMiniPuzzleData)
 
 
 noInputString =
@@ -343,12 +348,17 @@ getPrizeList =
 
 getPuzzleListPublic : Cmd Msg
 getPuzzleListPublic =
-    getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse (Decode.list decoderMiniPuzzleData)
+    getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse decoderPuzzlePageData
+
+
+getPuzzleListPublicforLeaderboard : Cmd Msg
+getPuzzleListPublicforLeaderboard =
+    getNoAuth [ "puzzles" ] LeaderboardGotPuzzleOptions decoderPuzzleList
 
 
 getPuzzleListUser : AuthToken -> Cmd Msg
 getPuzzleListUser authToken =
-    getWithAuth authToken [ "puzzles" ] PuzzleListUserGotResponse (Decode.list decoderMiniPuzzleData)
+    getWithAuth authToken [ "puzzles" ] PuzzleListUserGotResponse decoderPuzzlePageData
 
 
 getPuzzleDetailPublic : PuzzleId -> Cmd Msg

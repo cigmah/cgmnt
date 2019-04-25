@@ -60,8 +60,8 @@ type HomeState
 
 
 type PuzzleListState
-    = ListPublic (WebData (List MiniPuzzleData))
-    | ListUser (WebData (List MiniPuzzleData))
+    = ListPublic (WebData PuzzlePageData)
+    | ListUser (WebData PuzzlePageData)
 
 
 type PuzzleDetailState
@@ -370,8 +370,8 @@ type Msg
     | ToggledMessage
     | HomeGotProfileResponse (WebData ProfileData)
     | PrizesGotResponse (WebData PrizeData)
-    | PuzzleListPublicGotResponse (WebData (List MiniPuzzleData))
-    | PuzzleListUserGotResponse (WebData (List MiniPuzzleData))
+    | PuzzleListPublicGotResponse (WebData PuzzlePageData)
+    | PuzzleListUserGotResponse (WebData PuzzlePageData)
     | PuzzleListClickedPuzzle PuzzleId
     | PuzzleDetailGotUser (WebData DetailPuzzleData)
     | PuzzleDetailChangedSubmission Submission

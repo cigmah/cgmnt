@@ -140,9 +140,9 @@ update msg model =
             ( { model | page = Leaderboard (ByTotal leaderTotalDataWebData) }, Cmd.none )
 
         ( LeaderboardClickedByPuzzle, Leaderboard _ ) ->
-            ( { model | page = Leaderboard (ByPuzzleNotChosen False Loading) }, Requests.getPuzzleListPublic )
+            ( { model | page = Leaderboard (ByPuzzleNotChosen False Loading) }, Requests.getPuzzleListPublicforLeaderboard )
 
-        ( PuzzleListPublicGotResponse miniPublicPuzzleDataListWebData, Leaderboard (ByPuzzleNotChosen isSelectActive Loading) ) ->
+        ( LeaderboardGotPuzzleOptions miniPublicPuzzleDataListWebData, Leaderboard (ByPuzzleNotChosen isSelectActive Loading) ) ->
             ( { model | page = Leaderboard (ByPuzzleNotChosen False miniPublicPuzzleDataListWebData) }, Cmd.none )
 
         ( LeaderboardClickedPuzzle puzzleOption, Leaderboard (ByPuzzleNotChosen _ (Success data)) ) ->

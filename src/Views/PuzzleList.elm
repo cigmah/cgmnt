@@ -22,18 +22,18 @@ view meta puzzleListState =
                 ( Public, ListPublic webData ) ->
                     case webData of
                         Loading ->
-                            puzzleListPage True Nothing (List.repeat 25 defaultPuzzleData) (\x -> Ignored)
+                            loadingPage
 
-                        Success puzzles ->
-                            if List.length puzzles < 25 then
+                        Success puzzlePageData ->
+                            if List.length puzzlePageData.puzzles < 25 then
                                 let
                                     numRepeats =
-                                        25 - List.length puzzles
+                                        25 - List.length puzzlePageData.puzzles
                                 in
-                                puzzleListPage False Nothing (puzzles ++ List.repeat numRepeats defaultPuzzleData) PuzzleListClickedPuzzle
+                                puzzleListPage False Nothing { puzzlePageData | puzzles = puzzlePageData.puzzles ++ List.repeat numRepeats defaultPuzzleData } PuzzleListClickedPuzzle
 
                             else
-                                puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
+                                puzzleListPage False Nothing puzzlePageData PuzzleListClickedPuzzle
 
                         Failure e ->
                             errorPage ""
@@ -44,18 +44,18 @@ view meta puzzleListState =
                 ( User credentials, ListUser webData ) ->
                     case webData of
                         Loading ->
-                            puzzleListPage True Nothing (List.repeat 25 defaultPuzzleData) (\x -> Ignored)
+                            loadingPage
 
-                        Success puzzles ->
-                            if List.length puzzles < 25 then
+                        Success puzzlePageData ->
+                            if List.length puzzlePageData.puzzles < 25 then
                                 let
                                     numRepeats =
-                                        25 - List.length puzzles
+                                        25 - List.length puzzlePageData.puzzles
                                 in
-                                puzzleListPage False Nothing (puzzles ++ List.repeat numRepeats defaultPuzzleData) PuzzleListClickedPuzzle
+                                puzzleListPage False Nothing { puzzlePageData | puzzles = puzzlePageData.puzzles ++ List.repeat numRepeats defaultPuzzleData } PuzzleListClickedPuzzle
 
                             else
-                                puzzleListPage False Nothing puzzles PuzzleListClickedPuzzle
+                                puzzleListPage False Nothing puzzlePageData PuzzleListClickedPuzzle
 
                         Failure e ->
                             errorPage ""
@@ -198,9 +198,12 @@ mapSolvedToBool boolMaybe =
             False
 
 
-puzzleListPage : Bool -> Maybe String -> List MiniPuzzleData -> (PuzzleId -> Msg) -> Html Msg
-puzzleListPage isLoading errorMsg puzzles onClickPuzzle =
+puzzleListPage : Bool -> Maybe String -> PuzzlePageData -> (PuzzleId -> Msg) -> Html Msg
+puzzleListPage isLoading errorMsg puzzlePageData onClickPuzzle =
     let
+        puzzles =
+            puzzlePageData.puzzles
+
         pageTitle =
             "Puzzles"
 
