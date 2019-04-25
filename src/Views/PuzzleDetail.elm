@@ -24,10 +24,10 @@ view meta puzzleDetailState =
                 ( Public, PublicPuzzle puzzleId webData ) ->
                     case webData of
                         Loading ->
-                            detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
+                            puzzleLoadingPage
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Login to submit your answer and reveal the solution!") False False
+                            detailPuzzlePage puzzle (Just "Login to submit.") False
 
                         Failure e ->
                             errorPage ""
@@ -38,10 +38,10 @@ view meta puzzleDetailState =
                 ( User credentials, UserPuzzle puzzleId webData ) ->
                     case webData of
                         Loading ->
-                            detailPuzzlePage (defaultPuzzleData Nothing) Nothing True False
+                            puzzleLoadingPage
 
                         Success puzzle ->
-                            detailPuzzlePage puzzle (Just "Well done! You've solved this puzzle.") False False
+                            detailPuzzlePage puzzle Nothing False
 
                         Failure e ->
                             errorPage ""
@@ -52,13 +52,13 @@ view meta puzzleDetailState =
                 ( User credentials, UnsolvedPuzzleLoaded puzzleId data submission webData ) ->
                     case webData of
                         NotAsked ->
-                            detailPuzzlePage data Nothing False False
+                            detailPuzzlePage data Nothing False
 
                         Loading ->
-                            detailPuzzlePage data Nothing False True
+                            detailPuzzlePage data Nothing True
 
                         Failure e ->
-                            detailPuzzlePage data (Just "Hm. It seems there was an error. Let us know!") False False
+                            detailPuzzlePage data (Just "Hm. It seems there was an error. Let us know!") False
 
                         Success submissionResponse ->
                             case submissionResponse of
@@ -68,7 +68,7 @@ view meta puzzleDetailState =
                                             successScreen data okSubmitData
 
                                         False ->
-                                            detailPuzzlePage data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False False
+                                            detailPuzzlePage data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False
 
                                 TooSoonSubmit tooSoonSubmitData ->
                                     let
@@ -83,7 +83,7 @@ view meta puzzleDetailState =
                                                 , "."
                                                 ]
                                     in
-                                    detailPuzzlePage data (Just messageString) False False
+                                    detailPuzzlePage data (Just messageString) False
 
                 ( _, _ ) ->
                     notFoundPage
@@ -158,26 +158,13 @@ type PaddingSize
     | WithoutSubmissionBox
 
 
-messageBox : PaddingSize -> Message -> Html Msg
-messageBox bottomPadding message =
-    let
-        bottomPaddingClass =
-            case bottomPadding of
-                WithSubmissionBox ->
-                    "pb-20"
-
-                WithoutSubmissionBox ->
-                    "pb-4"
-    in
+messageBox : Message -> Html Msg
+messageBox message =
     div
-        [ id "message-box"
-        , class <| "flex pin-b pin-x h-auto px-4 pt-4 md:px-2 fixed bg-grey-light text-grey-darkest justify-center text " ++ bottomPaddingClass
+        [ class "message"
         , onClick ToggledMessage
         ]
-        [ span
-            [ class "text-center md:w-3/4 " ]
-            [ text message ]
-        ]
+        [ text message ]
 
 
 submissionInput : PuzzleId -> Bool -> Html Msg
@@ -191,56 +178,30 @@ submissionInput puzzleId isLoading =
                 False ->
                     "Submit"
     in
-    div
-        [ class "flex h-16 fixed pin-b pin-x justify-center bg-grey-lighter w-full" ]
-        [ div
-            [ class "flex items-center justify-center w-full md:w-1/2 xl:w-1/3"
+    div [ class "submission-container" ]
+        [ input
+            [ type_ "text"
+            , placeholder "Submission"
             , onSubmit (PuzzleDetailClickedSubmit puzzleId)
             , onInput PuzzleDetailChangedSubmission
+            , disabled isLoading
             ]
-            [ input
-                [ class "px-4 py-2 rounded-l-full outline-none text-grey-dark focus:bg-white focus:text-grey-darker"
-                , placeholder "Your submission here."
-                , disabled isLoading
-                , classList [ ( "bg-grey", isLoading ), ( "bg-grey-light", not isLoading ) ]
-                ]
-                []
-            , div [ class "border-t-2 border-grey-lighter hover:border-t-0 active:border-t-4" ]
-                [ button
-                    [ class "px-4 py-2 rounded-r-full bg-grey outline-none border-b-2 border-grey-dark focus:outline-none hover:border-b-4 active:border-grey-darker text-grey-darker  active:border-b-0"
-                    , onClick (PuzzleDetailClickedSubmit puzzleId)
-                    , type_ "submit"
-                    ]
-                    [ text submitText ]
-                ]
-            ]
+            []
+        , button [ type_ "submit", onClick (PuzzleDetailClickedSubmit puzzleId), disabled isLoading ] [ text "Submit" ]
         ]
 
 
-detailPuzzlePage : DetailPuzzleData -> Maybe Message -> Bool -> Bool -> Html Msg
-detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
+detailPuzzlePage : DetailPuzzleData -> Maybe Message -> Bool -> Html Msg
+detailPuzzlePage puzzle maybeMessage isInputLoading =
     let
-        colour =
-            case isLoading of
-                True ->
-                    "grey"
-
-                False ->
-                    puzzleColour puzzle.puzzleSet
-
         solutionBody =
             case ( puzzle.isSolved, puzzle.answer, puzzle.explanation ) of
                 ( Just True, Just answer, Just explanation ) ->
-                    cardBody
-                        { iconSpan = text "..."
-                        , colour = colour
-                        , titleSpan = text "Solution"
-                        , content =
-                            div []
-                                [ borderBox (div [ class "markdown" ] [ text "The answer is ", span [ class "font-bold" ] [ text answer ], text "." ]) colour
-                                , div [ class "markdown" ] <| Markdown.toHtml Nothing explanation
-                                ]
-                        }
+                    div [ class "puzzle-solution" ]
+                        [ h1 [] [ text "Solution" ]
+                        , div [ class "puzzle-answer" ] [ text answer ]
+                        , div [ class "puzzle-explanation" ] <| Markdown.toHtml Nothing explanation
+                        ]
 
                 ( _, _, _ ) ->
                     div [] []
@@ -256,7 +217,7 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
         messageBody =
             case maybeMessage of
                 Just message ->
-                    messageBox paddingSize message
+                    messageBox message
 
                 Nothing ->
                     div [] []
@@ -268,92 +229,45 @@ detailPuzzlePage puzzle maybeMessage isLoading isInputLoading =
 
                 WithoutSubmissionBox ->
                     div [] []
-
-        pagePadding =
-            case paddingSize of
-                WithSubmissionBox ->
-                    "pb-32"
-
-                WithoutSubmissionBox ->
-                    "pb-32"
-
-        borderBoxInput =
-            case isLoading of
-                True ->
-                    [ textWithLoad True <| String.slice 0 30 loremIpsum ]
-
-                False ->
-                    Markdown.toHtml Nothing puzzle.input
     in
     div
-        [ class "bg-grey-lightest h-full z-50" ]
-        [ div
-            [ class "flex fixed pin-t pin-x bg-grey-lightest border-b-2 border-grey-lighter" ]
-            [ div
-                [ class "flex h-12 hover:bg-grey-light" ]
-                [ button
-                    [ class "h-full uppercase px-3 text-sm text-grey-dark outline-none focus:outline-none"
-                    , onClick (ChangedRoute PuzzleListRoute)
-                    ]
-                    [ text "Back to Puzzles" ]
-                ]
-            ]
-        , div
-            [ class "puzzle-detail h-full overflow-auto p-2 md:p-3 w-full flex fixed mt-12 mb-24 pb-24" ]
-            [ div [ class "container w-full mx-auto pb-32" ]
-                [ div
-                    [ class "flex mb-4" ]
-                    [ div
-                        [ class "flex items-center text-xl justify-center h-12 w-12 rounded-l font-black text-grey-lighter border-b-4"
-                        , classList [ ( " bg-" ++ colour ++ " border-" ++ colour ++ "-dark ", True ) ]
-                        ]
-                        [ img [ class "resize h-full w-full overflow-hidden", src puzzle.imageLink, classList [ ( "hidden", isLoading ) ] ] [] ]
-                    , div
-                        [ class "flex items-center h-12 w-full p-3 px-4 rounded-r bg-grey-lighter uppercase text-xl font-bold text-grey-darker border-grey-light border-b-4" ]
-                        [ textWithLoad isLoading puzzle.title ]
-                    ]
-                , div
-                    [ class "my-3 md:flex flex-wrap " ]
-                    [ span
-                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
-                        [ textWithLoad isLoading puzzle.theme.theme ]
-                    , span
-                        [ class "inline-flex m-1 px-3 py-2 rounded-full bg-grey-lighter text-sm text-grey" ]
-                        [ textWithLoad isLoading <| Handlers.posixToString puzzle.theme.openDatetime ]
-                    ]
-                , div [ class pagePadding ]
-                    [ div
-                        [ id "puzzle-card", class "markdown rounded-lg p-2 md:p-8 pb-4 md-24 border-b-4 border-grey-lighter bg-white md:text-base lg:text-lg" ]
-                        [ div
-                            [ id "puzzle-body", classList [ ( "rounded-lg bg-grey-light text-grey-light", isLoading ) ] ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.body
-                        , borderBox (div [ class "markdown" ] borderBoxInput) colour
-                        , div
-                            [ id "puzzle-statement", class "markdown m-4 mt-8 text-center pb-8 font-semibold", classList [ ( "bg-grey-lighter text-grey-lighter rounded-lg", isLoading ) ] ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.statement
-                        , div
-                            [ id "puzzle-example"
-                            , class "overflow-auto markdown m-1 mt-3 md:m-4 p-2 md:p-4 md:pt-2 border-grey-light border-l-4 rounded-lg rounded-l-none md:text-base"
-                            , classList [ ( "bg-grey-lightest text-grey-lightest rounded-lg", isLoading ), ( "bg-grey-lightest text-grey-darkest ", not isLoading ) ]
+        [ class "main" ]
+        [ div [ class "puzzle-container" ]
+            [ div [ class "puzzle" ]
+                [ div [ class "puzzle-top" ]
+                    [ div [ class "puzzle-header" ]
+                        [ div [ class "title" ]
+                            [ b [] [ text puzzle.title ]
                             ]
-                          <|
-                            Markdown.toHtml Nothing puzzle.example
-                        , div
-                            [ class "flex justify-end" ]
-                            [ div
-                                [ id "puzzle-references", class "markdown text-right text-grey-dark text-sm md:text-base md:w-1/2", classList [ ( "bg-grey-light rounded-full text-grey-light", isLoading ), ( "text-grey-dark", not isLoading ) ] ]
-                              <|
-                                Markdown.toHtml Nothing puzzle.references
+                        , div [ class "right" ]
+                            [ button [ style "margin-right" "1em" ] [ text "TEXT" ]
+                            , div [ class "button-container", onClick (ChangedRoute PuzzleListRoute) ]
+                                [ button []
+                                    [ b [] [ text "✕" ]
+                                    ]
+                                ]
                             ]
                         ]
-                    , solutionBody
-                    , div
-                        []
-                        [ messageBody
-                        , submissionBox
+                    , div [ class "puzzle-tags" ]
+                        [ span [ class "puzzle-tag" ] [ text puzzle.theme.theme ]
+                        , span [ class "puzzle-tag" ] [ text "|" ]
+                        , span [ class "puzzle-tag" ] [ text <| Handlers.puzzleSetString puzzle.puzzleSet ]
+                        , span [ class "puzzle-tag" ] [ text "|" ]
+                        , span [ class "puzzle-tag" ] [ text (Handlers.posixToString puzzle.theme.openDatetime) ]
                         ]
+                    ]
+                , div [ class "puzzle-body" ]
+                    [ div [ class "puzzle-padder" ]
+                        [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
+                        , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
+                        , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                        , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
+                        , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                        ]
+                    ]
+                , div [ class "puzzle-bottom" ]
+                    [ messageBody
+                    , submissionBox
                     ]
                 ]
             ]

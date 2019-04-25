@@ -1,4 +1,4 @@
-module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loadingPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, puzzleSetSpan, routeHref, tableCell, tableRow, textWithLoad, userBox)
+module Views.Shared exposing (Colour, PageBaseData, TableSize(..), errorPage, loadingPage, loremIpsum, navLink, navMenu, navMenuBase, navMenuWithAuth, navMenuWithoutAuth, notFoundPage, pageBase, pageButton, puzzleColour, puzzleLoadingPage, puzzleSetSpan, routeHref, tableCell, tableRow, textWithLoad, userBox)
 
 import Handlers
 import Html exposing (..)
@@ -212,6 +212,21 @@ loadingPage =
     div [ class "main" ]
         [ div [ class "loading-container" ]
             [ div [ class "loader" ] []
+            ]
+        ]
+
+
+puzzleLoadingPage : Html Msg
+puzzleLoadingPage =
+    div [ class "main" ]
+        [ div [ class "puzzle-container" ]
+            [ div [ class "puzzle" ]
+                [ div [ style "display" "flex", style "justify-content" "center", style "align-content" "center", style "align-items" "center", style "height" "100%" ]
+                    [ div [ class "loading-container" ]
+                        [ div [ class "loader" ] []
+                        ]
+                    ]
+                ]
             ]
         ]
 

@@ -27,8 +27,17 @@
     font-family:"VT323", "Monaco", "Lucida Sans Typewriter", monospace;
 }
 
+a {
+  color: var(--foreground-inactive);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--foreground);
+}
+
 html {
-  height: 100%;
+  height: 95%;
 }
 
 body {
@@ -84,6 +93,12 @@ body {
 b {
   color: var(--colour-emphasis);
 }
+
+
+strong {
+  color: var(--colour-emphasis);
+}
+
 
 /* SPACER */
 .spacer {
@@ -203,7 +218,6 @@ b {
   cursor: pointer;
 }
 
-.grid
 
 .grid .item img:active {
   margin: 1px;
@@ -260,7 +274,7 @@ td {
 input {
   background: var(--background-inactive);
   color: var(--foreground);
-  font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
+  font-family:"VT323", "Monaco", "Lucida Sans Typewriter", monospace;
   border-width: 0px;
   padding: 5px;
   border-radius: 5px;
@@ -318,20 +332,20 @@ button:disabled {
 
 /* MESSAGES */
 .message {
-  font-size: 0.8em;
+  font-size: 0.95em;
 }
 
 /* PUZZLE */
 
 .puzzle-container {
-  margin-top: 3.5em;
-  width: 100%;
-  height: calc(95% - 3.5em);
+  width: 95%;
+  margin-top: 2.5em;
+  height: calc(95% - 2em);
 }
 
 .puzzle {
-  -webkit-box-shadow: 0 0 19px var(--background-inactive);
-  box-shadow: 0 0 10px var(--background-inactive);
+  -webkit-box-shadow: 0 0 20px var(--background-inactive);
+  box-shadow: 0 0 20px var(--background-inactive);
   background: var(--background-puzzle);
   border-radius: 10px;
   height: 100%;
@@ -379,8 +393,12 @@ button:disabled {
 }
 
 .puzzle-tags {
-  font-size: 0.8em;
-  color: var(--foreground-inactive);
+  font-size: 0.95em;
+  color: var(--foreground-lessen);
+}
+
+.puzzle-tag {
+  margin-right: 10px;
 }
 
 .title {
@@ -389,24 +407,93 @@ button:disabled {
 }
 
 .puzzle-body {
-  height: 80%;
+  height: 82%;
   overflow: auto;
   display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid var(--background-inactive);
+}
 
+/*
+.puzzle-body * {
+  font-family: sans-serif;
+}
+*/
+
+
+pre {
+  font-size: 0.9em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 2em;
+  overflow: auto;
+}
+
+.puzzle-statement {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 2.5em;
+  border-radius: 5px;
+  color: var(--colour-emphasis);
+}
+
+.puzzle-example {
+  border: 1px dotted var(--foreground-lessen);
+  color: var(--foreground-lessen);
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.puzzle-padder {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .puzzle-bottom {
-  margin-top: 10px;
+  padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.puzzle button {
+  font-size: 1em;
 }
 
 .puzzle-bottom .message {
   text-align: center;
   padding-bottom: 15px;
 }
+
+.puzzle img {
+  margin: auto;
+  display: block;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 5px;
+}
+
+.puzzle-input {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  background: var(--background-inactive);
+  border-radius: 5px;
+}
+
+.puzzle-references {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: var(--foreground-lessen);
+  text-align: right;
+}
+
+.puzzle-references * {
+  font-family: "VT323", monospace;
+}
+
 
 .submission-container {
   margin: auto;
@@ -420,6 +507,7 @@ button:disabled {
 .submission-container input {
   flex-grow: 1;
   min-width: 4em;
+  font-size: 1em;
 }
 
 .submission-container button {
@@ -474,6 +562,15 @@ ul {
     0% { transform: translate(-2em, 0);}
     50% {transform: translate(2em,0);}
     100% {transform: translate(-2em, 0);}
+  }
+
+  .puzzle-padder {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .puzzle-container {
+    margin: 0px;
   }
 
   td {
