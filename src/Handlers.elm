@@ -315,11 +315,11 @@ credsToUser c =
 -- Init
 
 
-routeInit : Maybe Credentials -> Route -> Navigation.Key -> ( Model, Cmd Msg )
-routeInit credentialsMaybe route key =
+routeInit : Maybe Credentials -> Route -> Navigation.Key -> ColourTheme -> ( Model, Cmd Msg )
+routeInit credentialsMaybe route key colourTheme =
     let
         meta =
-            defaultMeta key credentialsMaybe
+            defaultMeta key credentialsMaybe colourTheme
 
         makeModel =
             Model meta
@@ -390,7 +390,7 @@ init valueDecode url key =
                 |> Result.toMaybe
 
         ( model, cmd ) =
-            routeInit credentialsMaybe route key
+            routeInit credentialsMaybe route key Dark
     in
     ( model, Cmd.batch [ cmd, portChangedRoute () ] )
 
@@ -425,7 +425,7 @@ changedUrl meta url =
                     Nothing
 
         ( model, cmd ) =
-            routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key
+            routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key meta.colourTheme
     in
     ( model, Cmd.batch [ cmd, portChangedRoute () ] )
 
@@ -442,6 +442,6 @@ changedRoute meta route =
                     Nothing
 
         ( model, cmd ) =
-            routeInit maybeCredentials route meta.key
+            routeInit maybeCredentials route meta.key meta.colourTheme
     in
     ( model, Cmd.batch [ cmd, Navigation.pushUrl meta.key <| routeToString route, portChangedRoute () ] )

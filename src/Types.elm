@@ -421,8 +421,8 @@ type Msg
 -- INITIALS
 
 
-defaultMeta : Navigation.Key -> Maybe Credentials -> Meta
-defaultMeta key maybeCredentials =
+defaultMeta : Navigation.Key -> Maybe Credentials -> ColourTheme -> Meta
+defaultMeta key maybeCredentials colourTheme =
     let
         auth =
             case maybeCredentials of
@@ -435,7 +435,7 @@ defaultMeta key maybeCredentials =
     { isNavActive = False
     , key = key
     , auth = auth
-    , colourTheme = Dark
+    , colourTheme = colourTheme
     }
 
 
