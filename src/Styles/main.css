@@ -288,6 +288,7 @@ input {
 .register-list {
   padding-left: 0;
   margin-left: 0;
+  list-style-type: none;
 }
 
 form {
@@ -307,6 +308,26 @@ form button {
   font-size: 1.1em;
   margin-bottom: 1em;
 }
+
+.small-button {
+  background: var(--background-inactive);
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  margin-bottom: 0px;
+}
+
+.login.message {
+  max-width: 300px;
+}
+
+
+.login-list {
+  padding-left: 0;
+  margin-left: 0;
+  list-style-type: none;
+}
+
 
 .register.message {
   max-width: 300px;
@@ -335,7 +356,7 @@ button:hover {
 
 input:disabled {
   cursor: not-allowed;
-  background: var(--background);
+  background: var(--foreground-lessen);
 }
 
 button:disabled {
