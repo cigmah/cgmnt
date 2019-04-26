@@ -74,7 +74,7 @@ puzzleCard : MiniPuzzleData -> Html Msg
 puzzleCard puzzle =
     div
         [ class "item"
-        , title <| String.fromInt puzzle.id ++ ". " ++ puzzle.title
+        , Html.Attributes.attribute "data-tooltip" <| String.fromInt puzzle.id ++ ") " ++ puzzle.title ++ " (" ++ Handlers.puzzleSetString puzzle.puzzleSet ++ ")"
         , onClick <| PuzzleListClickedPuzzle puzzle.id
         ]
         [ img [ src puzzle.imageLink, classList [ ( "half-opacity", mapSolvedToBool puzzle.isSolved ) ] ] []

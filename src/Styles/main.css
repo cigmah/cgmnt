@@ -11,20 +11,6 @@
 }
 
 
-
-/*
-:root {
-    --background:#f2f6f7;
-    --background-inactive:#dee6ea;
-    --background-puzzle: #fefefe;
-    --foreground:#262828;
-    --foreground-inactive:#a6b2b2;
-    --foreground-lessen:#a6b2b2;
-    --colour-emphasis: #111111;
-}
-
-*/
-
 html {
   font-size: 140%;
 }
@@ -167,7 +153,17 @@ b {
 
 .options {
   text-align: right;
-  margin-bottom: 1em;
+  position: absolute;
+  background: var(--background-inactive);
+  padding: 5px;
+  align-self: flex-end;
+  margin-top: 1em;
+}
+
+.no-overflow {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .option {
@@ -217,6 +213,21 @@ b {
   height: 51px;
   width: 51px;
   cursor: pointer;
+}
+
+.item:hover:after {
+  content: attr(data-tooltip);
+  position: absolute;
+  white-space: nowrap;
+  background: var(--background-inactive);
+  color: var(--foreground);
+  border-radius: 5px;
+  font-family: "VT323", monospace;
+  font-size: 0.8rem;
+  padding: 5px 10px 5px 10px;
+  -webkit-box-shadow: 0 0 20px var(--background-inactive);
+  box-shadow: 0 0 20px var(--background-inactive);
+  margin-left: 0.5em;
 }
 
 

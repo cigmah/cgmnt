@@ -33,11 +33,11 @@ app.ports.portChangedRoute.subscribe(function() {
 app.ports.themeLight.subscribe(function(isLight) {
   if (isLight) {
     document.documentElement.style.setProperty('--background', '#f2f6f7');
-    document.documentElement.style.setProperty('--background-inactive', '#eff2f7');
+    document.documentElement.style.setProperty('--background-inactive', '#dae0ea');
     document.documentElement.style.setProperty('--background-puzzle', '#fefefe');
     document.documentElement.style.setProperty('--foreground', '#262828');
-    document.documentElement.style.setProperty('--foreground-inactive', '#a6b2b2');
-    document.documentElement.style.setProperty('--foreground-lessen', '#a6b2b2');
+    document.documentElement.style.setProperty('--foreground-inactive', '#75797f');
+    document.documentElement.style.setProperty('--foreground-lessen', '#75797f');
     document.documentElement.style.setProperty('--colour-emphasis', '#111111');
   }
   else {
