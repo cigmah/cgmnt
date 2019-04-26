@@ -253,7 +253,7 @@ leaderboardByPuzzle puzzleOptions isOptionsVisible maybeSelectedPuzzle maybeLead
                     List.concat (List.map makePuzzleOption puzzleOptions)
 
             else
-                br [] []
+                span [] []
 
         puzzleSelection =
             case maybeSelectedPuzzle of
@@ -270,10 +270,10 @@ leaderboardByPuzzle puzzleOptions isOptionsVisible maybeSelectedPuzzle maybeLead
                         [ table [] <| List.map2 makePuzzleRow (List.range 1 10) units ]
 
                 Nothing ->
-                    br [] []
+                    span [] []
     in
     div [ class "main" ]
-        [ div [ class "container" ]
+        [ div [ class "container no-overflow" ]
             [ span [ class "lessen" ]
                 [ text "?- top10("
                 , span [ class "toggler", onClick LeaderboardClickedBySet ] [ text "puzzle" ]
@@ -310,7 +310,7 @@ leaderboardBySet isOptionsVisible maybeSelectedSet maybeLeaderSetUnits =
                     List.concat (List.map makeSetOption setOptions)
 
             else
-                br [] []
+                span [] []
 
         setSelection =
             case maybeSelectedSet of
@@ -327,10 +327,10 @@ leaderboardBySet isOptionsVisible maybeSelectedSet maybeLeaderSetUnits =
                         [ table [] <| List.map2 makeSetRow (List.range 1 10) units ]
 
                 Nothing ->
-                    br [] []
+                    span [] []
     in
     div [ class "main" ]
-        [ div [ class "container" ]
+        [ div [ class "container no-overflow" ]
             [ span [ class "lessen" ]
                 [ text "?- top10("
                 , span [ class "toggler", onClick LeaderboardClickedByTotal ] [ text "set" ]
