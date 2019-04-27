@@ -239,6 +239,7 @@ puzzleLoadingPage =
                     ]
                     [ div [ class "loading-container" ]
                         [ div [ class "loader" ] []
+                        , div [ class "spacer" ] []
                         ]
                     ]
                 ]

@@ -115,7 +115,7 @@ loginPage state =
     div [ class "main" ]
         [ div [ class "container" ]
             [ div [ class "center" ]
-                [ div [ classList [ ( "hide", isFormHidden ) ] ]
+                [ div [ class "login-container", classList [ ( "hide", isFormHidden ) ] ]
                     [ ul [ class "login-list" ]
                         [ li [] [ text "Make sure you have registered first." ]
                         , li [] [ text "Input your email and press Send Token." ]
