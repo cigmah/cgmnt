@@ -12,11 +12,11 @@
 
 
 html {
-  font-size: 140%;
+  font-size: 95%;
 }
 
 * {
-    font-family:"VT323", "Monaco", "Lucida Sans Typewriter", monospace;
+    font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
 }
 
 a {
@@ -222,11 +222,12 @@ b {
   background: var(--background-inactive);
   color: var(--foreground);
   border-radius: 5px;
-  font-family: "VT323", monospace;
+  font-family: "Space Mono", monospace;
   font-size: 0.8rem;
   padding: 5px 10px 5px 10px;
   -webkit-box-shadow: 0 0 20px var(--background-inactive);
   box-shadow: 0 0 20px var(--background-inactive);
+  z-index: 500;
   margin-left: 0.5em;
 }
 
@@ -286,7 +287,7 @@ td {
 input {
   background: var(--background-inactive);
   color: var(--foreground);
-  font-family:"VT323", "Monaco", "Lucida Sans Typewriter", monospace;
+  font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
   border-width: 0px;
   padding: 5px;
   border-radius: 5px;
@@ -463,15 +464,19 @@ button:disabled {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  max-width: 100%;
 }
 
 .puzzle-body * {
   font-family: "Helvetica", "Arial", sans-serif;
   line-height: 1.4;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
 }
 
+  .puzzle-video-version {
+    max-width: 384px;
+    margin: auto;
+  }
 .puzzle-video {
   width: 384px;
   height: 216px;
@@ -501,17 +506,19 @@ button:disabled {
 }
 
 pre {
-  font-size: 0.9em;
   margin-top: 1em;
   margin-bottom: 1em;
   padding-left: 2em;
   overflow: auto;
-  font-family: "VT323", monospace !important;
+  font-family: "Space Mono", monospace !important;
 }
 
+pre * {
+  font-size: 0.6rem !important;
+}
 
 code {
-  font-family: "VT323", monospace !important;
+  font-family: "Space Mono", monospace !important;
 }
 
 .puzzle-statement {
@@ -524,8 +531,8 @@ code {
 }
 
 .puzzle-statement * {
-  font-family: "VT323", monospace !important;
-  font-size: 1rem;
+  font-family: "Space Mono", monospace !important;
+  font-size: 0.8rem;
 }
 
 .puzzle-example {
@@ -538,6 +545,10 @@ code {
 .puzzle-padder {
   padding-left: 10%;
   padding-right: 10%;
+}
+
+.puzzle-text-only {
+  width:
 }
 
 .puzzle-bottom {
@@ -574,9 +585,9 @@ code {
 }
 
 .puzzle-input * {
-  font-family: "VT323", monospace !important;
+  font-family: "Space Mono", monospace !important;
   font-size: 0.8rem;
-  margin: auto;
+  width: auto;
 }
 
 .puzzle-input p {
@@ -584,16 +595,16 @@ code {
 }
 
 .puzzle-references {
-  padding-top: 0.25em;
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
   color: var(--foreground-lessen);
   text-align: right;
 }
 
 .puzzle-references * {
-  font-family: "VT323", monospace;
-  font-size: 0.75rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
 }
+
 
 .puzzle-solution {
   padding-bottom: 2em;
@@ -675,7 +686,8 @@ ul {
 @media only screen and (max-width: 768px) {
 
   body {
-    margin: 5px;
+    margin: 0px;
+    padding: 10px;
   }
 
   img {
@@ -688,6 +700,10 @@ ul {
     flex-wrap: wrap;
     box-shadow: 0px 5px 5px -5px var(--background-inactive);
     padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: -10px;
+    margin-top: -10px;
   }
 
   .nav a {
@@ -701,36 +717,78 @@ ul {
   .main {
     height: auto;
     display: flex;
-    justify-content: center;
-    padding-top: 4em;
+    padding-top: 6em;
     padding-bottom: 1em;
   }
-
  .loading-container {
    margin-top: 2em;
  }
 
+ .tagline {
+   max-width: 90%;
+ }
   @keyframes bounce {
     0% { transform: translate(-2em, 0);}
     50% {transform: translate(2em,0);}
     100% {transform: translate(-2em, 0);}
   }
 
+  .grid {
+    width: 250px !important;
+    height: 250px !important;
+  }
+
+  .item  {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .grid .item img {
+    height: 40px !important;
+    width: 40px !important;
+  }
+
+  .container {
+    max-width: 90%;
+  }
+
+  .small-button {
+    font-size: 0.8rem;
+    margin-top: 0;
+  }
+
+  .form-control {
+    display: flex;
+  }
+
   .puzzle-body {
     max-height: none;
   }
 
-  .puzzle {
+  .puzzle-body p {
     padding-left: 5px;
     padding-right: 5px;
+  }
+
+  blockquote {
+    margin-inline-start: 10px !important;
+    margin-inline-end: 10px !important;
+  }
+
+  .puzzle {
     padding-top: 2px;
-    width: 97%;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
     margin-top: 0;
+    margin-left: -10px;
+    margin-right: -10px;
   }
 
   .puzzle-padder {
     padding-left: 0;
     padding-right: 0;
+    overflow: auto;
   }
 
   .puzzle-container {

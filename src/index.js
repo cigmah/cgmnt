@@ -1,6 +1,6 @@
 import { Elm } from './Main.elm';
 import "./Styles/main.css";
-import "./Styles/highlight-default.css";
+import "./Styles/highlight-paraiso.css";
 import { unregister } from './registerServiceWorker';
 import hljs from 'highlight.js';
 

@@ -83,7 +83,7 @@ registerPage state =
     div [ class "main" ]
         [ div [ class "container" ]
             [ div [ class "center" ]
-                [ div [ classList [ ( "hide", hideForm ) ] ]
+                [ div [ class "register-container", classList [ ( "hide", hideForm ) ] ]
                     [ ul [ class "register-list" ]
                         [ li [] [ text "We email you login tokens to verify your identity." ]
                         , li [] [ text "We don't spam you or share your email." ]

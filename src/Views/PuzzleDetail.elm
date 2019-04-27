@@ -207,22 +207,26 @@ detailPuzzlePage puzzleShow puzzle maybeMessage isInputLoading =
                                 Nothing ->
                                     div [ class "puzzle-video-placeholder" ] [ text "We're still making the video for this puzzle while we're transitioning the site design. Please use the text-only version in the meantime." ]
                     in
-                    ( [ videoDiv
-                      , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
-                      , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
-                      , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
-                      , solutionBody
+                    ( [ div [ class "puzzle-video-version" ]
+                            [ videoDiv
+                            , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
+                            , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                            , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                            , solutionBody
+                            ]
                       ]
                     , "TEXT-ONLY VERSION"
                     )
 
                 Text ->
-                    ( [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
-                      , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
-                      , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
-                      , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
-                      , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
-                      , solutionBody
+                    ( [ div [ class "puzzle-text-version" ]
+                            [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
+                            , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
+                            , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                            , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
+                            , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
+                            , solutionBody
+                            ]
                       ]
                     , "VIDEO VERSION"
                     )
