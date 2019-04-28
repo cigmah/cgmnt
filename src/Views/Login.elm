@@ -33,8 +33,31 @@ view meta loginState =
     ( title, body )
 
 
+loginPage : LoginState -> Html Msg
 loginPage state =
     let
+        emailValue =
+            case state of
+                InputEmail email sendEmailResponseDataWebData ->
+                    email
+
+                InputToken email sendEmailResponseData token credentialsWebData ->
+                    email
+
+                AlreadyLoggedIn ->
+                    ""
+
+        tokenValue =
+            case state of
+                InputEmail email sendEmailResponseDataWebData ->
+                    ""
+
+                InputToken email sendEmailResponseData token credentialsWebData ->
+                    token
+
+                AlreadyLoggedIn ->
+                    ""
+
         isTokenDisabled =
             case state of
                 InputToken _ _ _ NotAsked ->
@@ -122,14 +145,14 @@ loginPage state =
                         , li [] [ text "We'll automatically send you a login token." ]
                         , li [] [ text "Then input the login token." ]
                         ]
-                    , Html.form (class "login" :: onSubmitMessage)
+                    , Html.form [ class "login", onSubmit Ignored ]
                         [ div [ class "form-control" ]
-                            [ input [ disabled (not isTokenDisabled), type_ "email", placeholder "Email", onInput LoginChangedEmail ] []
-                            , button [ class "small-button", disabled (not isTokenDisabled), onClick LoginClickedSendEmail ] [ text "Send Token" ]
+                            [ input [ disabled (not isTokenDisabled), type_ "email", placeholder "Email", onInput LoginChangedEmail, value emailValue ] []
+                            , button [ class "small-button", disabled (not isTokenDisabled), onClick LoginClickedSendEmail ] [ text sendTokenText ]
                             ]
                         , div [ class "form-control" ]
-                            [ input [ disabled isTokenDisabled, type_ "text", placeholder "Login Token", onInput LoginChangedToken ] [] ]
-                        , button [ disabled isTokenDisabled, onClick LoginClickedLogin ] [ text "Login" ]
+                            [ input [ disabled isTokenDisabled, type_ "text", placeholder "Login Token", onInput LoginChangedToken, value tokenValue ] [] ]
+                        , button [ disabled isTokenDisabled, onClick LoginClickedLogin ] [ text loginText ]
                         ]
                     ]
                 , div [ class "login message" ] messageDiv
