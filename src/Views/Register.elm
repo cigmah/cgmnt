@@ -34,6 +34,22 @@ view meta registerState =
 registerPage : RegisterState -> Html Msg
 registerPage state =
     let
+        ( username, email ) =
+            case state of
+                NewUser userData registerResponseDataWebData ->
+                    ( userData.username, userData.email )
+
+                AlreadyUser ->
+                    ( "", "" )
+
+        ( firstName, lastName ) =
+            case state of
+                NewUser userData registerResponseDataWebData ->
+                    ( userData.firstName, userData.lastName )
+
+                AlreadyUser ->
+                    ( "", "" )
+
         messageText =
             case state of
                 NewUser _ (Success _) ->
@@ -92,16 +108,16 @@ registerPage state =
                         ]
                     , Html.form [ class "register", onSubmit RegisterClicked ]
                         [ div [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "Username*", onInput RegisterChangedUsername ] [] ]
+                            [ input [ type_ "text", placeholder "Username*", onInput RegisterChangedUsername, value username ] [] ]
                         , div
                             [ class "form-control" ]
-                            [ input [ type_ "email", placeholder "Email*", onInput RegisterChangedEmail ] [] ]
+                            [ input [ type_ "email", placeholder "Email*", onInput RegisterChangedEmail, value email ] [] ]
                         , div
                             [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "First Name", onInput RegisterChangedFirstName ] [] ]
+                            [ input [ type_ "text", placeholder "First Name", onInput RegisterChangedFirstName, value firstName ] [] ]
                         , div
                             [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "Last Name", onInput RegisterChangedLastName ] [] ]
+                            [ input [ type_ "text", placeholder "Last Name", onInput RegisterChangedLastName, value lastName ] [] ]
                         , button [] [ text buttonText ]
                         ]
                     ]
