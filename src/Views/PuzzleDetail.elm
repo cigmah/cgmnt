@@ -202,7 +202,7 @@ detailPuzzlePage puzzleShow puzzle maybeMessage isInputLoading =
                         videoDiv =
                             case puzzle.videoLink of
                                 Just videoLink ->
-                                    div [ class "puzzle-video" ] [ iframe [ width 384, height 216, src videoLink ] [] ]
+                                    div [ class "puzzle-video" ] [ iframe [ width 384, height 216, src videoLink, Html.Attributes.attribute "allowfullscreen" "" ] [] ]
 
                                 Nothing ->
                                     div [ class "puzzle-video-placeholder" ] [ text "We're still making the video for this puzzle while we're transitioning the site design. Please use the text-only version in the meantime." ]
