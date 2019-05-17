@@ -11,7 +11,6 @@ import RemoteData exposing (RemoteData(..), WebData)
 import Requests
 import Types exposing (..)
 import Url
-import Views.Format
 import Views.Home
 import Views.Leaderboard
 import Views.Login
@@ -35,33 +34,30 @@ subscriptions model =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case ( msg, model.page ) of
+    case ( msg, model.modal ) of
         ( Ignored, _ ) ->
             ( model, Cmd.none )
 
         ( ToggledTheme, _ ) ->
             let
-                oldMeta =
-                    model.meta
-
                 ( newColourTheme, themeLight ) =
-                    case oldMeta.colourTheme of
+                    case model.colourTheme of
                         Light ->
                             ( Dark, False )
 
                         Dark ->
                             ( Light, True )
             in
-            ( { model | meta = { oldMeta | colourTheme = newColourTheme } }, Handlers.themeLight themeLight )
+            ( { model | colourTheme = newColourTheme }, Handlers.themeLight themeLight )
 
         ( ClickedLink urlRequestBrowser, _ ) ->
             Handlers.clickedLink model urlRequestBrowser
 
         ( ChangedUrl url, _ ) ->
-            Handlers.changedUrl model.meta url
+            Handlers.changedUrl model url
 
         ( ChangedRoute route, _ ) ->
-            Handlers.changedRoute model.meta route
+            Handlers.changedRoute model route
 
         ( ToggledNav, _ ) ->
             let
@@ -300,13 +296,9 @@ view model =
 
                 NotFound ->
                     ( "Not Found - CIGMAH", Views.Shared.notFoundPage )
-
-        navMenu =
-            lazy4 Views.Shared.navMenu model.meta.isNavActive model.meta.auth model.page model.meta.colourTheme
     in
     { title = title
     , body =
-        [ navMenu
-        , body
+        [ body
         ]
     }

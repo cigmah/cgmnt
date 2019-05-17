@@ -13,43 +13,22 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> WebData PrizeData -> ( String, Html Msg )
-view meta webData =
+view : Model -> WebData (List Prize) -> ( String, Html Msg )
+view model prizeListWebData =
     let
         title =
             "Prizes - CIGMAH"
 
         body =
-            case webData of
-                Loading ->
-                    loadingPage
-
-                Success data ->
-                    prizesContent data
-
-                Failure e ->
-                    case e of
-                        BadStatus metadata ->
-                            errorPage metadata.body
-
-                        NetworkError ->
-                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
-
-                        _ ->
-                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
-
-                NotAsked ->
-                    errorPage "The request didn't go through - try refreshing!"
+            webDataWrapper prizeListWebData (makeBody model)
     in
     ( title, body )
 
 
-prizesContent : PrizeData -> Html Msg
-prizesContent data =
-    div [ class "main" ]
-        [ div [ class "container" ]
-            [ div [ class "prizes" ] [ table [] (List.map prizeToRow data) ]
-            ]
+makeBody : Model -> List Prize -> Html Msg
+makeBody model prizeListWebData =
+    div [ class "container" ]
+        [ div [ class "prizes" ] [ table [] (List.map prizeToRow data) ]
         ]
 
 

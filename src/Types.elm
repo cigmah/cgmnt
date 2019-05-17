@@ -1,4 +1,4 @@
-module Types exposing (Auth(..), AuthToken, ColourTheme(..), ContactData, ContactResponseData, Credentials, DetailPuzzleData, Email, HomeState(..), IsSelectActive, LeaderPuzzleData, LeaderPuzzleUnit, LeaderSetData, LeaderSetUnit, LeaderTotalData, LeaderTotalUnit, LeaderboardState(..), LoginState(..), Meta, MiniPuzzleData, Model, Msg(..), OkSubmitData, Page(..), Prize, PrizeData, PrizeType(..), ProfileData, PuzzleData, PuzzleDetailState(..), PuzzleId, PuzzleListState(..), PuzzlePageData, PuzzleSet(..), PuzzleShow(..), RegisterResponseData, RegisterState(..), Route(..), SendEmailResponseData, Submission, SubmissionData, SubmissionResponseData(..), ThemeData, ThemeSet(..), Token, TooSoonSubmitData, UserBaseData, UserData, defaultContactData, defaultMeta, defaultRegister)
+module Types exposing (Auth(..), AuthToken, ColourTheme(..), Comment, CommentResponse, ContactData, ContactMsgType(..), ContactResponse, Credentials, Email, EmailToken, FullUser, HomeData, LoginMsgType(..), LoginState(..), Modal(..), Model, Msg(..), OkSubmitData, Prize, PrizeType(..), PuzzleDetail, PuzzleDetailState(..), PuzzleId, PuzzleLeaderboardUnit, PuzzleMini, PuzzleMsgType(..), PuzzleSet(..), PuzzleStats, RegisterMsgType(..), RegisterResponse, Route(..), SendEmailResponse, Submission, SubmissionData, SubmissionResponse(..), Theme, ThemeSet(..), TooSoonSubmitData, User, UserAggregate, UserStats, Username, defaultContactData, defaultModel, defaultRegister)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -12,17 +12,17 @@ import Url
 
 
 type alias Model =
-    { meta : Meta
-    , page : Page
-    }
-
-
-type alias Meta =
-    { isNavActive : Bool
-    , key : Navigation.Key
+    { key : Navigation.Key
     , auth : Auth
     , colourTheme : ColourTheme
+    , webDataHome : WebData HomeData
+    , modal : Maybe Modal
     }
+
+
+type Auth
+    = User Credentials
+    | Public
 
 
 type ColourTheme
@@ -30,29 +30,38 @@ type ColourTheme
     | Dark
 
 
-type Page
-    = Home HomeState
-    | Format
-    | Prizes (WebData PrizeData)
-    | PuzzleList PuzzleListState
-    | PuzzleDetail PuzzleShow PuzzleDetailState
-    | Leaderboard LeaderboardState
-    | Register RegisterState
+type alias HomeData =
+    { puzzles : List PuzzleMini
+    , next : Theme
+    , numRegistrations : Int
+    , numSubmissions : Int
+    }
+
+
+type Modal
+    = Contact ContactData (WebData ContactResponse)
+    | Register FullUser (WebData RegisterResponse)
     | Login LoginState
+    | Puzzle PuzzleId PuzzleDetailState
+    | Prizes (WebData (List Prize))
+    | Leaderboard (WebData (List UserAggregate))
+    | UserInfo Username (WebData UserStats)
     | Logout
+    | Info
     | NotFound
 
 
 type Route
     = HomeRoute
-    | FormatRoute
-    | PrizesRoute
-    | PuzzleListRoute
-    | PuzzleDetailRoute PuzzleId
-    | LeaderboardRoute
+    | ContactRoute
     | RegisterRoute
     | LoginRoute
+    | PuzzleRoute PuzzleId
+    | PrizesRoute
+    | LeaderboardRoute
+    | UserRoute Username
     | LogoutRoute
+    | InfoRoute
     | NotFoundRoute
 
 
@@ -60,39 +69,15 @@ type Route
 -- ROUTE STATES
 
 
-type HomeState
-    = HomePublic
-    | HomeUser UserData (WebData ProfileData)
-
-
-type PuzzleListState
-    = ListPublic (WebData PuzzlePageData)
-    | ListUser (WebData PuzzlePageData)
+type LoginState
+    = InputEmail Email (WebData SendEmailResponse)
+    | InputToken Email SendEmailResponse EmailToken (WebData Credentials)
 
 
 type PuzzleDetailState
-    = UserPuzzle PuzzleId (WebData DetailPuzzleData)
-    | UnsolvedPuzzleLoaded PuzzleId DetailPuzzleData Submission (WebData SubmissionResponseData)
-    | PublicPuzzle PuzzleId (WebData DetailPuzzleData)
-
-
-type LeaderboardState
-    = ByTotal (WebData LeaderTotalData)
-    | BySetNotChosen IsSelectActive
-    | BySetChosen IsSelectActive PuzzleSet (WebData LeaderSetData)
-    | ByPuzzleNotChosen IsSelectActive (WebData (List MiniPuzzleData))
-    | ByPuzzleChosen IsSelectActive (List MiniPuzzleData) MiniPuzzleData (WebData LeaderPuzzleData)
-
-
-type RegisterState
-    = NewUser UserData (WebData RegisterResponseData)
-    | AlreadyUser
-
-
-type LoginState
-    = InputEmail Email (WebData SendEmailResponseData)
-    | InputToken Email SendEmailResponseData Token (WebData Credentials)
-    | AlreadyLoggedIn
+    = UserSolvedPuzzle (WebData PuzzleDetail) Comment (WebData CommentResponse)
+    | UserUnsolvedPuzzle (WebData PuzzleDetail) Submission (WebData SubmissionResponse)
+    | PublicPuzzle (WebData PuzzleDetail)
 
 
 
@@ -103,27 +88,31 @@ type alias Submission =
     String
 
 
+type alias Username =
+    String
+
+
 type alias Email =
     String
 
 
-type alias Token =
+type alias EmailToken =
     String
 
 
-type alias IsSelectActive =
-    Bool
-
-
-type alias ContactResponseData =
+type alias ContactResponse =
     String
 
 
-type alias RegisterResponseData =
+type alias CommentResponse =
+    List Comment
+
+
+type alias RegisterResponse =
     String
 
 
-type alias SendEmailResponseData =
+type alias SendEmailResponse =
     String
 
 
@@ -131,21 +120,11 @@ type alias SendEmailResponseData =
 -- USER AND CREDENTIALS
 
 
-type Auth
-    = User Credentials
-    | Public
+type alias User base =
+    { base | username : String }
 
 
-type alias UserBaseData a =
-    { a
-        | username : String
-        , email : String
-        , firstName : String
-        , lastName : String
-    }
-
-
-type alias UserData =
+type alias FullUser =
     { username : String
     , email : String
     , firstName : String
@@ -158,7 +137,7 @@ type alias Credentials =
     , email : String
     , firstName : String
     , lastName : String
-    , token : AuthToken
+    , authToken : AuthToken
     }
 
 
@@ -179,20 +158,24 @@ type alias ContactData =
 
 
 
--- PROFILE
+-- USER
 
 
-type alias ProfileData =
-    { submissions : List SubmissionData
+type alias UserStats =
+    { username : Username
+    , numSubmit : Int
     , numSolved : Int
     , points : Int
+    , rank : Int
+    , numPrizes : Int
+    , submissions : Maybe (List SubmissionData)
     }
 
 
 type alias SubmissionData =
     { id : Int
     , username : String
-    , puzzle : MiniPuzzleData
+    , puzzle : PuzzleMini
     , submissionDatetime : Posix
     , submission : String
     , isResponseCorrect : Bool
@@ -220,17 +203,13 @@ type alias Prize =
     }
 
 
-type alias PrizeData =
-    List Prize
-
-
 
 -- THEME
 
 
-type alias ThemeData =
+type alias Theme =
     { id : Int
-    , theme : String
+    , themeTitle : String
     , themeSet : ThemeSet
     , tagline : String
     , openDatetime : Posix
@@ -258,24 +237,9 @@ type PuzzleSet
     | MetaPuzzle
 
 
-type alias PuzzleData a =
-    { a
-        | id : Int
-        , puzzleSet : String
-        , title : String
-        , imageLink : String
-    }
-
-
-type alias PuzzlePageData =
-    { puzzles : List MiniPuzzleData
-    , next : ThemeData
-    }
-
-
-type alias MiniPuzzleData =
+type alias PuzzleMini =
     { id : Int
-    , themeTitle : String
+    , themeData : Theme
     , puzzleSet : PuzzleSet
     , title : String
     , imageLink : String
@@ -283,63 +247,55 @@ type alias MiniPuzzleData =
     }
 
 
-type alias DetailPuzzleData =
+type alias PuzzleDetail =
     { id : Int
     , puzzleSet : PuzzleSet
-    , theme : ThemeData
+    , theme : Theme
     , title : String
     , videoLink : Maybe String
     , imageLink : String
     , body : String
-    , example : String
+    , input : String
     , statement : String
     , references : String
-    , input : String
-    , isSolved : Maybe Bool
+    , stats : PuzzleStats
     , answer : Maybe String
     , explanation : Maybe String
+    , comments : Maybe (List Comment)
     }
 
 
-type PuzzleShow
-    = Video
-    | Text
+type alias PuzzleStats =
+    { correct : Int
+    , incorrect : Int
+    , leaderboard : List PuzzleLeaderboardUnit
+    }
+
+
+type alias PuzzleLeaderboardUnit =
+    { username : String
+    , submissionDatetime : Posix
+    }
+
+
+type alias Comment =
+    { username : String
+    , timestamp : Posix
+    , text : String
+    }
 
 
 
 -- LEADERBOARD
 
 
-type alias LeaderPuzzleData =
-    List LeaderPuzzleUnit
-
-
-type alias LeaderPuzzleUnit =
+type alias UserAggregate =
     { username : String
-    , puzzle : String
-    , submissionDatetime : Posix
-    , points : Int
-    }
-
-
-type alias LeaderTotalData =
-    List LeaderTotalUnit
-
-
-type alias LeaderTotalUnit =
-    { username : String
-    , total : Int
-    }
-
-
-type alias LeaderSetData =
-    List LeaderSetUnit
-
-
-type alias LeaderSetUnit =
-    { puzzleSet : PuzzleSet
-    , username : String
-    , total : Int
+    , totalAbstract : Int
+    , totalBeginner : Int
+    , totalChallenge : Int
+    , totalMeta : Int
+    , totalGrand : Int
     }
 
 
@@ -347,7 +303,7 @@ type alias LeaderSetUnit =
 -- SUBMISSIONS
 
 
-type SubmissionResponseData
+type SubmissionResponse
     = OkSubmit OkSubmitData
     | TooSoonSubmit TooSoonSubmitData
 
@@ -379,50 +335,60 @@ type Msg
     | ChangedUrl Url.Url
     | ToggledTheme
     | ChangedRoute Route
-    | ToggledNav
     | ToggledMessage
-    | HomeGotProfileResponse (WebData ProfileData)
-    | PrizesGotResponse (WebData PrizeData)
-    | PuzzleListPublicGotResponse (WebData PuzzlePageData)
-    | PuzzleListUserGotResponse (WebData PuzzlePageData)
-    | PuzzleListClickedPuzzle PuzzleId
-    | PuzzleDetailGotUser (WebData DetailPuzzleData)
-    | PuzzleDetailChangedSubmission Submission
-    | PuzzleDetailClickedSubmit PuzzleId
-    | PuzzleDetailGotSubmissionResponse (WebData SubmissionResponseData)
-    | PuzzleDetailGotPublic (WebData DetailPuzzleData)
-    | PuzzleDetailTogglePuzzleShow
-    | LeaderboardClickedByTotal
-    | LeaderboardGotByTotal (WebData LeaderTotalData)
-    | LeaderboardClickedBySet
-    | LeaderboardClickedSet PuzzleSet
-    | LeaderboardGotBySet (WebData LeaderSetData)
-    | LeaderboardClickedByPuzzle
-    | LeaderboardGotPuzzleOptions (WebData (List MiniPuzzleData))
-    | LeaderboardClickedPuzzle MiniPuzzleData
-    | LeaderboardGotByPuzzle (WebData LeaderPuzzleData)
-    | LeaderboardTogglePuzzleOptions
-    | LeaderboardToggleSetOptions
-    | RegisterChangedUsername String
-    | RegisterChangedEmail String
-    | RegisterChangedFirstName String
-    | RegisterChangedLastName String
-    | RegisterClicked
-    | RegisterGotResponse (WebData RegisterResponseData)
-    | LoginChangedEmail String
-    | LoginClickedSendEmail
-    | LoginGotSendEmailResponse (WebData SendEmailResponseData)
-    | LoginChangedToken String
-    | LoginClickedLogin
-    | LoginGotLoginResponse (WebData Credentials)
+    | HomeGotResponse (WebData HomeData)
+    | PrizesGotResponse (WebData (List Prize))
+    | LeaderboardGotResponse (WebData (List UserAggregate))
+    | UserGotResponse (WebData UserStats)
+    | CommentClickedPost String
+    | CommentGotResponse (WebData CommentResponse)
+    | LoginMsg LoginMsgType
+    | ContactMsg ContactMsgType
+    | PuzzleMsg PuzzleMsgType
+    | RegisterMsg RegisterMsgType
+
+
+type LoginMsgType
+    = ChangedLoginEmail String
+    | ClickedSendEmail
+    | GotSendEmailResponse (WebData SendEmailResponse)
+    | ChangedToken String
+    | ClickedLogin
+    | GotLoginResponse (WebData Credentials)
+
+
+type ContactMsgType
+    = ChangedContactName String
+    | ChangedContactEmail String
+    | ChangedContactSubject String
+    | ChangedContactBody String
+    | ClickedSend
+    | GotContactResponse (WebData ContactResponse)
+
+
+type PuzzleMsgType
+    = GotPuzzle (WebData PuzzleDetail)
+    | ChangedSubmission Submission
+    | ClickedSubmit PuzzleId
+    | GotSubmissionResponse (WebData SubmissionResponse)
+
+
+type RegisterMsgType
+    = ChangedUsername String
+    | ChangedRegisterUsername String
+    | ChangedRegisterEmail String
+    | ChangedFirstName String
+    | ChangedLastName String
+    | ClickedRegister
+    | GotRegisterResponse (WebData RegisterResponse)
 
 
 
 -- INITIALS
 
 
-defaultMeta : Navigation.Key -> Maybe Credentials -> ColourTheme -> Meta
-defaultMeta key maybeCredentials colourTheme =
+defaultModel : Navigation.Key -> Maybe Credentials -> ColourTheme -> Model
+defaultModel key maybeCredentials colourTheme =
     let
         auth =
             case maybeCredentials of
@@ -432,10 +398,11 @@ defaultMeta key maybeCredentials colourTheme =
                 Nothing ->
                     Public
     in
-    { isNavActive = False
-    , key = key
+    { key = key
     , auth = auth
     , colourTheme = colourTheme
+    , webDataHome = NotAsked
+    , modal = Nothing
     }
 
 
@@ -444,6 +411,6 @@ defaultContactData =
     { name = "", email = "", subject = "", body = "" }
 
 
-defaultRegister : UserData
+defaultRegister : FullUser
 defaultRegister =
     { username = "", email = "", firstName = "", lastName = "" }

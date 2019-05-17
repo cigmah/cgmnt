@@ -1,22 +1,19 @@
 
 
 :root {
-    --background:#2c3030;
-    --background-inactive: #1d2120;
-    --background-puzzle: #272b2b;
-    --foreground:#a9adad;
-    --foreground-inactive: #5d6060;
-    --foreground-lessen: #7c8282;
-    --colour-emphasis: #eeeeee;
+    --background:#ffffff;
+    --background-inactive: #e0e0e0;
+    --background-puzzle: #ffffff;
+    --foreground:#0f0f0f;
+    --foreground-inactive: #222222;
+    --foreground-lessen: #444444;
+    --colour-emphasis: #000000;
 }
 
 
 html {
   font-size: 95%;
-}
-
-* {
-    font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
+  height: 100%;
 }
 
 a {
@@ -30,6 +27,8 @@ a:hover {
 
 html {
   height: 95%;
+  font-family: "Nunito", "Helvetica", "Arial", sans-serif;
+  margin: 0;
 }
 
 body {
@@ -45,7 +44,6 @@ body {
   display: flex;
   padding: 5px;
   background-color: var(--background);
-  position: fixed;
   width: 95%;
   height: 1.8em;
   overflow: auto;
@@ -223,7 +221,6 @@ b {
   background: var(--background-inactive);
   color: var(--foreground);
   border-radius: 5px;
-  font-family: "Space Mono", monospace;
   font-size: 0.8rem;
   padding: 5px 10px 5px 10px;
   -webkit-box-shadow: 0 0 20px var(--background-inactive);
@@ -288,7 +285,6 @@ td {
 input {
   background: var(--background-inactive);
   color: var(--foreground);
-  font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
   border-width: 0px;
   padding: 5px;
   border-radius: 5px;
@@ -391,25 +387,17 @@ button:disabled {
 /* PUZZLE */
 
 .puzzle-container {
-  width: 95%;
-  margin-top: 2.5em;
-  height: calc(95% - 2em);
+  width: 100%;
+  height: 100%;
 }
 
 .puzzle {
-  -webkit-box-shadow: 0 0 20px var(--background-inactive);
-  box-shadow: 0 0 20px var(--background-inactive);
-  background: var(--background-puzzle);
-  border-radius: 10px;
+  background: var(--background);
   height: 100%;
-  width: 90%;
-  margin: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 .puzzle-top {
@@ -461,7 +449,6 @@ button:disabled {
 }
 
 .puzzle-body {
-  max-height: 82%;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -469,7 +456,6 @@ button:disabled {
 }
 
 .puzzle-body * {
-  font-family: "Helvetica", "Arial", sans-serif;
   line-height: 1.4;
   font-size: 1rem;
 }
@@ -514,7 +500,6 @@ pre {
   overflow: auto;
   height: auto;
   padding: 0 !important;
-  font-family: "Space Mono", monospace !important;
   background: var(--background);
   padding: 1.5em !important;
 }
@@ -533,7 +518,6 @@ code.language-text {
 }
 
 code {
-  font-family: "Space Mono", monospace !important;
   border-radius: 5px !important;
   max-height: 100% !important;
 }
@@ -548,7 +532,6 @@ p code {
 }
 
 code * {
-  font-family: "Space Mono", monospace !important;
 }
 
 .puzzle-statement {
@@ -561,7 +544,6 @@ code * {
 }
 
 .puzzle-statement * {
-  font-family: "Space Mono", monospace !important;
   font-size: 0.8rem;
 }
 
@@ -575,10 +557,11 @@ code * {
 .puzzle-padder {
   padding-left: 10%;
   padding-right: 10%;
+  max-width: 800px;
+  margin: auto;
 }
 
 .puzzle-text-only {
-  width:
 }
 
 .puzzle-bottom {
@@ -615,7 +598,6 @@ code * {
 }
 
 .puzzle-input * {
-  font-family: "Space Mono", monospace !important;
   font-size: 0.8rem;
   width: auto;
 }
@@ -631,7 +613,6 @@ code * {
 }
 
 .puzzle-references * {
-  font-family: "Space Mono", monospace;
   font-size: 0.65rem;
 }
 
@@ -842,8 +823,9 @@ ul {
     display: flex;
   }
 
-  .puzzle-body {
+  .puzzle-body-text {
     max-height: none;
+    max-width: 600px;
   }
 
   .puzzle-top {

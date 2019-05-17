@@ -18,6 +18,26 @@ view meta puzzleListState =
         title =
             "Puzzles - CIGMAH"
 
+        navigation =
+            case meta.auth of
+                Public ->
+                    div [ class "navigation-panel" ]
+                        [ div [ class "navigation-buttons" ]
+                            [ a [ routeHref HomeRoute ] [ text "info" ]
+                            , a [ routeHref LeaderboardRoute ] [ text "leaderboard" ]
+                            , a [ routeHref PrizesRoute ] [ text "prizes" ]
+                            ]
+                        ]
+
+                User creds ->
+                    div [ class "navigation-panel" ]
+                        [ div [ class "navigation-buttons" ]
+                            [ a [ routeHref HomeRoute ] [ text "info" ]
+                            , a [ routeHref LeaderboardRoute ] [ text "leaderboard" ]
+                            , a [ routeHref PrizesRoute ] [ text "prizes" ]
+                            ]
+                        ]
+
         body =
             case ( meta.auth, puzzleListState ) of
                 ( Public, ListPublic webData ) ->
@@ -67,7 +87,7 @@ view meta puzzleListState =
                 ( _, _ ) ->
                     notFoundPage
     in
-    ( title, body )
+    ( title, div [] [ navigation, body ] )
 
 
 puzzleCard : MiniPuzzleData -> Html Msg

@@ -1,4 +1,4 @@
-port module Handlers exposing (PageActive, changedRoute, changedUrl, clickedLink, credsToUser, defaultPageActive, fromUrl, init, intDeltaString, login, logout, monthToString, pageActive, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, themeLight, timeDelta, timeStringWithDefault)
+port module Handlers exposing (changedRoute, changedUrl, clickedLink, credsToUser, fromUrl, init, intDeltaString, login, logout, monthToString, parser, portChangedRoute, posixToMonth, posixToString, puzzleSetString, replaceUrl, routeInit, routeToString, safeOnSubmit, storeCache, themeLight, timeDelta, timeStringWithDefault)
 
 import Browser
 import Browser.Navigation as Navigation
@@ -201,76 +201,37 @@ safeOnSubmit message =
 -- Routing
 
 
-type alias PageActive =
-    { home : Bool
-    , puzzles : Bool
-    , leaderboard : Bool
-    , prizes : Bool
-    , register : Bool
-    , login : Bool
-    }
-
-
-defaultPageActive =
-    { home = False, puzzles = False, leaderboard = False, prizes = False, register = False, login = False }
-
-
-pageActive : Page -> PageActive
-pageActive page =
-    case page of
-        Home _ ->
-            { defaultPageActive | home = True }
-
-        PuzzleList _ ->
-            { defaultPageActive | puzzles = True }
-
-        PuzzleDetail _ _ ->
-            { defaultPageActive | puzzles = True }
-
-        Leaderboard _ ->
-            { defaultPageActive | leaderboard = True }
-
-        Prizes _ ->
-            { defaultPageActive | prizes = True }
-
-        Register _ ->
-            { defaultPageActive | register = True }
-
-        Login _ ->
-            { defaultPageActive | login = True }
-
-        _ ->
-            defaultPageActive
-
-
 routeToString : Route -> String
 routeToString route =
     let
         pieces =
             case route of
                 HomeRoute ->
-                    []
+                    [ "home" ]
 
-                FormatRoute ->
-                    [ "resources" ]
+                ContactRoute ->
+                    [ "contact" ]
 
                 PrizesRoute ->
                     [ "prizes" ]
 
-                PuzzleListRoute ->
-                    [ "puzzles" ]
-
-                PuzzleDetailRoute puzzleId ->
+                PuzzleRoute puzzleId ->
                     [ "puzzles", String.fromInt puzzleId ]
 
                 LeaderboardRoute ->
                     [ "leaderboard" ]
+
+                UserRoute username ->
+                    [ "stats", username ]
 
                 LoginRoute ->
                     [ "login" ]
 
                 LogoutRoute ->
                     [ "logout" ]
+
+                InfoRoute ->
+                    [ "info" ]
 
                 RegisterRoute ->
                     [ "register" ]
@@ -285,12 +246,13 @@ parser : Parser (Route -> a) a
 parser =
     Parser.oneOf
         [ Parser.map HomeRoute Parser.top
-        , Parser.map FormatRoute <| Parser.s "resources"
+        , Parser.map ContactRoute <| Parser.s "contact"
         , Parser.map PrizesRoute <| Parser.s "prizes"
-        , Parser.map PuzzleListRoute <| Parser.s "puzzles"
-        , Parser.map PuzzleDetailRoute <| Parser.s "puzzles" </> Parser.int
+        , Parser.map PuzzleRoute <| Parser.s "puzzles" </> Parser.int
+        , Parser.map UserRoute <| Parser.s "stats" </> Parser.string
         , Parser.map LeaderboardRoute <| Parser.s "leaderboard"
         , Parser.map LogoutRoute <| Parser.s "logout"
+        , Parser.map InfoRoute <| Parser.s "info"
         , Parser.map RegisterRoute <| Parser.s "register"
         , Parser.map LoginRoute <| Parser.s "login"
         ]
@@ -306,7 +268,7 @@ fromUrl url =
     { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing } |> Parser.parse parser
 
 
-credsToUser : Credentials -> UserData
+credsToUser : Credentials -> FullUser
 credsToUser c =
     { username = c.username, email = c.email, firstName = c.firstName, lastName = c.lastName }
 
@@ -318,60 +280,60 @@ credsToUser c =
 routeInit : Maybe Credentials -> Route -> Navigation.Key -> ColourTheme -> ( Model, Cmd Msg )
 routeInit credentialsMaybe route key colourTheme =
     let
-        meta =
-            defaultMeta key credentialsMaybe colourTheme
+        model =
+            defaultModel key credentialsMaybe colourTheme
 
-        makeModel =
-            Model meta
+        makeModel newModal =
+            { model | modal = Just newModal }
     in
     case ( credentialsMaybe, route ) of
         ( Nothing, HomeRoute ) ->
-            ( makeModel <| Home HomePublic, Cmd.none )
+            ( model, Requests.getHomeDataPublic )
 
-        ( Nothing, PuzzleListRoute ) ->
-            ( makeModel <| PuzzleList (ListPublic Loading), Requests.getPuzzleListPublic )
-
-        ( Nothing, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail Video (PublicPuzzle puzzleId Loading), Requests.getPuzzleDetailPublic puzzleId )
-
-        ( Nothing, LeaderboardRoute ) ->
-            ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )
+        ( Nothing, PuzzleRoute puzzleId ) ->
+            ( makeModel <| Puzzle puzzleId (PublicPuzzle Loading), Requests.getPuzzlePublic puzzleId )
 
         ( Nothing, RegisterRoute ) ->
-            ( makeModel <| Register (NewUser defaultRegister NotAsked), Cmd.none )
+            ( makeModel <| Register defaultRegister NotAsked, Cmd.none )
 
         ( Nothing, LoginRoute ) ->
             ( makeModel <| Login (InputEmail "" NotAsked), Cmd.none )
 
         ( Nothing, LogoutRoute ) ->
-            ( makeModel <| Home HomePublic, Navigation.replaceUrl meta.key <| routeToString HomeRoute )
+            ( model, Navigation.replaceUrl model.key <| routeToString HomeRoute )
+
+        ( Nothing, UserRoute username ) ->
+            ( makeModel <| UserInfo username Loading, Requests.getStatsPublic username )
 
         ( Just credentials, HomeRoute ) ->
-            ( makeModel <| Home (HomeUser (credsToUser credentials) Loading), Requests.getProfile credentials.token )
+            ( model, Requests.getHomeDataUser credentials.authToken )
 
-        ( Just credentials, PuzzleListRoute ) ->
-            ( makeModel <| PuzzleList (ListUser Loading), Requests.getPuzzleListUser credentials.token )
+        ( Just credentials, PuzzleRoute puzzleId ) ->
+            ( makeModel <| Puzzle puzzleId (UserUnsolvedPuzzle Loading "" NotAsked), Requests.getPuzzleUser puzzleId credentials.authToken )
 
-        ( Just credentials, PuzzleDetailRoute puzzleId ) ->
-            ( makeModel <| PuzzleDetail Video (UserPuzzle puzzleId Loading), Requests.getPuzzleDetailUser puzzleId credentials.token )
-
-        ( Just credentials, LeaderboardRoute ) ->
-            ( makeModel <| Leaderboard (ByTotal Loading), Requests.getLeaderboardByTotal )
+        ( Just credentials, UserRoute username ) ->
+            ( makeModel <| UserInfo username Loading, Requests.getStatsUser username credentials.authToken )
 
         ( Just credentials, RegisterRoute ) ->
-            ( makeModel <| Register AlreadyUser, Cmd.none )
+            ( makeModel <| NotFound, Cmd.none )
 
         ( Just credentials, LoginRoute ) ->
-            ( makeModel <| Login AlreadyLoggedIn, Cmd.none )
+            ( makeModel <| NotFound, Cmd.none )
 
         ( Just credentials, LogoutRoute ) ->
-            ( { meta = { meta | auth = Public }, page = Logout }, logout )
+            ( { model | auth = Public, modal = Just Logout }, logout )
 
-        ( _, FormatRoute ) ->
-            ( makeModel <| Format, Cmd.none )
+        ( _, InfoRoute ) ->
+            ( makeModel <| Info, Cmd.none )
 
         ( _, PrizesRoute ) ->
             ( makeModel <| Prizes Loading, Requests.getPrizeList )
+
+        ( _, LeaderboardRoute ) ->
+            ( makeModel <| Leaderboard Loading, Requests.getLeaderboard )
+
+        ( _, ContactRoute ) ->
+            ( makeModel <| Contact defaultContactData NotAsked, Cmd.none )
 
         ( _, NotFoundRoute ) ->
             ( makeModel <| NotFound, Cmd.none )
@@ -390,7 +352,7 @@ init valueDecode url key =
                 |> Result.toMaybe
 
         ( model, cmd ) =
-            routeInit credentialsMaybe route key Dark
+            routeInit credentialsMaybe route key Light
     in
     ( model, Cmd.batch [ cmd, portChangedRoute () ] )
 
@@ -413,35 +375,35 @@ clickedLink model urlRequest =
             ( model, Cmd.batch [ Navigation.load href, portChangedRoute () ] )
 
 
-changedUrl : Meta -> Url.Url -> ( Model, Cmd Msg )
-changedUrl meta url =
+changedUrl : Model -> Url.Url -> ( Model, Cmd Msg )
+changedUrl model url =
     let
         maybeCredentials =
-            case meta.auth of
+            case model.auth of
                 User credentials ->
                     Just credentials
 
                 Public ->
                     Nothing
 
-        ( model, cmd ) =
-            routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) meta.key meta.colourTheme
+        ( newModel, cmd ) =
+            routeInit maybeCredentials (Maybe.withDefault NotFoundRoute <| fromUrl url) model.key model.colourTheme
     in
-    ( model, Cmd.batch [ cmd, portChangedRoute () ] )
+    ( newModel, Cmd.batch [ cmd, portChangedRoute () ] )
 
 
-changedRoute : Meta -> Route -> ( Model, Cmd Msg )
-changedRoute meta route =
+changedRoute : Model -> Route -> ( Model, Cmd Msg )
+changedRoute model route =
     let
         maybeCredentials =
-            case meta.auth of
+            case model.auth of
                 User credentials ->
                     Just credentials
 
                 Public ->
                     Nothing
 
-        ( model, cmd ) =
-            routeInit maybeCredentials route meta.key meta.colourTheme
+        ( newModel, cmd ) =
+            routeInit maybeCredentials route model.key model.colourTheme
     in
-    ( model, Cmd.batch [ cmd, Navigation.pushUrl meta.key <| routeToString route, portChangedRoute () ] )
+    ( newModel, Cmd.batch [ cmd, Navigation.pushUrl model.key <| routeToString route, portChangedRoute () ] )

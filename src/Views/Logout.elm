@@ -12,8 +12,8 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> ( String, Html Msg )
-view meta =
+view : ( String, Html Msg )
+view =
     ( "Logout - CIGMAH", logoutPage )
 
 
