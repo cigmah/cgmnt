@@ -493,6 +493,10 @@ ul.puzzle-list .timestamp {
 .no-fade {
   animation: none !important;
 }
+.no-overflow {
+height: 80vh;
+overflow: hidden;
+}
 
 .main {
   margin-top: 1.5rem;

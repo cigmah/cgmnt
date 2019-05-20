@@ -453,6 +453,11 @@ ul.puzzle-list .timestamp {
   animation: none !important;
 }
 
+.no-overflow {
+height: 80vh;
+overflow: hidden;
+}
+
 .main {
   margin-top: 1.5rem;
 }
@@ -480,7 +485,7 @@ ul.puzzle-list .timestamp {
 }
 
 .puzzle {
-  padding-bottom: 5rem;
+  padding-bottom: 8rem;
 }
 
 .ranksquare {
@@ -646,7 +651,9 @@ ul.puzzle-list .timestamp {
 
   .container {
     width: 100%;
-}
+  }
+
+
 
   h1 {
     margin-top: 1rem;
@@ -670,7 +677,6 @@ ul.puzzle-list .timestamp {
   }
 
   html {
-    overflow: auto;
     height: 100vh;
   }
 
@@ -707,6 +713,10 @@ ul.puzzle-list .timestamp {
 
   .message-footer {
     margin-top: 0.5rem;
+  }
+
+  .puzzle {
+    padding-bottom: 3rem;
   }
 
 
