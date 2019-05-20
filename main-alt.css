@@ -2,19 +2,19 @@
 
 :root {
     --white: #ffffff;
-    --black: #000000;
-    --grey-light: #dce2e2;
-    --grey-dark: #575b5b;
-    --red: #cc4b3d;
-    --red-dark: #a53427;
-    --blue: #45a6d1;
-    --blue-dark: #4d88bc;
-    --green: #70b22a;
-    --green-dark: #449913;
-    --yellow: #e0b21a;
-    --yellow-dark: #ba9009;
-    --pink: #f771bf;
-    --pink-dark: #c95498;
+    --black: #22292f;
+    --grey-light: #dae1e7;
+    --grey-dark: #606f7b;
+    --red: #e3342f;
+    --red-dark: #cc1f1a;
+    --blue: #3490dc;
+    --blue-dark: #2779bd;
+    --green: #38c172;
+    --green-dark: #1f9d55;
+    --yellow: #F7B500;
+    --yellow-dark: #DEA300;
+    --pink: #f66d9b;
+    --pink-dark: #eb5286;
 }
 
 @keyframes fadein {
@@ -60,6 +60,7 @@ body {
 }
 
 button {
+  border: none;
   background: var(--red);
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -119,12 +120,11 @@ form.login {
 h1 {
   font-size: 2em;
   margin-top: 0rem;
+  padding-left: 2rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background: #fafbfb;
-  border-bottom: 2px solid var(--grey-light);
-  border-radius: 5px;
-  text-align: center;
+  border-left: 10px solid var(--grey-dark);
+  border-radius: 0;
   color: var(--grey-dark);
 }
 
@@ -214,8 +214,12 @@ td {
 }
 
 textarea {
+  font-family: inherit;
+  font-size: inherit;
   background: var(--grey-light);
+  font-size: inherit;
   color: var(--grey-dark);
+  max-width: 100%;
 }
 
 textarea:focus {
@@ -226,7 +230,6 @@ textarea:focus {
 textarea.comment {
   width: 100%;
   font-family: inherit;
-  font-size: 0.9rem;
   padding: 0.5rem;
   box-sizing: border-box;
   max-width: 100%;
@@ -302,10 +305,11 @@ ul.puzzle-list .timestamp {
 
 
 .contact textarea {
-    border: none;
+  border: none;
   padding: 0.25rem;
   box-sizing: border-box;
   width: 100%;
+  font-size: 0.7rem;
 }
 
 .contact input {
@@ -452,6 +456,13 @@ ul.puzzle-list .timestamp {
   left: 0;
 }
 
+
+.modal .pseudobody .container div {
+  animation: fadein 0.3s;
+}
+
+
+
 .message {
   position: fixed;
   top: 1rem;
@@ -468,7 +479,7 @@ ul.puzzle-list .timestamp {
   width: 22%;
   z-index: 2;
   cursor: pointer;
-  animation: drop 0.2s;
+  animation: drop 0.1s;
   border-bottom: 2px solid var(--grey-light);
 }
 
@@ -534,7 +545,7 @@ ul.puzzle-list .timestamp {
 }
 
 .puzzle {
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
 }
 
 .puzzle .input.Abstract {
@@ -700,8 +711,8 @@ ul.puzzle-list .timestamp {
 
 .puzzle .statement {
   margin-top: 2rem;
+  text-align: center;
   font-weight: bold;
-  text-align: right;
   margin-bottom: 2rem;
 }
 
@@ -746,7 +757,6 @@ ul.puzzle-list .timestamp {
   left: 0;
   background: var(--white);
   width: 100%;
-  margin-top: 4rem;
   display: flex;
   padding-top: 0.5rem;
   padding-bottom: 0.7rem;
@@ -866,11 +876,15 @@ ul.puzzle-list .timestamp {
   .pseudobody {
       background: var(--white) !important;
   }
-
-  .message {
-      width: 100%;
+ .message {
+      width: 95vw;
       top: 0;
       left: 0;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      margin: 0;
+      border-radius: 0;
   }
+
 
 }
