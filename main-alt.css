@@ -2,6 +2,7 @@
 
 :root {
     --background: #f8fafc;
+    --background-code: #f8fafc;
     --white: #ffffff;
     --black: #22292f;
     --grey-light: #dae1e7;
@@ -129,6 +130,7 @@ h1 {
   color: var(--grey-dark);
 }
 
+
 h2 {
   margin-top: 1.5rem;
   margin-bottom: 0rem;
@@ -190,6 +192,16 @@ input:disabled {
   background: var(--grey-dark);
   color: var(--white);
   cursor: not-allowed;
+}
+
+
+pre {
+  background: var(--background-code);
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow: auto;
+  line-height: 1.1;
+  font-size: 0.9rem;
 }
 
 summary {
