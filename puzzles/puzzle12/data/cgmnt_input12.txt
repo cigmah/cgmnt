@@ -1,0 +1,26 @@
+Erl is available between 08:00 to 08:55 and 12:40 to 13:10.
+Red is available between 14:30 to 15:05 and 07:55 to 08:25.
+Perl is available between 16:30 to 17:15 and 08:55 to 10:05.
+Oz is available between 07:45 to 08:35 and 13:05 to 13:40.
+Lua is available between 14:55 to 15:25 and 08:40 to 09:05.
+Quil is available between 08:25 to 09:05 and 15:15 to 15:55.
+Kotlin is available between 16:00 to 17:10 and 08:15 to 08:45.
+Tex is available between 15:30 to 16:10 and 08:00 to 08:35.
+Julia is available between 10:35 to 11:10 and 16:30 to 17:10.
+Zig is available between 09:15 to 09:45 and 09:45 to 10:25.
+Caml is available between 13:55 to 14:35 and 11:30 to 12:00.
+Mozart is available between 09:00 to 10:15.
+Unix is available between 10:10 to 11:05.
+Haskell is available between 12:45 to 13:30 and 07:45 to 08:45.
+Yava is available between 10:45 to 12:15.
+Wolfram is available between 14:05 to 16:05.
+Idris is available between 09:35 to 10:35.
+Xenakis is available between 13:25 to 14:30.
+Bash is available between 08:50 to 10:40 and 16:20 to 16:40.
+Gola is available between 09:55 to 10:25 and 10:50 to 11:20.
+Nim is available between 08:30 to 09:10 and 16:00 to 17:10.
+Scratch is available between 07:45 to 08:45.
+Faust is available between 12:00 to 12:35.
+Dylan is available between 15:55 to 16:40.
+Vim is available between 11:40 to 12:35.
+Alice is available between 13:45 to 14:20 and 11:15 to 11:45.

@@ -1,0 +1,28 @@
+#+TITLE: README
+
+This repository contains the archived puzzles, source code and related materials
+for the CIGMAH '19 (=cgmnt=) Puzzle Hunt.
+
+- =index.org= :: contains the wrap-up summary and analysis of the Puzzle Hunt,
+     published as =index.html= at https://cigmah.github.io/cgmnt/.
+- =figures/= :: contains miscellaneous figures used in the document =index.org=
+- =materials/= :: contains relevant media used during the Puzzle Hunt.
+     - =blender/= :: contains =.blend= files used for 3D modelling and video
+          sequence editing. Only =metarooms.blend= was used throughout the
+          Puzzle Hunt; the remainder were discontinued.
+     - =misc/= :: contains miscellaneous =.svg= files used for puzzles and
+          promotional material.
+     - =music/= :: contains =.mscz= files used for music and sound effects for
+          puzzles and videos. A number of these files were planned but unused.
+- =puzzles/= :: contains a full listing of all puzzles during the Puzzle Hunt.
+     Each puzzle has its own directory, containing input =data/= and =src/= code
+     where relevant, along with the puzzle itself as a Markdown file. Please
+     note that =src/= code has been included for archival purposes only, and are
+     often undocumented and may be out of date. If you have any specific queries
+     regarding puzzles, their data or their source code, please ask CIGMAH
+     directly.
+- =src/= :: contains the backend and frontend code for the CIGMAH Puzzle Hunt
+     website. These folders only contain the latest versions. These are /not/
+     good examples of code given that this was our first use of Django and Elm
+     for full-stack web development, but have been including in the spirit of
+     transparency. We do not recommend using these for any future Puzzle Hunts.

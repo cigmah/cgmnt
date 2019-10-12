@@ -1,0 +1,1194 @@
+#+TITLE: CIGMAH Puzzle Hunt 2019 Wrap-Up
+#+AUTHOR: CIGMAH Puzzle Hunt Team
+#+PROPERTY: header-args:python :exports none :session cgmnt :eval no-export
+#+OPTIONS: html-postamble:nil toc:1 num:nil
+
+#+begin_export html
+<style>
+ a {
+    color: #aa0000;
+}
+a:active {
+    color: #bb2222;
+}
+.right {
+    font-size: 0.95rem;
+    border-left: 2px solid  #A0AEC0;
+    padding-left: 1rem;
+    opacity: 0.75;
+    background: white;
+    margin: 1.5rem 0;
+}
+.right p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+table {
+    max-width: 100%;
+    margin: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+th {
+    border-bottom: 3px double black;
+    font-weight: bold;
+}
+th {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+th, td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-top: 1px dotted black;
+    border-bottom: 1px dotted black;
+    font-size: 0.9em;
+}
+body {
+    font-family: "Georgia", "Baskerville", "Palatino Linotype", "Book Antiqua", "Garamond", "Bitstream Charter", "Century Schoolbook", "Cambria", serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    padding: 2rem;
+    box-sizing: border-box;
+    padding-bottom: 6rem;
+}
+code, .src {
+    color: #4A5568;
+    background: #F7FAFC;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+code {
+    padding: 0.3em 0.5em;
+    border-radius: 5px;
+    font-size: 0.75em;
+}
+details {
+    border-left: 2px solid #A0AEC0;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box:
+}
+h1, .title {
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 6px double black;
+    font-size: 2rem;
+    text-align: left;
+    margin-bottom: 4rem;
+}
+h2 {
+    font-size: 1.2em;
+    padding-top: 1.5rem;
+}
+h3 {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+h4 {
+    font-size: 1em;
+    font-weight: bold;
+}
+figure {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin: 0.5rem 0;
+}
+li .timestamp {
+    float: left;
+    margin-left: -12rem;
+    font-size: 0.9em;
+}
+nav {
+    color: #4A5568;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+ol {
+    counter-reset: ol;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 2rem;
+}
+ol > li {
+    padding-left: 2.5rem;
+}
+ol > li:before {
+    content: counter(ol);
+    counter-increment: ol;
+    position: absolute;
+    margin-left: -2.5rem;
+    border: 1px solid black;
+    font-size: 0.9rem;
+    margin-top: 3px;
+    width: 1.5rem;
+    height: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100em;
+}
+p {
+    margin: 0.5rem 0 1.5rem 0;
+}
+pre.src, pre.example {
+    padding: 1rem;
+    box-shadow: none;
+    border: none;
+    line-height: 1;
+    font-size: 0.95rem;
+    overflow: auto;
+    margin: 1.5rem 0;
+}
+pre.example {
+    border-left: 2px solid #A0AEC0;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+}
+summary {
+    color: #4A5568;
+}
+summary:hover {
+    cursor: pointer;
+}
+ul {
+    list-style-type: circle;
+    margin-bottom: 1.5rem;
+}
+.hidden {
+    display: none;
+}
+.outline-2 {
+    margin-top: 3rem;
+}
+#back {
+    padding-left: 1rem;
+    opacity: 0.75;
+    text-align: right;
+    margin-top: 6rem;
+    border-top: 1px dotted #A0AEC0;
+}
+#content {
+    width: 100%;
+    padding: 1rem;
+    max-width: 720px;
+    margin: auto;
+    box-sizing: border-box;
+}
+#video {
+    max-width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#table-of-contents {
+    font-size: 1rem;
+    opacity: 0.75;
+    margin-bottom: 4rem;
+}
+#table-of-contents h2 {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+#table-of-contents ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#table-of-contents li {
+    margin: 0;
+}
+
+@media only screen and (min-width: 1280px) {
+    .right {
+        float: right;
+        width: 36%;
+        margin: 0;
+        margin-right: -40%;
+        font-size: 0.85rem;
+        border: none;
+        clear: both;
+        padding-left: 0;
+    }
+    .right p {
+        margin-left: 0;
+    }
+
+    #table-of-contents, .left {
+        float: left;
+        margin: 0;
+        margin-left: -40%;
+        font-size: 0.85rem;
+        width: 36%;
+        text-align: right;
+    }
+    #table-of-contents li {
+        margin: 0.5rem 0;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    body {
+        padding: 0.25rem;
+        font-size: 1rem;
+    }
+    h1, .title {
+        margin-top: 1.5rem;
+    }
+    li .timestamp {
+        display: none;
+    }
+
+    #back {
+        margin-top: 4rem;
+    }
+    #content {
+        padding: 0.25rem;
+    }
+    #table-of-contents {
+        margin: 0;
+        margin-bottom: 2.5rem;
+    }
+}
+</style>
+#+end_export
+
+#+RESULTS:
+
+#+begin_right
+Usernames will be updated with names once we receive permission to publish them
+on this website.
+#+end_right
+
+Congratulations to:
+
+| *Grand Prize Winner*     | yingtongli   |
+| *Challenge Prize Winner* | AncoraImparo |
+| *Beginner Prize Winner*  | kevinshi     |
+| *Abstract Prize Winner*  | jh           |
+
+Thank you to all participants for your participation.  We hope to see you again
+for future puzzles.
+
+
+* Acknowledgements
+
+We would like to thank Monash Young Medtech Innovators (MYMI) for providing
+tickets to MedHack for the April prizewinners, as well as MUMUS for providing
+additional financial support for our activities. We would also like to thank
+Prof Wright for kindly agreeing to write a puzzle for us which we hope to
+release separately once it is ready.
+
+* What was the Puzzle Hunt?
+
+file:./figures/collage.png
+
+The Puzzle Hunt consisted of 24 puzzles relating to coding and medicine released
+from February to September with the aim of encouraging medical students to learn
+how to code. A full listing of the puzzles, source code and related materials
+are archived and available from [[https://github.com/cigmah/cgmnt]].
+
+* Who was awarded a prize?
+
+There were two types of prizes in the Puzzle Hunt: *Puzzle Prizes* awarded every
+month, and *Total Prizes*, awarded at the end.
+
+** Who was awarded a Puzzle Prize?
+
+#+begin_right
+
+*Puzzle Prizes* were awarded every month to the first solver of each puzzle.
+Participants could only receive one puzzle prize per month, conceding any other
+puzzle prizes to the next solver. The first three non-meta puzzles were sample
+puzzles and no Puzzle Prizes were awarded. Each Puzzle Prize was worth $10.
+
+#+end_right
+
+The following Puzzle Prizes were awarded:
+
+#+HTML: <div style="font-size: 0.8em;">
+| Puzzle | Username      | Notes                                                                                |
+|--------+---------------+--------------------------------------------------------------------------------------|
+| 01M    | yingtongli    | Elected donation to the St Vincent de Paul Society Victoria.                         |
+| 05A    | fragrantdoody | Unclaimed.                                                                           |
+| 06B    | kevinshi      | Elected donation to Royal Flying Doctor Service Victoria.                            |
+| 07C    | yingtongli    | Elected donation to Cancer Council Victoria.                                         |
+| 08A    | dshell321     | Elected donation to Very Special Kids.                                               |
+| 09B    | yingtongli    | Elected donation to The Smith Family.                                                |
+| 10C    | kevinshi      | Elected donation to the Melbourne Symphony Orchestra Education Appeal.               |
+| 11A    | jum           | Elected donation to Servants Community Housing.                                      |
+| 12B    | jh            | Elected donation to Beyond Blue.                                                     |
+| 13C    | yingtongli    | Elected donation to Australia for UNHCR.                                             |
+| 14A    | AncoraImparo  | Elected donation to Starlight Children's Foundation.                                 |
+| 15B    | yingtongli    | Elected donation to headspace National Youth Mental Health Foundation.               |
+| 16C    | jum           | Redeemed as Woolworths WISH eGift Card.                                              |
+| 17A    | AncoraImparo  | Elected donation to the Asylum Seeker Resource Centre.                               |
+| 18B    | kevinshi      | Elected donation to the Monash University Refugee Scholarship Fund via RunMelbourne. |
+| 19C    | yingtongli    | Elected donation to UNICEF Australia.                                                |
+| 21A    | jh            | Redeemed as Coles eGift Card.                                                        |
+| 22B    | AncoraImparo  | Elected donation to UNICEF Australia.                                                |
+| 23C    | yingtongli    | Elected donation to Australian Red Cross.                                            |
+| 23A    | AncoraImparo  | |
+| 24B    | yingtongli    | Elected donation to Lifeline Australia.                                              |
+#+HTML: </div>
+
+** Who was awarded a Total Prize?
+
+The top five participants at the end of the Puzzle Hunt were:
+
+#+begin_right
+
+/Abstract/ and /Beginner/ puzzles were worth 100 points each, minus how many
+participants had solved it previously. /Challenge/ puzzles were worth double
+points; the /Meta/ puzzle was worth quadruple points.
+
+#+end_right
+
+| Rank | Username     | Abstract | Beginner | Challenge | Meta | Total |
+|------+--------------+----------+----------+-----------+------+-------|
+|    1 | yingtongli   |      695 |      698 |      1194 |  400 |  2987 |
+|    2 | AncoraImparo |      673 |      681 |      1176 |  396 |  2926 |
+|    3 | kevinshi     |      490 |      588 |       788 |    0 |  1866 |
+|    4 | jh           |      573 |      481 |       190 |  392 |  1636 |
+|    5 | jum          |      377 |      290 |       584 |    0 |  1251 |
+
+
+#+begin_right
+
+*Total Prizes* were awarded at the end of the Puzzle Hunt. Participants could
+only be awarded one Total Prize; any other prizes were conceded to the next
+participant.
+
+#+end_right
+
+The *Grand Prize* worth $150 was awarded to *yingtongli* for achieving the
+greatest total number of points.
+
+The *Challenge Prize* worth $50 was awarded to *AncoraImparo* for achieving the
+greatest number of points from /Challenge/ puzzles.
+
+The *Beginner Prize* worth $50 was awarded to *kevinshi* for achieving the
+greatest number of points from /Beginner/ puzzles.
+
+The *Abstract Prize* worth $50 was awarded to *jh* for achieving the
+greatest number of points from /Abstract/ puzzles.
+
+* What can we do to improve?
+
+To improve on the format and conduct of the Puzzle Hunt should it run again in
+the future, we have analysed some of the data from the Puzzle Hunt this year.
+
+#+begin_src python
+import dotenv
+import psycopg2
+import os
+import pandas as pd
+import numpy as np
+import datetime
+import collections
+
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+plt.rcParams["font.family"] = "Georgia"
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src python
+dotenv.load_dotenv()
+
+connection = psycopg2.connect(
+    host=os.getenv("HOSTNAME"),
+    dbname=os.getenv("DATABASE"),
+    user=os.getenv("USERNAME"),
+    password=os.getenv("PASSWORD"),
+)
+cursor = connection.cursor()
+
+# Submissions -> Pandas DataFrame
+cursor.execute("SELECT * from puzzlehunt_submission*")
+columns = ["id", "submission_datetime", "submission", "is_correct", "points", "puzzle_id", "user_id"]
+submissions = pd.DataFrame(cursor.fetchall(), columns=columns,)
+
+# Participants -> Pandas DataFrame
+cursor.execute("SELECT id, username, date_joined, email from puzzlehunt_user")
+columns = ["id", "username", "date_joined", "email"]
+users = pd.DataFrame(cursor.fetchall(), columns=columns,)
+
+# Puzzles -> Pandas DataFrame
+cursor.execute("SELECT id, puzzle_set, title from puzzlehunt_puzzle")
+columns = ["id", "puzzle_set", "title"]
+puzzles = pd.DataFrame(cursor.fetchall(), columns=columns).set_index("id")
+#+end_src
+
+#+RESULTS:
+: True
+
+
+** How many people participated?
+
+#+begin_src python
+
+# The total number of users in the database.
+len(users)
+
+#+end_src
+
+#+RESULTS:
+: 90
+
+#+begin_src python
+
+# The number of registrants who submitted at least one submission.
+participated_users = set(submissions.user_id)
+len(participated_users)
+
+#+end_src
+
+#+RESULTS:
+: 44
+
+#+begin_src python :results output
+
+print(len(submissions))
+print(len(submissions) / 90)
+print(len(submissions) / 24)
+
+
+#+end_src
+
+#+RESULTS:
+: 275
+: 3.0555555555555554
+: 11.458333333333334
+
+There were *90 registrants* this year. *44 registrants* submitted at
+least one submission. In total, *275 puzzle submissions* were received, an
+average of *11 submissions per puzzle* and *6 submissions per registrant* for
+each registrant who submitted at least one submission.
+
+Here is a plot showing registrations by day. Dotted red lines indicate the
+release of a new puzzle set. Most registrations occurred soon after the release
+of the first non-sample puzzle set.
+
+#+begin_src python :results file :exports results
+start_date = datetime.datetime(2019, 2, 20)
+end_date = datetime.datetime(2019, 10, 12)
+all_days_past = list(range((end_date - start_date).days))
+
+registration_dates = [date.date() for date in users.date_joined]
+
+registration_on_days = [
+    len([date for date in registration_dates
+         if date == (start_date + datetime.timedelta(days=days_past)).date()])
+    for days_past in all_days_past
+]
+
+puzzle_release_dates = [
+    datetime.datetime(2019, 2, 23),
+    datetime.datetime(2019, 3, 9),
+    datetime.datetime(2019, 4, 6),
+    datetime.datetime(2019, 5, 11),
+    datetime.datetime(2019, 6, 15),
+    datetime.datetime(2019, 7, 13),
+    datetime.datetime(2019, 8, 10),
+    datetime.datetime(2019, 9, 21),
+]
+
+filename = "./figures/registrations.png"
+fig, ax = plt.subplots(1)
+
+ax.plot(all_days_past, registration_on_days, color='black')
+
+
+plt.xticks(
+    all_days_past[::14],
+    [datetime.datetime.strftime(start_date + datetime.timedelta(days_past), "%Y-%m-%d")
+     for days_past in all_days_past[::14]],
+    rotation=90
+)
+plt.ylabel("Number of Registrations")
+plt.title("Registrations by Days into the Puzzle Hunt")
+
+for date in puzzle_release_dates:
+    day_delta = (date - start_date).days
+    ax.axvline(day_delta, linestyle=':', color='#aa0000')
+
+fig.tight_layout()
+
+fig.savefig(filename, dpi=150)
+plt.close()
+
+filename
+#+end_src
+
+#+RESULTS:
+[[file:./figures/registrations.png]]
+
+As the number of registrations does not necessarily reflect active
+participation, here is a plot of submissions over time during the Puzzle Hunt
+for each participant who submitted at least one submission.
+
+#+begin_right
+
+Each row indicates a separate deidentified participant, ordered by number of
+submissions.. Correct submissions are indicated by green circles; incorrect
+submissions are indicated by red crosses. Grey dotted lines indicate the release
+of a puzzle set.
+
+#+end_right
+
+#+begin_src python :results file :exports results
+fig, ax = plt.subplots(1)
+
+is_corrects = []
+xs = []
+ys = []
+
+filename = "./figures/submissions.png"
+
+participated_users = list(submissions.groupby(['user_id']).count().sort_values("points").index)
+
+for i, user_id in enumerate(participated_users):
+    user_submissions = submissions[submissions.user_id == user_id]
+    submission_datetimes = [submission.submission_datetime for _, submission in user_submissions.iterrows()]
+    is_correct_submission = [submission.is_correct for _, submission in user_submissions.iterrows()]
+    x_submission = [dt.timestamp() for dt in submission_datetimes]
+    y_submission = [i for _ in x_submission]
+    is_corrects += is_correct_submission
+    xs += x_submission
+    ys += y_submission
+
+data = pd.DataFrame({
+    "x": xs,
+    "y": ys,
+    "is_correct": is_corrects
+})
+
+for release_date in puzzle_release_dates:
+    ax.axvline(release_date.timestamp(), linestyle=':', color='grey')
+
+
+ax.scatter(
+    data[data.is_correct == True].x,
+    data[data.is_correct == True].y,
+    facecolor='none',
+    edgecolor='green',
+    s=40,
+    label="correct"
+)
+
+ax.scatter(
+    data[data.is_correct == False].x,
+    data[data.is_correct == False].y,
+    c='#aa0000',
+    marker='x',
+    s=10,
+    label="incorrect"
+)
+
+all_dates_past = [start_date + datetime.timedelta(days=d) for d in all_days_past[::14]]
+
+plt.xticks(
+    [d.timestamp() for d in all_dates_past],
+    [datetime.datetime.strftime(d, "%Y-%m-%d") for d in all_dates_past],
+    rotation=90
+)
+plt.legend()
+
+plt.title("Puzzle Hunt Submissions over Time, by Participant")
+ax.set_yticks([])
+
+fig.tight_layout()
+fig.savefig(filename, dpi=150)
+plt.close()
+filename
+#+end_src
+
+#+RESULTS:
+[[file:./figures/submissions.png]]
+
+Active participation was greatest at the start of the Puzzle Hunt, particularly
+at the release of the first non-sample puzzle set. Participation waned over
+time, though a subset of participants continued over the duration of the puzzle
+hunt.
+
+** Where did participants come from?
+
+Participants registered with a username and an email, and an optional first
+and/or last name. As a rough measure of where participants came from, the below
+plot shows the frequency of email domain names of registered users. 4 personal
+domain names were censored.
+
+#+begin_src python :results file
+domain_tuples = collections.Counter([email.split("@")[1] for email in users.email]).most_common()
+
+# Manually censored domain names with names (4). Code not included.
+domain_tuples = [d for d in domain_tuples if not d[0] in ["yingtongli.me", "mybx.site", "arvamont.com", "vladh.net"]]
+
+domains = [d[0] for d in domain_tuples]
+domain_counts = [d[1] for d in domain_tuples]
+
+filename = "./figures/user_domains.png"
+
+fig, ax = plt.subplots(1)
+
+ax.barh(
+    range(len(domains)),
+    domain_counts,
+    color="black",
+)
+ax.set_yticks(range(len(domains)))
+ax.set_yticklabels(domains)
+ax.set_xlabel("Number of Users")
+plt.title("User Email Domain Frequencies")
+
+fig.tight_layout()
+fig.savefig(filename, dpi=150)
+plt.close()
+filename
+#+end_src
+
+
+#+begin_right
+
+Out of respect for participants' privacy, the Puzzle Hunt database was deleted
+without backup after this document was made, and we no longer have participants'
+email addresses nor any other information from the Puzzle Hunt. This also means
+we can't reproduce this document nor any of its figures in the future.
+
+#+end_right
+
+#+RESULTS:
+[[file:./figures/user_domains.png]]
+
+Most participants registered using generic email addresses (Gmail, Hotmail,
+Live, Outook, Yahoo). A large portion were from Monash University, and a small
+portion from other educational or research institutions (University of
+Melbourne, University of East Anglia, Princeton University, Inserm). A small
+portion registered using disposable email services (SharkLasers, nwytg,
+Mailinator, YOPmail, 163), which we believe was a wise choice for short-term
+participants with privacy concerns, particularly for participants who were not
+from Monash.
+
+** Which puzzles were most and least popular?
+
+Here is a plot showing puzzles and the number of unique users who submitted at
+least one submission for each puzzle. This can serve as a rough measure of
+popularity.
+
+#+begin_right
+
+It is hard to measure the intrinsic popularity of each puzzle, given that we
+know that later puzzles were less popular by virtue of a later release date. A
+more sophisticated model might better be able to estimate the separate
+contributions of release dates and puzzle features, but was outside the scope of
+this wrap-up.
+
+#+end_right
+
+#+begin_src python :results file :exports results
+
+puzzle_ids = sorted(list(set(submissions.puzzle_id)))
+puzzle_unique_submissions = [
+    len(set(submissions[submissions.puzzle_id == puzzle_id].user_id))
+    for puzzle_id in puzzle_ids
+]
+puzzle_titles = [puzzles.loc[i].title for i in puzzle_ids]
+puzzle_sets = [puzzles.loc[i].puzzle_set for i in puzzle_ids]
+
+data = pd.DataFrame({
+    "id": puzzle_ids,
+    "num_unique": puzzle_unique_submissions,
+    "title": puzzle_titles,
+    "puzzle_set": puzzle_sets,
+}).set_index("id").sort_values("num_unique")
+data["position"] = range(1, 25)
+
+colour_dict = {
+    "M": "#f66d9b",
+    "A": "#e3342f",
+    "B": "#F7B500",
+    "C": "#38c172"
+}
+label_dict = {
+    "M": "Meta",
+    "A": "Abstract",
+    "B": "Beginner",
+    "C": "Challenge"
+}
+
+fig, ax = plt.subplots(1)
+
+filename = "./figures/popularity.png"
+
+for puzzle_set in set(data.puzzle_set):
+    subset = data[data.puzzle_set == puzzle_set]
+    colour = colour_dict[puzzle_set]
+    label = label_dict[puzzle_set]
+    ax.barh(
+        y=subset.position.values,
+        width=subset.num_unique,
+        color=colour,
+        label=label,
+    )
+
+ax.set_yticks(data.position)
+ax.set_yticklabels(data.title)
+ax.set_xlabel("Number of Unique Attempting Participants")
+
+plt.legend()
+plt.title("Puzzles by Number of Unique Attempting Participants")
+
+fig.tight_layout()
+fig.savefig(filename, dpi=150)
+plt.close()
+filename
+
+#+end_src
+
+#+RESULTS:
+[[file:./figures/popularity.png]]
+
+The two most popular puzzles were Abstract puzzles released early in the Puzzle
+Hunt; three of the five most unpopular puzzles were Challenge puzzles.
+
+** Which puzzles were easiest and hardest?
+
+We can get a general sense of the "difficulty" of each puzzle by comparing how
+many incorrect submissions were received with how many correct submissions were
+received.
+
+#+begin_right
+
+Assessing the difficulty of puzzles varies on how difficulty is defined, given
+that difficult puzzles may have either been a) unapproachable (and therefore
+received few submissions), or b) deceptive (and therefore received submissions
+more likely to be incorrect). We have chosen the second definition, given that
+we have described the popularity of puzzles in the section above, but
+"difficulty" here should be interpreted in the context of popularity as well.
+
+Note this graph differs from the previous graph - this graph tallies total
+/submissions/ including those from the same participant; the previous graph
+tallies only the number of participants who submitted at least one solution to
+each puzzle.
+
+#+end_right
+
+#+begin_src python :results file :exports results
+
+puzzle_ids = sorted(list(set(submissions.puzzle_id)))
+puzzle_correct = [
+    len(submissions[(submissions.puzzle_id == puzzle_id) & (submissions.is_correct)])
+    for puzzle_id in puzzle_ids
+]
+
+puzzle_incorrect = [
+    len(submissions[(submissions.puzzle_id == puzzle_id) & (~submissions.is_correct)])
+    for puzzle_id in puzzle_ids
+]
+puzzle_titles = [puzzles.loc[i].title for i in puzzle_ids]
+puzzle_sets = [puzzles.loc[i].puzzle_set for i in puzzle_ids]
+
+data = pd.DataFrame({
+    "id": puzzle_ids,
+    "correct": puzzle_correct,
+    "incorrect": puzzle_incorrect,
+    "title": puzzle_titles,
+    "puzzle_set": puzzle_sets,
+}).set_index("id").sort_values(["incorrect", "correct"])
+data["position"] = range(1, 25)
+
+fig, ax = plt.subplots(1)
+
+filename = "./figures/difficulties.png"
+
+for puzzle_set in set(data.puzzle_set):
+    subset = data[data.puzzle_set == puzzle_set]
+    colour = colour_dict[puzzle_set]
+    ax.barh(
+        subset.position.values,
+        subset.correct.values,
+        left=subset.incorrect.values,
+        color=colour,
+        label=label_dict[puzzle_set] + ", " + "correct",
+    )
+    ax.barh(
+        subset.position.values,
+        subset.incorrect.values,
+        color=colour,
+        label=label_dict[puzzle_set] + ", " + "incorrect",
+        alpha=0.2,
+    )
+
+ax.set_yticks(data.position.values)
+ax.set_yticklabels(data.title)
+ax.set_xlabel("Number of Submissions")
+
+plt.legend()
+plt.title("Puzzles by Number of Incorrect and Correct Submissions")
+
+fig.tight_layout()
+fig.savefig(filename, dpi=150)
+plt.close()
+filename
+
+#+end_src
+
+#+RESULTS:
+[[file:./figures/difficulties.png]]
+
+The puzzle with the highest ratio of incorrect to correct submissions was the
+Meta puzzle /Lost in a Library/ (8 incorrect submissions for every 1 correct
+submission), though interestingly the puzzle with the highest absolute number of
+incorrect submissions was the Abstract sample puzzle, /Metabolic Mayhem/.
+
+/Metabolic Mayhem/ was cast as a sample puzzle as it consisted of the
+interpretation of an abstract animation, which we believed too ambiguous to be
+included in the main puzzle hunt (and which appears to have been a correct
+decision).
+
+#+begin_right
+
+This puzzle depicted an abstract animation of a metabolic pathway in a normal
+and a pathological state. The metabolic pathway consisted of an unknown particle
+being carried by gradually-diminishing particles through the blood stream before
+being cleared by receptors from an unknown organ; in the pathological state,
+these particles accumulated in the bloodstream due to dysfunctional receptors.
+Participants were asked to determine the gene mutation involved in the
+pathological state.
+
+#+end_right
+
+Out of interest for this particular puzzle, here were some of the responses
+received:
+
+#+begin_src python :results file :exports results
+
+submitted = [s.upper() for s in submissions[submissions.puzzle_id == 2].submission]
+
+gene_counter = collections.Counter(submitted).most_common()
+genes = [c[0] for c in gene_counter]
+counts = [c[1] for c in gene_counter]
+positions = range(len(genes))
+
+fig, ax = plt.subplots(1)
+
+filename = "./figures/metabolic_mayhem_responses.png"
+
+ax.barh(
+    positions,
+    counts,
+    color="black",
+)
+
+ax.set_yticks(positions)
+ax.set_yticklabels(genes)
+ax.set_ylabel("Submitted HUGO Gene Symbol")
+ax.set_xlabel("Number of Submissions")
+
+plt.title("Frequencies of Genes Submitted for Puzzle 02A Metabolic Mayhem")
+
+fig.tight_layout()
+fig.savefig(filename, dpi=150)
+plt.close()
+filename
+
+
+#+end_src
+
+#+RESULTS:
+[[file:./figures/metabolic_mayhem_responses.png]]
+
+The intended correct answer was LDLR; however, it was very interesting to see
+the wide array of genes people could draw parallels to in the abstract
+depiction. We are interested in the ways abstract modelling might similarly be
+able to make different pathways relatable, and while these may not be suitable
+as puzzles for inclusion into the Puzzle Hunt, we will look for an avenue for
+these to return.
+
+
+#+begin_right
+
+All game-type puzzles were entirely client-side; we made our best efforts to
+obscure the answers from the client-side code (including the fact that the code
+was transpiled from Elm to JavaScript and minified), but these puzzles are not
+uncrackable. Although, as we are a coding group, we believe it just as valid to
+have derived the solution from the client-side code as it is from pursuing the
+"intended" solution path - after all, it is also interesting to think of how to
+use code to examine the internals of the tools we use and derive useful (but
+hidden) information.
+
+#+end_right
+
+A number of puzzles had no incorrect submissions, though these had a low number
+of submissions in total and are therefore hard to interpret. Most of these were
+game-type puzzles, which divulged the solution after you completed the game -
+and in such cases, there was no chance of submitting an incorrect solution at
+all unless participants guessed or attempted to derive the solution from the
+client-side code.
+
+* How was the Puzzle Hunt run?
+
+In the spirit of full transparency and to better inform how future Puzzle Hunts
+could be run, we briefly outline our setup below.
+
+** What was the technology stack?
+
+#+begin_right
+
+This was our first time doing full-stack development. While the backend and
+frontend "worked", the codebases are neither clean nor well-designed. On the
+plus-side, we have now learnt better and will not be making the same mistakes in
+the future.
+
+#+end_right
+
+As a summary:
+
+| Backend  | [[https://www.python.org/][Python]] + [[https://www.django-rest-framework.org/][Django REST Framework]], hosted on [[https://www.heroku.com/][Heroku]] |
+| Database | [[https://www.postgresql.org/][PostgreSQL]]                                       |
+| Frontend | [[https://elm-lang.org/][Elm]], hosted on [[https://pages.github.com/][GitHub Pages]]                      |
+
+The source code for all components of the Puzzle Hunt are available from
+[[https://github.com/cigmah/cgmnt]].
+
+The Puzzle Hunt backend and frontend were written in late January and early
+February using Python and Elm.
+
+The backend used the Django REST Framework and handled all the core
+functionality based around database interaction (such as adding puzzles,
+retrieving released puzzles, handling user registrations) and application logic
+(such as scoring submissions, aggregating scores, time-locking excessive
+submissions). The backend was kept in a private GitHub repository and hosted on
+Heroku, connecting with a PostgreSQL database provided by an additional Heroku
+add-on.
+
+The frontend was a single-page application written in Elm with custom CSS. It
+handled all interactions on the web interface, including navigation, rendering,
+and server interactions. The frontend was kept in a public GitHub repository and
+hosted on GitHub Pages.
+
+#+begin_right
+
+We changed the Puzzle Hunt website design twice during the Puzzle Hunt as we
+wished to refocus the group's target audience and reduce the verbosity of
+puzzles by using video introductions instead. This was a mistake on our part and
+increased confusion over the user interface. We will not do so again.
+
+#+end_right
+
+Puzzles themselves were written in a mixture of languages; interactive puzzles
+were all written with Elm, whereas data analysis puzzles tended to be written in
+Python. When graphics were required (such as for each puzzle's Meta Puzzle room
+hint), they were made with either [[https://inkscape.org/][Inkscape]] (for simple vector graphics) or
+[[https://www.blender.org/][Blender]] (for full 3D models). Where music or sound effects were required (such
+as for several of the game-type puzzles), they were made with [[https://musescore.org/en][MuseScore]].
+
+** How much did it cost?
+
+There were two sources of material cost for the Puzzle Hunt: prizes and server
+hosting costs.
+
+#+begin_right
+
+We budgeted for 25 puzzle prizes, but one Puzzle Prize was unclaimed, three
+puzzles were sample puzzles and the 25th puzzle was separated out from the main
+Puzzle Hunt (stay tuned).
+
+#+end_right
+
+| Item                                     | Unit Cost      | Total Units | Total Cost |
+|------------------------------------------+----------------+-------------+------------|
+| Puzzle Prizes                            | $10 per prize  | 20 prizes   | $200       |
+| Grand Prize                              | $150 per prize | 1 prize     | $150       |
+| A/B/C Total Prizes                       | $50 per prize  | 3 prize     | $150       |
+| Server Hosting (Heroku - Hobby)          | $7 per month   | 8 months    | $56        |
+| Database (Heroku Postgres - Hobby Basic) | $9 per month   | 8 months    | $72        |
+|------------------------------------------+----------------+-------------+------------|
+| *Grand Total*                            |                |             | *$628*     |
+
+#+begin_right
+
+This section will be updated once the Total Prizes are confirmed.
+
+#+end_right
+
+As of <2019-10-12 Sat>: 18 of the Puzzle Prizes were donated to charities,
+organisations or funds of participants' choosing. $180 of the total
+cost has been donated so far.
+
+* What happens now?
+
+As the main Puzzle Hunt has concluded, we have included further details on plans
+for CIGMAH below.
+
+** Will there be another Puzzle Hunt?
+
+We hope so. If there is another Puzzle Hunt, we hope this wrap-up document is
+useful for future planning.
+
+It is often tradition for the winner/s of a Puzzle Hunt to arrange the next
+Puzzle Hunt, but we know this request does not come lightly and there is no
+precedent for this particular Puzzle Hunt. Whether or not we are able to deliver
+on this tradition remains to be seen, but we hope that the Puzzle Hunt can
+handover its management and evolve over time.
+
+Should the Puzzle Hunt continue, we have consolidated the following suggestions
+based on data from this Puzzle Hunt:
+
+*** Suggestions
+
+1. *Conduct the Puzzle Hunt on a single day or a single weekend*.
+   Participation was greatest at the start of the Puzzle Hunt. We maintained the
+   Puzzle Hunt over the year as our primary intent for the Puzzle Hunt was to
+   encourage medical students to learn how to code over time, but this did not
+   appear to be successful; most active participants were experienced coders. A
+   single day or weekend, possibly with a pre-Puzzle Hunt coding bootcamp, may
+   be easier for new medical students/coders to manage with busy schedules and
+   with less commitment required. This would also be less costly.
+2. *Orient puzzles towards abstract, visual or gamified learning.*
+   Our puzzles ranged from abstract games requiring no actual coding, to
+   concrete statistical or data science problems requiring a significant amount
+   of programming knowledge. Although the latter category is arguably more
+   "useful", the former category was far more popular. It may be useful, as far
+   as possible, to investigate how elements of gamified learning can be
+   used to make the data analysis-type puzzles more fun and bridge the gap
+   between the two categories.
+3. *Simplify the technology stack.*
+   The development of a full-stack application for the Puzzle Hunt was a good
+   opportunity for the management team to learn, but not necessary for the
+   Puzzle Hunt itself. The technology stack could be greatly simplified, such as
+   using a backend server performing server-side rendering and foregoing the
+   frontend entirely.
+
+** What else is CIGMAH doing?
+
+#+begin_right
+
+file:./figures/aorta.png
+
+#+end_right
+
+CIGMAH is working on An Open Revision Tool for Assessments (AORTA) (currently
+hosted at https://aorta.netlify.com/), a free and open-source medical note and
+question bank. There's not enough content there for it to be useful yet, but
+most of the coding is done and we're working on adding content. We're always
+looking for help, so do get in touch if you are interested.
+
+We are also looking at hosting more tutorial nights on a range of coding topics,
+recommencing next year. The topics we host tutorial nights on are not yet
+decided, but we will try to cover fun, interesting and relevant material for
+medical students. Suggestions for tutorial night topics are highly welcomed.
+
+Finally, we are interested in beginning a game development project for
+practising medical cases, possibly in the style of [[https://en.wikipedia.org/wiki/Interactive_fiction][interactive fiction]] text
+adventures such as [[https://en.wikipedia.org/wiki/Zork][Zork]] or [[http://iplayif.com/?story=http%253A%252F%252Fwww.ifarchive.org%252Fif-archive%252Fgames%252Fzcode%252FTangle.z5][Spider & Web]]. We were originally looking at
+incorporating this as part of AORTA, but it may be easier to develop as a
+spin-off project.
+
+** How do I contact CIGMAH?
+
+If you have any questions, concerns, suggestions, recommendations, feedback or
+would otherwise like to get in contact with CIGMAH, you can contact us via email
+at =cigmah.contact at gmail dot com=.
+
+#+HTML: <div style="max-width: 300px; margin: auto;">
+file:./figures/cigmah.png
+#+HTML: </div>
+
+We look forward to hearing from you!
+
+#+begin_src python :results output
+
+# Some extra scripts for archiving the puzzle hunt.
+
+# Puzzles -> Pandas DataFrame
+cursor.execute("SELECT * from puzzlehunt_puzzle")
+columns = ["id", "puzzle_set", "image_link", "title", "body", "statement", "puzzle_input", "references", "answer", "explanation", "theme_id", "video_link"]
+puzzles = pd.DataFrame(cursor.fetchall(), columns=columns).set_index("id")
+
+# Themes -> Pandas DataFrame
+cursor.execute("SELECT * from puzzlehunt_theme")
+columns = ["id", "theme", "theme_set", "tagline", "open_datetime"]
+themes = pd.DataFrame(cursor.fetchall(), columns=columns).set_index("id")
+
+template = """
+
+# {title}
+
+> This puzzle was released on {open_datetime}, and was the {puzzle_set} puzzle for the theme *{theme}*.
+
+{body}
+
+# Input
+
+{puzzle_input}
+
+# Statement
+
+{statement}
+
+
+# References
+
+{references}
+
+# Answer
+
+The correct solution was `{answer}`.
+
+# Explanation
+
+{explanation}
+
+"""
+
+puzzles = puzzles.join(themes, on="theme_id")
+
+
+def format_puzzle(puzzle):
+    return template.format(
+        title=puzzle.title,
+        open_datetime=datetime.datetime.strftime(puzzle.open_datetime, "%Y-%m-%d"),
+        puzzle_set=label_dict[puzzle.puzzle_set],
+        theme=puzzle.theme,
+        body=puzzle.body,
+        puzzle_input=puzzle.puzzle_input,
+        statement=puzzle.statement,
+        references=puzzle.references,
+        answer=puzzle.answer,
+        explanation=puzzle.explanation,
+    )
+
+#+end_src
+
+#+RESULTS:
+
+#+begin_src python :results output
+
+for i in range(24):
+    directory = f"./puzzles/puzzle{i+1:02d}/"
+    os.mkdir(directory)
+    puzzle_markdown = format_puzzle(puzzles.loc[i+1])
+    with open(directory + f"puzzle{i+1:02d}.md", "w", encoding="utf-8") as file_handle:
+        file_handle.write(puzzle_markdown)
+
+#+end_src
+
+#+RESULTS:

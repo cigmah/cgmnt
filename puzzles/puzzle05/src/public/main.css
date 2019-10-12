@@ -1,0 +1,188 @@
+/*
+  elm-hot creates an additional div wrapper around the app to make HMR possible.
+  This could break styling in development mode if you are using Elm UI.
+
+  More context in the issue:
+    https://github.com/halfzebra/create-elm-app/issues/320
+*/
+[data-elm-hot="true"] {
+  height: inherit;
+}
+
+body {
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  text-align: center;
+  color: #293c4b;
+
+}
+
+h1 {
+  font-size: 30px;
+}
+
+.bar img {
+  margin: 20px 0;
+  max-width: 200px;
+}
+
+.base {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-weight: bold;
+  display: flex;
+  flex-grow: 1;
+  width: auto;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 4.4vh;
+  margin: 0;
+  border-radius: 0;
+}
+
+.base:hover {
+  background: grey;
+}
+
+.codon {
+  display: flex;
+  flex-grow: 1;
+  border: 1px solid #383838;
+}
+
+.genome {
+  display: flex;
+  flex-wrap: wrap;
+  width: 55vh;
+  justify-content: space-between;
+  background: #383838;
+}
+
+.webgl {
+  width: 55vh;
+}
+
+.trace {
+  transform: scaleY(-1);
+  width: 55vh;
+}
+
+.bar {
+  height: 5vh;
+  font-family: "Lucida Console", Monaco, monospace;
+  background: #383838;
+  width: 55vh;
+  display: flex;
+  color: white;
+  align-items: center;
+  border: 0.2vh solid #383838;
+}
+
+.bar img {
+  height: 4vh;
+  margin: 0 2vh 0 1vh;
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+  width: 55vh;
+  border: 0.2vh solid #383838;
+  flex-direction: column;
+  background: white;
+}
+
+.control {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 55vh;
+  background: #383838;
+}
+
+
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 5vh;
+  align-content: flex-start;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 5vh;
+}
+
+button {
+  background: #383838;
+  height: 5vh;
+  color: white;
+  border-radius: 2px;
+  border: 0px solid black;
+  width: 5vh;
+}
+
+button:hover {
+  background: #555555;
+  cursor: pointer;
+}
+
+
+.modal {
+  height: 79vh;
+  width: 55vh;
+  background: white;
+  position: absolute;
+  border: 1px solid #383838;
+  overflow: auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.3em;
+  margin: 0 0 1vh 0;
+}
+
+.modal p {
+  font-size: 0.75em;
+}
+
+.modal button {
+  width: 100%;
+}
+
+.modal-off {
+  display: none;
+}
+
+.gif {
+  height: 10vh;
+  display: block;
+  margin: auto;
+}
+
+.modal-content {
+  padding: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  overflow: auto;
+}
+
+a {
+  font-size: 0.75em;
+  color: #d1420e;
+  text-align: center;
+}

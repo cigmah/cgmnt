@@ -1,0 +1,58 @@
+
+<head>
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Anonymous+Pro|Space+Mono|Overpass+Mono|VT323" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="nav">
+    <a href="https://google.com"><b>cigmah</b></a>
+    <a href="https://google.com">info</a>
+    <a href="https://google.com">puzzles</a>
+    <a href="https://google.com">leaderboard</a>
+    <a href="https://google.com">prizes</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <a href class="active"="https://google.com">register</a>
+    <a href="https://google.com">login</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <span class="theme-switch">lighten</a>
+    </div>
+  </div>
+  
+  
+  <div class="main">
+    <div class="puzzle-container">
+      <div class="puzzle">
+        <div class="puzzle-top">
+          <div class="puzzle-header">
+            <div class="title">
+              <b>Metabolic Mayhem</b> 
+            </div>
+            <div class="right">
+              <button style="margin-right: 1em;">TEXT</button>
+              <div class="button-container"><button><b>?</b></button></div>
+            </div>
+          </div>
+          <div class="puzzle-tags">
+            <span class="puzzle-tag">
+              Text Books (Sample)
+            </span>
+            <span class="puzzle-tag">
+              (Feb 23 2019 17:00)
+            </span>
+          </div>
+        </div>
+        <div class="puzzle-body">
+          werwerwerwerwerewr
+        </div>
+        <div class="puzzle-bottom">
+          <div class="message">Message here.</div>
+          <div class="submission-container">
+            <input type="text" placeholder="Submission">
+            <button>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

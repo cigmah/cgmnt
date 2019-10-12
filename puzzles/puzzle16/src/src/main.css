@@ -1,0 +1,193 @@
+@keyframes wiggle {
+  0% {
+    transform: translateX(0%) translateY(0%);
+  }
+  40% {
+    transform: translateX(0%) translateY(0%);
+  }
+  50% {
+    transform: translateX(0.1%) translateY(0.1%);
+  }
+  60% {
+    transform: translateX(0.1%) translateY(0.1%);
+  }
+  65% {
+    transform: translateX(0.1%) translateY(-0.1%);
+  }
+  80% {
+    transform: translateX(0.1%) translateY(-0.1%);
+  }
+  85% {
+    transform: translateX(-0.1%) translateY(0.1%);
+  }
+  95% {
+    transform: translateX(-0.1%) translateY(0.1%);
+  }
+  100% {
+    transform: translateX(0%) translateY(0%);
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(1%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+html {
+  margin: 0;
+  height: 100vh;
+  font-family: "Arial", "Helvetica", sans-serif;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAWklEQVQoU2P8+vXrfy4uLgZ84Nu3bwyM/////49XFVQSrvD58+cMkpKSOPXgNPHOnTsMKioqcI0YCo+eu8BgbWSAYTJWE7EpRlGIbh2ysXh9jexB4oOH2AAHAGMqP6fUZ9CtAAAAAElFTkSuQmCC);
+  color: black;
+}
+
+body {
+  margin: 0;
+  margin-top: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+img {
+  margin: auto;
+  display: block;
+}
+
+svg {
+  margin: auto;
+  display: block;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 90vh;
+  max-height: 90vh;
+  padding-left: 10%;
+  padding-right: 10%;
+  border-radius: 2%;
+}
+
+button {
+  background: white;
+  border: 4px solid black;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 0.5em;
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 5em;
+  cursor: pointer;
+}
+
+button:hover {
+  background: black;
+  color: white;
+}
+
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+  text-align: center;
+}
+
+.subtitle {
+  padding-bottom: 0.3em;
+  text-align: center;
+}
+
+
+
+
+.tile.drug {
+  cursor: pointer;
+}
+
+.board-container {
+  margin: auto;
+  position: relative;
+  height: 80vh;
+}
+
+.start {
+}
+
+.start svg {
+  width: 256px;
+  height: 256px;
+  background: none;
+  display: block;
+  margin: auto;
+  padding: 0;
+}
+
+.container {
+  margin: auto;
+  height: 84vh;
+  padding: 2vh;
+  display: flex;
+  align-items: center;
+}
+
+.eye {
+  animation: wiggle 2s infinite;
+}
+
+.overlay {
+  position: fixed;
+  top: 35%;
+  left: 0;
+  background: black;
+  color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.overlay button {
+  max-width: 300px;
+  font-size: 0.8em;
+}
+
+.overlay svg {
+  padding: 0;
+  padding-left: 0;
+  max-width: 300px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  max-height: none;
+  height: auto;
+  width: auto;
+}
+
+.reveal {
+  background: none;
+}
