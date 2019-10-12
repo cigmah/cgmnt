@@ -13,70 +13,54 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> WebData PrizeData -> ( String, Html Msg )
-view meta webData =
-    let
-        title =
-            "Prizes - CIGMAH"
-
-        body =
-            case webData of
-                Loading ->
-                    loadingPage
-
-                Success data ->
-                    prizesContent data
-
-                Failure e ->
-                    case e of
-                        BadStatus metadata ->
-                            errorPage metadata.body
-
-                        NetworkError ->
-                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
-
-                        _ ->
-                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
-
-                NotAsked ->
-                    errorPage "The request didn't go through - try refreshing!"
-    in
-    ( title, body )
-
-
-prizesContent : PrizeData -> Html Msg
-prizesContent data =
-    div [ class "main" ]
-        [ div [ class "container" ]
-            [ div [ class "prizes" ] [ table [] (List.map prizeToRow data) ]
-            ]
-        ]
-
-
-prizeToRow : Prize -> Html Msg
-prizeToRow prize =
-    tr []
-        [ td [ class "lessen" ] [ text <| Handlers.posixToMonth prize.awardedDatetime ]
-        , td [ class "strengthen" ] [ text prize.username ]
-        , td [ class "lessen" ] [ text "[", text <| prizeToString prize.prizeType, text "]" ]
-        , td [ class "" ] [ text "-> ", text prize.note ]
-        ]
-
-
-prizeToString : PrizeType -> String
-prizeToString prize =
-    case prize of
+prizeTypeToString : PrizeType -> String
+prizeTypeToString prizeType =
+    case prizeType of
         AbstractPrize ->
-            "Abstract Set"
+            "Abstract"
 
         BeginnerPrize ->
-            "Beginner Set"
+            "Beginner"
 
         ChallengePrize ->
-            "Challenge Set"
+            "Challenge"
 
         PuzzlePrize ->
             "Puzzle"
 
         GrandPrize ->
-            "Grand Prize"
+            "Grand"
+
+
+tableRow : Prize -> Html Msg
+tableRow prize =
+    tr []
+        [ td [] [ a [ routeHref <| UserRoute prize.username ] [ text <| prize.username ] ]
+        , td [] [ text <| prizeTypeToString prize.prizeType ]
+        , td [] [ text <| Handlers.posixToMonth prize.awardedDatetime ]
+        , td [] [ text <| prize.note ]
+        ]
+
+
+view : Model -> List Prize -> Html Msg
+view model prizeList =
+    div []
+        [ h1 [] [ text "Prizes" ]
+        , div [ class "footnote" ]
+            [ text "There are two broad types of prizes - Puzzle Prizes and Total Prizes."
+            , br [] []
+            , br [] []
+            , text "Puzzle Prizes (value 10 AUD) are awarded each month for the fastest solver for each puzzle, with a limit of one Puzzle Prize per participant a month."
+            , br [] []
+            , br [] []
+            , text "Total Prizes are awarded at the end of the Puzzle Hunt for the participant with the most points out of all the puzzles (150 AUD) and separately out of the Challenge (50 AUD), Beginner (50 AUD) and Abstract (50 AUD) puzzles, with a limit of one Total Prize per participant."
+            ]
+        , table [] <|
+            tr []
+                [ th [] [ text "Username" ]
+                , th [] [ text "Prize Type" ]
+                , th [] [ text "Awarded" ]
+                , th [] [ text "Notes" ]
+                ]
+                :: List.map tableRow prizeList
+        ]

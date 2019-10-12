@@ -10,129 +10,65 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> LoginState -> ( String, Html Msg )
-view meta loginState =
+loginForm : Email -> Bool -> Bool -> EmailToken -> Bool -> Html Msg
+loginForm email isLoadingEmail isDisabledEmail emailToken isLoadingEmailToken =
     let
-        title =
-            "Login - CIGMAH"
-
-        body =
-            case ( meta.auth, loginState ) of
-                ( Public, InputEmail email sendEmailResponseDataWebData ) ->
-                    loginPage loginState
-
-                ( Public, InputToken email sendEmailResponseData token credentialsWebData ) ->
-                    loginPage loginState
-
-                ( User credentials, _ ) ->
-                    loginPage (InputToken "" "" "" (Success credentials))
-
-                ( _, _ ) ->
-                    notFoundPage
-    in
-    ( title, body )
-
-
-loginPage state =
-    let
-        isTokenDisabled =
-            case state of
-                InputToken _ _ _ NotAsked ->
-                    False
-
-                InputToken _ _ _ (Failure e) ->
-                    False
-
-                InputToken _ _ _ Loading ->
-                    False
-
-                _ ->
-                    True
-
         sendTokenText =
-            case state of
-                InputEmail _ Loading ->
-                    "Loading..."
+            if isDisabledEmail then
+                "Token Sent"
 
-                InputToken _ _ _ _ ->
-                    "Sent."
+            else if isLoadingEmail then
+                "Loading"
 
-                _ ->
-                    "Send Token"
-
-        loginText =
-            case state of
-                InputToken _ _ _ Loading ->
-                    "Loading..."
-
-                _ ->
-                    "Login"
-
-        messageDiv =
-            case state of
-                InputEmail _ (Failure e) ->
-                    [ text "We're sorry, there was an issue with sending a token to your email. Maybe you haven't registered? Or a typo?" ]
-
-                InputToken _ _ _ (Failure e) ->
-                    [ text "We're sorry, that token didn't work. Is it right? Maybe it's expired? Maybe there was some other error?" ]
-
-                InputToken _ _ _ (Success credentials) ->
-                    [ text <| "Great, you've logged in successfully! Welcome to the puzzle hunt, " ++ credentials.username ++ ". "
-                    , text "You can now start "
-                    , a [ routeHref PuzzleListRoute ] [ text "tackling the open puzzles" ]
-                    , text " or "
-                    , a [ routeHref HomeRoute ] [ text "head to your dashboard." ]
-                    ]
-
-                _ ->
-                    []
-
-        isFormHidden =
-            case state of
-                InputToken _ _ _ (Success _) ->
-                    True
-
-                _ ->
-                    False
-
-        onSubmitMessage =
-            case state of
-                InputEmail _ Loading ->
-                    []
-
-                InputEmail _ _ ->
-                    [ onSubmit LoginClickedSendEmail ]
-
-                InputToken _ _ _ Loading ->
-                    []
-
-                InputToken _ _ _ _ ->
-                    [ onSubmit LoginClickedLogin ]
-
-                _ ->
-                    []
+            else
+                "Send Token"
     in
-    div [ class "main" ]
-        [ div [ class "container" ]
-            [ div [ class "center" ]
-                [ div [ class "login-container", classList [ ( "hide", isFormHidden ) ] ]
-                    [ ul [ class "login-list" ]
-                        [ li [] [ text "Make sure you have registered first." ]
-                        , li [] [ text "Input your email and press Send Token." ]
-                        , li [] [ text "We'll automatically send you a login token." ]
-                        , li [] [ text "Then input the login token." ]
-                        ]
-                    , Html.form (class "login" :: onSubmitMessage)
-                        [ div [ class "form-control" ]
-                            [ input [ disabled (not isTokenDisabled), type_ "email", placeholder "Email", onInput LoginChangedEmail ] []
-                            , button [ class "small-button", disabled (not isTokenDisabled), onClick LoginClickedSendEmail ] [ text "Send Token" ]
-                            ]
-                        , div [ class "form-control" ]
-                            [ input [ disabled isTokenDisabled, type_ "text", placeholder "Login Token", onInput LoginChangedToken ] [] ]
-                        , button [ disabled isTokenDisabled, onClick LoginClickedLogin ] [ text "Login" ]
-                        ]
-                    ]
-                , div [ class "login message" ] messageDiv
-                ]
+    Html.form [ class "login", onSubmit Ignored ]
+        [ div [ class "login-first-line" ]
+            [ input [ type_ "email", placeholder "Email", value email, onInput (LoginMsg << ChangedLoginEmail), disabled (isDisabledEmail || isLoadingEmail) ] []
+            , button [ onClick <| LoginMsg ClickedSendEmail, disabled (isDisabledEmail || isLoadingEmail) ] [ text sendTokenText ]
             ]
+        , div [ class "login-second-line" ]
+            [ input [ type_ "text", placeholder "Token", value emailToken, onInput (LoginMsg << ChangedToken), disabled (not isDisabledEmail || isLoadingEmailToken) ] []
+            , button [ onClick <| LoginMsg ClickedLogin, disabled (not isDisabledEmail || isLoadingEmailToken) ] [ text "Login" ]
+            ]
+        ]
+
+
+view : Model -> LoginState -> Html Msg
+view model loginState =
+    let
+        loginBody =
+            case loginState of
+                InputEmail email sendEmailResponseWebData ->
+                    case sendEmailResponseWebData of
+                        Success _ ->
+                            loginForm email False True "" False
+
+                        Loading ->
+                            loginForm email True False "" False
+
+                        _ ->
+                            loginForm email False False "" False
+
+                InputToken email sendEmailResponse emailToken credentialsWebData ->
+                    case credentialsWebData of
+                        Success _ ->
+                            div []
+                                [ text "You've successfully logged in. "
+                                , br [] []
+                                , br [] []
+                                , a [ routeHref HomeRoute ] [ text "Head back to the home page to start tackling the open puzzles." ]
+                                ]
+
+                        Loading ->
+                            loginForm email False True emailToken True
+
+                        _ ->
+                            loginForm email False True emailToken False
+    in
+    div []
+        [ h1 [] [ text "Login" ]
+        , div [ class "footnote" ] [ text "First, enter your email and press Send Token. A temporary login token will be sent to your email. Then, input the login token and press Login." ]
+        , loginBody
         ]

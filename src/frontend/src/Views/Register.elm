@@ -1,6 +1,5 @@
 module Views.Register exposing (view)
 
-import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -11,101 +10,57 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> RegisterState -> ( String, Html Msg )
-view meta registerState =
+registerForm : FullUser -> Bool -> Html Msg
+registerForm fullUser isLoading =
     let
-        title =
-            "Register - CIGMAH"
+        ( submitMessage, buttonText ) =
+            if isLoading then
+                ( [], "Loading..." )
 
-        body =
-            case ( meta.auth, registerState ) of
-                ( Public, NewUser userData registerResponseDataWebData ) ->
-                    registerPage registerState
-
-                ( User credentials, AlreadyUser ) ->
-                    registerPage registerState
-
-                ( _, _ ) ->
-                    errorPage "Sorry, it looks like we don't have any extra info on this!"
+            else
+                ( [ onSubmit (RegisterMsg ClickedRegister) ], "Register." )
     in
-    ( title, body )
+    Html.form (class "register" :: submitMessage)
+        [ input [ type_ "text", value fullUser.username, disabled isLoading, placeholder "Username (required)", onInput (RegisterMsg << ChangedRegisterUsername) ] []
+        , input [ type_ "email", value fullUser.email, disabled isLoading, placeholder "Email (required)", onInput (RegisterMsg << ChangedRegisterEmail) ] []
+        , input [ type_ "text", value fullUser.firstName, disabled isLoading, placeholder "First Name (optional)", onInput (RegisterMsg << ChangedFirstName) ] []
+        , input [ type_ "text", value fullUser.lastName, disabled isLoading, placeholder "Last Name (optional)", onInput (RegisterMsg << ChangedLastName) ] []
+        , button [ disabled isLoading ] [ text buttonText ]
+        ]
 
 
-registerPage : RegisterState -> Html Msg
-registerPage state =
+view : Model -> FullUser -> WebData RegisterResponse -> Html Msg
+view model fullUser registerResponseWebData =
     let
-        messageText =
-            case state of
-                NewUser _ (Success _) ->
-                    [ text "Registration was successful! Head over to the ", a [ routeHref LoginRoute ] [ text "login tab" ], text " to start logging in!" ]
+        registerFormMaybe =
+            case registerResponseWebData of
+                Success _ ->
+                    div []
+                        [ text "Your registration was successful."
+                        , br [] []
+                        , br [] []
+                        , a [ routeHref LoginRoute ] [ text "Now you can proceed to start logging in." ]
+                        ]
 
-                NewUser _ (Failure e) ->
-                    case e of
-                        BadStatus errorData ->
-                            case errorData.status.code of
-                                400 ->
-                                    [ text "There was a problem with that username or email - either they were invalid (make sure there are no spaces!) or they're taken. Either way, you'll have to change one or both of them (sorry!)" ]
-
-                                code ->
-                                    [ text <| "It seems like there was an error...sorry about that. Let us know! To help us, let us know that the status code was " ++ String.fromInt code ]
-
-                        NetworkError ->
-                            [ text "There was something wrong with the network. Is your internet working?" ]
-
-                        _ ->
-                            [ text "It seems like there was an error...sorry about that. Let us know!" ]
-
-                AlreadyUser ->
-                    [ text "You've already registered...in fact, you're logged in right now!" ]
+                Loading ->
+                    registerForm fullUser True
 
                 _ ->
-                    []
-
-        hideForm =
-            case state of
-                NewUser _ (Success _) ->
-                    True
-
-                AlreadyUser ->
-                    True
-
-                _ ->
-                    False
-
-        buttonText =
-            case state of
-                NewUser _ Loading ->
-                    "Loading..."
-
-                _ ->
-                    "Register"
+                    registerForm fullUser False
     in
-    div [ class "main" ]
-        [ div [ class "container" ]
-            [ div [ class "center" ]
-                [ div [ class "register-container", classList [ ( "hide", hideForm ) ] ]
-                    [ ul [ class "register-list" ]
-                        [ li [] [ text "We email you login tokens to verify your identity." ]
-                        , li [] [ text "We don't spam you or share your email." ]
-                        , li [] [ text "Don't use your email as your username." ]
-                        , li [] [ text "After registering, go to the login tab." ]
-                        ]
-                    , Html.form [ class "register", onSubmit RegisterClicked ]
-                        [ div [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "Username*", onInput RegisterChangedUsername ] [] ]
-                        , div
-                            [ class "form-control" ]
-                            [ input [ type_ "email", placeholder "Email*", onInput RegisterChangedEmail ] [] ]
-                        , div
-                            [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "First Name", onInput RegisterChangedFirstName ] [] ]
-                        , div
-                            [ class "form-control" ]
-                            [ input [ type_ "text", placeholder "Last Name", onInput RegisterChangedLastName ] [] ]
-                        , button [] [ text buttonText ]
-                        ]
-                    ]
-                , div [ class "register message" ] messageText
-                ]
+    div []
+        [ h1 [] [ text "Register" ]
+        , div [ class "footnote" ]
+            [ text <| "Registration requires only a username and an email."
+            , br [] []
+            , br [] []
+            , text <| "After registering, you can start logging in immediately. We use an email-based login system. When you attempt to login, you will automatically be sent an email to confirm your identity."
+            , br [] []
+            , br [] []
+            , text "Your username may be visible on the Leaderboard or Prizes list. We therefore suggest not using your email as your username."
+            , br [] []
+            , br [] []
+            , text "We never share your email. We only ever email you to send you login tokens or liaise with you if you are awarded a prize."
             ]
+        , registerFormMaybe
         ]

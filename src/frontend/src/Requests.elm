@@ -1,4 +1,4 @@
-module Requests exposing (authConfig, authHeader, buildUrl, decoderCredentials, decoderDetailPuzzleData, decoderLeaderboardByPuzzle, decoderLeaderboardBySet, decoderLeaderboardByTotal, decoderMiniPuzzleData, decoderPrizeData, decoderProfileData, decoderPuzzleList, decoderPuzzlePageData, decoderPuzzleSet, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserData, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getLeaderboardByPuzzle, getLeaderboardBySet, getLeaderboardByTotal, getNoAuth, getPrizeList, getProfile, getPuzzleDetailPublic, getPuzzleDetailUser, getPuzzleListPublic, getPuzzleListPublicforLeaderboard, getPuzzleListUser, getWithAuth, noAuthConfig, noInputString, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
+module Requests exposing (authConfig, authHeader, buildUrl, decoderComment, decoderCommentResponse, decoderContactResponse, decoderCredentials, decoderFullUser, decoderHomeData, decoderLeaderboard, decoderPrizeData, decoderPuzzleDetail, decoderPuzzleMini, decoderPuzzleSet, decoderPuzzleStats, decoderRegisterResponse, decoderSendEmailResponse, decoderSubmissionData, decoderSubmissionResponse, decoderThemeData, decoderTooSoonSubmit, decoderUserStats, decoderVideoLink, encodeComment, encodeContact, encodeCredentials, encodeEmail, encodeRegister, encodeSubmission, encodeToken, getHomeDataPublic, getHomeDataUser, getLeaderboard, getNoAuth, getPrizeList, getPuzzlePublic, getPuzzleUser, getStatsPublic, getStatsUser, getWithAuth, noAuthConfig, noInputString, postComment, postContact, postLogin, postNoAuth, postRegister, postSendEmail, postSubmit, postWithAuth)
 
 import ApiBase exposing (apiBase)
 import Http as ElmHttp exposing (header)
@@ -41,7 +41,7 @@ encodeSubmission v =
     Encode.object [ ( "submission", Encode.string v ) ]
 
 
-encodeRegister : UserData -> Encode.Value
+encodeRegister : FullUser -> Encode.Value
 encodeRegister v =
     Encode.object
         [ ( "username", Encode.string v.username )
@@ -58,7 +58,7 @@ encodeCredentials v =
         , ( "email", Encode.string v.email )
         , ( "first_name", Encode.string v.firstName )
         , ( "last_name", Encode.string v.lastName )
-        , ( "token", Encode.string v.token )
+        , ( "token", Encode.string v.authToken )
         ]
 
 
@@ -67,14 +67,33 @@ encodeEmail v =
     Encode.object [ ( "email", Encode.string v ) ]
 
 
-encodeToken : Token -> Encode.Value
+encodeToken : EmailToken -> Encode.Value
 encodeToken v =
     Encode.object [ ( "token", Encode.string v ) ]
 
 
-decoderUserData : Decoder UserData
-decoderUserData =
-    Decode.map4 UserData
+encodeComment : String -> Encode.Value
+encodeComment v =
+    Encode.object [ ( "comment", Encode.string v ) ]
+
+
+encodeContact : ContactData -> Encode.Value
+encodeContact v =
+    Encode.object
+        [ ( "name", Encode.string v.name )
+        , ( "email", Encode.string v.email )
+        , ( "subject", Encode.string v.subject )
+        , ( "body", Encode.string v.body )
+        ]
+
+
+
+-- DECODERS
+
+
+decoderFullUser : Decoder FullUser
+decoderFullUser =
+    Decode.map4 FullUser
         (Decode.field "username" Decode.string)
         (Decode.field "email" Decode.string)
         (Decode.field "first_name" Decode.string)
@@ -91,7 +110,7 @@ decoderCredentials =
         (Decode.field "token" Decode.string)
 
 
-decoderPrizeData : Decoder PrizeData
+decoderPrizeData : Decoder (List Prize)
 decoderPrizeData =
     Decode.list
         (Decode.map4 Prize
@@ -149,27 +168,35 @@ decoderPuzzleSet =
             )
 
 
-decoderMiniPuzzleData : Decoder MiniPuzzleData
-decoderMiniPuzzleData =
-    Decode.map6 MiniPuzzleData
+decoderPuzzleMini : Decoder PuzzleMini
+decoderPuzzleMini =
+    Decode.map5 PuzzleMini
         (Decode.field "id" Decode.int)
-        (Decode.field "theme" Decode.string)
+        (Decode.field "theme" decoderThemeData)
         (Decode.field "puzzle_set" decoderPuzzleSet)
         (Decode.field "title" Decode.string)
-        (Decode.field "image_link" Decode.string)
         (Decode.maybe (Decode.field "is_solved" Decode.bool))
 
 
-decoderPuzzlePageData : Decoder PuzzlePageData
-decoderPuzzlePageData =
-    Decode.map2 PuzzlePageData
-        (Decode.field "puzzles" (Decode.list decoderMiniPuzzleData))
+decoderHomeData : Decoder HomeData
+decoderHomeData =
+    Decode.map4 HomeData
+        (Decode.field "puzzles" (Decode.list decoderPuzzleMini))
         (Decode.field "next" decoderThemeData)
+        (Decode.field "num_registrations" Decode.int)
+        (Decode.field "num_submissions" Decode.int)
 
 
-decoderPuzzleList : Decoder (List MiniPuzzleData)
-decoderPuzzleList =
-    Decode.field "puzzles" (Decode.list decoderMiniPuzzleData)
+decoderUserStats : Decoder UserStats
+decoderUserStats =
+    Decode.succeed UserStats
+        |> required "username" Decode.string
+        |> required "num_submit" Decode.int
+        |> required "num_solved" Decode.int
+        |> required "points" Decode.int
+        |> required "rank" Decode.int
+        |> required "num_prizes" Decode.int
+        |> optional "submissions" (Decode.maybe <| Decode.list decoderSubmissionData) Nothing
 
 
 noInputString =
@@ -190,23 +217,44 @@ decoderVideoLink =
             )
 
 
-decoderDetailPuzzleData : Decoder DetailPuzzleData
-decoderDetailPuzzleData =
-    Decode.succeed DetailPuzzleData
+decoderPuzzleDetail : Decoder PuzzleDetail
+decoderPuzzleDetail =
+    Decode.succeed PuzzleDetail
         |> required "id" Decode.int
         |> required "puzzle_set" decoderPuzzleSet
         |> required "theme" decoderThemeData
         |> required "title" Decode.string
-        |> required "video_link" decoderVideoLink
-        |> required "image_link" Decode.string
         |> required "body" Decode.string
-        |> required "example" Decode.string
+        |> optional "puzzle_input" Decode.string noInputString
         |> required "statement" Decode.string
         |> required "references" Decode.string
-        |> optional "puzzle_input" Decode.string noInputString
-        |> optional "is_solved" (Decode.maybe Decode.bool) Nothing
+        |> required "stats" decoderPuzzleStats
         |> optional "answer" (Decode.maybe Decode.string) Nothing
         |> optional "explanation" (Decode.maybe Decode.string) Nothing
+        |> optional "comments" (Decode.maybe (Decode.list decoderComment)) Nothing
+
+
+decoderPuzzleStats : Decoder PuzzleStats
+decoderPuzzleStats =
+    Decode.map3 PuzzleStats
+        (Decode.field "correct" Decode.int)
+        (Decode.field "incorrect" Decode.int)
+        (Decode.field "leaderboard"
+            (Decode.list
+                (Decode.map2 PuzzleLeaderboardUnit
+                    (Decode.field "username" Decode.string)
+                    (Decode.field "submission_datetime" Iso8601.decoder)
+                )
+            )
+        )
+
+
+decoderComment : Decoder Comment
+decoderComment =
+    Decode.map3 Comment
+        (Decode.field "username" Decode.string)
+        (Decode.field "timestamp" Iso8601.decoder)
+        (Decode.field "comment" Decode.string)
 
 
 decoderSubmissionData : Decoder SubmissionData
@@ -214,16 +262,16 @@ decoderSubmissionData =
     Decode.map7 SubmissionData
         (Decode.field "id" Decode.int)
         (Decode.at [ "user", "username" ] Decode.string)
-        (Decode.field "puzzle" decoderMiniPuzzleData)
+        (Decode.field "puzzle" decoderPuzzleMini)
         (Decode.field "submission_datetime" Iso8601.decoder)
         (Decode.field "submission" Decode.string)
         (Decode.field "is_response_correct" Decode.bool)
         (Decode.field "points" Decode.int)
 
 
-decoderThemeData : Decoder ThemeData
+decoderThemeData : Decoder Theme
 decoderThemeData =
-    Decode.map5 ThemeData
+    Decode.map5 Theme
         (Decode.field "id" Decode.int)
         (Decode.field "theme" Decode.string)
         (Decode.field "theme_set"
@@ -249,15 +297,7 @@ decoderThemeData =
         (Decode.field "open_datetime" Iso8601.decoder)
 
 
-decoderProfileData : Decoder ProfileData
-decoderProfileData =
-    Decode.map3 ProfileData
-        (Decode.field "submissions" (Decode.list decoderSubmissionData))
-        (Decode.field "num_solved" Decode.int)
-        (Decode.field "points" Decode.int)
-
-
-decoderSubmissionResponse : Decoder SubmissionResponseData
+decoderSubmissionResponse : Decoder SubmissionResponse
 decoderSubmissionResponse =
     Decode.map OkSubmit <|
         Decode.map4
@@ -278,44 +318,37 @@ decoderTooSoonSubmit =
         (Decode.field "next_allowed" Iso8601.decoder)
 
 
-decoderLeaderboardByTotal : Decoder LeaderTotalData
-decoderLeaderboardByTotal =
+decoderLeaderboard : Decoder (List UserAggregate)
+decoderLeaderboard =
     Decode.list
-        (Decode.map2 LeaderTotalUnit
+        (Decode.map6 UserAggregate
             (Decode.field "username" Decode.string)
-            (Decode.field "total" Decode.int)
+            (Decode.field "total_abstract" Decode.int)
+            (Decode.field "total_beginner" Decode.int)
+            (Decode.field "total_challenge" Decode.int)
+            (Decode.field "total_meta" Decode.int)
+            (Decode.field "total_grand" Decode.int)
         )
 
 
-decoderLeaderboardByPuzzle : Decoder LeaderPuzzleData
-decoderLeaderboardByPuzzle =
-    Decode.list
-        (Decode.map4 LeaderPuzzleUnit
-            (Decode.field "username" Decode.string)
-            (Decode.field "puzzle" Decode.string)
-            (Decode.field "submission_datetime" Iso8601.decoder)
-            (Decode.field "points" Decode.int)
-        )
-
-
-decoderLeaderboardBySet : Decoder LeaderSetData
-decoderLeaderboardBySet =
-    Decode.list
-        (Decode.map3 LeaderSetUnit
-            (Decode.field "puzzle_set" decoderPuzzleSet)
-            (Decode.field "username" Decode.string)
-            (Decode.field "total" Decode.int)
-        )
-
-
-decoderRegisterResponse : Decoder RegisterResponseData
+decoderRegisterResponse : Decoder RegisterResponse
 decoderRegisterResponse =
     Decode.succeed "Thanks for registering for the 2019 Puzzle Hunt - you can try logging in now, just head over to the login tab!"
 
 
-decoderSendEmailResponse : Decoder SendEmailResponseData
+decoderSendEmailResponse : Decoder SendEmailResponse
 decoderSendEmailResponse =
     Decode.succeed "Email sent!"
+
+
+decoderCommentResponse : Decoder CommentResponse
+decoderCommentResponse =
+    Decode.list decoderComment
+
+
+decoderContactResponse : Decoder ContactResponse
+decoderContactResponse =
+    Decode.succeed "Successfully messaged."
 
 
 
@@ -351,86 +384,71 @@ postWithAuth authToken stringList function aDecoder valueDecode =
 -- Requests
 
 
-getProfile : AuthToken -> Cmd Msg
-getProfile authToken =
-    getWithAuth authToken [ "profile" ] HomeGotProfileResponse decoderProfileData
-
-
 getPrizeList : Cmd Msg
 getPrizeList =
     getNoAuth [ "prizes" ] PrizesGotResponse decoderPrizeData
 
 
-getPuzzleListPublic : Cmd Msg
-getPuzzleListPublic =
-    getNoAuth [ "puzzles" ] PuzzleListPublicGotResponse decoderPuzzlePageData
+getHomeDataPublic : Cmd Msg
+getHomeDataPublic =
+    getNoAuth [ "puzzles" ] HomeGotResponse decoderHomeData
 
 
-getPuzzleListPublicforLeaderboard : Cmd Msg
-getPuzzleListPublicforLeaderboard =
-    getNoAuth [ "puzzles" ] LeaderboardGotPuzzleOptions decoderPuzzleList
+getHomeDataUser : AuthToken -> Cmd Msg
+getHomeDataUser authToken =
+    getWithAuth authToken [ "puzzles" ] HomeGotResponse decoderHomeData
 
 
-getPuzzleListUser : AuthToken -> Cmd Msg
-getPuzzleListUser authToken =
-    getWithAuth authToken [ "puzzles" ] PuzzleListUserGotResponse decoderPuzzlePageData
+postContact : ContactData -> Cmd Msg
+postContact contactData =
+    postNoAuth [ "message" ] (ContactMsg << GotContactResponse) decoderContactResponse (encodeContact contactData)
 
 
-getPuzzleDetailPublic : PuzzleId -> Cmd Msg
-getPuzzleDetailPublic puzzleId =
-    getNoAuth [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotPublic decoderDetailPuzzleData
+getPuzzlePublic : PuzzleId -> Cmd Msg
+getPuzzlePublic puzzleId =
+    getNoAuth [ "puzzles", String.fromInt puzzleId ] (PuzzleMsg << GotPuzzle) decoderPuzzleDetail
 
 
-getPuzzleDetailUser : PuzzleId -> AuthToken -> Cmd Msg
-getPuzzleDetailUser puzzleId authToken =
-    getWithAuth authToken [ "puzzles", String.fromInt puzzleId ] PuzzleDetailGotUser decoderDetailPuzzleData
+getPuzzleUser : PuzzleId -> AuthToken -> Cmd Msg
+getPuzzleUser puzzleId authToken =
+    getWithAuth authToken [ "puzzles", String.fromInt puzzleId ] (PuzzleMsg << GotPuzzle) decoderPuzzleDetail
+
+
+getStatsPublic : Username -> Cmd Msg
+getStatsPublic username =
+    getNoAuth [ "stats", username ] UserGotResponse decoderUserStats
+
+
+getStatsUser : Username -> AuthToken -> Cmd Msg
+getStatsUser username authToken =
+    getWithAuth authToken [ "stats", username ] UserGotResponse decoderUserStats
 
 
 postSubmit : AuthToken -> Submission -> PuzzleId -> Cmd Msg
 postSubmit authToken submission puzzleId =
-    postWithAuth authToken [ "submissions", String.fromInt puzzleId ] PuzzleDetailGotSubmissionResponse decoderSubmissionResponse (encodeSubmission submission)
+    postWithAuth authToken [ "submissions", String.fromInt puzzleId ] (PuzzleMsg << GotSubmissionResponse) decoderSubmissionResponse (encodeSubmission submission)
 
 
-getLeaderboardByTotal : Cmd Msg
-getLeaderboardByTotal =
-    getNoAuth [ "leaderboard" ] LeaderboardGotByTotal decoderLeaderboardByTotal
+postComment : AuthToken -> PuzzleId -> String -> Cmd Msg
+postComment authToken puzzleId string =
+    postWithAuth authToken [ "puzzles", String.fromInt puzzleId, "comment" ] (PuzzleMsg << GotCommentResponse) decoderCommentResponse (encodeComment string)
 
 
-getLeaderboardByPuzzle : PuzzleId -> Cmd Msg
-getLeaderboardByPuzzle puzzleId =
-    getNoAuth [ "leaderboard", "puzzle", String.fromInt puzzleId ] LeaderboardGotByPuzzle decoderLeaderboardByPuzzle
+getLeaderboard : Cmd Msg
+getLeaderboard =
+    getNoAuth [ "leaderboard" ] LeaderboardGotResponse decoderLeaderboard
 
 
-getLeaderboardBySet : PuzzleSet -> Cmd Msg
-getLeaderboardBySet puzzleSet =
-    let
-        setString =
-            case puzzleSet of
-                AbstractPuzzle ->
-                    "A"
-
-                BeginnerPuzzle ->
-                    "B"
-
-                ChallengePuzzle ->
-                    "C"
-
-                MetaPuzzle ->
-                    "M"
-    in
-    getNoAuth [ "leaderboard", "set", setString ] LeaderboardGotBySet decoderLeaderboardBySet
-
-
-postRegister : UserData -> Cmd Msg
+postRegister : FullUser -> Cmd Msg
 postRegister userData =
-    postNoAuth [ "users" ] RegisterGotResponse decoderRegisterResponse (encodeRegister userData)
+    postNoAuth [ "users" ] (RegisterMsg << GotRegisterResponse) decoderRegisterResponse (encodeRegister userData)
 
 
 postSendEmail : Email -> Cmd Msg
 postSendEmail email =
-    postNoAuth [ "auth", "email" ] LoginGotSendEmailResponse decoderSendEmailResponse (encodeEmail email)
+    postNoAuth [ "auth", "email" ] (LoginMsg << GotSendEmailResponse) decoderSendEmailResponse (encodeEmail email)
 
 
-postLogin : Token -> Cmd Msg
+postLogin : EmailToken -> Cmd Msg
 postLogin token =
-    postNoAuth [ "callback", "auth" ] LoginGotLoginResponse decoderCredentials (encodeToken token)
+    postNoAuth [ "callback", "auth" ] (LoginMsg << GotLoginResponse) decoderCredentials (encodeToken token)

@@ -14,279 +14,279 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> PuzzleShow -> PuzzleDetailState -> ( String, Html Msg )
-view meta puzzleShow puzzleDetailState =
-    let
-        title =
-            "Puzzles - CIGMAH"
-
-        body =
-            case ( meta.auth, puzzleDetailState ) of
-                ( Public, PublicPuzzle puzzleId webData ) ->
-                    case webData of
-                        Loading ->
-                            puzzleLoadingPage
-
-                        Success puzzle ->
-                            detailPuzzlePage puzzleShow puzzle (Just "Login to submit your answer.") False
-
-                        Failure e ->
-                            case e of
-                                BadStatus metadata ->
-                                    errorPage metadata.body
-
-                                NetworkError ->
-                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
-
-                                _ ->
-                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
-
-                        NotAsked ->
-                            errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
-
-                ( User credentials, UserPuzzle puzzleId webData ) ->
-                    case webData of
-                        Loading ->
-                            puzzleLoadingPage
-
-                        Success puzzle ->
-                            detailPuzzlePage puzzleShow puzzle Nothing False
-
-                        Failure e ->
-                            case e of
-                                BadStatus metadata ->
-                                    errorPage metadata.body
-
-                                NetworkError ->
-                                    errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
-
-                                _ ->
-                                    errorPage "Unfortunately, we don't yet know what this error is. :(  "
-
-                        NotAsked ->
-                            errorPage "Hmm. It seems the request didn't go through. Try refreshing!"
-
-                ( User credentials, UnsolvedPuzzleLoaded puzzleId data submission webData ) ->
-                    case webData of
-                        NotAsked ->
-                            detailPuzzlePage puzzleShow data Nothing False
-
-                        Loading ->
-                            detailPuzzlePage puzzleShow data Nothing True
-
-                        Failure e ->
-                            detailPuzzlePage puzzleShow data (Just "Hm. It seems there was an error. Let us know!") False
-
-                        Success submissionResponse ->
-                            case submissionResponse of
-                                OkSubmit okSubmitData ->
-                                    case okSubmitData.isResponseCorrect of
-                                        True ->
-                                            successScreen data okSubmitData
-
-                                        False ->
-                                            detailPuzzlePage puzzleShow data (Just "Unfortunately, that answer was incorrect. Have a break and try again :)") False
-
-                                TooSoonSubmit tooSoonSubmitData ->
-                                    let
-                                        messageString =
-                                            String.concat
-                                                [ "You submitted your last submission (at "
-                                                , Handlers.posixToString tooSoonSubmitData.last
-                                                , ", attempt no. "
-                                                , String.fromInt tooSoonSubmitData.attempts
-                                                , ") too recently. You can next submit at "
-                                                , Handlers.posixToString tooSoonSubmitData.next
-                                                , "."
-                                                ]
-                                    in
-                                    detailPuzzlePage puzzleShow data (Just messageString) False
-
-                ( _, _ ) ->
-                    notFoundPage
-    in
-    ( title, body )
+type SubmitOrComment
+    = PuzzleSubmit Submission (WebData SubmissionResponse)
+    | PuzzleComment String (WebData CommentResponse)
 
 
-type alias Message =
-    String
+view : Model -> PuzzleId -> PuzzleDetailState -> Html Msg
+view model puzzleId puzzleDetailState =
+    case puzzleDetailState of
+        UserSolvedPuzzle puzzleDetailWebData comment commentResponseWebData ->
+            webDataWrapper puzzleDetailWebData (puzzleView <| Just <| PuzzleComment comment commentResponseWebData)
 
+        UserUnsolvedPuzzle puzzleDetailWebData submission submissionResponseWebData ->
+            case ( puzzleDetailWebData, submissionResponseWebData ) of
+                ( Success puzzleDetail, Success (OkSubmit data) ) ->
+                    if data.isResponseCorrect then
+                        justSolvedPuzzleView puzzleId puzzleDetail data
 
-type PaddingSize
-    = WithSubmissionBox
-    | WithoutSubmissionBox
-
-
-messageBox : Message -> Html Msg
-messageBox message =
-    div
-        [ class "message"
-        , onClick ToggledMessage
-        ]
-        [ text message ]
-
-
-submissionInput : PuzzleId -> Bool -> Html Msg
-submissionInput puzzleId isLoading =
-    let
-        submitText =
-            case isLoading of
-                True ->
-                    "Loading..."
-
-                False ->
-                    "Submit"
-    in
-    div [ class "submission-container" ]
-        [ input
-            [ type_ "text"
-            , placeholder "Submission"
-            , onSubmit (PuzzleDetailClickedSubmit puzzleId)
-            , onInput PuzzleDetailChangedSubmission
-            , disabled isLoading
-            ]
-            []
-        , button [ type_ "submit", onClick (PuzzleDetailClickedSubmit puzzleId), disabled isLoading ] [ text "Submit" ]
-        ]
-
-
-detailPuzzlePage : PuzzleShow -> DetailPuzzleData -> Maybe Message -> Bool -> Html Msg
-detailPuzzlePage puzzleShow puzzle maybeMessage isInputLoading =
-    let
-        ( solutionBody, puzzleBottom ) =
-            case ( puzzle.isSolved, puzzle.answer, puzzle.explanation ) of
-                ( Just True, Just answer, Just explanation ) ->
-                    ( div [ class "puzzle-solution" ]
-                        [ div [ class "puzzle-answer" ] [ text answer ]
-                        , div [ class "puzzle-explanation" ] <| Markdown.toHtml Nothing explanation
-                        ]
-                    , div [] []
-                    )
-
-                ( _, _, _ ) ->
-                    ( div [] []
-                    , div [ class "puzzle-bottom" ]
-                        [ messageBody
-                        , submissionBox
-                        ]
-                    )
-
-        paddingSize =
-            case puzzle.isSolved of
-                Just False ->
-                    WithSubmissionBox
+                    else
+                        webDataWrapper puzzleDetailWebData (puzzleView <| Just <| PuzzleSubmit submission submissionResponseWebData)
 
                 _ ->
-                    WithoutSubmissionBox
+                    webDataWrapper puzzleDetailWebData (puzzleView <| Just <| PuzzleSubmit submission submissionResponseWebData)
 
-        messageBody =
-            case maybeMessage of
-                Just message ->
-                    messageBox message
+        PublicPuzzle puzzleDetailWebData ->
+            webDataWrapper puzzleDetailWebData (puzzleView Nothing)
+
+
+submissionBox : PuzzleId -> Submission -> Bool -> Html Msg
+submissionBox puzzleId submission isSubmissionLoading =
+    div [ class "submission-container" ]
+        [ div [ class "submission-controls" ]
+            [ Html.form [ class "submission", onSubmit (PuzzleMsg (ClickedSubmit puzzleId)) ]
+                [ input [ type_ "text", placeholder "Submission", value submission, onInput (PuzzleMsg << ChangedSubmission), disabled isSubmissionLoading ] []
+                , button [ disabled isSubmissionLoading ] [ text "Submit" ]
+                ]
+            ]
+        ]
+
+
+panelDiv : PuzzleSet -> Bool -> Html Msg
+panelDiv puzzleSet on =
+    if on then
+        div [ class <| "panel on " ++ Handlers.puzzleSetString puzzleSet ] []
+
+    else
+        div [ class <| "panel off " ++ Handlers.puzzleSetString puzzleSet ] []
+
+
+miniTableRow : PuzzleLeaderboardUnit -> Html Msg
+miniTableRow puzzleLeaderboardUnit =
+    tr []
+        [ td [] [ a [ routeHref <| UserRoute puzzleLeaderboardUnit.username ] [ text puzzleLeaderboardUnit.username ] ]
+        , td [] [ span [ class "timestamp" ] [ text <| Handlers.posixToString puzzleLeaderboardUnit.submissionDatetime ] ]
+        ]
+
+
+puzzleStatsView : PuzzleSet -> PuzzleStats -> Html Msg
+puzzleStatsView puzzleSet { correct, incorrect, leaderboard } =
+    let
+        proportion =
+            if incorrect == 0 then
+                0
+
+            else
+                floor <| 10 * toFloat incorrect / toFloat (correct + incorrect)
+
+        panel =
+            List.map (panelDiv puzzleSet) <| List.repeat proportion True ++ List.repeat (10 - proportion) False
+
+        tableText =
+            if List.length leaderboard > 0 then
+                "First five solvers: "
+
+            else
+                "No solvers yet."
+
+        firstfive =
+            table [ class "side-table" ] <|
+                List.map miniTableRow leaderboard
+    in
+    div [ class "footnote" ]
+        [ div [ class "puzzle-stats-container" ]
+            [ div [ class "difficulty" ] [ text "Participant difficulty:" ]
+            , div [ class "panel-container" ] panel
+            , div [ class "text" ] [ text <| String.fromInt incorrect, text " incorrect and ", text <| String.fromInt correct, text " correct total submissions." ]
+            , br [] []
+            , text tableText
+            , firstfive
+            ]
+        ]
+
+
+calculateRemainingPoints : PuzzleDetail -> Int
+calculateRemainingPoints puzzle =
+    let
+        base =
+            case puzzle.theme.themeSet of
+                SampleTheme ->
+                    0
+
+                _ ->
+                    100
+
+        remaining =
+            Basics.max 0 (base - puzzle.stats.correct)
+
+        multiplier =
+            case puzzle.puzzleSet of
+                ChallengePuzzle ->
+                    2
+
+                MetaPuzzle ->
+                    4
+
+                _ ->
+                    1
+    in
+    remaining * multiplier
+
+
+justSolvedPuzzleView : PuzzleId -> PuzzleDetail -> OkSubmitData -> Html Msg
+justSolvedPuzzleView puzzleId puzzleDetail okSubmitData =
+    div []
+        [ h1 [] [ text "Congratulations." ]
+        , p []
+            [ text "You've just solved Puzzle No. "
+            , text <| String.fromInt puzzleDetail.id
+            , text " "
+            , text <| puzzleDetail.title
+            , text ", and earned "
+            , text <| String.fromInt okSubmitData.points
+            , text " points."
+            ]
+        , a [ routeHref HomeRoute ] [ text "Head back to the homepage." ]
+        ]
+
+
+makeComment : Comment -> Html Msg
+makeComment comment =
+    div [ class "comment-item" ]
+        [ div [ class "comment-header" ] [ a [ routeHref (UserRoute comment.username) ] [ text comment.username ], text " wrote on ", text <| Handlers.posixToString comment.timestamp, text ":" ]
+        , div [ class "comment-body" ] <| Markdown.toHtml Nothing comment.text
+        ]
+
+
+commentBox : String -> WebData CommentResponse -> Html Msg
+commentBox comment webData =
+    let
+        isLoading =
+            case webData of
+                Loading ->
+                    True
+
+                _ ->
+                    False
+    in
+    case webData of
+        Success _ ->
+            div [ class "comment-success" ] [ p [] [ text "Your comment was successfully added." ] ]
+
+        _ ->
+            div [ class "comment-container" ]
+                [ Html.form [ class "comment-input-container", onSubmit (PuzzleMsg ClickedComment) ]
+                    [ textarea
+                        [ class "comment"
+                        , value comment
+                        , rows 8
+                        , placeholder "Your comment in here, formattable with **markdown**."
+                        , disabled isLoading
+                        , onInput (PuzzleMsg << ChangedComment)
+                        ]
+                        []
+                    , button [ class "comment-button", disabled isLoading ] [ text "Post Comment" ]
+                    ]
+                , div [ class "comment-preview-container" ]
+                    [ br [] []
+                    , div [] [ text "Your comment will be posted under your username. A preview of your comment's contents is below." ]
+                    , div [ class "comment preview" ] <| Markdown.toHtml Nothing comment
+                    ]
+                ]
+
+
+wrapSummary : String -> Html Msg -> Html Msg
+wrapSummary summaryString msgHtml =
+    details [ class "puzzle-details" ]
+        [ summary [ class "puzzle-summary" ] [ text summaryString ]
+        , msgHtml
+        ]
+
+
+puzzleView : Maybe SubmitOrComment -> PuzzleDetail -> Html Msg
+puzzleView submitOrCommentMaybe puzzle =
+    let
+        numRemainingPoints =
+            calculateRemainingPoints puzzle
+
+        puzzleBody =
+            let
+                base =
+                    div []
+                        [ div [ class "main" ] <| Markdown.toHtml Nothing puzzle.body
+                        , div [ class <| "input " ++ Handlers.puzzleSetString puzzle.puzzleSet ] <| Markdown.toHtml Nothing puzzle.input
+                        , div [ class "footnote" ] [ text "Punctuation, whitespace and capitalisation do not matter and are not checked. You can include punctuation or whitespace if it makes typing easier." ]
+                        , div [ class "statement" ] <| Markdown.toHtml Nothing puzzle.statement
+                        ]
+            in
+            case submitOrCommentMaybe of
+                Just (PuzzleComment _ _) ->
+                    wrapSummary "Click to show the puzzle." base
+
+                _ ->
+                    base
+
+        extraContent =
+            case submitOrCommentMaybe of
+                Just submitOrComment ->
+                    case submitOrComment of
+                        PuzzleSubmit submission response ->
+                            case response of
+                                Loading ->
+                                    submissionBox puzzle.id submission True
+
+                                Success responseData ->
+                                    submissionBox puzzle.id submission False
+
+                                _ ->
+                                    submissionBox puzzle.id submission False
+
+                        PuzzleComment comment response ->
+                            case ( puzzle.answer, puzzle.explanation, puzzle.comments ) of
+                                ( Just answer, Just explanation, Just comments ) ->
+                                    div [ class "solution-body" ]
+                                        [ wrapSummary "Click to show the answer." (div [ class "puzzle-answer" ] [ text "The answer is ", span [ class "answer" ] [ text answer ], text "." ])
+                                        , wrapSummary "Click to show the map hint and writer's notes." <| div [ class "puzzle-explanation" ] <| Markdown.toHtml Nothing explanation
+                                        , wrapSummary "Click to show the comments." <|
+                                            div [ class "puzzle-comments" ] <|
+                                                case List.length comments of
+                                                    0 ->
+                                                        [ text "No comments yet." ]
+
+                                                    _ ->
+                                                        List.map makeComment comments
+                                        , hr [] []
+                                        , h3 [] [ text "Post a new comment." ]
+                                        , commentBox comment response
+                                        ]
+
+                                _ ->
+                                    div [] []
 
                 Nothing ->
-                    div [] []
-
-        submissionBox =
-            case paddingSize of
-                WithSubmissionBox ->
-                    submissionInput puzzle.id isInputLoading
-
-                WithoutSubmissionBox ->
-                    div [] []
-
-        ( puzzleBody, toggleText ) =
-            case puzzleShow of
-                Video ->
-                    let
-                        videoDiv =
-                            case puzzle.videoLink of
-                                Just videoLink ->
-                                    div [ class "puzzle-video" ] [ iframe [ width 384, height 216, src videoLink ] [] ]
-
-                                Nothing ->
-                                    div [ class "puzzle-video-placeholder" ] [ text "We're still making the video for this puzzle while we're transitioning the site design. Please use the text-only version in the meantime." ]
-                    in
-                    ( [ div [ class "puzzle-video-version" ]
-                            [ videoDiv
-                            , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
-                            , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
-                            , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
-                            , solutionBody
-                            ]
-                      ]
-                    , "TEXT-ONLY VERSION"
-                    )
-
-                Text ->
-                    ( [ div [ class "puzzle-text-version" ]
-                            [ div [ class "puzzle-body-text" ] <| Markdown.toHtml Nothing puzzle.body
-                            , div [ class "puzzle-input" ] <| Markdown.toHtml Nothing puzzle.input
-                            , div [ class "puzzle-statement" ] <| Markdown.toHtml Nothing puzzle.statement
-                            , div [ class "puzzle-example" ] <| Markdown.toHtml Nothing puzzle.example
-                            , div [ class "puzzle-references" ] <| Markdown.toHtml Nothing puzzle.references
-                            , solutionBody
-                            ]
-                      ]
-                    , "VIDEO VERSION"
-                    )
+                    div [ style "text-align" "right" ] [ text "Login to submit a response." ]
     in
-    div
-        [ class "main" ]
-        [ div [ class "puzzle-container" ]
-            [ div [ class "puzzle" ]
-                [ div [ class "puzzle-top" ]
-                    [ div [ class "puzzle-header" ]
-                        [ div [ class "title" ]
-                            [ b [] [ text puzzle.title ]
-                            ]
-                        , div [ class "right" ]
-                            [ button [ style "margin-right" "1em", onClick PuzzleDetailTogglePuzzleShow ] [ text toggleText ]
-                            , div [ class "button-container", onClick (ChangedRoute PuzzleListRoute) ]
-                                [ button []
-                                    [ b [] [ text "✕" ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    , div [ class "puzzle-tags" ]
-                        [ span [ class "puzzle-tag" ] [ text puzzle.theme.theme ]
-                        , span [ class "puzzle-tag" ] [ text "|" ]
-                        , span [ class "puzzle-tag" ] [ text <| Handlers.puzzleSetString puzzle.puzzleSet ]
-                        , span [ class "puzzle-tag" ] [ text "|" ]
-                        , span [ class "puzzle-tag" ] [ text (Handlers.posixToString puzzle.theme.openDatetime) ]
-                        ]
-                    ]
-                , div [ class "puzzle-body" ]
-                    [ div [ class "puzzle-padder" ] puzzleBody
-                    ]
-                , puzzleBottom
-                ]
+    div [ class "puzzle" ]
+        [ puzzleStatsView puzzle.puzzleSet puzzle.stats
+        , h1 [ class <| "main-header " ++ Handlers.puzzleSetString puzzle.puzzleSet ]
+            [ text "№"
+            , text <| String.fromInt puzzle.id
+            , text " "
+            , text puzzle.title
             ]
-        ]
-
-
-successScreen : DetailPuzzleData -> OkSubmitData -> Html Msg
-successScreen puzzle okSubmitData =
-    let
-        message =
-            case okSubmitData.points of
-                0 ->
-                    [ text "Kudos." ]
-
-                _ ->
-                    [ text "Congrats. "
-                    , b [] [ text <| String.fromInt okSubmitData.points ]
-                    , text " points awarded."
-                    ]
-    in
-    div
-        [ class "main" ]
-        [ div [ class "container" ]
-            [ div [ class "success-container" ]
-                [ div [ class "success-image" ] [ img [ src puzzle.imageLink ] [] ]
-                , div [ class "success-message" ] message
-                , button [ class "success-button", onClick (ChangedRoute PuzzleListRoute) ] [ text "Return" ]
-                ]
+        , div [ class "footnote" ]
+            [ text "This puzzle is the "
+            , span [ class "puzzle-set" ] [ text <| Handlers.puzzleSetString puzzle.puzzleSet ]
+            , text " puzzle from the theme "
+            , span [ class "theme" ] [ text puzzle.theme.themeTitle ]
+            , text ". It was released on "
+            , span [ class "timestamp" ] [ text <| Handlers.posixToString puzzle.theme.openDatetime ]
+            , text " and is worth "
+            , text <| String.fromInt numRemainingPoints
+            , text " points for the next solver."
+            , div [ class "references" ] <| Markdown.toHtml Nothing puzzle.references
             ]
+        , puzzleBody
+        , extraContent
         ]

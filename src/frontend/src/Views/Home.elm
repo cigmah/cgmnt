@@ -1,6 +1,5 @@
 module Views.Home exposing (view)
 
-import Browser
 import Handlers
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -13,131 +12,110 @@ import Types exposing (..)
 import Views.Shared exposing (..)
 
 
-view : Meta -> HomeState -> ( String, Html Msg )
-view meta homeState =
+view : Model -> HomeData -> Html Msg
+view model homeData =
     let
-        title =
-            "Home - CIGMAH"
+        differs =
+            case model.auth of
+                User credentials ->
+                    { welcome = "Welcome to CIGMAH, " ++ credentials.username ++ "."
+                    , nav =
+                        p []
+                            [ a [ routeHref <| UserRoute credentials.username ] [ text "Check your stats" ]
+                            , text ", or view the "
+                            , a [ routeHref LeaderboardRoute ] [ text "leaderboard" ]
+                            , text " or the log of "
+                            , a [ routeHref PrizesRoute ] [ text "prizes" ]
+                            , text "; or "
+                            , a [ routeHref ContactRoute ] [ text "review the FAQ or ask a question" ]
+                            , text " or "
+                            , a [ routeHref LogoutRoute ] [ text "logout" ]
+                            , text "."
+                            ]
+                    }
 
-        body =
-            case ( meta.auth, homeState ) of
-                ( User credentials, HomeUser userData Loading ) ->
-                    loadingPage
+                Public ->
+                    { welcome = "Welcome to the CIGMAH Puzzle Hunt."
+                    , nav =
+                        p []
+                            [ text "Read the "
+                            , a [ routeHref ContactRoute ] [ text "FAQ or get in touch" ]
+                            , text ", "
+                            , a [ routeHref RegisterRoute ] [ text "register" ]
+                            , text " or "
+                            , a [ routeHref LoginRoute ] [ text "login" ]
+                            , text ", or view the "
+                            , a [ routeHref LeaderboardRoute ] [ text "leaderboard" ]
+                            , text " or the log of "
+                            , a [ routeHref PrizesRoute ] [ text "prizes" ]
+                            , text "."
+                            ]
+                    }
 
-                ( User credentials, HomeUser userData (Failure e) ) ->
-                    case e of
-                        BadStatus metadata ->
-                            errorPage metadata.body
+        noOverflow =
+            case model.modal of
+                Just _ ->
+                    True
 
-                        NetworkError ->
-                            errorPage "There's something wrong with your network or with accessing the backend - check your internet connection first and check the console for any network errors."
-
-                        _ ->
-                            errorPage "Unfortunately, we don't yet know what this error is. :(  "
-
-                ( User credentials, HomeUser userData (Success profileData) ) ->
-                    dashboardPage
-                        False
-                        credentials.username
-                        profileData
-
-                ( Public, HomePublic ) ->
-                    landingPage
-
-                ( _, _ ) ->
-                    notFoundPage
+                Nothing ->
+                    False
     in
-    ( title, body )
-
-
-landingPage =
-    div
-        [ class "main" ]
-        [ div [ class "container" ]
-            [ p []
-                [ span [ class "lessen" ] [ text "?- about(puzzlehunt)" ]
-                , br [] []
-                , text "Free coding puzzles about medicine."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- duration(puzzlehunt)" ]
-                , br [] []
-                , text "March 9th - September 30th."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- size(puzzlehunt)" ]
-                , br [] []
-                , text "25 puzzles, 3 per month."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- contact(puzzlehunt)" ]
-                , br [] []
-                , text "cigmah.contact at gmail dot com"
-                ]
+    article [ class "container", classList [ ( "no-overflow", noOverflow ) ] ]
+        [ h1 [] [ text differs.welcome ]
+        , div [ class "footnote" ] [ text "Don't like the look? ", br [] [], button [ onClick ToggledTheme ] [ text "Cycle the theme." ] ]
+        , p []
+            [ text <|
+                String.join " "
+                    [ "There are"
+                    , String.fromInt homeData.numRegistrations
+                    , "registered participants."
+                    , String.fromInt homeData.numSubmissions
+                    , "submissions have been received in total so far."
+                    ]
             ]
-        ]
-
-
-submissionToRow : SubmissionData -> Html Msg
-submissionToRow data =
-    let
-        ( trClass, symbol ) =
-            if data.isResponseCorrect then
-                ( "strengthen", "✓" )
-
-            else
-                ( "lessen", "✕" )
-    in
-    tr [ class trClass ]
-        [ td [] [ text data.puzzle.title ]
-        , td [] [ text <| "(" ++ Handlers.posixToString data.submissionDatetime ++ ")" ]
-        , td [] [ text <| data.submission ]
-        , td [] [ text symbol ]
-        ]
-
-
-dashboardPage : Bool -> String -> ProfileData -> Html Msg
-dashboardPage isLoading username profileData =
-    let
-        numSolved =
-            String.fromInt profileData.numSolved
-
-        points =
-            String.fromInt profileData.points
-
-        submissions =
-            profileData.submissions
-    in
-    div
-        [ class "main" ]
-        [ div
-            [ class "container" ]
-            [ p []
-                [ span
-                    [ class "lessen" ]
-                    [ text "?- greeting(user)" ]
-                , br [] []
-                , text "Welcome, "
-                , b [] [ text username ]
-                , text "."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- numsolved(user)" ]
-                , br [] []
-                , b [] [ text numSolved ]
-                , text " puzzles solved."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- numpoints(user)" ]
-                , br [] []
-                , b [] [ text points ]
-                , text " points."
-                , br [] []
-                , br [] []
-                , span [ class "lessen" ] [ text "?- tenrecent(user)" ]
-                , br [] []
-                , table [] <|
-                    List.map submissionToRow profileData.submissions
-                ]
+        , p []
+            [ text <| "The next theme is "
+            , span [ class "theme" ] [ text homeData.next.themeTitle ]
+            , text <| " and opens "
+            , span [ class "timestamp" ] [ text <| Handlers.posixToString homeData.next.openDatetime ]
+            , text "."
+            , div [ class "footnote" ]
+                [ text homeData.next.tagline ]
             ]
+        , differs.nav
+        , hr [] []
+        , puzzlesList homeData.puzzles
         ]
+
+
+puzzlesList : List PuzzleMini -> Html Msg
+puzzlesList puzzles =
+    let
+        isMeta set =
+            case set of
+                MetaPuzzle ->
+                    True
+
+                _ ->
+                    False
+
+        itemisePuzzle : PuzzleMini -> Html Msg
+        itemisePuzzle puzzle =
+            a [ routeHref <| PuzzleRoute puzzle.id ]
+                [ li [ class <| "puzzle-list-item " ++ Handlers.puzzleSetString puzzle.puzzleSet, classList [ ( "solved-item", Maybe.withDefault False puzzle.isSolved ) ] ]
+                    [ span
+                        [ class "puzzle-list-marker"
+                        , classList [ ( "solved", Maybe.withDefault False puzzle.isSolved ), ( "primary", isMeta puzzle.puzzleSet ) ]
+                        ]
+                        [ div
+                            [ class "puzzle-list-marker-contents" ]
+                            [ text <| String.fromInt puzzle.id
+                            , text <| Handlers.puzzleSetSymbol puzzle.puzzleSet
+                            ]
+                        ]
+                    , span [ class "timestamp" ] [ text <| Handlers.posixToMonth puzzle.themeData.openDatetime ]
+                    , span [ class "puzzle-title" ] [ text puzzle.title ]
+                    ]
+                ]
+    in
+    ul [ class "puzzle-list" ] <| List.map itemisePuzzle puzzles
