@@ -1,0 +1,26 @@
+{
+  "name": "sti-bugs-n-drugs",
+  "version": "1.0.0",
+  "description": "This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "howler": "^2.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjmn/sti-bugs-n-drugs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wjmn/sti-bugs-n-drugs/issues"
+  },
+  "homepage": "https://github.com/wjmn/sti-bugs-n-drugs#readme"
+}

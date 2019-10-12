@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-10-12 Sat 13:53 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIGMAH Puzzle Hunt 2019 Wrap-Up</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="CIGMAH Puzzle Hunt Team">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">CIGMAH Puzzle Hunt 2019 Wrap-Up</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org06f6c51">Acknowledgements</a></li>
+<li><a href="#orgb0585ee">What was the Puzzle Hunt?</a></li>
+<li><a href="#org97fe982">Who was awarded a prize?</a></li>
+<li><a href="#org17ba672">What can we do to improve?</a></li>
+<li><a href="#org2f26539">How was the Puzzle Hunt run?</a></li>
+<li><a href="#org749ccf6">What happens now?</a></li>
+</ul>
+</div>
+</div>
+<style>
+ a {
+    color: #aa0000;
+}
+a:active {
+    color: #bb2222;
+}
+.right {
+    font-size: 0.95rem;
+    border-left: 2px solid  #A0AEC0;
+    padding-left: 1rem;
+    opacity: 0.75;
+    background: white;
+    margin: 1.5rem 0;
+}
+.right p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+table {
+    max-width: 100%;
+    margin: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+th {
+    border-bottom: 3px double black;
+    font-weight: bold;
+}
+th {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+th, td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-top: 1px dotted black;
+    border-bottom: 1px dotted black;
+    font-size: 0.9em;
+}
+body {
+    font-family: "Georgia", "Baskerville", "Palatino Linotype", "Book Antiqua", "Garamond", "Bitstream Charter", "Century Schoolbook", "Cambria", serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    padding: 2rem;
+    box-sizing: border-box;
+    padding-bottom: 6rem;
+}
+code, .src {
+    color: #4A5568;
+    background: #F7FAFC;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+code {
+    padding: 0.3em 0.5em;
+    border-radius: 5px;
+    font-size: 0.75em;
+}
+details {
+    border-left: 2px solid #A0AEC0;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box:
+}
+h1, .title {
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 6px double black;
+    font-size: 2rem;
+    text-align: left;
+    margin-bottom: 4rem;
+}
+h2 {
+    font-size: 1.2em;
+    padding-top: 1.5rem;
+}
+h3 {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+h4 {
+    font-size: 1em;
+    font-weight: bold;
+}
+figure {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin: 0.5rem 0;
+}
+li .timestamp {
+    float: left;
+    margin-left: -12rem;
+    font-size: 0.9em;
+}
+nav {
+    color: #4A5568;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+ol {
+    counter-reset: ol;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 2rem;
+}
+ol > li {
+    padding-left: 2.5rem;
+}
+ol > li:before {
+    content: counter(ol);
+    counter-increment: ol;
+    position: absolute;
+    margin-left: -2.5rem;
+    border: 1px solid black;
+    font-size: 0.9rem;
+    margin-top: 3px;
+    width: 1.5rem;
+    height: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100em;
+}
+p {
+    margin: 0.5rem 0 1.5rem 0;
+}
+pre.src, pre.example {
+    padding: 1rem;
+    box-shadow: none;
+    border: none;
+    line-height: 1;
+    font-size: 0.95rem;
+    overflow: auto;
+    margin: 1.5rem 0;
+}
+pre.example {
+    border-left: 2px solid #A0AEC0;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+}
+summary {
+    color: #4A5568;
+}
+summary:hover {
+    cursor: pointer;
+}
+ul {
+    list-style-type: circle;
+    margin-bottom: 1.5rem;
+}
+.hidden {
+    display: none;
+}
+.outline-2 {
+    margin-top: 3rem;
+}
+#back {
+    padding-left: 1rem;
+    opacity: 0.75;
+    text-align: right;
+    margin-top: 6rem;
+    border-top: 1px dotted #A0AEC0;
+}
+#content {
+    width: 100%;
+    padding: 1rem;
+    max-width: 720px;
+    margin: auto;
+    box-sizing: border-box;
+}
+#video {
+    max-width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#table-of-contents {
+    font-size: 1rem;
+    opacity: 0.75;
+    margin-bottom: 4rem;
+}
+#table-of-contents h2 {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+#table-of-contents ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#table-of-contents li {
+    margin: 0;
+}
+
+@media only screen and (min-width: 1280px) {
+    .right {
+        float: right;
+        width: 36%;
+        margin: 0;
+        margin-right: -40%;
+        font-size: 0.85rem;
+        border: none;
+        clear: both;
+        padding-left: 0;
+    }
+    .right p {
+        margin-left: 0;
+    }
+
+    #table-of-contents, .left {
+        float: left;
+        margin: 0;
+        margin-left: -40%;
+        font-size: 0.85rem;
+        width: 36%;
+        text-align: right;
+    }
+    #table-of-contents li {
+        margin: 0.5rem 0;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    body {
+        padding: 0.25rem;
+        font-size: 1rem;
+    }
+    h1, .title {
+        margin-top: 1.5rem;
+    }
+    li .timestamp {
+        display: none;
+    }
+
+    #back {
+        margin-top: 4rem;
+    }
+    #content {
+        padding: 0.25rem;
+    }
+    #table-of-contents {
+        margin: 0;
+        margin-bottom: 2.5rem;
+    }
+}
+</style>
+
+<div class="right">
+<p>
+Usernames will be updated with names once we receive permission to publish them
+on this website.
+</p>
+
+</div>
+
+<p>
+Congratulations to:
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>Grand Prize Winner</b></td>
+<td class="org-left">yingtongli</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Challenge Prize Winner</b></td>
+<td class="org-left">AncoraImparo</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Beginner Prize Winner</b></td>
+<td class="org-left">kevinshi</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Abstract Prize Winner</b></td>
+<td class="org-left">jh</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Thank you to all participants for your participation.  We hope to see you again
+for future puzzles.
+</p>
+
+
+<div id="outline-container-org06f6c51" class="outline-2">
+<h2 id="org06f6c51">Acknowledgements</h2>
+<div class="outline-text-2" id="text-org06f6c51">
+<p>
+We would like to thank Monash Young Medtech Innovators (MYMI) for providing
+tickets to MedHack for the April prizewinners, as well as MUMUS for providing
+additional financial support for our activities. We would also like to thank
+Prof Wright for kindly agreeing to write a puzzle for us which we hope to
+release separately once it is ready.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb0585ee" class="outline-2">
+<h2 id="orgb0585ee">What was the Puzzle Hunt?</h2>
+<div class="outline-text-2" id="text-orgb0585ee">
+
+<div class="figure">
+<p><img src="./figures/collage.png" alt="collage.png">
+</p>
+</div>
+
+<p>
+The Puzzle Hunt consisted of 24 puzzles relating to coding and medicine released
+from February to September with the aim of encouraging medical students to learn
+how to code. A full listing of the puzzles, source code and related materials
+are archived and available from <a href="https://github.com/cigmah/cgmnt">https://github.com/cigmah/cgmnt</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org97fe982" class="outline-2">
+<h2 id="org97fe982">Who was awarded a prize?</h2>
+<div class="outline-text-2" id="text-org97fe982">
+<p>
+There were two types of prizes in the Puzzle Hunt: <b>Puzzle Prizes</b> awarded every
+month, and <b>Total Prizes</b>, awarded at the end.
+</p>
+</div>
+
+<div id="outline-container-orgb4d951b" class="outline-3">
+<h3 id="orgb4d951b">Who was awarded a Puzzle Prize?</h3>
+<div class="outline-text-3" id="text-orgb4d951b">
+<div class="right">
+<p>
+
+</p>
+
+<p>
+<b>Puzzle Prizes</b> were awarded every month to the first solver of each puzzle.
+Participants could only receive one puzzle prize per month, conceding any other
+puzzle prizes to the next solver. The first three non-meta puzzles were sample
+puzzles and no Puzzle Prizes were awarded. Each Puzzle Prize was worth $10.
+</p>
+
+</div>
+
+<p>
+The following Puzzle Prizes were awarded:
+</p>
+
+<div style="font-size: 0.8em;">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Puzzle</th>
+<th scope="col" class="org-left">Username</th>
+<th scope="col" class="org-left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">01M</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to the St Vincent de Paul Society Victoria.</td>
+</tr>
+
+<tr>
+<td class="org-left">05A</td>
+<td class="org-left">fragrantdoody</td>
+<td class="org-left">Unclaimed.</td>
+</tr>
+
+<tr>
+<td class="org-left">06B</td>
+<td class="org-left">kevinshi</td>
+<td class="org-left">Elected donation to Royal Flying Doctor Service Victoria.</td>
+</tr>
+
+<tr>
+<td class="org-left">07C</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to Cancer Council Victoria.</td>
+</tr>
+
+<tr>
+<td class="org-left">08A</td>
+<td class="org-left">dshell321</td>
+<td class="org-left">Elected donation to Very Special Kids.</td>
+</tr>
+
+<tr>
+<td class="org-left">09B</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to The Smith Family.</td>
+</tr>
+
+<tr>
+<td class="org-left">10C</td>
+<td class="org-left">kevinshi</td>
+<td class="org-left">Elected donation to the Melbourne Symphony Orchestra Education Appeal.</td>
+</tr>
+
+<tr>
+<td class="org-left">11A</td>
+<td class="org-left">jum</td>
+<td class="org-left">Elected donation to Servants Community Housing.</td>
+</tr>
+
+<tr>
+<td class="org-left">12B</td>
+<td class="org-left">jh</td>
+<td class="org-left">Elected donation to Beyond Blue.</td>
+</tr>
+
+<tr>
+<td class="org-left">13C</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to Australia for UNHCR.</td>
+</tr>
+
+<tr>
+<td class="org-left">14A</td>
+<td class="org-left">AncoraImparo</td>
+<td class="org-left">Elected donation to Starlight Children's Foundation.</td>
+</tr>
+
+<tr>
+<td class="org-left">15B</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to headspace National Youth Mental Health Foundation.</td>
+</tr>
+
+<tr>
+<td class="org-left">16C</td>
+<td class="org-left">jum</td>
+<td class="org-left">Redeemed as Woolworths WISH eGift Card.</td>
+</tr>
+
+<tr>
+<td class="org-left">17A</td>
+<td class="org-left">AncoraImparo</td>
+<td class="org-left">Elected donation to the Asylum Seeker Resource Centre.</td>
+</tr>
+
+<tr>
+<td class="org-left">18B</td>
+<td class="org-left">kevinshi</td>
+<td class="org-left">Elected donation to the Monash University Refugee Scholarship Fund via RunMelbourne.</td>
+</tr>
+
+<tr>
+<td class="org-left">19C</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to UNICEF Australia.</td>
+</tr>
+
+<tr>
+<td class="org-left">21A</td>
+<td class="org-left">jh</td>
+<td class="org-left">Redeemed as Coles eGift Card.</td>
+</tr>
+
+<tr>
+<td class="org-left">22B</td>
+<td class="org-left">AncoraImparo</td>
+<td class="org-left">Elected donation to UNICEF Australia.</td>
+</tr>
+
+<tr>
+<td class="org-left">23C</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to Australian Red Cross.</td>
+</tr>
+
+<tr>
+<td class="org-left">23A</td>
+<td class="org-left">AncoraImparo</td>
+<td class="org-left">Pending</td>
+</tr>
+
+<tr>
+<td class="org-left">24B</td>
+<td class="org-left">yingtongli</td>
+<td class="org-left">Elected donation to Lifeline Australia.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d563f9" class="outline-3">
+<h3 id="org1d563f9">Who was awarded a Total Prize?</h3>
+<div class="outline-text-3" id="text-org1d563f9">
+<p>
+The top five participants at the end of the Puzzle Hunt were:
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+<i>Abstract</i> and <i>Beginner</i> puzzles were worth 100 points each, minus how many
+participants had solved it previously. <i>Challenge</i> puzzles were worth double
+points; the <i>Meta</i> puzzle was worth quadruple points.
+</p>
+
+</div>
+
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Rank</th>
+<th scope="col" class="org-left">Username</th>
+<th scope="col" class="org-right">Abstract</th>
+<th scope="col" class="org-right">Beginner</th>
+<th scope="col" class="org-right">Challenge</th>
+<th scope="col" class="org-right">Meta</th>
+<th scope="col" class="org-right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">yingtongli</td>
+<td class="org-right">695</td>
+<td class="org-right">698</td>
+<td class="org-right">1194</td>
+<td class="org-right">400</td>
+<td class="org-right">2987</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">AncoraImparo</td>
+<td class="org-right">673</td>
+<td class="org-right">681</td>
+<td class="org-right">1176</td>
+<td class="org-right">396</td>
+<td class="org-right">2926</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">kevinshi</td>
+<td class="org-right">490</td>
+<td class="org-right">588</td>
+<td class="org-right">788</td>
+<td class="org-right">0</td>
+<td class="org-right">1866</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">jh</td>
+<td class="org-right">573</td>
+<td class="org-right">481</td>
+<td class="org-right">190</td>
+<td class="org-right">392</td>
+<td class="org-right">1636</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">jum</td>
+<td class="org-right">377</td>
+<td class="org-right">290</td>
+<td class="org-right">584</td>
+<td class="org-right">0</td>
+<td class="org-right">1251</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+<b>Total Prizes</b> were awarded at the end of the Puzzle Hunt. Participants could
+only be awarded one Total Prize; any other prizes were conceded to the next
+participant.
+</p>
+
+</div>
+
+<p>
+The <b>Grand Prize</b> worth $150 was awarded to <b>yingtongli</b> for achieving the
+greatest total number of points.
+</p>
+
+<p>
+The <b>Challenge Prize</b> worth $50 was awarded to <b>AncoraImparo</b> for achieving the
+greatest number of points from <i>Challenge</i> puzzles.
+</p>
+
+<p>
+The <b>Beginner Prize</b> worth $50 was awarded to <b>kevinshi</b> for achieving the
+greatest number of points from <i>Beginner</i> puzzles.
+</p>
+
+<p>
+The <b>Abstract Prize</b> worth $50 was awarded to <b>jh</b> for achieving the
+greatest number of points from <i>Abstract</i> puzzles.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org17ba672" class="outline-2">
+<h2 id="org17ba672">What can we do to improve?</h2>
+<div class="outline-text-2" id="text-org17ba672">
+<p>
+To improve on the format and conduct of the Puzzle Hunt should it run again in
+the future, we have analysed some of the data from the Puzzle Hunt this year.
+</p>
+</div>
+
+<div id="outline-container-orga2df521" class="outline-3">
+<h3 id="orga2df521">How many people participated?</h3>
+<div class="outline-text-3" id="text-orga2df521">
+<p>
+There were <b>90 registrants</b> this year. <b>44 registrants</b> submitted at
+least one submission. In total, <b>275 puzzle submissions</b> were received, an
+average of <b>11 submissions per puzzle</b> and <b>6 submissions per registrant</b> for
+each registrant who submitted at least one submission.
+</p>
+
+<p>
+Here is a plot showing registrations by day. Dotted red lines indicate the
+release of a new puzzle set. Most registrations occurred soon after the release
+of the first non-sample puzzle set.
+</p>
+
+
+<div class="figure">
+<p><img src="./figures/registrations.png" alt="registrations.png">
+</p>
+</div>
+
+<p>
+As the number of registrations does not necessarily reflect active
+participation, here is a plot of submissions over time during the Puzzle Hunt
+for each participant who submitted at least one submission.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+Each row indicates a separate deidentified participant, ordered by number of
+submissions.. Correct submissions are indicated by green circles; incorrect
+submissions are indicated by red crosses. Grey dotted lines indicate the release
+of a puzzle set.
+</p>
+
+</div>
+
+
+<div class="figure">
+<p><img src="./figures/submissions.png" alt="submissions.png">
+</p>
+</div>
+
+<p>
+Active participation was greatest at the start of the Puzzle Hunt, particularly
+at the release of the first non-sample puzzle set. Participation waned over
+time, though a subset of participants continued over the duration of the puzzle
+hunt.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfd4d92f" class="outline-3">
+<h3 id="orgfd4d92f">Where did participants come from?</h3>
+<div class="outline-text-3" id="text-orgfd4d92f">
+<p>
+Participants registered with a username and an email, and an optional first
+and/or last name. As a rough measure of where participants came from, the below
+plot shows the frequency of email domain names of registered users. 4 personal
+domain names were censored.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+Out of respect for participants' privacy, the Puzzle Hunt database was deleted
+without backup after this document was made, and we no longer have participants'
+email addresses nor any other information from the Puzzle Hunt. This also means
+we can't reproduce this document nor any of its figures in the future.
+</p>
+
+</div>
+
+
+<div class="figure">
+<p><img src="./figures/user_domains.png" alt="user_domains.png">
+</p>
+</div>
+
+<p>
+Most participants registered using generic email addresses (Gmail, Hotmail,
+Live, Outook, Yahoo). A large portion were from Monash University, and a small
+portion from other educational or research institutions (University of
+Melbourne, University of East Anglia, Princeton University, Inserm). A small
+portion registered using disposable email services (SharkLasers, nwytg,
+Mailinator, YOPmail, 163), which we believe was a wise choice for short-term
+participants with privacy concerns, particularly for participants who were not
+from Monash.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd46fed9" class="outline-3">
+<h3 id="orgd46fed9">Which puzzles were most and least popular?</h3>
+<div class="outline-text-3" id="text-orgd46fed9">
+<p>
+Here is a plot showing puzzles and the number of unique users who submitted at
+least one submission for each puzzle. This can serve as a rough measure of
+popularity.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+It is hard to measure the intrinsic popularity of each puzzle, given that we
+know that later puzzles were less popular by virtue of a later release date. A
+more sophisticated model might better be able to estimate the separate
+contributions of release dates and puzzle features, but was outside the scope of
+this wrap-up.
+</p>
+
+</div>
+
+
+<div class="figure">
+<p><img src="./figures/popularity.png" alt="popularity.png">
+</p>
+</div>
+
+<p>
+The two most popular puzzles were Abstract puzzles released early in the Puzzle
+Hunt; three of the five most unpopular puzzles were Challenge puzzles.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87b5d7a" class="outline-3">
+<h3 id="org87b5d7a">Which puzzles were easiest and hardest?</h3>
+<div class="outline-text-3" id="text-org87b5d7a">
+<p>
+We can get a general sense of the "difficulty" of each puzzle by comparing how
+many incorrect submissions were received with how many correct submissions were
+received.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+Assessing the difficulty of puzzles varies on how difficulty is defined, given
+that difficult puzzles may have either been a) unapproachable (and therefore
+received few submissions), or b) deceptive (and therefore received submissions
+more likely to be incorrect). We have chosen the second definition, given that
+we have described the popularity of puzzles in the section above, but
+"difficulty" here should be interpreted in the context of popularity as well.
+</p>
+
+<p>
+Note this graph differs from the previous graph - this graph tallies total
+<i>submissions</i> including those from the same participant; the previous graph
+tallies only the number of participants who submitted at least one solution to
+each puzzle.
+</p>
+
+</div>
+
+
+<div class="figure">
+<p><img src="./figures/difficulties.png" alt="difficulties.png">
+</p>
+</div>
+
+<p>
+The puzzle with the highest ratio of incorrect to correct submissions was the
+Meta puzzle <i>Lost in a Library</i> (8 incorrect submissions for every 1 correct
+submission), though interestingly the puzzle with the highest absolute number of
+incorrect submissions was the Abstract sample puzzle, <i>Metabolic Mayhem</i>.
+</p>
+
+<p>
+<i>Metabolic Mayhem</i> was cast as a sample puzzle as it consisted of the
+interpretation of an abstract animation, which we believed too ambiguous to be
+included in the main puzzle hunt (and which appears to have been a correct
+decision).
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+This puzzle depicted an abstract animation of a metabolic pathway in a normal
+and a pathological state. The metabolic pathway consisted of an unknown particle
+being carried by gradually-diminishing particles through the blood stream before
+being cleared by receptors from an unknown organ; in the pathological state,
+these particles accumulated in the bloodstream due to dysfunctional receptors.
+Participants were asked to determine the gene mutation involved in the
+pathological state.
+</p>
+
+</div>
+
+<p>
+Out of interest for this particular puzzle, here were some of the responses
+received:
+</p>
+
+
+<div class="figure">
+<p><img src="./figures/metabolic_mayhem_responses.png" alt="metabolic_mayhem_responses.png">
+</p>
+</div>
+
+<p>
+The intended correct answer was LDLR; however, it was very interesting to see
+the wide array of genes people could draw parallels to in the abstract
+depiction. We are interested in the ways abstract modelling might similarly be
+able to make different pathways relatable, and while these may not be suitable
+as puzzles for inclusion into the Puzzle Hunt, we will look for an avenue for
+these to return.
+</p>
+
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+All game-type puzzles were entirely client-side; we made our best efforts to
+obscure the answers from the client-side code (including the fact that the code
+was transpiled from Elm to JavaScript and minified), but these puzzles are not
+uncrackable. Although, as we are a coding group, we believe it just as valid to
+have derived the solution from the client-side code as it is from pursuing the
+"intended" solution path - after all, it is also interesting to think of how to
+use code to examine the internals of the tools we use and derive useful (but
+hidden) information.
+</p>
+
+</div>
+
+<p>
+A number of puzzles had no incorrect submissions, though these had a low number
+of submissions in total and are therefore hard to interpret. Most of these were
+game-type puzzles, which divulged the solution after you completed the game -
+and in such cases, there was no chance of submitting an incorrect solution at
+all unless participants guessed or attempted to derive the solution from the
+client-side code.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2f26539" class="outline-2">
+<h2 id="org2f26539">How was the Puzzle Hunt run?</h2>
+<div class="outline-text-2" id="text-org2f26539">
+<p>
+In the spirit of full transparency and to better inform how future Puzzle Hunts
+could be run, we briefly outline our setup below.
+</p>
+</div>
+
+<div id="outline-container-orga948d08" class="outline-3">
+<h3 id="orga948d08">What was the technology stack?</h3>
+<div class="outline-text-3" id="text-orga948d08">
+<div class="right">
+<p>
+
+</p>
+
+<p>
+This was our first time doing full-stack development. While the backend and
+frontend "worked", the codebases are neither clean nor well-designed. On the
+plus-side, we have now learnt better and will not be making the same mistakes in
+the future.
+</p>
+
+</div>
+
+<p>
+As a summary:
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Backend</td>
+<td class="org-left"><a href="https://www.python.org/">Python</a> + <a href="https://www.django-rest-framework.org/">Django REST Framework</a>, hosted on <a href="https://www.heroku.com/">Heroku</a></td>
+</tr>
+
+<tr>
+<td class="org-left">Database</td>
+<td class="org-left"><a href="https://www.postgresql.org/">PostgreSQL</a></td>
+</tr>
+
+<tr>
+<td class="org-left">Frontend</td>
+<td class="org-left"><a href="https://elm-lang.org/">Elm</a>, hosted on <a href="https://pages.github.com/">GitHub Pages</a></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The source code for all components of the Puzzle Hunt are available from
+<a href="https://github.com/cigmah/cgmnt">https://github.com/cigmah/cgmnt</a>.
+</p>
+
+<p>
+The Puzzle Hunt backend and frontend were written in late January and early
+February using Python and Elm.
+</p>
+
+<p>
+The backend used the Django REST Framework and handled all the core
+functionality based around database interaction (such as adding puzzles,
+retrieving released puzzles, handling user registrations) and application logic
+(such as scoring submissions, aggregating scores, time-locking excessive
+submissions). The backend was kept in a private GitHub repository and hosted on
+Heroku, connecting with a PostgreSQL database provided by an additional Heroku
+add-on.
+</p>
+
+<p>
+The frontend was a single-page application written in Elm with custom CSS. It
+handled all interactions on the web interface, including navigation, rendering,
+and server interactions. The frontend was kept in a public GitHub repository and
+hosted on GitHub Pages.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+We changed the Puzzle Hunt website design twice during the Puzzle Hunt as we
+wished to refocus the group's target audience and reduce the verbosity of
+puzzles by using video introductions instead. This was a mistake on our part and
+increased confusion over the user interface. We will not do so again.
+</p>
+
+</div>
+
+<p>
+Puzzles themselves were written in a mixture of languages; interactive puzzles
+were all written with Elm, whereas data analysis puzzles tended to be written in
+Python. When graphics were required (such as for each puzzle's Meta Puzzle room
+hint), they were made with either <a href="https://inkscape.org/">Inkscape</a> (for simple vector graphics) or
+<a href="https://www.blender.org/">Blender</a> (for full 3D models). Where music or sound effects were required (such
+as for several of the game-type puzzles), they were made with <a href="https://musescore.org/en">MuseScore</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org848076b" class="outline-3">
+<h3 id="org848076b">How much did it cost?</h3>
+<div class="outline-text-3" id="text-org848076b">
+<p>
+There were two sources of material cost for the Puzzle Hunt: prizes and server
+hosting costs.
+</p>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+We budgeted for 25 puzzle prizes, but one Puzzle Prize was unclaimed and the
+25th puzzle was separated out from the main Puzzle Hunt (stay tuned).
+</p>
+
+</div>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Item</th>
+<th scope="col" class="org-left">Unit Cost</th>
+<th scope="col" class="org-left">Total Units</th>
+<th scope="col" class="org-left">Total Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Puzzle Prizes</td>
+<td class="org-left">$10 per prize</td>
+<td class="org-left">23 prizes</td>
+<td class="org-left">$230</td>
+</tr>
+
+<tr>
+<td class="org-left">Grand Prize</td>
+<td class="org-left">$150 per prize</td>
+<td class="org-left">1 prize</td>
+<td class="org-left">$150</td>
+</tr>
+
+<tr>
+<td class="org-left">A/B/C Total Prizes</td>
+<td class="org-left">$50 per prize</td>
+<td class="org-left">3 prize</td>
+<td class="org-left">$150</td>
+</tr>
+
+<tr>
+<td class="org-left">Server Hosting (Heroku - Hobby)</td>
+<td class="org-left">$7 per month</td>
+<td class="org-left">8 months</td>
+<td class="org-left">$56</td>
+</tr>
+
+<tr>
+<td class="org-left">Database (Heroku Postgres - Hobby Basic)</td>
+<td class="org-left">$9 per month</td>
+<td class="org-left">8 months</td>
+<td class="org-left">$72</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Grand Total</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><b>$658</b></td>
+</tr>
+</tbody>
+</table>
+
+<div class="right">
+<p>
+
+</p>
+
+<p>
+This section will be updated once the Total Prizes are confirmed.
+</p>
+
+</div>
+
+<p>
+As of <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-10-12 Sat&gt;</span></span>: 21 of the Puzzle Prizes were donated to charities,
+organisations or funds of participants' choosing. $210 of the total
+cost has been donated so far.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org749ccf6" class="outline-2">
+<h2 id="org749ccf6">What happens now?</h2>
+<div class="outline-text-2" id="text-org749ccf6">
+<p>
+As the main Puzzle Hunt has concluded, we have included further details on plans
+for CIGMAH below.
+</p>
+</div>
+
+<div id="outline-container-orga0dab40" class="outline-3">
+<h3 id="orga0dab40">Will there be another Puzzle Hunt?</h3>
+<div class="outline-text-3" id="text-orga0dab40">
+<p>
+We hope so. If there is another Puzzle Hunt, we hope this wrap-up document is
+useful for future planning.
+</p>
+
+<p>
+It is often tradition for the winner/s of a Puzzle Hunt to arrange the next
+Puzzle Hunt, but we know this request does not come lightly and there is no
+precedent for this particular Puzzle Hunt. Whether or not we are able to deliver
+on this tradition remains to be seen, but we hope that the Puzzle Hunt can
+handover its management and evolve over time.
+</p>
+
+<p>
+Should the Puzzle Hunt continue, we have consolidated the following suggestions
+based on data from this Puzzle Hunt:
+</p>
+</div>
+
+<div id="outline-container-org7e0419f" class="outline-4">
+<h4 id="org7e0419f">Suggestions</h4>
+<div class="outline-text-4" id="text-org7e0419f">
+<ol class="org-ol">
+<li><b>Conduct the Puzzle Hunt on a single day or a single weekend</b>.
+Participation was greatest at the start of the Puzzle Hunt. We maintained the
+Puzzle Hunt over the year as our primary intent for the Puzzle Hunt was to
+encourage medical students to learn how to code over time, but this did not
+appear to be successful; most active participants were experienced coders. A
+single day or weekend, possibly with a pre-Puzzle Hunt coding bootcamp, may
+be easier for new medical students/coders to manage with busy schedules and
+with less commitment required. This would also be less costly.</li>
+<li><b>Orient puzzles towards abstract, visual or gamified learning.</b>
+Our puzzles ranged from abstract games requiring no actual coding, to
+concrete statistical or data science problems requiring a significant amount
+of programming knowledge. Although the latter category is arguably more
+"useful", the former category was far more popular. It may be useful, as far
+as possible, to investigate how elements of gamified learning can be
+used to make the data analysis-type puzzles more fun and bridge the gap
+between the two categories.</li>
+<li><b>Simplify the technology stack.</b>
+The development of a full-stack application for the Puzzle Hunt was a good
+opportunity for the management team to learn, but not necessary for the
+Puzzle Hunt itself. The technology stack could be greatly simplified, such as
+using a backend server performing server-side rendering and foregoing the
+frontend entirely.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2a294e4" class="outline-3">
+<h3 id="org2a294e4">What else is CIGMAH doing?</h3>
+<div class="outline-text-3" id="text-org2a294e4">
+<div class="right">
+<p>
+
+</p>
+
+
+<div class="figure">
+<p><img src="./figures/aorta.png" alt="aorta.png">
+</p>
+</div>
+
+</div>
+
+<p>
+CIGMAH is working on An Open Revision Tool for Assessments (AORTA) (currently
+hosted at <a href="https://aorta.netlify.com/">https://aorta.netlify.com/</a>), a free and open-source medical note and
+question bank. There's not enough content there for it to be useful yet, but
+most of the coding is done and we're working on adding content. We're always
+looking for help, so do get in touch if you are interested.
+</p>
+
+<p>
+We are also looking at hosting more tutorial nights on a range of coding topics,
+recommencing next year. The topics we host tutorial nights on are not yet
+decided, but we will try to cover fun, interesting and relevant material for
+medical students. Suggestions for tutorial night topics are highly welcomed.
+</p>
+
+<p>
+Finally, we are interested in beginning a game development project for
+practising medical cases, possibly in the style of <a href="https://en.wikipedia.org/wiki/Interactive_fiction">interactive fiction</a> text
+adventures such as <a href="https://en.wikipedia.org/wiki/Zork">Zork</a> or <a href="http://iplayif.com/?story=http%3A%2F%2Fwww.ifarchive.org%2Fif-archive%2Fgames%2Fzcode%2FTangle.z5">Spider &amp; Web</a>. We were originally looking at
+incorporating this as part of AORTA, but it may be easier to develop as a
+spin-off project.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org52ae650" class="outline-3">
+<h3 id="org52ae650">How do I contact CIGMAH?</h3>
+<div class="outline-text-3" id="text-org52ae650">
+<p>
+If you have any questions, concerns, suggestions, recommendations, feedback or
+would otherwise like to get in contact with CIGMAH, you can contact us via email
+at <code>cigmah.contact at gmail dot com</code>.
+</p>
+
+<div style="max-width: 300px; margin: auto;">
+
+<div class="figure">
+<p><img src="./figures/cigmah.png" alt="cigmah.png">
+</p>
+</div>
+</div>
+
+<p>
+We look forward to hearing from you!
+</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

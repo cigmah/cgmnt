@@ -1,0 +1,9 @@
+#+TITLE: README
+
+This repository contains the archived puzzles, source code and related materials
+for the CIGMAH '19 (=cgmnt=) Puzzle Hunt.
+
+- =index.org= :: contains the wrap-up summary and analysis of the Puzzle Hunt,
+     published as =index.html= at https://cigmah.github.io/cgmnt/.
+- =figures/= :: contains miscellaneous figures used in the document =index.org=
+

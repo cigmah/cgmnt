@@ -1,0 +1,265 @@
+/*
+  elm-hot creates an additional div wrapper around the app to make HMR possible.
+  This could break styling in development mode if you are using Elm UI.
+
+  More context in the issue:
+    https://github.com/halfzebra/create-elm-app/issues/320
+*/
+[data-elm-hot="true"] {
+  height: inherit;
+  width: inherit;
+  display: inherit;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  background: #ffcc75;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAPklEQVQoU2P8f6b0PwMO8PjWKQZGXApAkrJqZtgVwCRBBmOYgCyJoQBdEkUBNkm4AlySYAWPltn/B7kWFwAAa0EuiD2iRRIAAAAASUVORK5CYII=) repeat;
+  position: relative;
+  color:  #ba5c00;
+  font-family: "Arial", "Helvetica", sans-serif;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+button {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: none;
+  background:#d86c00;
+  color: white;
+  border-radius: 500em;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 4px solid #ba5c00;
+  cursor: pointer;
+  margin: auto;
+  display: block;
+  margin-top: 4px;
+}
+
+button:hover {
+  border-bottom-width: 8px;
+  margin-top: 0px;
+}
+
+button:active {
+  border-bottom-width: 0px;
+  margin-top: 8px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  font-weight: bold;
+}
+
+.container {
+  background: white;
+  height: 100%;
+  width: 100%;
+  max-height: 600px;
+  max-width: 600px;
+  border: 0.75em solid #d86c00;
+  border-radius: 5px;
+  background: #ffdcb5;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAIklEQVQoU2P8f2frfwYCgHGgFZ2bz8BglIjiygF3E5YwAwAplyIRi25ToAAAAABJRU5ErkJggg==) repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  height: 30%;
+  position: relative;
+}
+
+.buttons button {
+  border-radius: 5px;
+  width: 90%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
+
+.button-div {
+  height: 100%;
+  width: 100%;
+}
+
+.playing {
+  height: 100%;
+  width: 100%;
+}
+
+.above {
+  height: 50%;
+}
+
+.below {
+  height: 50%;
+}
+
+svg {
+  margin-top: 1em;
+  display: block;
+  margin: auto;
+  width: 90%;
+  height: 90%;
+}
+
+.explanation {
+  height: 57.5%;
+  background: white;
+  margin-bottom: 2.5%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  border-radius: 5px;
+  border: 3px solid #d86c00;
+  box-sizing: border-box;
+  background: #fff3d8;
+  padding: 1em;
+  overflow: hidden;
+  position: relative;
+}
+
+.explanation-text {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.explanation-text h1 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.small {
+  font-size: 0.6em;
+  font-weight: normal;
+  text-transform: none;
+  display: block;
+}
+
+.end-text-container {
+  background: #fff3d8;
+  padding: 1em;
+  border: 3px solid #d86c00;
+  font-size: 1.2em;
+  border-radius: 5px;
+  margin-bottom: 2em;
+}
+
+span.end-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.curtain-container {
+  width: 100%;
+  height: 90%;
+  padding-top: 1em;
+  font-size: 1.2em;
+  box-sizing: border-box;
+  font-weight: bold;
+  text-align: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  animation: fadein 0.5s;
+}
+
+.curtain {
+  background: white;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAV0lEQVQoU2P8vyHxP4NOCAPDlTUMKDQDFFxZw8D4/87W/2AuNkVQMUawSSAAMg2HYoRJuExjYGBAmAQzDdlaqLOINImQw8HWgRTBrMDpcFg4IYULergBAI25TBFU/2mQAAAAAElFTkSuQmCC) repeat;
+}
+
+.indicator {
+  border-radius: 500em;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
+
+.indicator.green {
+  background: #77b23c;
+}
+
+.indicator.red {
+  background: #b2533c;
+}
+
+.indicator.amber {
+  background: #e2960f;
+}
+
+.helpers {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+}
+
+.timer {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.detail {
+  margin-top: 1em;
+  animation: fadein 0.5s;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 0.8em;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAIklEQVQoU2P8f2frfwYCgHGgFZ2bz8BglIjiygF3E5YwAwAplyIRi25ToAAAAABJRU5ErkJggg==) repeat;
+  }
+
+  .detail{
+    font-weight: normal;
+  }
+
+  .helpers {
+    background: #fff3d8;
+  }
+    .container {
+      border: none;
+    }
+}

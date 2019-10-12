@@ -1,0 +1,474 @@
+<style>
+
+
+:root {
+    --background:#2c3030;
+    --background-inactive: #1d2120;
+    --background-puzzle: #272b2b;
+    --foreground:#a9adad;
+    --foreground-inactive: #5d6060;
+    --foreground-lessen: #7c8282;
+}
+
+
+
+/*
+:root {
+    --background:#f2f6f7;
+    --background-inactive:#dee6ea;
+    --foreground:#262828;
+    --foreground-inactive:#a6b2b2;
+    --foreground-lessen:#a6b2b2;
+}
+*/
+
+
+* {
+    font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+
+/* NAV BAR */
+
+.nav {
+  display: flex;
+  padding: 5px;
+  background-color: var(--background);
+  position: fixed;
+  width: 95%;
+  height: 1.8em;
+}
+
+
+.nav a {
+  color: var(--foreground-inactive);
+  text-decoration: none;
+  padding-right: 1em;
+}
+
+.nav a:hover{
+  color: var(--foreground);
+}
+
+.nav a.active {
+  color: var(--foreground);
+  font-weight: bold;
+}
+
+
+/* TEXT STYLES */
+.lessen {
+  color: var(--foreground-lessen);
+}
+
+.tagline {
+  font-size: 0.8em;
+  color: var(--foreground-);
+}
+
+.strengthen {
+  font-weight: bold;
+}
+
+/* SPACER */
+.spacer {
+  height: 2em;
+}
+
+.toggler {
+  border-bottom: 1px dotted var(--foreground-lessen);
+}
+
+.toggler:hover {
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.theme-switch {
+  color: var(--foreground-inactive);
+  padding-right: 1em;
+  cursor: pointer;
+}
+
+.theme-switch:hover {
+  color: var(--foreground);
+}
+
+/* MAIN */
+
+.main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+/* CONTAINER */
+
+.container {
+  margin: auto;
+  overflow: auto;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.submissions {
+  white-space: nowrap;
+  overflow: auto;
+  padding-bottom: 20px;
+}
+
+.leaderboard {  
+}
+
+/* OPTIONS */
+
+.options {
+  text-align: right;
+  margin-bottom: 1em;
+}
+
+.option {
+  cursor: pointer;
+  color: var(--foreground-lessen);
+    border-bottom: 1px dotted var(--foreground-lessen);
+}
+
+.option:hover {
+  color: var(--foreground);
+}
+
+
+/* GRID */
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.item {
+  margin: 5px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--background-inactive);
+  border-radius: 5px;
+}
+
+.grid .item img {
+  border-radius: 5px;
+  width: 50px;
+  height: 50px
+  border: 0px;
+}
+
+.grid .item img:hover {
+  margin: -1px;
+  height: 51px;
+  width: 51px;
+  cursor: pointer;
+}
+
+.grid .item img:active {
+  margin: 1px;
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+}
+
+/* TABLES */
+
+td {
+  padding: 0 5px 0 0px;
+}
+
+/* LOADER */
+.loader {
+  width: 10px;
+  height: 10px;
+  background-color: var(--foreground);
+  border-radius: 120px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% { transform: translate(0, 0);}
+  50% {transform: translate(0,4em);}
+  100% {transform: translate(0, 0);}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  background: var(--background-inactive);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-inactive); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground-inactive); 
+}
+
+
+/* INPUTS */
+
+input {
+  background: var(--background-inactive);
+  color: var(--foreground);
+  font-family:"Space Mono", "Monaco", "Lucida Sans Typewriter", monospace;
+  border-width: 0px;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+form {
+  width: 100%;
+}
+
+form input {
+  width: 100%;
+}
+
+
+button {
+  display: block;
+  background: var(--background);
+  margin: auto;
+  border-width: 0px;
+  color: var(--foreground-lessen);
+  padding: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  color: var(--foreground);
+  font-weight: bold;
+}
+
+.login input {
+  width: auto;
+  flex-grow: 1;
+  margin-right: 5px;
+}
+
+input:disabled {
+  cursor: not-allowed;
+  background: var(--background);
+}
+
+button:disabled {
+  background: var(--background);
+  color: var(--background);
+  cursor: default;
+}
+
+/* MESSAGES */
+.message {
+  font-size: 0.8em;
+}
+
+/* PUZZLE */
+
+.puzzle-container {
+  margin-top: 3.5em;
+  width: 100%;
+  height: calc(95% - 3.5em);
+}
+
+.puzzle {
+  -webkit-box-shadow: 0 0 19px var(--background-inactive);
+  box-shadow: 0 0 10px var(--background-inactive);
+  background: var(--background-puzzle);
+  border-radius: 10px;
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.puzzle-top {
+  margin: 5px;
+  margin-bottom: 10px;
+}
+
+
+.puzzle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-container {
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background:var(--background-puzzle);
+}
+
+.puzzle-header button {
+  background: var(--background-puzzle);
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.puzzle-header .right {
+  display: flex;
+}
+
+.puzzle-tags {
+  font-size: 0.8em;
+  color: var(--foreground-inactive);
+}
+
+.title {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+.puzzle-body {
+  height: 80%;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+}
+
+.puzzle-bottom {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.puzzle-bottom .message {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.submission-container {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  max-width: 50%;
+}
+
+.submission-container input {
+  flex-grow: 1;
+  min-width: 4em;
+}
+
+.submission-container button {
+  background: var(--background-puzzle);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* LISTS */
+ul {
+  list-style-type: circle;
+}
+
+
+/* PLACEHOLDER */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: var(--foreground-inactive);
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: var(--foreground-inactive);
+}
+
+</style>
+
+
+<head>
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Anonymous+Pro|Space+Mono|Overpass+Mono|VT323" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="nav">
+    <a href="https://google.com"><b>cigmah</b></a>
+    <a href="https://google.com">info</a>
+    <a href="https://google.com">puzzles</a>
+    <a href="https://google.com">leaderboard</a>
+    <a href="https://google.com">prizes</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <a href class="active"="https://google.com">register</a>
+    <a href="https://google.com">login</a>
+    <span style="padding-right: 1em; color: var(--foreground-inactive)">|</span>
+    <span class="theme-switch">lighten</a>
+    </div>
+  </div>
+  
+  
+  <div class="main">
+    <div class="puzzle-container">
+      <div class="puzzle">
+        <div class="puzzle-top">
+          <div class="puzzle-header">
+            <div class="title">
+              <b>Metabolic Mayhem</b> 
+            </div>
+            <div class="right">
+              <button style="margin-right: 1em;">TEXT</button>
+              <div class="button-container"><button><b>?</b></button></div>
+            </div>
+          </div>
+          <div class="puzzle-tags">
+            <span class="puzzle-tag">
+              Text Books (Sample)
+            </span>
+            <span class="puzzle-tag">
+              (Feb 23 2019 17:00)
+            </span>
+          </div>
+        </div>
+        <div class="puzzle-body">
+          werwerwerwerwerewr
+        </div>
+        <div class="puzzle-bottom">
+          <div class="message">Message here.</div>
+          <div class="submission-container">
+            <input type="text" placeholder="Submission">
+            <button>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
