@@ -341,7 +341,7 @@ The following Puzzle Prizes were awarded:
 | 21A    | jh            | Redeemed as Coles eGift Card.                                                        |
 | 22B    | AncoraImparo  | Elected donation to UNICEF Australia.                                                |
 | 23C    | yingtongli    | Elected donation to Australian Red Cross.                                            |
-| 23A    | AncoraImparo  | |
+| 23A    | AncoraImparo  | Elected donation to CARE Australia.                                                  |
 | 24B    | yingtongli    | Elected donation to Lifeline Australia.                                              |
 #+HTML: </div>
 
