@@ -18,9 +18,10 @@ for the CIGMAH '19 (=cgmnt=) Puzzle Hunt.
      Each puzzle has its own directory, containing input =data/= and =src/= code
      where relevant, along with the puzzle itself as a Markdown file. Please
      note that =src/= code has been included for archival purposes only, and are
-     often undocumented and may be out of date. If you have any specific queries
-     regarding puzzles, their data or their source code, please ask CIGMAH
-     directly.
+     often undocumented and may be out of date. Also note that puzzles often
+     link to externally-hosted images and data files; these links may become
+     broken in the future. If you have any specific queries regarding puzzles,
+     their data or their source code, please ask CIGMAH directly.
 - =src/= :: contains the backend and frontend code for the CIGMAH Puzzle Hunt
      website. These folders only contain the latest versions. These are /not/
      good examples of code given that this was our first use of Django and Elm
