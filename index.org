@@ -268,11 +268,6 @@ ul {
 
 #+RESULTS:
 
-#+begin_right
-Usernames will be updated with names once we receive permission to publish them
-on this website.
-#+end_right
-
 Congratulations to:
 
 | *Grand Prize Winner*     | yingtongli   |
@@ -375,16 +370,19 @@ participant.
 #+end_right
 
 The *Grand Prize* worth $150 was awarded to *yingtongli* for achieving the
-greatest total number of points.
+greatest total number of points and was redeemed.
 
 The *Challenge Prize* worth $50 was awarded to *AncoraImparo* for achieving the
-greatest number of points from /Challenge/ puzzles.
+greatest number of points from /Challenge/ puzzles, who elected donation to
+Médecins Sans Frontières Australia.
 
 The *Beginner Prize* worth $50 was awarded to *kevinshi* for achieving the
-greatest number of points from /Beginner/ puzzles.
+greatest number of points from /Beginner/ puzzles, who elected donation back to
+our own funds for future use.
 
 The *Abstract Prize* worth $50 was awarded to *jh* for achieving the
-greatest number of points from /Abstract/ puzzles.
+greatest number of points from /Abstract/ puzzles, who elected donation to
+Kidney Health Australia.
 
 * What can we do to improve?
 
@@ -766,7 +764,7 @@ filename
 [[file:./figures/popularity.png]]
 
 The two most popular puzzles were Abstract puzzles released early in the Puzzle
-Hunt; three of the five most unpopular puzzles were Challenge puzzles.
+Hunt; three of the four most unpopular puzzles were Challenge puzzles.
 
 ** Which puzzles were easiest and hardest?
 
@@ -1009,7 +1007,9 @@ hosting costs.
 
 We budgeted for 25 puzzle prizes, but one Puzzle Prize was unclaimed, three
 puzzles were sample puzzles and the 25th puzzle was separated out from the main
-Puzzle Hunt (stay tuned).
+Puzzle Hunt (stay tuned). We also budgeted for 3 A/B/C Total Prizes, but one of them
+was donated to our own funds for future use and is therefore not included in the
+table.
 
 #+end_right
 
@@ -1017,21 +1017,14 @@ Puzzle Hunt (stay tuned).
 |------------------------------------------+----------------+-------------+------------|
 | Puzzle Prizes                            | $10 per prize  | 20 prizes   | $200       |
 | Grand Prize                              | $150 per prize | 1 prize     | $150       |
-| A/B/C Total Prizes                       | $50 per prize  | 3 prize     | $150       |
+| A/B/C Total Prizes                       | $50 per prize  | 2 prizes    | $100       |
 | Server Hosting (Heroku - Hobby)          | $7 per month   | 8 months    | $56        |
 | Database (Heroku Postgres - Hobby Basic) | $9 per month   | 8 months    | $72        |
 |------------------------------------------+----------------+-------------+------------|
-| *Grand Total*                            |                |             | *$628*     |
+| *Grand Total*                            |                |             | *$578*     |
 
-#+begin_right
-
-This section will be updated once the Total Prizes are confirmed.
-
-#+end_right
-
-As of <2019-10-12 Sat>: 18 of the Puzzle Prizes were donated to charities,
-organisations or funds of participants' choosing. $180 of the total
-cost has been donated so far.
+18 of the Puzzle Prizes and 2 of the Total Prizes were donated to charities,
+organisations or funds of participants' choosing; a total of $280.
 
 * What happens now?
 
